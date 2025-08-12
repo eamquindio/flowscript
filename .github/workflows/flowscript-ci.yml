@@ -1,0 +1,282 @@
+name: FlowScript CI
+
+on:
+  push:
+    paths:
+      - '**.flow'
+      - '.github/workflows/flowscript-ci.yml'
+  pull_request:
+    paths:
+      - '**.flow'
+
+jobs:
+  # Job específico para validación de FlowScript
+  flowscript-validation:
+    name: FlowScript Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python for validator
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Find all FlowScript files
+        id: find-files
+        run: |
+          flow_files=$(find . -name "*.flow" -type f)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$flow_files" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          file_count=$(echo "$flow_files" | wc -l)
+          echo "count=$file_count" >> $GITHUB_OUTPUT
+      
+      - name: Validate FlowScript syntax
+        if: steps.find-files.outputs.count > 0
+        run: |
+          echo "🔍 Validating FlowScript files..."
+          
+          # Crear script de validación Python
+          cat > validate_flowscript.py << 'EOF'
+          import sys
+          import re
+          from pathlib import Path
+          
+          class FlowScriptValidator:
+              def __init__(self):
+                  self.errors = []
+                  self.warnings = []
+                  
+                  # Palabras reservadas
+                  self.keywords = {
+                      'estructura': ['proceso', 'funcion', 'importar', 'importar_jar', 'como', 'retornar'],
+                      'flujo': ['inicio', 'fin', 'tarea', 'gateway', 'ir_a', 'cuando', 'rama', 'unir', 'sino'],
+                      'control': ['si', 'sino_si', 'intentar', 'capturar', 'lanzar'],
+                      'tipos': ['entero', 'decimal', 'booleano', 'texto', 'lista', 'objeto', 'nulo', 'verdadero', 'falso'],
+                      'operadores': ['y', 'o', 'no']
+                  }
+              
+              def validate_file(self, filepath):
+                  print(f"\nValidating: {filepath}")
+                  self.errors = []
+                  self.warnings = []
+                  
+                  with open(filepath, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                      lines = content.split('\n')
+                  
+                  # Validaciones
+                  self.check_structure(content, lines)
+                  self.check_braces(content)
+                  self.check_processes(content)
+                  self.check_functions(content)
+                  self.check_gateways(content)
+                  
+                  return len(self.errors) == 0
+              
+              def check_structure(self, content, lines):
+                  # Verificar que hay al menos un proceso o función
+                  if not re.search(r'\b(proceso|funcion)\b', content):
+                      self.errors.append("File must contain at least one 'proceso' or 'funcion'")
+                  
+                  # Verificar líneas muy largas
+                  for i, line in enumerate(lines, 1):
+                      if len(line) > 120:
+                          self.warnings.append(f"Line {i}: Line too long ({len(line)} > 120 characters)")
+              
+              def check_braces(self, content):
+                  open_braces = content.count('{')
+                  close_braces = content.count('}')
+                  
+                  if open_braces != close_braces:
+                      self.errors.append(f"Unbalanced braces: {open_braces} open, {close_braces} close")
+                  
+                  # Verificar anidación
+                  depth = 0
+                  max_depth = 0
+                  for char in content:
+                      if char == '{':
+                          depth += 1
+                          max_depth = max(max_depth, depth)
+                      elif char == '}':
+                          depth -= 1
+                          if depth < 0:
+                              self.errors.append("Closing brace without matching opening brace")
+                              break
+                  
+                  if max_depth > 5:
+                      self.warnings.append(f"Deep nesting detected (depth: {max_depth})")
+              
+              def check_processes(self, content):
+                  # Buscar procesos
+                  processes = re.findall(r'proceso\s+(\w+)\s*\{', content)
+                  
+                  for process in processes:
+                      # Verificar que tiene inicio
+                      pattern = f'proceso\\s+{process}\\s*{{[^}}]*inicio\\s*->'
+                      if not re.search(pattern, content, re.DOTALL):
+                          self.errors.append(f"Process '{process}' missing 'inicio' statement")
+                      
+                      # Verificar que tiene al menos un fin
+                      pattern = f'proceso\\s+{process}\\s*{{[^}}]*\\bfin\\b'
+                      if not re.search(pattern, content, re.DOTALL):
+                          self.warnings.append(f"Process '{process}' might be missing 'fin' statement")
+              
+              def check_functions(self, content):
+                  # Buscar funciones
+                  functions = re.findall(r'funcion\s+(\w+)\s*\([^)]*\)(?:\s*->\s*\w+)?\s*\{', content)
+                  
+                  for func in functions:
+                      # Verificar retorno si especifica tipo de retorno
+                      pattern = f'funcion\\s+{func}\\s*\\([^)]*\\)\\s*->\\s*(\\w+)\\s*{{'
+                      match = re.search(pattern, content)
+                      if match and match.group(1) != 'vacio':
+                          # Buscar el cuerpo de la función
+                          func_pattern = f'funcion\\s+{func}[^{{]*{{([^{{}}]*(?:{{[^{{}}]*}}[^{{}}]*)*)}}' 
+                          func_match = re.search(func_pattern, content, re.DOTALL)
+                          if func_match and 'retornar' not in func_match.group(1):
+                              self.warnings.append(f"Function '{func}' declares return type but might not have 'retornar' statement")
+              
+              def check_gateways(self, content):
+                  # Buscar gateways paralelos
+                  parallel_gateways = re.findall(r'gateway\s+(\w+)\s+paralelo\s*\{', content)
+                  
+                  for gateway in parallel_gateways:
+                      pattern = f'gateway\\s+{gateway}\\s+paralelo\\s*{{([^}}]*)}}'
+                      match = re.search(pattern, content, re.DOTALL)
+                      if match:
+                          body = match.group(1)
+                          if 'rama' not in body:
+                              self.errors.append(f"Parallel gateway '{gateway}' missing 'rama' statements")
+                          if 'unir' not in body:
+                              self.errors.append(f"Parallel gateway '{gateway}' missing 'unir' statement")
+              
+              def print_results(self):
+                  if self.errors:
+                      print("\n❌ ERRORS:")
+                      for error in self.errors:
+                          print(f"  - {error}")
+                  
+                  if self.warnings:
+                      print("\n⚠️  WARNINGS:")
+                      for warning in self.warnings:
+                          print(f"  - {warning}")
+                  
+                  if not self.errors and not self.warnings:
+                      print("✅ No issues found")
+          
+          # Validar archivos
+          validator = FlowScriptValidator()
+          all_valid = True
+          
+          files = sys.argv[1:]
+          for filepath in files:
+              if Path(filepath).exists():
+                  valid = validator.validate_file(filepath)
+                  validator.print_results()
+                  if not valid:
+                      all_valid = False
+          
+          sys.exit(0 if all_valid else 1)
+          EOF
+          
+          # Ejecutar validador
+          echo "${{ steps.find-files.outputs.files }}" | xargs python validate_flowscript.py
+      
+      - name: Analyze FlowScript metrics
+        if: steps.find-files.outputs.count > 0
+        run: |
+          echo "📊 FlowScript Metrics"
+          echo "===================="
+          
+          total_lines=0
+          total_processes=0
+          total_functions=0
+          total_gateways=0
+          
+          while IFS= read -r file; do
+            if [ -n "$file" ]; then
+              lines=$(wc -l < "$file")
+              processes=$(grep -c "^proceso " "$file" || echo 0)
+              functions=$(grep -c "^funcion " "$file" || echo 0)
+              gateways=$(grep -c "gateway " "$file" || echo 0)
+              
+              total_lines=$((total_lines + lines))
+              total_processes=$((total_processes + processes))
+              total_functions=$((total_functions + functions))
+              total_gateways=$((total_gateways + gateways))
+              
+              echo ""
+              echo "📄 $file"
+              echo "  Lines: $lines"
+              echo "  Processes: $processes"
+              echo "  Functions: $functions"
+              echo "  Gateways: $gateways"
+            fi
+          done <<< "${{ steps.find-files.outputs.files }}"
+          
+          echo ""
+          echo "📈 Total Statistics:"
+          echo "  Files: ${{ steps.find-files.outputs.count }}"
+          echo "  Lines: $total_lines"
+          echo "  Processes: $total_processes"
+          echo "  Functions: $total_functions"
+          echo "  Gateways: $total_gateways"
+      
+      - name: Generate FlowScript documentation
+        if: steps.find-files.outputs.count > 0
+        run: |
+          mkdir -p docs/flowscript
+          
+          # Generar documentación
+          cat > docs/flowscript/README.md << 'EOF'
+          # FlowScript Documentation
+          
+          This directory contains automatically generated documentation for FlowScript files.
+          
+          ## Files
+          EOF
+          
+          while IFS= read -r file; do
+            if [ -n "$file" ]; then
+              echo "- [$file]($file)" >> docs/flowscript/README.md
+            fi
+          done <<< "${{ steps.find-files.outputs.files }}"
+          
+          # Generar diagrama de dependencias
+          echo "" >> docs/flowscript/README.md
+          echo "## Dependencies" >> docs/flowscript/README.md
+          echo '```mermaid' >> docs/flowscript/README.md
+          echo 'graph TD' >> docs/flowscript/README.md
+          
+          while IFS= read -r file; do
+            if [ -n "$file" ]; then
+              basename_file=$(basename "$file" .flow)
+              # Buscar importaciones
+              imports=$(grep "^importar " "$file" | sed 's/importar "\(.*\)".*/\1/' || true)
+              if [ -n "$imports" ]; then
+                while IFS= read -r import; do
+                  if [ -n "$import" ]; then
+                    echo "  $basename_file --> $import" >> docs/flowscript/README.md
+                  fi
+                done <<< "$imports"
+              else
+                echo "  $basename_file" >> docs/flowscript/README.md
+              fi
+            fi
+          done <<< "${{ steps.find-files.outputs.files }}"
+          
+          echo '```' >> docs/flowscript/README.md
+      
+      - name: Upload FlowScript artifacts
+        if: steps.find-files.outputs.count > 0
+        uses: actions/upload-artifact@v4
+        with:
+          name: flowscript-analysis
+          path: |
+            docs/flowscript/
+            validate_flowscript.py
+          retention-days: 30

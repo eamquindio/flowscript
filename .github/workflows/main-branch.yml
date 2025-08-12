@@ -1,0 +1,322 @@
+name: Main Branch Protection
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    # Ejecutar cada día a las 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  JAVA_VERSION: '17'
+
+jobs:
+  # Job de validación completa en main
+  validate-main:
+    name: Main Branch Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Detect build system
+        id: detect
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "build-system=maven" >> $GITHUB_OUTPUT
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            echo "build-system=gradle" >> $GITHUB_OUTPUT
+          else
+            echo "build-system=none" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Full build and test
+        if: steps.detect.outputs.build-system != 'none'
+        run: |
+          if [ "${{ steps.detect.outputs.build-system }}" == "maven" ]; then
+            mvn clean install -B
+          elif [ "${{ steps.detect.outputs.build-system }}" == "gradle" ]; then
+            chmod +x gradlew
+            ./gradlew clean build
+          fi
+
+  # Job de análisis de calidad profundo
+  sonarqube-analysis:
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      
+      - name: SonarQube Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -f "pom.xml" ] && [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
+            mvn clean verify sonar:sonar \
+              -Dsonar.projectKey=flowscript \
+              -Dsonar.host.url=${{ secrets.SONAR_HOST_URL || 'https://sonarcloud.io' }} \
+              -Dsonar.organization=${{ github.repository_owner }} || true
+          fi
+
+  # Job de generación de documentación
+  generate-docs:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Generate Javadoc
+        run: |
+          if [ -f "pom.xml" ]; then
+            mvn javadoc:javadoc -B || true
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            ./gradlew javadoc || true
+          fi
+      
+      - name: Generate FlowScript docs
+        run: |
+          echo "📚 Generating FlowScript documentation"
+          mkdir -p docs/flowscript
+          
+          # Generar índice de archivos .flow
+          echo "# FlowScript Files Index" > docs/flowscript/index.md
+          echo "" >> docs/flowscript/index.md
+          echo "## Available Processes and Functions" >> docs/flowscript/index.md
+          echo "" >> docs/flowscript/index.md
+          
+          find . -name "*.flow" -type f | while read file; do
+            echo "### $(basename $file)" >> docs/flowscript/index.md
+            echo "Path: \`$file\`" >> docs/flowscript/index.md
+            echo "" >> docs/flowscript/index.md
+            
+            # Extraer procesos
+            grep "^proceso " "$file" | while read line; do
+              echo "- Process: \`$line\`" >> docs/flowscript/index.md
+            done
+            
+            # Extraer funciones
+            grep "^funcion " "$file" | while read line; do
+              echo "- Function: \`$line\`" >> docs/flowscript/index.md
+            done
+            
+            echo "" >> docs/flowscript/index.md
+          done
+      
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            target/site/apidocs/
+            build/docs/javadoc/
+            docs/flowscript/
+          retention-days: 30
+
+  # Job de métricas y reportes
+  metrics-and-reports:
+    name: Code Metrics and Reports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Generate metrics report
+        run: |
+          echo "📊 Code Metrics Report" > metrics-report.md
+          echo "=====================" >> metrics-report.md
+          echo "" >> metrics-report.md
+          echo "Generated: $(date)" >> metrics-report.md
+          echo "" >> metrics-report.md
+          
+          # Contar líneas de código
+          echo "## Lines of Code" >> metrics-report.md
+          echo "- Java files: $(find . -name "*.java" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')" >> metrics-report.md
+          echo "- FlowScript files: $(find . -name "*.flow" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')" >> metrics-report.md
+          echo "" >> metrics-report.md
+          
+          # Contar archivos
+          echo "## File Count" >> metrics-report.md
+          echo "- Java files: $(find . -name "*.java" -type f | wc -l)" >> metrics-report.md
+          echo "- FlowScript files: $(find . -name "*.flow" -type f | wc -l)" >> metrics-report.md
+          echo "- Test files: $(find . -name "*Test.java" -o -name "*IT.java" | wc -l)" >> metrics-report.md
+          echo "" >> metrics-report.md
+          
+          # Últimos commits
+          echo "## Recent Commits" >> metrics-report.md
+          git log --oneline -10 >> metrics-report.md
+          echo "" >> metrics-report.md
+          
+          # Contributors
+          echo "## Top Contributors" >> metrics-report.md
+          git shortlog -sn | head -10 >> metrics-report.md
+      
+      - name: Upload metrics report
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-report
+          path: metrics-report.md
+          retention-days: 30
+
+  # Job de creación de release automático
+  create-release:
+    name: Create Release (if tagged)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [validate-main, sonarqube-analysis, generate-docs]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Build release artifacts
+        run: |
+          if [ -f "pom.xml" ]; then
+            mvn clean package -B -DskipTests
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            chmod +x gradlew
+            ./gradlew clean build -x test
+          fi
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            target/*.jar
+            build/libs/*.jar
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job de actualización de dependencias
+  dependency-updates:
+    name: Check Dependency Updates
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Check for updates
+        run: |
+          if [ -f "pom.xml" ]; then
+            mvn versions:display-dependency-updates > dependency-updates.txt
+            mvn versions:display-plugin-updates >> dependency-updates.txt
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            ./gradlew dependencyUpdates > dependency-updates.txt
+          fi
+      
+      - name: Create issue for updates
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const updates = fs.readFileSync('dependency-updates.txt', 'utf8');
+            
+            if (updates.includes('The following dependencies have newer versions')) {
+              github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🔄 Dependency Updates Available',
+                body: `## Dependency Updates Report\n\nThe following updates are available:\n\n\`\`\`\n${updates.substring(0, 3000)}\n\`\`\``,
+                labels: ['dependencies', 'maintenance']
+              });
+            }
+
+  # Job de backup y archivo
+  backup-artifacts:
+    name: Backup Build Artifacts
+    runs-on: ubuntu-latest
+    needs: validate-main
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Build and package
+        run: |
+          if [ -f "pom.xml" ]; then
+            mvn clean package -B -DskipTests
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            chmod +x gradlew
+            ./gradlew clean build -x test
+          fi
+      
+      - name: Create artifact bundle
+        run: |
+          mkdir -p artifacts
+          cp -r target/*.jar artifacts/ 2>/dev/null || true
+          cp -r build/libs/*.jar artifacts/ 2>/dev/null || true
+          
+          # Añadir información del build
+          echo "Build Date: $(date)" > artifacts/BUILD_INFO.txt
+          echo "Commit: ${{ github.sha }}" >> artifacts/BUILD_INFO.txt
+          echo "Branch: ${{ github.ref_name }}" >> artifacts/BUILD_INFO.txt
+          echo "Runner: ${{ runner.os }}" >> artifacts/BUILD_INFO.txt
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-branch-artifacts-${{ github.sha }}
+          path: artifacts/
+          retention-days: 90

@@ -1,0 +1,367 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: '17'
+  MAVEN_VERSION: '3.9.5'
+  GRADLE_VERSION: '8.5'
+
+jobs:
+  # Job para determinar el sistema de build
+  detect-build-system:
+    name: Detect Build System
+    runs-on: ubuntu-latest
+    outputs:
+      build-system: ${{ steps.detect.outputs.build-system }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Detect build system
+        id: detect
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "build-system=maven" >> $GITHUB_OUTPUT
+            echo "📦 Detected Maven project"
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            echo "build-system=gradle" >> $GITHUB_OUTPUT
+            echo "📦 Detected Gradle project"
+          else
+            echo "build-system=none" >> $GITHUB_OUTPUT
+            echo "📦 No build system detected"
+          fi
+
+  # Job de análisis de código y estilo
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    needs: detect-build-system
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para algunos análisis
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: ${{ needs.detect-build-system.outputs.build-system }}
+      
+      # Análisis de seguridad con Trivy
+      - name: Run Trivy security scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+      
+      # Checkstyle para Java
+      - name: Run Checkstyle
+        if: needs.detect-build-system.outputs.build-system != 'none'
+        run: |
+          if [ "${{ needs.detect-build-system.outputs.build-system }}" == "maven" ]; then
+            if grep -q "maven-checkstyle-plugin" pom.xml; then
+              mvn checkstyle:check || true
+            fi
+          elif [ "${{ needs.detect-build-system.outputs.build-system }}" == "gradle" ]; then
+            if grep -q "checkstyle" build.gradle* ; then
+              ./gradlew checkstyleMain checkstyleTest || true
+            fi
+          fi
+      
+      # SpotBugs para análisis estático
+      - name: Run SpotBugs
+        if: needs.detect-build-system.outputs.build-system == 'maven'
+        run: |
+          if grep -q "spotbugs-maven-plugin" pom.xml; then
+            mvn compile spotbugs:check || true
+          fi
+      
+      # Análisis de complejidad ciclomática
+      - name: Calculate code metrics
+        run: |
+          echo "📊 Code Metrics Analysis"
+          find . -name "*.java" -o -name "*.flow" | head -20 | while read file; do
+            lines=$(wc -l < "$file" 2>/dev/null || echo 0)
+            echo "  📄 $(basename "$file"): $lines lines"
+          done
+
+  # Job de compilación
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    needs: detect-build-system
+    if: needs.detect-build-system.outputs.build-system != 'none'
+    strategy:
+      matrix:
+        java: ['11', '17', '21']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+          cache: ${{ needs.detect-build-system.outputs.build-system }}
+      
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ needs.detect-build-system.outputs.build-system }}-${{ hashFiles('**/*.gradle*', '**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ needs.detect-build-system.outputs.build-system }}-
+      
+      # Compilación con Maven
+      - name: Build with Maven
+        if: needs.detect-build-system.outputs.build-system == 'maven'
+        run: |
+          echo "🔨 Building with Maven and Java ${{ matrix.java }}"
+          mvn clean compile -B -V
+          mvn package -B -DskipTests
+      
+      # Compilación con Gradle  
+      - name: Build with Gradle
+        if: needs.detect-build-system.outputs.build-system == 'gradle'
+        run: |
+          echo "🔨 Building with Gradle and Java ${{ matrix.java }}"
+          chmod +x gradlew
+          ./gradlew clean build -x test
+      
+      # Guardar artefactos
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-java${{ matrix.java }}
+          path: |
+            target/*.jar
+            build/libs/*.jar
+          retention-days: 7
+
+  # Job de pruebas unitarias
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: [detect-build-system, build]
+    if: needs.detect-build-system.outputs.build-system != 'none'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: ${{ needs.detect-build-system.outputs.build-system }}
+      
+      # Tests con Maven
+      - name: Run Maven tests
+        if: needs.detect-build-system.outputs.build-system == 'maven'
+        run: |
+          echo "🧪 Running tests with Maven"
+          mvn test -B
+          mvn verify -B
+      
+      # Tests con Gradle
+      - name: Run Gradle tests
+        if: needs.detect-build-system.outputs.build-system == 'gradle'
+        run: |
+          echo "🧪 Running tests with Gradle"
+          chmod +x gradlew
+          ./gradlew test
+          ./gradlew check
+      
+      # Reporte de cobertura
+      - name: Generate coverage report
+        if: needs.detect-build-system.outputs.build-system == 'maven'
+        run: |
+          if grep -q "jacoco-maven-plugin" pom.xml; then
+            mvn jacoco:report
+          fi
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: |
+            target/site/jacoco/jacoco.xml
+            build/reports/jacoco/test/jacocoTestReport.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+      
+      # Publicar resultados de tests
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            target/surefire-reports/**/*.xml
+            build/test-results/**/*.xml
+          check_name: Test Results
+          comment_mode: failures
+
+  # Job de análisis de FlowScript
+  flowscript-validation:
+    name: FlowScript Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Validate FlowScript files
+        run: |
+          echo "🔍 Validating FlowScript files"
+          
+          # Buscar archivos .flow
+          flow_files=$(find . -name "*.flow" -type f 2>/dev/null)
+          
+          if [ -z "$flow_files" ]; then
+            echo "ℹ️ No FlowScript files found"
+            exit 0
+          fi
+          
+          echo "Found FlowScript files:"
+          echo "$flow_files"
+          
+          # Validación básica de sintaxis
+          for file in $flow_files; do
+            echo "Checking $file..."
+            
+            # Verificar palabras clave requeridas
+            if ! grep -q "proceso\|funcion" "$file"; then
+              echo "⚠️ Warning: $file might not contain valid FlowScript code"
+            fi
+            
+            # Verificar balance de llaves
+            open_braces=$(grep -o '{' "$file" | wc -l)
+            close_braces=$(grep -o '}' "$file" | wc -l)
+            
+            if [ "$open_braces" -ne "$close_braces" ]; then
+              echo "❌ Error: Unbalanced braces in $file"
+              exit 1
+            fi
+            
+            echo "✅ $file syntax appears valid"
+          done
+
+  # Job de integración y pruebas de FlowScript
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [build, test, flowscript-validation]
+    if: needs.detect-build-system.outputs.build-system != 'none'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-java17
+      
+      - name: Run integration tests
+        run: |
+          echo "🔗 Running integration tests"
+          
+          # Si hay tests de integración específicos
+          if [ -d "src/test/integration" ] || [ -d "src/integrationTest" ]; then
+            if [ -f "pom.xml" ]; then
+              mvn test -Dtest="**/*IT.java,**/*IntegrationTest.java" || true
+            elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+              ./gradlew integrationTest || true
+            fi
+          else
+            echo "ℹ️ No integration tests found"
+          fi
+
+  # Job de análisis de dependencias
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    needs: detect-build-system
+    if: needs.detect-build-system.outputs.build-system != 'none'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Run OWASP Dependency Check
+        if: needs.detect-build-system.outputs.build-system == 'maven'
+        run: |
+          if ! grep -q "dependency-check-maven" pom.xml; then
+            echo "⚠️ Consider adding OWASP Dependency Check plugin"
+          else
+            mvn dependency-check:check || true
+          fi
+      
+      - name: Check for outdated dependencies
+        run: |
+          if [ "${{ needs.detect-build-system.outputs.build-system }}" == "maven" ]; then
+            mvn versions:display-dependency-updates | head -50 || true
+          elif [ "${{ needs.detect-build-system.outputs.build-system }}" == "gradle" ]; then
+            ./gradlew dependencyUpdates || true
+          fi
+
+  # Job de notificación final
+  notification:
+    name: Build Status Notification
+    runs-on: ubuntu-latest
+    needs: [code-quality, build, test, flowscript-validation, integration-test]
+    if: always()
+    steps:
+      - name: Check build status
+        run: |
+          echo "🏁 CI Pipeline Completed"
+          echo "================================"
+          echo "Code Quality: ${{ needs.code-quality.result }}"
+          echo "Build: ${{ needs.build.result }}"
+          echo "Tests: ${{ needs.test.result }}"
+          echo "FlowScript Validation: ${{ needs.flowscript-validation.result }}"
+          echo "Integration Tests: ${{ needs.integration-test.result }}"
+          echo "================================"
+          
+          if [ "${{ needs.build.result }}" == "failure" ] || [ "${{ needs.test.result }}" == "failure" ]; then
+            echo "❌ Pipeline failed"
+            exit 1
+          else
+            echo "✅ Pipeline successful"
+          fi

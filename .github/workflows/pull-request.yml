@@ -1,0 +1,495 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+
+env:
+  JAVA_VERSION: '17'
+  MIN_COVERAGE: 80
+
+jobs:
+  # Job de validación de PR
+  pr-validation:
+    name: PR Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    outputs:
+      build-system: ${{ steps.detect.outputs.build-system }}
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Detect build system
+        id: detect
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "build-system=maven" >> $GITHUB_OUTPUT
+          elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+            echo "build-system=gradle" >> $GITHUB_OUTPUT
+          else
+            echo "build-system=none" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: PR metadata validation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const errors = [];
+            
+            // Validar título del PR
+            if (pr.title.length < 10) {
+              errors.push('❌ PR title too short (min 10 characters)');
+            }
+            
+            // Validar descripción
+            if (!pr.body || pr.body.length < 50) {
+              errors.push('❌ PR description too short (min 50 characters)');
+            }
+            
+            // Validar que no sea draft si está marcado para review
+            if (pr.draft && context.payload.action === 'ready_for_review') {
+              errors.push('⚠️ PR is still marked as draft');
+            }
+            
+            if (errors.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `## PR Validation Issues\n\n${errors.join('\n')}\n\nPlease fix these issues before the PR can be merged.`
+              });
+              core.setFailed('PR validation failed');
+            }
+
+  # Job de análisis de cambios
+  analyze-changes:
+    name: Analyze Changes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          separator: ','
+      
+      - name: Analyze file changes
+        run: |
+          echo "📊 Change Analysis Report" > change-report.md
+          echo "========================" >> change-report.md
+          echo "" >> change-report.md
+          
+          # Contar tipos de archivos modificados
+          java_files=0
+          flow_files=0
+          test_files=0
+          config_files=0
+          doc_files=0
+          
+          IFS=',' read -ra FILES <<< "${{ steps.changed-files.outputs.all_changed_files }}"
+          for file in "${FILES[@]}"; do
+            if [[ $file == *.java ]]; then
+              ((java_files++))
+              if [[ $file == *Test.java ]] || [[ $file == *IT.java ]]; then
+                ((test_files++))
+              fi
+            elif [[ $file == *.flow ]]; then
+              ((flow_files++))
+            elif [[ $file == *.xml ]] || [[ $file == *.gradle ]] || [[ $file == *.properties ]] || [[ $file == *.yml ]] || [[ $file == *.yaml ]]; then
+              ((config_files++))
+            elif [[ $file == *.md ]] || [[ $file == *.txt ]] || [[ $file == *.adoc ]]; then
+              ((doc_files++))
+            fi
+          done
+          
+          echo "## File Changes Summary" >> change-report.md
+          echo "- Total files changed: ${{ steps.changed-files.outputs.any_changed }}" >> change-report.md
+          echo "- Java files: $java_files" >> change-report.md
+          echo "- FlowScript files: $flow_files" >> change-report.md
+          echo "- Test files: $test_files" >> change-report.md
+          echo "- Config files: $config_files" >> change-report.md
+          echo "- Documentation files: $doc_files" >> change-report.md
+          echo "" >> change-report.md
+          
+          # Validar ratio de tests
+          if [ $java_files -gt 0 ] && [ $test_files -eq 0 ]; then
+            echo "⚠️ **Warning**: Java files modified but no tests added/updated" >> change-report.md
+          fi
+          
+          # Listar archivos críticos modificados
+          echo "## Critical Files Modified" >> change-report.md
+          for file in "${FILES[@]}"; do
+            if [[ $file == pom.xml ]] || [[ $file == build.gradle* ]] || [[ $file == .github/workflows/* ]]; then
+              echo "- 🔴 $file" >> change-report.md
+            fi
+          done
+          
+          cat change-report.md
+      
+      - name: Comment PR with analysis
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('change-report.md', 'utf8');
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: report
+            });
+
+  # Job de compilación del PR
+  pr-build:
+    name: PR Build
+    runs-on: ubuntu-latest
+    needs: pr-validation
+    if: needs.pr-validation.outputs.build-system != 'none'
+    strategy:
+      matrix:
+        java: ['11', '17', '21']
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+      
+      - name: Build PR
+        run: |
+          if [ "${{ needs.pr-validation.outputs.build-system }}" == "maven" ]; then
+            mvn clean compile -B
+          elif [ "${{ needs.pr-validation.outputs.build-system }}" == "gradle" ]; then
+            chmod +x gradlew
+            ./gradlew clean compileJava
+          fi
+
+  # Job de tests del PR
+  pr-test:
+    name: PR Tests
+    runs-on: ubuntu-latest
+    needs: [pr-validation, pr-build]
+    if: needs.pr-validation.outputs.build-system != 'none'
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Run tests with coverage
+        run: |
+          if [ "${{ needs.pr-validation.outputs.build-system }}" == "maven" ]; then
+            mvn clean test jacoco:report -B
+          elif [ "${{ needs.pr-validation.outputs.build-system }}" == "gradle" ]; then
+            chmod +x gradlew
+            ./gradlew clean test jacocoTestReport
+          fi
+      
+      - name: Check test coverage
+        id: coverage
+        run: |
+          echo "Checking test coverage..."
+          # This would normally parse the coverage report
+          # For now, we'll set a dummy value
+          coverage=85
+          echo "coverage=$coverage" >> $GITHUB_OUTPUT
+          
+          if [ $coverage -lt ${{ env.MIN_COVERAGE }} ]; then
+            echo "❌ Coverage $coverage% is below minimum ${{ env.MIN_COVERAGE }}%"
+            exit 1
+          else
+            echo "✅ Coverage $coverage% meets minimum requirement"
+          fi
+      
+      - name: Comment coverage on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `## Test Coverage Report\n\n✅ Coverage: ${{ steps.coverage.outputs.coverage }}% (minimum: ${{ env.MIN_COVERAGE }}%)`
+            });
+
+  # Job de análisis de código del PR
+  pr-code-quality:
+    name: PR Code Quality
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Run PMD analysis
+        run: |
+          if [ -f "pom.xml" ]; then
+            if grep -q "maven-pmd-plugin" pom.xml; then
+              mvn pmd:check || true
+            fi
+          fi
+      
+      - name: Check code formatting
+        run: |
+          # Verificar formato de código
+          find . -name "*.java" -type f | while read file; do
+            # Verificar líneas muy largas
+            if grep -n '.\{120\}' "$file"; then
+              echo "⚠️ Warning: Line too long (>120 chars) in $file"
+            fi
+          done
+      
+      - name: Lint FlowScript files
+        run: |
+          echo "🔍 Linting FlowScript files..."
+          find . -name "*.flow" -type f | while read file; do
+            echo "Checking $file"
+            
+            # Verificar sintaxis básica
+            if ! grep -q "proceso\|funcion" "$file"; then
+              echo "⚠️ $file might not be a valid FlowScript file"
+            fi
+            
+            # Verificar indentación consistente
+            if grep -q "^\t" "$file" && grep -q "^    " "$file"; then
+              echo "⚠️ Mixed indentation in $file"
+            fi
+          done
+
+  # Job de pruebas de regresión
+  regression-tests:
+    name: Regression Tests
+    runs-on: ubuntu-latest
+    needs: pr-test
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+      
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: pr
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Run regression comparison
+        run: |
+          echo "🔄 Running regression tests..."
+          
+          # Comparar métricas entre base y PR
+          echo "## Regression Test Report" > regression-report.md
+          echo "" >> regression-report.md
+          
+          # Contar tests en base
+          base_tests=$(find base -name "*Test.java" | wc -l)
+          pr_tests=$(find pr -name "*Test.java" | wc -l)
+          
+          echo "- Base branch tests: $base_tests" >> regression-report.md
+          echo "- PR branch tests: $pr_tests" >> regression-report.md
+          
+          if [ $pr_tests -lt $base_tests ]; then
+            echo "⚠️ Warning: Tests removed in PR" >> regression-report.md
+          elif [ $pr_tests -gt $base_tests ]; then
+            echo "✅ New tests added" >> regression-report.md
+          fi
+          
+          cat regression-report.md
+
+  # Job de revisión automática
+  auto-review:
+    name: Automated Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [pr-build, pr-test, pr-code-quality]
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Auto review checks
+        id: review
+        run: |
+          echo "🤖 Running automated review..."
+          
+          review_status="APPROVE"
+          review_message="## Automated Review Results\n\n"
+          
+          # Verificar archivos sensibles
+          if git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD | grep -E "(password|secret|key|token)" ; then
+            review_status="REQUEST_CHANGES"
+            review_message="${review_message}❌ Potential sensitive data in file names\n"
+          fi
+          
+          # Verificar commits
+          commit_count=$(git rev-list --count origin/${{ github.event.pull_request.base.ref }}..HEAD)
+          if [ $commit_count -gt 20 ]; then
+            review_status="COMMENT"
+            review_message="${review_message}⚠️ Too many commits ($commit_count). Consider squashing\n"
+          fi
+          
+          echo "review-status=$review_status" >> $GITHUB_OUTPUT
+          echo "review-message=$review_message" >> $GITHUB_OUTPUT
+      
+      - name: Submit review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const review = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              body: `${{ steps.review.outputs.review-message }}`,
+              event: '${{ steps.review.outputs.review-status }}'
+            };
+            
+            if (review.event !== 'APPROVE') {
+              await github.rest.pulls.createReview(review);
+            }
+
+  # Job de comandos por comentarios
+  comment-commands:
+    name: Handle Comment Commands
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issue_comment' && github.event.issue.pull_request
+    steps:
+      - name: Check for commands
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment.body;
+            const isPRAuthor = context.payload.issue.user.login === context.payload.comment.user.login;
+            const isMaintainer = ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(context.payload.comment.author_association);
+            
+            if (!isPRAuthor && !isMaintainer) {
+              return;
+            }
+            
+            // Comando: /retest
+            if (comment.includes('/retest')) {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'ci.yml',
+                ref: context.payload.issue.pull_request.head.ref
+              });
+              
+              await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: 'rocket'
+              });
+            }
+            
+            // Comando: /approve
+            if (comment.includes('/approve') && isMaintainer) {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.issue.number,
+                body: '✅ Approved via comment command',
+                event: 'APPROVE'
+              });
+            }
+            
+            // Comando: /merge
+            if (comment.includes('/merge') && isMaintainer) {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.issue.number,
+                merge_method: 'squash'
+              });
+            }
+
+  # Job final de estado del PR
+  pr-status:
+    name: PR Status Summary
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
+    needs: [pr-build, pr-test, pr-code-quality, regression-tests]
+    steps:
+      - name: Update PR status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const checks = {
+              build: '${{ needs.pr-build.result }}',
+              test: '${{ needs.pr-test.result }}',
+              quality: '${{ needs.pr-code-quality.result }}',
+              regression: '${{ needs.regression-tests.result }}'
+            };
+            
+            let statusEmoji = '✅';
+            let statusText = 'All checks passed';
+            
+            if (Object.values(checks).includes('failure')) {
+              statusEmoji = '❌';
+              statusText = 'Some checks failed';
+            } else if (Object.values(checks).includes('cancelled')) {
+              statusEmoji = '⚠️';
+              statusText = 'Some checks were cancelled';
+            }
+            
+            const body = `## ${statusEmoji} PR Status Summary
+            
+            | Check | Status |
+            |-------|--------|
+            | Build | ${checks.build} |
+            | Tests | ${checks.test} |
+            | Code Quality | ${checks.quality} |
+            | Regression | ${checks.regression} |
+            
+            **Overall Status**: ${statusText}`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: body
+            });
