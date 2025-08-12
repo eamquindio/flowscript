@@ -124,7 +124,7 @@ jobs:
           cache: ${{ needs.detect-build-system.outputs.build-system }}
       
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.m2/repository
@@ -152,7 +152,7 @@ jobs:
       
       # Guardar artefactos
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-java${{ matrix.java }}
           path: |
@@ -289,7 +289,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts-java17
       

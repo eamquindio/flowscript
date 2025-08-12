@@ -66,7 +66,7 @@ jobs:
           distribution: 'temurin'
       
       - name: Cache SonarQube packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
@@ -136,7 +136,7 @@ jobs:
           done
       
       - name: Upload documentation
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: documentation
           path: |
@@ -192,7 +192,7 @@ jobs:
           git shortlog -sn | head -10 >> metrics-report.md
       
       - name: Upload metrics report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: metrics-report
           path: metrics-report.md
@@ -315,7 +315,7 @@ jobs:
           echo "Runner: ${{ runner.os }}" >> artifacts/BUILD_INFO.txt
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: main-branch-artifacts-${{ github.sha }}
           path: artifacts/
