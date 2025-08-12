@@ -220,16 +220,6 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
       
-      # Publicar resultados de tests
-      - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            target/surefire-reports/**/*.xml
-            build/test-results/**/*.xml
-          check_name: Test Results
-          comment_mode: failures
 
   # Job de análisis de FlowScript
   flowscript-validation:
