@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+group = 'com.flowscript'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.1'
+    javafxVersion = '21.0.1'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+javafx {
+    version = javafxVersion
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    // RichTextFX for code editor with syntax highlighting
+    implementation 'org.fxmisc.richtext:richtextfx:0.11.2'
+    
+    // ControlsFX for additional controls
+    implementation 'org.controlsfx:controlsfx:11.2.0'
+    
+    // JSON processing
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
+    
+    // Logging
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    
+    // Testing
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+application {
+    mainClass = 'com.flowscript.ide.FlowScriptIDE'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Task to run the IDE
+task runIDE(type: JavaExec) {
+    group = 'application'
+    description = 'Run the FlowScript IDE'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.flowscript.ide.FlowScriptIDE'
+    jvmArgs = [
+        '--add-opens=javafx.controls/javafx.scene.control=ALL-UNNAMED',
+        '--add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED',
+        '--add-opens=javafx.base/com.sun.javafx.runtime=ALL-UNNAMED',
+        '--add-opens=javafx.base/com.sun.javafx.util=ALL-UNNAMED',
+        '--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED'
+    ]
+}
