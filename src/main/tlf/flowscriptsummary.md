@@ -844,7 +844,7 @@ Each team must work on separate branches and submit their work via Pull Request:
 **Important**: All development work must be done on the designated team branch. The Pull Request will be reviewed before merging to main.
 
 ### ✅ **Deliverables**
-- **Team A**: 
+- **Team A**:  
   - Complete and functional `FlowScriptFunctions.g4` on `feature/antlrfunctions` branch
   - BNF railroad diagram in markdown format (saved in `tlf/` folder)
 - **Team B**: 
