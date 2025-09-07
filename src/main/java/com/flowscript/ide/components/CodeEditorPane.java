@@ -279,7 +279,7 @@ public class CodeEditorPane extends VBox {
         
         // FlowScript keywords
         String[] keywords = {
-            "proceso", "funcion", "inicio", "fin", "tarea", "gateway", "ir_a",
+            "proceso", "funcion", "inicio", "fin", "tarea", "gateway", "go_to",
             "cuando", "rama", "unir", "sino", "si", "sino_si", "intentar",
             "capturar", "lanzar", "retornar", "importar", "importar_jar"
         };
@@ -323,7 +323,7 @@ public class CodeEditorPane extends VBox {
                 tarea PrimeraTarea {
                     accion:
                         imprimir("¡Hola FlowScript!")
-                        ir_a Fin
+                        go_to Fin
                 }
                 
                 fin Fin

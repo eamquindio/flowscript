@@ -16,7 +16,7 @@ public class FlowScriptSyntaxHighlighter {
     };
     
     private static final String[] FLOW_KEYWORDS = {
-        "inicio", "fin", "tarea", "gateway", "ir_a", "cuando", "rama", "unir", "sino"
+        "inicio", "fin", "tarea", "gateway", "go_to", "cuando", "rama", "unir", "sino"
     };
     
     private static final String[] CONTROL_KEYWORDS = {

@@ -53,7 +53,7 @@ jobs:
                   # Palabras reservadas
                   self.keywords = {
                       'estructura': ['proceso', 'funcion', 'importar', 'importar_jar', 'como', 'retornar'],
-                      'flujo': ['inicio', 'fin', 'tarea', 'gateway', 'ir_a', 'cuando', 'rama', 'unir', 'sino'],
+                      'flujo': ['inicio', 'fin', 'tarea', 'gateway', 'go_to', 'cuando', 'rama', 'unir', 'sino'],
                       'control': ['si', 'sino_si', 'intentar', 'capturar', 'lanzar'],
                       'tipos': ['entero', 'decimal', 'booleano', 'texto', 'lista', 'objeto', 'nulo', 'verdadero', 'falso'],
                       'operadores': ['y', 'o', 'no']

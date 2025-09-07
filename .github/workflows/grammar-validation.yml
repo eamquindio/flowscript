@@ -1,0 +1,323 @@
+name: Grammar Validation
+
+on:
+  push:
+    branches:
+      - feature/antlrfunctions
+      - feature/antlrprocess
+
+    paths:
+      - 'src/main/tlf/*.g4'
+      - '.github/workflows/grammar-validation.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/main/tlf/*.g4'
+
+jobs:
+  # Job específico para validación de gramáticas ANTLR
+  grammar-validation:
+    name: ANTLR Grammar Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Detect grammar files
+        id: detect-grammars
+        run: |
+          echo "Detecting grammar files..."
+          
+          # Check for Functions grammar
+          if [ -f "src/main/tlf/FlowScriptFunctions.g4" ]; then
+            echo "functions_grammar=true" >> $GITHUB_OUTPUT
+            echo "✅ Found FlowScriptFunctions.g4"
+          else
+            echo "functions_grammar=false" >> $GITHUB_OUTPUT
+            echo "❌ FlowScriptFunctions.g4 not found"
+          fi
+          
+          # Check for Processes grammar
+          if [ -f "src/main/tlf/FlowScriptProcesses.g4" ]; then
+            echo "processes_grammar=true" >> $GITHUB_OUTPUT
+            echo "✅ Found FlowScriptProcesses.g4"
+          else
+            echo "processes_grammar=false" >> $GITHUB_OUTPUT
+            echo "❌ FlowScriptProcesses.g4 not found"
+          fi
+
+      - name: Validate grammar syntax
+        run: |
+          echo "🔍 Validating ANTLR grammar syntax..."
+          
+          # Create grammar validation script
+          cat > validate_grammar.py << 'EOF'
+          import sys
+          import re
+          from pathlib import Path
+          
+          class GrammarValidator:
+              def __init__(self):
+                  self.errors = []
+                  self.warnings = []
+          
+              def validate_file(self, filepath):
+                  print(f"\nValidating: {filepath}")
+                  self.errors = []
+                  self.warnings = []
+          
+                  with open(filepath, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                      lines = content.split('\n')
+          
+                  # Basic validations
+                  self.check_grammar_declaration(content, filepath)
+                  self.check_package_header(content)
+                  self.check_balanced_braces(content)
+                  self.check_rule_syntax(content, lines)
+                  self.check_lexer_parser_separation(content)
+          
+                  return len(self.errors) == 0
+          
+              def check_grammar_declaration(self, content, filepath):
+                  # Check grammar declaration
+                  grammar_match = re.search(r'grammar\s+(\w+)', content)
+                  if not grammar_match:
+                      self.errors.append("Missing grammar declaration")
+                      return
+          
+                  grammar_name = grammar_match.group(1)
+                  filename = Path(filepath).stem
+          
+                  if grammar_name != filename:
+                      self.errors.append(f"Grammar name '{grammar_name}' doesn't match filename '{filename}'")
+          
+              def check_package_header(self, content):
+                  # Check for package declaration
+                  if '@header' not in content:
+                      self.warnings.append("Missing @header with package declaration")
+                  elif 'package edu.eam.ingesoft.tlf' not in content:
+                      self.warnings.append("Package should be 'edu.eam.ingesoft.tlf'")
+          
+              def check_balanced_braces(self, content):
+                  open_braces = content.count('{')
+                  close_braces = content.count('}')
+                  open_parens = content.count('(')
+                  close_parens = content.count(')')
+                  open_brackets = content.count('[')
+                  close_brackets = content.count(']')
+          
+                  if open_braces != close_braces:
+                      self.errors.append(f"Unbalanced braces: {open_braces} open, {close_braces} close")
+          
+                  if open_parens != close_parens:
+                      self.errors.append(f"Unbalanced parentheses: {open_parens} open, {close_parens} close")
+          
+                  if open_brackets != close_brackets:
+                      self.errors.append(f"Unbalanced brackets: {open_brackets} open, {close_brackets} close")
+          
+              def check_rule_syntax(self, content, lines):
+                  # Check for basic rule syntax issues
+                  for i, line in enumerate(lines, 1):
+                      line = line.strip()
+                      if not line or line.startswith('//') or line.startswith('/*'):
+                          continue
+          
+                      # Check for rules that should end with semicolon
+                      if re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*\s*:', line) and not line.endswith(';') and not line.endswith('{'):
+                          if i < len(lines) and not lines[i].strip().startswith('|'):
+                              self.warnings.append(f"Line {i}: Rule might be missing semicolon")
+          
+                      # Check for common ANTLR mistakes
+                      if '::' in line:
+                          self.warnings.append(f"Line {i}: Double colon '::' found - might be syntax error")
+          
+              def check_lexer_parser_separation(self, content):
+                  # Check for proper lexer/parser rule separation
+                  lexer_rules = re.findall(r'^([A-Z][A-Z0-9_]*)\s*:', content, re.MULTILINE)
+                  parser_rules = re.findall(r'^([a-z][a-zA-Z0-9_]*)\s*:', content, re.MULTILINE)
+          
+                  if lexer_rules and parser_rules:
+                      # Check if lexer rules come after parser rules (which is wrong)
+                      lexer_positions = [content.find(f'{rule}:') for rule in lexer_rules]
+                      parser_positions = [content.find(f'{rule}:') for rule in parser_rules]
+          
+                      if lexer_positions and parser_positions:
+                          if min(lexer_positions) > min(parser_positions) and max(lexer_positions) > max(parser_positions):
+                              self.warnings.append("Lexer rules should typically come after parser rules in ANTLR")
+          
+              def print_results(self):
+                  if self.errors:
+                      print("\n❌ ERRORS:")
+                      for error in self.errors:
+                          print(f"  - {error}")
+          
+                  if self.warnings:
+                      print("\n⚠️  WARNINGS:")
+                      for warning in self.warnings:
+                          print(f"  - {warning}")
+          
+                  if not self.errors and not self.warnings:
+                      print("✅ Grammar syntax looks good")
+          
+          # Validate grammar files
+          validator = GrammarValidator()
+          all_valid = True
+          
+          grammar_files = [
+              'src/main/tlf/FlowScriptFunctions.g4',
+              'src/main/tlf/FlowScriptProcesses.g4'
+          ]
+          
+          for filepath in grammar_files:
+              if Path(filepath).exists():
+                  valid = validator.validate_file(filepath)
+                  validator.print_results()
+                  if not valid:
+                      all_valid = False
+          
+          sys.exit(0 if all_valid else 1)
+          EOF
+          
+          python validate_grammar.py
+
+      - name: Generate ANTLR classes
+        run: |
+          echo "🔧 Generating ANTLR lexer and parser classes..."
+          mvn clean generate-sources -q
+
+      - name: Compile generated sources
+        run: |
+          echo "🔨 Compiling project with generated sources..."
+          mvn compile -q
+
+      - name: Run Functions tests
+        if: steps.detect-grammars.outputs.functions_grammar == 'true'
+        run: |
+          echo "🧪 Running Functions grammar tests..."
+          mvn test -Dtest="*Functions*" -q
+          echo "✅ Functions tests completed"
+
+      - name: Run Processes tests
+        if: steps.detect-grammars.outputs.processes_grammar == 'true'
+        run: |
+          echo "🧪 Running Processes grammar tests..."
+          mvn test -Dtest="*Processes*" -q
+          echo "✅ Processes tests completed"
+
+      - name: Run all tests
+        if: steps.detect-grammars.outputs.functions_grammar == 'true' && steps.detect-grammars.outputs.processes_grammar == 'true'
+        run: |
+          echo "🧪 Running complete test suite..."
+          mvn test -q
+          echo "✅ All tests completed"
+
+      - name: Grammar analysis
+        run: |
+          echo "📊 Grammar Analysis Report"
+          echo "=========================="
+          
+          # Functions Grammar Analysis
+          if [ -f "src/main/tlf/FlowScriptFunctions.g4" ]; then
+            echo ""
+            echo "📄 FlowScriptFunctions.g4"
+            echo "  Lines: $(wc -l < src/main/tlf/FlowScriptFunctions.g4)"
+            echo "  Lexer rules: $(grep -c '^[A-Z][A-Z0-9_]*\s*:' src/main/tlf/FlowScriptFunctions.g4 || echo 0)"
+            echo "  Parser rules: $(grep -c '^[a-z][a-zA-Z0-9_]*\s*:' src/main/tlf/FlowScriptFunctions.g4 || echo 0)"
+            echo "  Fragments: $(grep -c '^fragment' src/main/tlf/FlowScriptFunctions.g4 || echo 0)"
+          fi
+          
+          # Processes Grammar Analysis
+          if [ -f "src/main/tlf/FlowScriptProcesses.g4" ]; then
+            echo ""
+            echo "📄 FlowScriptProcesses.g4"
+            echo "  Lines: $(wc -l < src/main/tlf/FlowScriptProcesses.g4)"
+            echo "  Lexer rules: $(grep -c '^[A-Z][A-Z0-9_]*\s*:' src/main/tlf/FlowScriptProcesses.g4 || echo 0)"
+            echo "  Parser rules: $(grep -c '^[a-z][a-zA-Z0-9_]*\s*:' src/main/tlf/FlowScriptProcesses.g4 || echo 0)"
+            echo "  Fragments: $(grep -c '^fragment' src/main/tlf/FlowScriptProcesses.g4 || echo 0)"
+          fi
+
+      - name: Check BNF documentation
+        run: |
+          echo "📋 Checking BNF documentation..."
+          
+          functions_bnf="src/main/tlf/FlowScriptFunctions-railroad.md"
+          processes_bnf="src/main/tlf/FlowScriptProcesses-railroad.md" 
+          
+          if [ -f "$functions_bnf" ]; then
+            echo "✅ Found FlowScript Functions BNF documentation"
+          else
+            echo "⚠️  Missing FlowScript Functions BNF documentation ($functions_bnf)"
+          fi
+          
+          if [ -f "$processes_bnf" ]; then
+            echo "✅ Found FlowScript Processes BNF documentation"
+          else
+            echo "⚠️  Missing FlowScript Processes BNF documentation ($processes_bnf)"
+          fi
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: grammar-test-results
+          path: |
+            target/surefire-reports/
+            target/generated-sources/antlr4/
+          retention-days: 30
+
+  # Job específico para validación de branch correcta
+  branch-validation:
+    name: Branch Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate branch and files
+        run: |
+          echo "🔍 Validating branch and file consistency..."
+          
+          branch_name="${GITHUB_REF#refs/heads/}"
+          echo "Current branch: $branch_name"
+          
+          echo "📁 Files in src/main/tlf/:"
+          ls -la src/main/tlf/ || echo "Directory not found"
+          
+          if [[ "$branch_name" == "feature/antlrfunctions" ]]; then
+            echo "✅ Team A branch detected"
+            if [ ! -f "src/main/tlf/FlowScriptFunctions.g4" ]; then
+              echo "❌ FlowScriptFunctions.g4 missing in Team A branch"
+              exit 1
+            fi
+            echo "✅ FlowScriptFunctions.g4 found"
+          
+          elif [[ "$branch_name" == "feature/antlrprocess" ]]; then
+            echo "✅ Team B branch detected"
+            if [ ! -f "src/main/tlf/FlowScriptProcesses.g4" ]; then
+              echo "❌ FlowScriptProcesses.g4 missing in Team B branch"  
+              exit 1
+            fi
+            echo "✅ FlowScriptProcesses.g4 found"
+          
+          else
+            echo "⚠️  Unexpected branch: $branch_name"
+            echo "Expected: feature/antlrfunctions or feature/antlrprocess"
+          fi

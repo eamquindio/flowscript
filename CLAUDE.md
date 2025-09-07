@@ -8,7 +8,7 @@ FlowScript es un lenguaje de programación orientado a procesos que unifica la m
 ### Principios Clave
 - **Legibilidad unificada**: Un único archivo `.flow` guarda estructura y lógica
 - **Separación de incumbencias**: La orquestación reside en procesos; la lógica en funciones
-- **Seguridad y previsibilidad**: No hay `goto` arbitrarios; `ir_a` solo enlaza nodos definidos
+- **Seguridad y previsibilidad**: No hay `goto` arbitrarios; `go_to` solo enlaza nodos definidos
 
 ## Estructura Léxica y Sintaxis
 
@@ -30,7 +30,7 @@ FlowScript es un lenguaje de programación orientado a procesos que unifica la m
 | Categoría | Palabras |
 |-----------|----------|
 | Estructura | `proceso`, `funcion`, `importar`, `importar_jar`, `como`, `retornar` |
-| Flujo | `inicio`, `fin`, `tarea`, `gateway`, `ir_a`, `cuando`, `rama`, `unir`, `sino` |
+| Flujo | `inicio`, `fin`, `tarea`, `gateway`, `go_to`, `cuando`, `rama`, `unir`, `sino` |
 | Control | `si`, `sino_si`, `intentar`, `capturar`, `lanzar` |
 | Tipos/Valores | `entero`, `decimal`, `booleano`, `texto`, `lista`, `objeto`, `nulo`, `verdadero`, `falso` |
 | Operadores | `y`, `o`, `no` |
@@ -96,7 +96,7 @@ funcion factorial(n: entero) -> entero {
 - **`inicio`**: Punto de entrada único, debe apuntar a un primer nodo
 - **`tarea <NombreTarea>`**: Unidad de trabajo atómica con `accion:`
 - **`fin <NombreFin>`**: Punto de terminación (puede haber múltiples)
-- **`ir_a <NodoDestino>`**: Transferir control a otro nodo
+- **`go_to <NodoDestino>`**: Transferir control a otro nodo
 
 ### Estructura Básica
 ```flowscript
@@ -105,15 +105,15 @@ proceso GestionCliente {
     
     tarea CargarCliente {
         accion: cliente = db_get("clientes", entrada.id)
-        ir_a ValidarActivo
+        go_to ValidarActivo
     }
     
     tarea ValidarActivo {
         accion:
             si cliente.activo {
-                ir_a EnviarCorreo
+                go_to EnviarCorreo
             } sino {
-                ir_a FinInactivo
+                go_to FinInactivo
             }
     }
     
@@ -145,7 +145,7 @@ proceso AprobacionFactura {
     
     tarea AprobacionAutomatica { 
         accion: imprimir("Aprobada automáticamente")
-        ir_a FinOK 
+        go_to FinOK 
     }
     
     fin FinOK
@@ -167,14 +167,14 @@ proceso VerificacionAntecedentes {
     
     tarea VerificarCredito {
         accion: reporte_credito = http.get("api/credito/" + entrada.cedula)
-        ir_a FinCredito
+        go_to FinCredito
     }
     
     fin FinCredito
     
     tarea VerificarPenal {
         accion: reporte_penal = http.get("api/penal/" + entrada.cedula)
-        ir_a FinPenal
+        go_to FinPenal
     }
     
     fin FinPenal
@@ -183,9 +183,9 @@ proceso VerificacionAntecedentes {
         accion:
             si reporte_credito.aprobado y reporte_penal.limpio {
                 imprimir("Todo en orden")
-                ir_a Exito
+                go_to Exito
             } sino { 
-                ir_a Falla 
+                go_to Falla 
             }
     }
     
@@ -216,11 +216,11 @@ tarea ProcesarPago {
     
     intentar {
         confirmacion = http.post("api/confirmar", { id: intento.id })
-        ir_a FinOK
+        go_to FinOK
     }
     capturar (ex) {
         imprimir("Falló confirmación: " + ex.mensaje)
-        ir_a ReversarPago
+        go_to ReversarPago
     }
 }
 ```
@@ -248,7 +248,7 @@ proceso Principal {
             si utilidades.es_par(numero) { imprimir("Es par") }
             texto = Json.stringify({ valor: utilidades.PI })
             imprimir(texto)
-            ir_a Fin
+            go_to Fin
     }
     
     fin Fin
@@ -307,11 +307,11 @@ proceso ProcesarOrden {
         accion:
             intentar {
                 validar_stock(entrada.items)
-                ir_a ProcesarPago
+                go_to ProcesarPago
             }
             capturar (err) {
                 imprimir("Stock insuficiente: " + err.mensaje)
-                ir_a FinRechazado
+                go_to FinRechazado
             }
     }
     
@@ -324,9 +324,9 @@ proceso ProcesarOrden {
             
             si resp.status == "succeeded" {
                 id_pago_confirmado = resp.id
-                ir_a PrepararEnvioYNotificar
+                go_to PrepararEnvioYNotificar
             } sino {
-                ir_a FinPagoFallido
+                go_to FinPagoFallido
             }
     }
     
@@ -348,7 +348,7 @@ proceso ProcesarOrden {
             }
             http.post("https://api.logistica.com/envios", { orden_id: entrada.id })
             db.execute("COMMIT")
-            ir_a FinLogistica
+            go_to FinLogistica
     }
     
     fin FinLogistica
@@ -360,7 +360,7 @@ proceso ProcesarOrden {
                 "Confirmación de tu orden #" + entrada.id,
                 "Tu pago fue exitoso. Estamos preparando tu envío."
             )
-            ir_a FinNotificacion
+            go_to FinNotificacion
     }
     
     fin FinNotificacion
@@ -372,7 +372,7 @@ proceso ProcesarOrden {
                 [entrada.id]
             )
             imprimir("Orden " + entrada.id + " completada.")
-            ir_a FinExitoso
+            go_to FinExitoso
     }
     
     fin FinExitoso

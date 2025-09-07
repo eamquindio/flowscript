@@ -1,33 +1,39 @@
-# FlowScript IDE
+# FlowScript
 
-Un IDE (Entorno de Desarrollo Integrado) moderno para el lenguaje FlowScript, construido con JavaFX.
+FlowScript es un lenguaje de programación orientado a procesos que unifica la modelación y ejecución de flujos de trabajo. Está inspirado en BPMN (Business Process Model and Notation) y proporciona una sintaxis textual isomórfica a los diagramas BPMN.
 
-## 🚀 Características Principales
+## Características Principales
 
-### 🎨 Interfaz Moderna
-- **Interfaz JavaFX 21**: Interfaz gráfica moderna y responsiva
-- **Temas múltiples**: Dark, Light y Monokai con cambio dinámico
-- **Iconos vectoriales**: Iconos escalables creados con formas JavaFX
-- **Layout flexible**: Paneles redimensionables y pestañas
+- **Lenguaje Dual**: Combina funciones tradicionales con procesos de flujo de trabajo
+- **Sintaxis Textual BPMN**: Representación textual de diagramas BPMN
+- **IDE Integrado**: Editor visual con syntax highlighting
+- **Tipos de Datos Ricos**: Soporte para listas, objetos y tipos primitivos
+- **Gateways**: Soporte para flujos exclusivos (XOR) y paralelos (AND)
+- **Manejo de Errores**: Sistema robusto de try-catch
+- **Modularidad**: Sistema de imports para reutilización de código
 
-### 📝 Editor de Código Avanzado
-- **Resaltado de sintaxis a color**: Colores específicos para elementos de FlowScript
-- **Números de línea**: Numeración automática de líneas
-- **Auto-completado**: Sugerencias de palabras clave de FlowScript (`Ctrl+Space`)
-- **Indentación inteligente**: Indentación automática para bloques de código
-- **Múltiples pestañas**: Edición de múltiples archivos simultáneamente
+## Estructura del Proyecto
 
-### 🗂️ Gestión de Proyectos
-- **Explorador de proyectos**: Navegación de archivos en árbol
-- **Creación de proyectos**: Estructura de proyecto estándar para FlowScript
-- **Archivos de configuración**: Gestión de metadatos de proyecto (.flowscript-project)
-- **Proyectos recientes**: Acceso rápido a proyectos utilizados recientemente
+```
+flowscript/
+├── src/
+│   ├── main/
+│   │   ├── java/                    # Código Java del IDE
+│   │   └── tlf/                     # Gramáticas ANTLR
+│   │       ├── FlowScriptFunctions.g4
+│   │       └── FlowScriptProcesses.g4
+│   └── test/
+│       ├── java/                    # Tests unitarios
+│       └── resources/               # Casos de prueba YAML
+├── pom.xml                          # Configuración Maven
+└── README.md
+```
 
-### 🔧 Herramientas Integradas
-- **Consola interactiva**: Ejecución de comandos y visualización de salida
-- **Validación de sintaxis**: Verificación de código FlowScript
-- **Sistema de logging**: Registro detallado de actividades del IDE
-- **Barra de estado**: Información del estado actual del editor
+## Requisitos
+
+- **Java 17+**
+- **Maven 3.8+**
+- **JavaFX 21+** (incluido en las dependencias)
 
 ## 🌟 Ejemplo de FlowScript
 
@@ -40,16 +46,16 @@ proceso EjemploProceso {
         accion:
             imprimir("¡Hola FlowScript!")
             mensaje = "Proceso ejecutándose correctamente"
-            ir_a SegundaTarea
+            go_to SegundaTarea
     }
     
     tarea SegundaTarea {
         accion:
             si mensaje != nulo {
                 imprimir("Mensaje: " + mensaje)
-                ir_a Fin
+                go_to Fin
             } sino {
-                ir_a FinError
+                go_to FinError
             }
     }
     
@@ -60,33 +66,97 @@ proceso EjemploProceso {
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Java 17+**: Plataforma de desarrollo
-- **JavaFX 21**: Framework de interfaz gráfica
-- **RichTextFX 0.11.2**: Editor de texto avanzado con resaltado de sintaxis
-- **ControlsFX 11.2.0**: Controles adicionales para JavaFX
-- **Jackson 2.16.0**: Procesamiento JSON para configuración
-- **Logback 1.4.14**: Sistema de logging
-- **Gradle 8.12**: Sistema de construcción y gestión de dependencias
+## Instalación y Ejecución
 
-## 📦 Instalación y Uso
+### 1. Clonar el repositorio
 
-### Prerrequisitos
-- Java 17 o superior
-- Gradle (wrapper incluido)
-
-### Compilación
 ```bash
-./gradlew build
+git clone <repository-url>
+cd flowscript
+```
+
+### 2. Generar las clases ANTLR
+
+```bash
+# Generar parsers desde las gramáticas
+mvn antlr4:antlr4
+```
+
+### 3. Compilar el proyecto
+
+```bash
+mvn clean compile
+```
+
+### 4. Ejecutar tests
+
+```bash
+# Ejecutar todos los tests
+mvn test
+
+# Ejecutar solo tests de funciones
+mvn test -Dtest=FlowScriptFunctionsTest
+
+# Ejecutar solo tests de procesos
+mvn test -Dtest=FlowScriptProcessesTest
+```
+
+### 5. Ejecutar el IDE
+
+```bash
+# Ejecutar la aplicación JavaFX
+mvn javafx:run
+
+# O usar exec plugin
+mvn exec:java -Dexec.mainClass="com.flowscript.ide.FlowScriptIDE"
+```
+
+### 6. Crear JAR ejecutable
+
+```bash
+# Crear JAR con todas las dependencias
+mvn clean package
+
+# El JAR se generará en target/flowscript-1.0.0-jar-with-dependencies.jar
+java -jar target/flowscript-1.0.0-jar-with-dependencies.jar
+```
+
+## Comandos Maven Útiles
+
+### Desarrollo de Gramáticas
+
+```bash
+# Solo generar parsers ANTLR
+mvn antlr4:antlr4
+
+# Limpiar clases generadas
+mvn clean
+
+# Generar y compilar
+mvn clean compile
+```
+
+### Testing
+
+```bash
+# Ejecutar tests con más verbosidad
+mvn test -X
+
+# Ejecutar tests de una clase específica
+mvn test -Dtest=FlowScriptFunctionsTest
+
+# Ejecutar un test específico
+mvn test -Dtest=FlowScriptFunctionsTest#testFlowScriptFunctions
 ```
 
 ### Ejecución
-```bash
-./gradlew run
-```
 
-### Crear Distribución
 ```bash
-./gradlew distZip
+# Ejecutar IDE con debug
+mvn exec:java -Dexec.mainClass="com.flowscript.ide.FlowScriptIDE" -X
+
+# Ejecutar con JavaFX plugin
+mvn clean javafx:compile javafx:run
 ```
 
 ## 📁 Estructura del Proyecto
@@ -112,7 +182,7 @@ flowscript/
 │       ├── dark-theme.css          # Tema oscuro
 │       ├── light-theme.css         # Tema claro
 │       └── monokai-theme.css       # Tema Monokai
-└── build.gradle                     # Configuración de construcción
+└── pom.xml                          # Configuración Maven
 ```
 
 ## ⌨️ Atajos de Teclado
@@ -154,7 +224,7 @@ flowscript/
 
 ### Palabras Clave por Categoría
 - **🏗️ Estructura**: `proceso`, `funcion`, `importar`, `importar_jar`, `como`, `retornar`
-- **🔄 Flujo**: `inicio`, `fin`, `tarea`, `gateway`, `ir_a`, `cuando`, `rama`, `unir`, `sino`
+- **🔄 Flujo**: `inicio`, `fin`, `tarea`, `gateway`, `go_to`, `cuando`, `rama`, `unir`, `sino`
 - **🎛️ Control**: `si`, `sino_si`, `intentar`, `capturar`, `lanzar`
 - **🏷️ Tipos**: `entero`, `decimal`, `booleano`, `texto`, `lista`, `objeto`, `nulo`
 - **✅ Valores**: `verdadero`, `falso`

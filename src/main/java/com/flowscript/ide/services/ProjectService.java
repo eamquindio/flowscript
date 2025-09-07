@@ -99,16 +99,16 @@ public class ProjectService {
                     accion:
                         imprimir("¡Hola desde FlowScript!")
                         mensaje = "Proceso ejecutándose correctamente"
-                        ir_a SegundaTarea
+                        go_to SegundaTarea
                 }
                 
                 tarea SegundaTarea {
                     accion:
                         si mensaje != nulo {
                             imprimir("Mensaje: " + mensaje)
-                            ir_a Fin
+                            go_to Fin
                         } sino {
-                            ir_a FinError
+                            go_to FinError
                         }
                 }
                 
