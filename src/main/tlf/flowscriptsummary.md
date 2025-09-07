@@ -634,7 +634,7 @@ The course will be divided into **TWO TEAMS**:
 
 #### **TEAM B: FlowScript Processes** (Second half of the class)
 - **Responsibility**: Create the complete grammar for the processes system
-- **Target file**: `FlowScriptProcesses.g4` 
+- **Target file**: `FlowScriptProcesses.g4`
 - **Program structure**: Complete processes including imports and global variables
 
 ---
@@ -664,14 +664,14 @@ Implement **ALL** primitive types:
 #### 4. **Complex Expressions**
 Implement **ALL** the operator precedence hierarchy:
 - Level 15: `.` `[]` (member access, indexing)
-- Level 14: `()` (function calls)  
+- Level 14: `()` (function calls)
 - Level 13: `not` `-` (negation, unary minus)
 - Level 12: `*` `/` `%` (multiplication, division, modulo)
 - Level 11: `+` `-` (addition, subtraction)
 - Level 10: `<` `>` `<=` `>=` (relational comparison)
 - Level 9: `==` `!=` (equality)
 - Level 8: `and` (logical AND)
-- Level 7: `or` (logical OR) 
+- Level 7: `or` (logical OR)
 - Level 1: `=` (assignment)
 
 #### 5. **Control Structures**
@@ -709,7 +709,7 @@ Implement **ALL** the operator precedence hierarchy:
 
 ## Instructions for TEAM B: FlowScript Processes
 
-### 🎯 **Main Objective**  
+### 🎯 **Main Objective**
 Create an ANTLR v4 grammar that can parse **complete FlowScript programs** with emphasis on processes and program structure.
 
 ### 📋 **Specific Responsibilities**
@@ -741,7 +741,7 @@ Create an ANTLR v4 grammar that can parse **complete FlowScript programs** with 
 - **Gateway**: Exclusive and parallel
 
 #### 6. **Complex Gateways**
-- **Exclusive (XOR)**: 
+- **Exclusive (XOR)**:
   ```
   gateway Name {
       when condition1 -> Node1
@@ -783,7 +783,7 @@ Create an ANTLR v4 grammar that can parse **complete FlowScript programs** with 
 2. **Process validation**: Mandatory structure (start, tasks, ends)
 3. **Functional gateways**: Both types with correct syntax
 4. **Flow control**: Goto and navigation between nodes
-5. **Input object**: Correct access to process data  
+5. **Input object**: Correct access to process data
 6. **Integration**: The program must be syntactically complete
 
 ---
@@ -822,9 +822,9 @@ mvn clean compile test
 ### 📚 **Work Methodology**
 1. **Analysis**: Study the corresponding specification
 2. **BNF Design**: Create the grammatical structure in BNF notation using https://www.bottlecaps.de/rr/ui
-   - Use the "Edit Grammar" section to write your BNF
-   - Use the "View Grammar" section to download the railroad diagram in embedded markdown
-   - Save the markdown file in the `tlf/` folder alongside your `.g4` files
+    - Use the "Edit Grammar" section to write your BNF
+    - Use the "View Grammar" section to download the railroad diagram in embedded markdown
+    - Save the markdown file in the `tlf/` folder alongside your `.g4` files
 3. **Implementation**: Convert BNF to ANTLR `.g4` file
 4. **Testing**: Use automated tests for validation
 5. **Refinement**: Iterate until all tests pass
@@ -834,22 +834,22 @@ mvn clean compile test
 Each team must work on separate branches and submit their work via Pull Request:
 
 #### **Team A (Functions)**
-- Create and work on branch: `antlrfunctions`
-- Submit Pull Request from `antlrfunctions` → `main`
+- Create a branch from `feature/antlrfunctions` with this name: `feature/antlrfunctions_<youreamcode>`
+- Submit Pull Request from `feature/antlrfunctions_<youreamcode>` → `main`
 
-#### **Team B (Processes)**  
-- Create and work on branch: `antlrprocess`
-- Submit Pull Request from `antlrprocess` → `main`
-
+#### **Team B (Processes)**
+- Create a branch from `feature/antlrprocess` with this name: `feature/antlrprocess_<youreamcode>`
+- Submit Pull Request from `feature/antlrprocess_<youreamcode>` → `main`
+- 
 **Important**: All development work must be done on the designated team branch. The Pull Request will be reviewed before merging to main.
 
 ### ✅ **Deliverables**
-- **Team A**:  
-  - Complete and functional `FlowScriptFunctions.g4` on `feature/antlrfunctions` branch
-  - BNF railroad diagram in markdown format (saved in `tlf/` folder)
-- **Team B**: 
-  - Complete and functional `FlowScriptProcesses.g4` on `feature/antlrprocess` branch
-  - BNF railroad diagram in markdown format (saved in `tlf/` folder)
+- **Team A**:
+    - Complete and functional `FlowScriptFunctions.g4` on `feature/antlrfunctions` branch
+    - BNF railroad diagram in markdown format (saved in `tlf/` folder)
+- **Team B**:
+    - Complete and functional `FlowScriptProcesses.g4` on `feature/antlrprocess` branch
+    - BNF railroad diagram in markdown format (saved in `tlf/` folder)
 - **Both teams**: 100% passing automated tests
 - **Both teams**: Pull Request from team branch to `main`
 
