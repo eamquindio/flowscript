@@ -3,24 +3,25 @@ name: Grammar Validation
 on:
   push:
     branches:
-      - feature/antlrfunctions
-      - feature/antlrprocess
-
+      - 'feature/antlrfunctions*'
+      - 'feature/antlrprocess*'
     paths:
-      - 'src/main/tlf/*.g4'
+      - 'src/main/tlf/**'
+      - 'src/test/resources/**'
       - '.github/workflows/grammar-validation.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'src/main/tlf/*.g4'
+      - 'src/main/tlf/**'
+      - 'src/test/resources/**'
 
 jobs:
   # Job específico para validación de gramáticas ANTLR
   grammar-validation:
     name: ANTLR Grammar Validation
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -286,7 +287,7 @@ jobs:
     name: Branch Validation
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -301,16 +302,16 @@ jobs:
           echo "📁 Files in src/main/tlf/:"
           ls -la src/main/tlf/ || echo "Directory not found"
           
-          if [[ "$branch_name" == "feature/antlrfunctions" ]]; then
-            echo "✅ Team A branch detected"
+          if [[ "$branch_name" == feature/antlrfunctions* ]]; then
+            echo "✅ Team A branch detected: $branch_name"
             if [ ! -f "src/main/tlf/FlowScriptFunctions.g4" ]; then
               echo "❌ FlowScriptFunctions.g4 missing in Team A branch"
               exit 1
             fi
             echo "✅ FlowScriptFunctions.g4 found"
           
-          elif [[ "$branch_name" == "feature/antlrprocess" ]]; then
-            echo "✅ Team B branch detected"
+          elif [[ "$branch_name" == feature/antlrprocess* ]]; then
+            echo "✅ Team B branch detected: $branch_name"
             if [ ! -f "src/main/tlf/FlowScriptProcesses.g4" ]; then
               echo "❌ FlowScriptProcesses.g4 missing in Team B branch"  
               exit 1
@@ -319,5 +320,5 @@ jobs:
           
           else
             echo "⚠️  Unexpected branch: $branch_name"
-            echo "Expected: feature/antlrfunctions or feature/antlrprocess"
+            echo "Expected: feature/antlrfunctions* or feature/antlrprocess*"
           fi
