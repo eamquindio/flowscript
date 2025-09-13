@@ -5,9 +5,178 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/FlowScriptIDE$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/FlowScriptIDE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/FlowScriptIDE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/CodeEditorPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/CodeEditorPane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ConsolePane$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ConsolePane.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ConsolePane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/IconFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/IconFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer$FileTreeCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer$FileTreeCell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/StatusBar.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/StatusBar.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ProjectService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ProjectService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService$Theme.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService$Theme.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/syntax/FlowScriptSyntaxHighlighter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/ide/syntax/FlowScriptSyntaxHighlighter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsLexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$AdditiveExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ArgumentListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$AssignmentExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$AssignmentStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$BlockContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$BreakStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$CatchClauseContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$CompositeTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ConditionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ContinueStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$DataTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ElseClauseContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ElseIfClauseContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$EqualityExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ExpressionStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ForEachStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ForRangeStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ForStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$FunctionBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$FunctionDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$FunctionNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$FunctionProgramContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$IfStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$LeftHandSideContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ListLiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$LiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$LogicalAndExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$LogicalOrExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$MultiplicativeExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ObjectLiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ObjectPropertyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ParameterListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ParameterNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ParameterTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$PostfixExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$PrimaryExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$PrimitiveTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$PropertyKeyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$RelationalExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ReturnStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ReturnTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$StatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$ThrowStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$TryStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$UnaryExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$VariableDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$WhileStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesLexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$AdditiveExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ArgumentListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$AssignmentExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$AssignmentStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$BlockContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$BranchStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$BreakStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$CatchClauseContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ConditionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ContinueStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$DataTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ElseBranchContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$EndNodeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$EqualityExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ExclusiveBranchesContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ExpressionStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ForEachStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ForRangeStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ForStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$FunctionBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$FunctionDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$GatewayNodeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$GatewayStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$GlobalVariableContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$GotoStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$IfStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ImportFlowScriptContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ImportJarContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ImportStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$InputReferenceContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$JoinStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$LeftHandSideContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ListLiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$LiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$LogicalAndExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$LogicalOrExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$MultiplicativeExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$NodeNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ObjectLiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ObjectPropertyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ParallelBranchesContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ParameterListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$PostfixExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$PrimaryExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProcessBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProcessDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProcessElementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProcessNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProgramContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$PropertyKeyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$RelationalExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ReturnStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ReturnTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$StartNodeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$StatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TaskContentContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TaskNodeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TaskStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TaskStatementsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ThrowStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TopLevelDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$TryStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$UnaryExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$WhenBranchContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$WhileStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$ParseResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest$ParseResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptFunctionsTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$ParseResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest$ParseResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/edu/eam/ingesoft/tlf/tester/FlowScriptProcessesTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,25 +206,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FlowScriptIDE.executor": "Run",
+    "JUnit.FlowScriptFunctionsTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
+    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
+    "Maven. [test].executor": "Run",
+    "Maven.flowscript [clean].executor": "Run",
+    "Maven.flowscript [compile].executor": "Run",
+    "Maven.flowscript [install].executor": "Run",
+    "Maven.flowscript [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "feature/antlrprocess__240220221049",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.FlowScriptIDE">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
