@@ -1,0 +1,59 @@
+functionProgram ::= functionDecl*
+
+functionDecl    ::= 'function' ID '(' paramListOpt? ')' returnTypeOpt? block
+paramListOpt    ::= param (',' param)*
+param           ::= ID ':' typeRef
+returnTypeOpt   ::= '->' typeRef
+typeRef         ::= 'integer' | 'decimal' | 'boolean' | 'text' | 'list' | 'object' | 'void'
+
+block           ::= '{' statement* '}'
+
+statement       ::= ifStatement
+                  | whileStatement
+                  | forEachStatement
+                  | forRangeStatement
+                  | tryCatchStatement
+                  | throwStatement
+                  | returnStatement
+                  | 'break' ';'?
+                  | 'continue' ';'?
+                  | ';'
+                  | expression ';'?
+
+ifStatement       ::= 'if' expression block ('else_if' expression block)* ('else' block)?
+whileStatement    ::= 'while' expression block
+forEachStatement  ::= 'for' 'each' ID 'in' expression block
+forRangeStatement ::= 'for' ID 'from' expression 'to' expression ('step' expression)? block
+
+tryCatchStatement ::= 'try' block ('catch' '(' catchVar ')' block)+
+catchVar          ::= ID (':' typeRef)?
+throwStatement    ::= 'throw' expression ';'?
+returnStatement   ::= 'return' expression? ';'?
+
+expression  ::= assignment
+assignment  ::= lvalue '=' assignment | orExpr
+lvalue      ::= ID ('.' ID | '[' expression ']')*
+
+orExpr   ::= andExpr ('or' andExpr)*
+andExpr  ::= eqExpr  ('and' eqExpr)*
+eqExpr   ::= relExpr (('==' | '!=') relExpr)*
+relExpr  ::= addExpr (('<' | '>' | '<=' | '>=') addExpr)*
+addExpr  ::= mulExpr (('+' | '-') mulExpr)*
+mulExpr  ::= unaryExpr (('*' | '/' | '%') unaryExpr)*
+unaryExpr ::= 'not' unaryExpr | '-' unaryExpr | postfixExpr
+
+postfixExpr ::= primary ('.' ID | '[' expression ']' | '(' argListOpt? ')')*
+argListOpt  ::= expression (',' expression)*
+
+primary       ::= '(' expression ')' | listLiteral | objectLiteral | literal | ID
+listLiteral   ::= '[' (expression (',' expression)*)? ']'
+objectLiteral ::= '{' (objectPair (',' objectPair)*)? '}'
+objectPair    ::= ID ':' expression
+literal       ::= INT | DEC | STR | BOOL | NULL
+
+ID    ::= [A-Za-z_] [A-Za-z_0-9]*
+INT   ::= [0-9]+
+DEC   ::= [0-9]+ '.' [0-9]+
+STR   ::= '"' ( '\\"' | '\\\\' | [^"\\] )* '"'
+BOOL  ::= 'true' | 'false'
+NULL  ::= 'null'
