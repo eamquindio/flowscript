@@ -47,4 +47,4 @@ logs/
 *.log
 *.flow~
 *.flow.bak
-.flowscript-project~
+.flowscript-project~target/
