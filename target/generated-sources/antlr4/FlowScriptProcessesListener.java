@@ -1,6 +1,6 @@
 // Generated from FlowScriptProcesses.g4 by ANTLR 4.13.1
 
-    package edu.eam.ingesoft.tlf;
+       package edu.eam.ingesoft.tlf;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -20,155 +20,105 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitProgram(FlowScriptProcessesParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#importStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#importDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterImportStatement(FlowScriptProcessesParser.ImportStatementContext ctx);
+	void enterImportDecl(FlowScriptProcessesParser.ImportDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#importStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#importDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitImportStatement(FlowScriptProcessesParser.ImportStatementContext ctx);
+	void exitImportDecl(FlowScriptProcessesParser.ImportDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#importFlowScript}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#importJarDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterImportFlowScript(FlowScriptProcessesParser.ImportFlowScriptContext ctx);
+	void enterImportJarDecl(FlowScriptProcessesParser.ImportJarDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#importFlowScript}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#importJarDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitImportFlowScript(FlowScriptProcessesParser.ImportFlowScriptContext ctx);
+	void exitImportJarDecl(FlowScriptProcessesParser.ImportJarDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#importJar}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#globalVarDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterImportJar(FlowScriptProcessesParser.ImportJarContext ctx);
+	void enterGlobalVarDecl(FlowScriptProcessesParser.GlobalVarDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#importJar}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#globalVarDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitImportJar(FlowScriptProcessesParser.ImportJarContext ctx);
+	void exitGlobalVarDecl(FlowScriptProcessesParser.GlobalVarDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#topLevelDeclaration}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#functionDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterTopLevelDeclaration(FlowScriptProcessesParser.TopLevelDeclarationContext ctx);
+	void enterFunctionDecl(FlowScriptProcessesParser.FunctionDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#topLevelDeclaration}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#functionDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitTopLevelDeclaration(FlowScriptProcessesParser.TopLevelDeclarationContext ctx);
+	void exitFunctionDecl(FlowScriptProcessesParser.FunctionDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#globalVariable}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#paramListOpt}.
 	 * @param ctx the parse tree
 	 */
-	void enterGlobalVariable(FlowScriptProcessesParser.GlobalVariableContext ctx);
+	void enterParamListOpt(FlowScriptProcessesParser.ParamListOptContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#globalVariable}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#paramListOpt}.
 	 * @param ctx the parse tree
 	 */
-	void exitGlobalVariable(FlowScriptProcessesParser.GlobalVariableContext ctx);
+	void exitParamListOpt(FlowScriptProcessesParser.ParamListOptContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#functionDeclaration}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionDeclaration(FlowScriptProcessesParser.FunctionDeclarationContext ctx);
+	void enterParam(FlowScriptProcessesParser.ParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#functionDeclaration}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionDeclaration(FlowScriptProcessesParser.FunctionDeclarationContext ctx);
+	void exitParam(FlowScriptProcessesParser.ParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#parameterList}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#returnTypeOpt}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameterList(FlowScriptProcessesParser.ParameterListContext ctx);
+	void enterReturnTypeOpt(FlowScriptProcessesParser.ReturnTypeOptContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#parameterList}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#returnTypeOpt}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameterList(FlowScriptProcessesParser.ParameterListContext ctx);
+	void exitReturnTypeOpt(FlowScriptProcessesParser.ReturnTypeOptContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#parameter}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#typeRef}.
 	 * @param ctx the parse tree
 	 */
-	void enterParameter(FlowScriptProcessesParser.ParameterContext ctx);
+	void enterTypeRef(FlowScriptProcessesParser.TypeRefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#parameter}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#typeRef}.
 	 * @param ctx the parse tree
 	 */
-	void exitParameter(FlowScriptProcessesParser.ParameterContext ctx);
+	void exitTypeRef(FlowScriptProcessesParser.TypeRefContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#returnType}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterReturnType(FlowScriptProcessesParser.ReturnTypeContext ctx);
+	void enterProcessDecl(FlowScriptProcessesParser.ProcessDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#returnType}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitReturnType(FlowScriptProcessesParser.ReturnTypeContext ctx);
+	void exitProcessDecl(FlowScriptProcessesParser.ProcessDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#dataType}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processInner}.
 	 * @param ctx the parse tree
 	 */
-	void enterDataType(FlowScriptProcessesParser.DataTypeContext ctx);
+	void enterProcessInner(FlowScriptProcessesParser.ProcessInnerContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#dataType}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processInner}.
 	 * @param ctx the parse tree
 	 */
-	void exitDataType(FlowScriptProcessesParser.DataTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#functionBody}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionBody(FlowScriptProcessesParser.FunctionBodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#functionBody}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionBody(FlowScriptProcessesParser.FunctionBodyContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterProcessDeclaration(FlowScriptProcessesParser.ProcessDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitProcessDeclaration(FlowScriptProcessesParser.ProcessDeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processName}.
-	 * @param ctx the parse tree
-	 */
-	void enterProcessName(FlowScriptProcessesParser.ProcessNameContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processName}.
-	 * @param ctx the parse tree
-	 */
-	void exitProcessName(FlowScriptProcessesParser.ProcessNameContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processBody}.
-	 * @param ctx the parse tree
-	 */
-	void enterProcessBody(FlowScriptProcessesParser.ProcessBodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processBody}.
-	 * @param ctx the parse tree
-	 */
-	void exitProcessBody(FlowScriptProcessesParser.ProcessBodyContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#processElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterProcessElement(FlowScriptProcessesParser.ProcessElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#processElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitProcessElement(FlowScriptProcessesParser.ProcessElementContext ctx);
+	void exitProcessInner(FlowScriptProcessesParser.ProcessInnerContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#startNode}.
 	 * @param ctx the parse tree
@@ -180,66 +130,6 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitStartNode(FlowScriptProcessesParser.StartNodeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#taskNode}.
-	 * @param ctx the parse tree
-	 */
-	void enterTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#taskNode}.
-	 * @param ctx the parse tree
-	 */
-	void exitTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#taskContent}.
-	 * @param ctx the parse tree
-	 */
-	void enterTaskContent(FlowScriptProcessesParser.TaskContentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#taskContent}.
-	 * @param ctx the parse tree
-	 */
-	void exitTaskContent(FlowScriptProcessesParser.TaskContentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#taskStatements}.
-	 * @param ctx the parse tree
-	 */
-	void enterTaskStatements(FlowScriptProcessesParser.TaskStatementsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#taskStatements}.
-	 * @param ctx the parse tree
-	 */
-	void exitTaskStatements(FlowScriptProcessesParser.TaskStatementsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#taskStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterTaskStatement(FlowScriptProcessesParser.TaskStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#taskStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitTaskStatement(FlowScriptProcessesParser.TaskStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gotoStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterGotoStatement(FlowScriptProcessesParser.GotoStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gotoStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitGotoStatement(FlowScriptProcessesParser.GotoStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#endNode}.
 	 * @param ctx the parse tree
 	 */
@@ -249,6 +139,16 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEndNode(FlowScriptProcessesParser.EndNodeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#taskNode}.
+	 * @param ctx the parse tree
+	 */
+	void enterTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#taskNode}.
+	 * @param ctx the parse tree
+	 */
+	void exitTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayNode}.
 	 * @param ctx the parse tree
@@ -260,105 +160,239 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitGatewayNode(FlowScriptProcessesParser.GatewayNodeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#exclusiveBranches}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#exclusiveGatewayNode}.
 	 * @param ctx the parse tree
 	 */
-	void enterExclusiveBranches(FlowScriptProcessesParser.ExclusiveBranchesContext ctx);
+	void enterExclusiveGatewayNode(FlowScriptProcessesParser.ExclusiveGatewayNodeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#exclusiveBranches}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#exclusiveGatewayNode}.
 	 * @param ctx the parse tree
 	 */
-	void exitExclusiveBranches(FlowScriptProcessesParser.ExclusiveBranchesContext ctx);
+	void exitExclusiveGatewayNode(FlowScriptProcessesParser.ExclusiveGatewayNodeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#whenBranch}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#parallelGatewayNode}.
 	 * @param ctx the parse tree
 	 */
-	void enterWhenBranch(FlowScriptProcessesParser.WhenBranchContext ctx);
+	void enterParallelGatewayNode(FlowScriptProcessesParser.ParallelGatewayNodeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#whenBranch}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#parallelGatewayNode}.
 	 * @param ctx the parse tree
 	 */
-	void exitWhenBranch(FlowScriptProcessesParser.WhenBranchContext ctx);
+	void exitParallelGatewayNode(FlowScriptProcessesParser.ParallelGatewayNodeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#elseBranch}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayWhen}.
 	 * @param ctx the parse tree
 	 */
-	void enterElseBranch(FlowScriptProcessesParser.ElseBranchContext ctx);
+	void enterGatewayWhen(FlowScriptProcessesParser.GatewayWhenContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#elseBranch}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayWhen}.
 	 * @param ctx the parse tree
 	 */
-	void exitElseBranch(FlowScriptProcessesParser.ElseBranchContext ctx);
+	void exitGatewayWhen(FlowScriptProcessesParser.GatewayWhenContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#parallelBranches}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayElse}.
 	 * @param ctx the parse tree
 	 */
-	void enterParallelBranches(FlowScriptProcessesParser.ParallelBranchesContext ctx);
+	void enterGatewayElse(FlowScriptProcessesParser.GatewayElseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#parallelBranches}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayElse}.
 	 * @param ctx the parse tree
 	 */
-	void exitParallelBranches(FlowScriptProcessesParser.ParallelBranchesContext ctx);
+	void exitGatewayElse(FlowScriptProcessesParser.GatewayElseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#branchStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayBranch}.
 	 * @param ctx the parse tree
 	 */
-	void enterBranchStatement(FlowScriptProcessesParser.BranchStatementContext ctx);
+	void enterGatewayBranch(FlowScriptProcessesParser.GatewayBranchContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#branchStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayBranch}.
 	 * @param ctx the parse tree
 	 */
-	void exitBranchStatement(FlowScriptProcessesParser.BranchStatementContext ctx);
+	void exitGatewayBranch(FlowScriptProcessesParser.GatewayBranchContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#joinStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayJoin}.
 	 * @param ctx the parse tree
 	 */
-	void enterJoinStatement(FlowScriptProcessesParser.JoinStatementContext ctx);
+	void enterGatewayJoin(FlowScriptProcessesParser.GatewayJoinContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#joinStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayJoin}.
 	 * @param ctx the parse tree
 	 */
-	void exitJoinStatement(FlowScriptProcessesParser.JoinStatementContext ctx);
+	void exitGatewayJoin(FlowScriptProcessesParser.GatewayJoinContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#nodeName}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void enterNodeName(FlowScriptProcessesParser.NodeNameContext ctx);
+	void enterBlock(FlowScriptProcessesParser.BlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#nodeName}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void exitNodeName(FlowScriptProcessesParser.NodeNameContext ctx);
+	void exitBlock(FlowScriptProcessesParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#statement}.
+	 * Enter a parse tree produced by the {@code assignStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(FlowScriptProcessesParser.StatementContext ctx);
+	void enterAssignStmt(FlowScriptProcessesParser.AssignStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#statement}.
+	 * Exit a parse tree produced by the {@code assignStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(FlowScriptProcessesParser.StatementContext ctx);
+	void exitAssignStmt(FlowScriptProcessesParser.AssignStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#assignmentStatement}.
+	 * Enter a parse tree produced by the {@code gotoStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssignmentStatement(FlowScriptProcessesParser.AssignmentStatementContext ctx);
+	void enterGotoStmt(FlowScriptProcessesParser.GotoStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#assignmentStatement}.
+	 * Exit a parse tree produced by the {@code gotoStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssignmentStatement(FlowScriptProcessesParser.AssignmentStatementContext ctx);
+	void exitGotoStmt(FlowScriptProcessesParser.GotoStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#leftHandSide}.
+	 * Enter a parse tree produced by the {@code ifStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterLeftHandSide(FlowScriptProcessesParser.LeftHandSideContext ctx);
+	void enterIfStmt(FlowScriptProcessesParser.IfStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#leftHandSide}.
+	 * Exit a parse tree produced by the {@code ifStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitLeftHandSide(FlowScriptProcessesParser.LeftHandSideContext ctx);
+	void exitIfStmt(FlowScriptProcessesParser.IfStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code whileStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStmt(FlowScriptProcessesParser.WhileStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code whileStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStmt(FlowScriptProcessesParser.WhileStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forEachStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterForEachStmt(FlowScriptProcessesParser.ForEachStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forEachStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitForEachStmt(FlowScriptProcessesParser.ForEachStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code forRangeStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterForRangeStmt(FlowScriptProcessesParser.ForRangeStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code forRangeStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitForRangeStmt(FlowScriptProcessesParser.ForRangeStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code tryCatchStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterTryCatchStmt(FlowScriptProcessesParser.TryCatchStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code tryCatchStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitTryCatchStmt(FlowScriptProcessesParser.TryCatchStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code throwStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterThrowStmt(FlowScriptProcessesParser.ThrowStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code throwStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitThrowStmt(FlowScriptProcessesParser.ThrowStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code returnStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStmt(FlowScriptProcessesParser.ReturnStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code returnStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStmt(FlowScriptProcessesParser.ReturnStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code gatewayStmtInAction}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterGatewayStmtInAction(FlowScriptProcessesParser.GatewayStmtInActionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code gatewayStmtInAction}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitGatewayStmtInAction(FlowScriptProcessesParser.GatewayStmtInActionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code blockStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockStmt(FlowScriptProcessesParser.BlockStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code blockStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockStmt(FlowScriptProcessesParser.BlockStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code exprStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprStmt(FlowScriptProcessesParser.ExprStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exprStmt}
+	 * labeled alternative in {@link FlowScriptProcessesParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprStmt(FlowScriptProcessesParser.ExprStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#lvalue}.
+	 * @param ctx the parse tree
+	 */
+	void enterLvalue(FlowScriptProcessesParser.LvalueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#lvalue}.
+	 * @param ctx the parse tree
+	 */
+	void exitLvalue(FlowScriptProcessesParser.LvalueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#goToStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterGoToStatement(FlowScriptProcessesParser.GoToStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#goToStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitGoToStatement(FlowScriptProcessesParser.GoToStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#ifStatement}.
 	 * @param ctx the parse tree
@@ -380,16 +414,6 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitWhileStatement(FlowScriptProcessesParser.WhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#forStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterForStatement(FlowScriptProcessesParser.ForStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#forStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitForStatement(FlowScriptProcessesParser.ForStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#forEachStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -410,25 +434,15 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitForRangeStatement(FlowScriptProcessesParser.ForRangeStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#tryStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterTryStatement(FlowScriptProcessesParser.TryStatementContext ctx);
+	void enterTryCatchStatement(FlowScriptProcessesParser.TryCatchStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#tryStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitTryStatement(FlowScriptProcessesParser.TryStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#catchClause}.
-	 * @param ctx the parse tree
-	 */
-	void enterCatchClause(FlowScriptProcessesParser.CatchClauseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#catchClause}.
-	 * @param ctx the parse tree
-	 */
-	void exitCatchClause(FlowScriptProcessesParser.CatchClauseContext ctx);
+	void exitTryCatchStatement(FlowScriptProcessesParser.TryCatchStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#throwStatement}.
 	 * @param ctx the parse tree
@@ -450,195 +464,199 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitReturnStatement(FlowScriptProcessesParser.ReturnStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#breakStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterBreakStatement(FlowScriptProcessesParser.BreakStatementContext ctx);
+	void enterGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#breakStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitBreakStatement(FlowScriptProcessesParser.BreakStatementContext ctx);
+	void exitGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#continueStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayStmtExclusive}.
 	 * @param ctx the parse tree
 	 */
-	void enterContinueStatement(FlowScriptProcessesParser.ContinueStatementContext ctx);
+	void enterGatewayStmtExclusive(FlowScriptProcessesParser.GatewayStmtExclusiveContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#continueStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayStmtExclusive}.
 	 * @param ctx the parse tree
 	 */
-	void exitContinueStatement(FlowScriptProcessesParser.ContinueStatementContext ctx);
+	void exitGatewayStmtExclusive(FlowScriptProcessesParser.GatewayStmtExclusiveContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#expressionStatement}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#gatewayStmtParallel}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionStatement(FlowScriptProcessesParser.ExpressionStatementContext ctx);
+	void enterGatewayStmtParallel(FlowScriptProcessesParser.GatewayStmtParallelContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#expressionStatement}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#gatewayStmtParallel}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionStatement(FlowScriptProcessesParser.ExpressionStatementContext ctx);
+	void exitGatewayStmtParallel(FlowScriptProcessesParser.GatewayStmtParallelContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#block}.
+	 * Enter a parse tree produced by the {@code eqExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(FlowScriptProcessesParser.BlockContext ctx);
+	void enterEqExpr(FlowScriptProcessesParser.EqExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#block}.
+	 * Exit a parse tree produced by the {@code eqExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(FlowScriptProcessesParser.BlockContext ctx);
+	void exitEqExpr(FlowScriptProcessesParser.EqExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#condition}.
+	 * Enter a parse tree produced by the {@code unaryMinusExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterCondition(FlowScriptProcessesParser.ConditionContext ctx);
+	void enterUnaryMinusExpr(FlowScriptProcessesParser.UnaryMinusExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#condition}.
+	 * Exit a parse tree produced by the {@code unaryMinusExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitCondition(FlowScriptProcessesParser.ConditionContext ctx);
+	void exitUnaryMinusExpr(FlowScriptProcessesParser.UnaryMinusExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#expression}.
+	 * Enter a parse tree produced by the {@code primaryExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(FlowScriptProcessesParser.ExpressionContext ctx);
+	void enterPrimaryExpr(FlowScriptProcessesParser.PrimaryExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#expression}.
+	 * Exit a parse tree produced by the {@code primaryExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(FlowScriptProcessesParser.ExpressionContext ctx);
+	void exitPrimaryExpr(FlowScriptProcessesParser.PrimaryExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#assignmentExpression}.
+	 * Enter a parse tree produced by the {@code addExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssignmentExpression(FlowScriptProcessesParser.AssignmentExpressionContext ctx);
+	void enterAddExpr(FlowScriptProcessesParser.AddExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#assignmentExpression}.
+	 * Exit a parse tree produced by the {@code addExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssignmentExpression(FlowScriptProcessesParser.AssignmentExpressionContext ctx);
+	void exitAddExpr(FlowScriptProcessesParser.AddExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#logicalOrExpression}.
+	 * Enter a parse tree produced by the {@code indexAccessExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicalOrExpression(FlowScriptProcessesParser.LogicalOrExpressionContext ctx);
+	void enterIndexAccessExpr(FlowScriptProcessesParser.IndexAccessExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#logicalOrExpression}.
+	 * Exit a parse tree produced by the {@code indexAccessExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicalOrExpression(FlowScriptProcessesParser.LogicalOrExpressionContext ctx);
+	void exitIndexAccessExpr(FlowScriptProcessesParser.IndexAccessExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#logicalAndExpression}.
+	 * Enter a parse tree produced by the {@code mulExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicalAndExpression(FlowScriptProcessesParser.LogicalAndExpressionContext ctx);
+	void enterMulExpr(FlowScriptProcessesParser.MulExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#logicalAndExpression}.
+	 * Exit a parse tree produced by the {@code mulExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicalAndExpression(FlowScriptProcessesParser.LogicalAndExpressionContext ctx);
+	void exitMulExpr(FlowScriptProcessesParser.MulExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#equalityExpression}.
+	 * Enter a parse tree produced by the {@code orExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterEqualityExpression(FlowScriptProcessesParser.EqualityExpressionContext ctx);
+	void enterOrExpr(FlowScriptProcessesParser.OrExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#equalityExpression}.
+	 * Exit a parse tree produced by the {@code orExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitEqualityExpression(FlowScriptProcessesParser.EqualityExpressionContext ctx);
+	void exitOrExpr(FlowScriptProcessesParser.OrExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#relationalExpression}.
+	 * Enter a parse tree produced by the {@code memberAccessExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterRelationalExpression(FlowScriptProcessesParser.RelationalExpressionContext ctx);
+	void enterMemberAccessExpr(FlowScriptProcessesParser.MemberAccessExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#relationalExpression}.
+	 * Exit a parse tree produced by the {@code memberAccessExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitRelationalExpression(FlowScriptProcessesParser.RelationalExpressionContext ctx);
+	void exitMemberAccessExpr(FlowScriptProcessesParser.MemberAccessExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#additiveExpression}.
+	 * Enter a parse tree produced by the {@code relExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdditiveExpression(FlowScriptProcessesParser.AdditiveExpressionContext ctx);
+	void enterRelExpr(FlowScriptProcessesParser.RelExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#additiveExpression}.
+	 * Exit a parse tree produced by the {@code relExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdditiveExpression(FlowScriptProcessesParser.AdditiveExpressionContext ctx);
+	void exitRelExpr(FlowScriptProcessesParser.RelExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#multiplicativeExpression}.
+	 * Enter a parse tree produced by the {@code callExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterMultiplicativeExpression(FlowScriptProcessesParser.MultiplicativeExpressionContext ctx);
+	void enterCallExpr(FlowScriptProcessesParser.CallExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#multiplicativeExpression}.
+	 * Exit a parse tree produced by the {@code callExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitMultiplicativeExpression(FlowScriptProcessesParser.MultiplicativeExpressionContext ctx);
+	void exitCallExpr(FlowScriptProcessesParser.CallExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#unaryExpression}.
+	 * Enter a parse tree produced by the {@code unaryNotExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryExpression(FlowScriptProcessesParser.UnaryExpressionContext ctx);
+	void enterUnaryNotExpr(FlowScriptProcessesParser.UnaryNotExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#unaryExpression}.
+	 * Exit a parse tree produced by the {@code unaryNotExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryExpression(FlowScriptProcessesParser.UnaryExpressionContext ctx);
+	void exitUnaryNotExpr(FlowScriptProcessesParser.UnaryNotExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#postfixExpression}.
+	 * Enter a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterPostfixExpression(FlowScriptProcessesParser.PostfixExpressionContext ctx);
+	void enterAndExpr(FlowScriptProcessesParser.AndExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#postfixExpression}.
+	 * Exit a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link FlowScriptProcessesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitPostfixExpression(FlowScriptProcessesParser.PostfixExpressionContext ctx);
+	void exitAndExpr(FlowScriptProcessesParser.AndExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#argumentList}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#argListOpt}.
 	 * @param ctx the parse tree
 	 */
-	void enterArgumentList(FlowScriptProcessesParser.ArgumentListContext ctx);
+	void enterArgListOpt(FlowScriptProcessesParser.ArgListOptContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#argumentList}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#argListOpt}.
 	 * @param ctx the parse tree
 	 */
-	void exitArgumentList(FlowScriptProcessesParser.ArgumentListContext ctx);
+	void exitArgListOpt(FlowScriptProcessesParser.ArgListOptContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#primaryExpression}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrimaryExpression(FlowScriptProcessesParser.PrimaryExpressionContext ctx);
+	void enterPrimary(FlowScriptProcessesParser.PrimaryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#primaryExpression}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrimaryExpression(FlowScriptProcessesParser.PrimaryExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#inputReference}.
-	 * @param ctx the parse tree
-	 */
-	void enterInputReference(FlowScriptProcessesParser.InputReferenceContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#inputReference}.
-	 * @param ctx the parse tree
-	 */
-	void exitInputReference(FlowScriptProcessesParser.InputReferenceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#literal}.
-	 * @param ctx the parse tree
-	 */
-	void enterLiteral(FlowScriptProcessesParser.LiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#literal}.
-	 * @param ctx the parse tree
-	 */
-	void exitLiteral(FlowScriptProcessesParser.LiteralContext ctx);
+	void exitPrimary(FlowScriptProcessesParser.PrimaryContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#listLiteral}.
 	 * @param ctx the parse tree
@@ -660,23 +678,23 @@ public interface FlowScriptProcessesListener extends ParseTreeListener {
 	 */
 	void exitObjectLiteral(FlowScriptProcessesParser.ObjectLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#objectProperty}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#objectPair}.
 	 * @param ctx the parse tree
 	 */
-	void enterObjectProperty(FlowScriptProcessesParser.ObjectPropertyContext ctx);
+	void enterObjectPair(FlowScriptProcessesParser.ObjectPairContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#objectProperty}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#objectPair}.
 	 * @param ctx the parse tree
 	 */
-	void exitObjectProperty(FlowScriptProcessesParser.ObjectPropertyContext ctx);
+	void exitObjectPair(FlowScriptProcessesParser.ObjectPairContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#propertyKey}.
+	 * Enter a parse tree produced by {@link FlowScriptProcessesParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterPropertyKey(FlowScriptProcessesParser.PropertyKeyContext ctx);
+	void enterLiteral(FlowScriptProcessesParser.LiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#propertyKey}.
+	 * Exit a parse tree produced by {@link FlowScriptProcessesParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitPropertyKey(FlowScriptProcessesParser.PropertyKeyContext ctx);
+	void exitLiteral(FlowScriptProcessesParser.LiteralContext ctx);
 }
