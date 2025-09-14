@@ -22,7 +22,106 @@ grammar FlowScriptProcesses;
 // LEXER RULES (TOKENS)
 // ============================
 
-// Palabras clave de estructura
+// Palabras clave
+IMPORT      : 'import';
+IMPORT_JAR  : 'import_jar';
+AS          : 'as';
+PROCESS     : 'process';
+TASK        : 'task';
+START       : 'start';
+END         : 'end';
+GATEWAY     : 'gateway';
+PARALLEL    : 'parallel';
+WHEN        : 'when';
+ELSE        : 'else';
+BRANCH      : 'branch';
+JOIN        : 'join';
+GO_TO       : 'go_to';
+FUNCTION    : 'function';
+RETURN      : 'return';
+TRY         : 'try';
+CATCH       : 'catch';
+IF          : 'if';
+ELSE_IF     : 'else_if';
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+ACTION      : 'action';
+
+// Tipos de datos (para funciones simplificadas)
+INTEGER_T   : 'integer';
+DECIMAL_T   : 'decimal';
+BOOLEAN_T   : 'boolean';
+TEXT_T      : 'text';
+LIST_T      : 'list';
+OBJECT_T    : 'object';
+VOID_T      : 'void';
+
+// Literales
+TRUE        : 'true';
+FALSE       : 'false';
+NULL        : 'null';
+
+// Operadores lógicos como palabras
+AND         : 'and';
+OR          : 'or';
+NOT         : 'not';
+
+// Símbolos y operadores
+ARROW       : '->';
+EQ          : '=';
+PLUS        : '+';
+MINUS       : '-';
+STAR        : '*';
+DIV         : '/';
+MOD         : '%';
+LE          : '<=';
+GE          : '>=';
+LT          : '<';
+GT          : '>';
+EQ2         : '==';
+NEQ         : '!=';
+DOT         : '.';
+LBRACK      : '[';
+RBRACK      : ']';
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+COMMA       : ',';
+COLON       : ':';
+
+// Cadenas de texto con escapes básicos
+STRING
+    : '"' ( '\\' . | ~["\\] )* '"'
+    ;
+
+// Números (enteros y decimales simples)
+NUMBER
+    : DIGITS ('.' DIGITS)?
+    ;
+
+fragment DIGITS
+    : [0-9]+
+    ;
+
+// Identificadores
+IDENTIFIER
+    : [a-zA-Z_] [a-zA-Z0-9_]*
+    ;
+
+// Comentarios y espacios en blanco
+LINE_COMMENT
+    : '#' ~[\r\n]* -> skip
+    ;
+
+BLOCK_COMMENT
+    : '/*' .*? '*/' -> skip
+    ;
+
+WS
+    : [ \t\r\n]+ -> skip
+    ;
 
 
 // ============================
@@ -34,7 +133,264 @@ grammar FlowScriptProcesses;
 // ============================
 
 program
-    : EOF
+    : (importStmt
+      | importJarStmt
+      | globalVarDecl
+      | functionDecl
+      | processDecl
+      )* EOF
+    ;
+
+// Imports
+importStmt
+    : IMPORT STRING (AS IDENTIFIER)?
+    ;
+
+importJarStmt
+    : IMPORT_JAR STRING AS IDENTIFIER
+    ;
+
+// Variables globales (deben tener asignación)
+globalVarDecl
+    : IDENTIFIER EQ expression
+    ;
+
+// ============================
+// FUNCIONES (SIMPLIFICADAS)
+// ============================
+
+functionDecl
+    : FUNCTION IDENTIFIER LPAREN parameterList? RPAREN returnType? LBRACE functionBody RBRACE
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON type
+    ;
+
+type
+    : INTEGER_T
+    | DECIMAL_T
+    | BOOLEAN_T
+    | TEXT_T
+    | LIST_T
+    | OBJECT_T
+    | VOID_T
+    ;
+
+returnType
+    : ARROW type
+    ;
+
+functionBody
+    : functionStatement*
+    ;
+
+functionStatement
+    : returnStmt
+    | exprStmt
+    ;
+
+returnStmt
+    : RETURN expression?
+    ;
+
+exprStmt
+    : expression
+    ;
+
+// ============================
+// PROCESOS
+// ============================
+
+processDecl
+    : PROCESS IDENTIFIER LBRACE startDecl processBody endDecl+ RBRACE
+    ;
+
+startDecl
+    : START ARROW IDENTIFIER
+    ;
+
+processBody
+    : processElement*
+    ;
+
+processElement
+    : taskDecl
+    | gatewayDecl
+    ;
+
+endDecl
+    : END IDENTIFIER
+    ;
+
+// Tareas
+taskDecl
+    : TASK IDENTIFIER LBRACE ACTION COLON statementList RBRACE
+    ;
+
+statementList
+    : statement*
+    ;
+
+statement
+    : assignment
+    | ifStatement
+    | tryCatch
+    | forEach
+    | gatewayStmt
+    | goToStmt
+    | exprStmt
+    ;
+
+assignment
+    : lvalue EQ expression
+    ;
+
+lvalue
+    : IDENTIFIER (memberAccess | indexing)*
+    ;
+
+ifStatement
+    : IF expression block (ELSE_IF expression block)* (ELSE block)?
+    ;
+
+block
+    : LBRACE statementList RBRACE
+    ;
+
+tryCatch
+    : TRY block CATCH LPAREN IDENTIFIER RPAREN block
+    ;
+
+forEach
+    : FOR EACH IDENTIFIER IN expression block
+    ;
+
+goToStmt
+    : GO_TO IDENTIFIER
+    ;
+
+// Gateways dentro de tareas
+gatewayStmt
+    : GATEWAY IDENTIFIER LBRACE whenClause+ elseClause RBRACE                #exclusiveGatewayStmt
+    | GATEWAY IDENTIFIER PARALLEL LBRACE parallelBranch+ parallelJoin RBRACE #parallelGatewayStmt
+    ;
+
+// Gateways como nodos del proceso
+gatewayDecl
+    : GATEWAY IDENTIFIER LBRACE whenClause+ elseClause RBRACE                #exclusiveGatewayDecl
+    | GATEWAY IDENTIFIER PARALLEL LBRACE parallelBranch+ parallelJoin RBRACE #parallelGatewayDecl
+    ;
+
+whenClause
+    : WHEN expression ARROW IDENTIFIER
+    ;
+
+elseClause
+    : ELSE ARROW IDENTIFIER
+    ;
+
+parallelBranch
+    : BRANCH ARROW IDENTIFIER
+    ;
+
+parallelJoin
+    : JOIN ARROW IDENTIFIER
+    ;
+
+// ============================
+// EXPRESIONES
+// ============================
+
+expression
+    : orExpr
+    ;
+
+orExpr
+    : andExpr (OR andExpr)*
+    ;
+
+andExpr
+    : equalityExpr (AND equalityExpr)*
+    ;
+
+equalityExpr
+    : relationalExpr ((EQ2 | NEQ) relationalExpr)*
+    ;
+
+relationalExpr
+    : additiveExpr ((LT | GT | LE | GE) additiveExpr)*
+    ;
+
+additiveExpr
+    : multiplicativeExpr ((PLUS | MINUS) multiplicativeExpr)*
+    ;
+
+multiplicativeExpr
+    : unaryExpr ((STAR | DIV | MOD) unaryExpr)*
+    ;
+
+unaryExpr
+    : (NOT | MINUS) unaryExpr
+    | postfixExpr
+    ;
+
+postfixExpr
+    : primary (postfix)*
+    ;
+
+postfix
+    : functionCall
+    | memberAccess
+    | indexing
+    ;
+
+functionCall
+    : LPAREN argumentList? RPAREN
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+memberAccess
+    : DOT IDENTIFIER
+    ;
+
+indexing
+    : LBRACK expression RBRACK
+    ;
+
+primary
+    : literal
+    | IDENTIFIER
+    | LPAREN expression RPAREN
+    ;
+
+literal
+    : NUMBER
+    | STRING
+    | TRUE
+    | FALSE
+    | NULL
+    | listLiteral
+    | objectLiteral
+    ;
+
+listLiteral
+    : LBRACK (expression (COMMA expression)*)? RBRACK
+    ;
+
+objectLiteral
+    : LBRACE (objectPair (COMMA objectPair)*)? RBRACE
+    ;
+
+objectPair
+    : IDENTIFIER COLON expression
     ;
 
 

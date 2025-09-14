@@ -37,6 +37,7 @@ bin/
 
 ### VS Code ###
 .vscode/
+.target/
 
 ### Mac OS ###
 .DS_Store
@@ -46,4 +47,5 @@ logs/
 *.log
 *.flow~
 *.flow.bak
-.flowscript-project~
+.flowscript-project~target/
+.idea/workspace.xml
