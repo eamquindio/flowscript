@@ -31,373 +31,217 @@ public class FlowScriptProcessesBaseListener implements FlowScriptProcessesListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImportStatement(FlowScriptProcessesParser.ImportStatementContext ctx) { }
+	@Override public void enterImportStmt(FlowScriptProcessesParser.ImportStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitImportStatement(FlowScriptProcessesParser.ImportStatementContext ctx) { }
+	@Override public void exitImportStmt(FlowScriptProcessesParser.ImportStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImportFlowScript(FlowScriptProcessesParser.ImportFlowScriptContext ctx) { }
+	@Override public void enterImportJarStmt(FlowScriptProcessesParser.ImportJarStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitImportFlowScript(FlowScriptProcessesParser.ImportFlowScriptContext ctx) { }
+	@Override public void exitImportJarStmt(FlowScriptProcessesParser.ImportJarStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImportJar(FlowScriptProcessesParser.ImportJarContext ctx) { }
+	@Override public void enterGlobalVar(FlowScriptProcessesParser.GlobalVarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitImportJar(FlowScriptProcessesParser.ImportJarContext ctx) { }
+	@Override public void exitGlobalVar(FlowScriptProcessesParser.GlobalVarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTopLevelDeclaration(FlowScriptProcessesParser.TopLevelDeclarationContext ctx) { }
+	@Override public void enterFunctionDecl(FlowScriptProcessesParser.FunctionDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTopLevelDeclaration(FlowScriptProcessesParser.TopLevelDeclarationContext ctx) { }
+	@Override public void exitFunctionDecl(FlowScriptProcessesParser.FunctionDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGlobalVariable(FlowScriptProcessesParser.GlobalVariableContext ctx) { }
+	@Override public void enterParams(FlowScriptProcessesParser.ParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGlobalVariable(FlowScriptProcessesParser.GlobalVariableContext ctx) { }
+	@Override public void exitParams(FlowScriptProcessesParser.ParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionDeclaration(FlowScriptProcessesParser.FunctionDeclarationContext ctx) { }
+	@Override public void enterParam(FlowScriptProcessesParser.ParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionDeclaration(FlowScriptProcessesParser.FunctionDeclarationContext ctx) { }
+	@Override public void exitParam(FlowScriptProcessesParser.ParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterList(FlowScriptProcessesParser.ParameterListContext ctx) { }
+	@Override public void enterType(FlowScriptProcessesParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterList(FlowScriptProcessesParser.ParameterListContext ctx) { }
+	@Override public void exitType(FlowScriptProcessesParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameter(FlowScriptProcessesParser.ParameterContext ctx) { }
+	@Override public void enterProcessDecl(FlowScriptProcessesParser.ProcessDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameter(FlowScriptProcessesParser.ParameterContext ctx) { }
+	@Override public void exitProcessDecl(FlowScriptProcessesParser.ProcessDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnType(FlowScriptProcessesParser.ReturnTypeContext ctx) { }
+	@Override public void enterProcessElementNoStartNoEnd(FlowScriptProcessesParser.ProcessElementNoStartNoEndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnType(FlowScriptProcessesParser.ReturnTypeContext ctx) { }
+	@Override public void exitProcessElementNoStartNoEnd(FlowScriptProcessesParser.ProcessElementNoStartNoEndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDataType(FlowScriptProcessesParser.DataTypeContext ctx) { }
+	@Override public void enterStartDecl(FlowScriptProcessesParser.StartDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDataType(FlowScriptProcessesParser.DataTypeContext ctx) { }
+	@Override public void exitStartDecl(FlowScriptProcessesParser.StartDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionBody(FlowScriptProcessesParser.FunctionBodyContext ctx) { }
+	@Override public void enterEndDecl(FlowScriptProcessesParser.EndDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionBody(FlowScriptProcessesParser.FunctionBodyContext ctx) { }
+	@Override public void exitEndDecl(FlowScriptProcessesParser.EndDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessDeclaration(FlowScriptProcessesParser.ProcessDeclarationContext ctx) { }
+	@Override public void enterTaskDecl(FlowScriptProcessesParser.TaskDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessDeclaration(FlowScriptProcessesParser.ProcessDeclarationContext ctx) { }
+	@Override public void exitTaskDecl(FlowScriptProcessesParser.TaskDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessName(FlowScriptProcessesParser.ProcessNameContext ctx) { }
+	@Override public void enterActionDecl(FlowScriptProcessesParser.ActionDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessName(FlowScriptProcessesParser.ProcessNameContext ctx) { }
+	@Override public void exitActionDecl(FlowScriptProcessesParser.ActionDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessBody(FlowScriptProcessesParser.ProcessBodyContext ctx) { }
+	@Override public void enterGatewayDecl(FlowScriptProcessesParser.GatewayDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessBody(FlowScriptProcessesParser.ProcessBodyContext ctx) { }
+	@Override public void exitGatewayDecl(FlowScriptProcessesParser.GatewayDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessElement(FlowScriptProcessesParser.ProcessElementContext ctx) { }
+	@Override public void enterBranchDecl(FlowScriptProcessesParser.BranchDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessElement(FlowScriptProcessesParser.ProcessElementContext ctx) { }
+	@Override public void exitBranchDecl(FlowScriptProcessesParser.BranchDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStartNode(FlowScriptProcessesParser.StartNodeContext ctx) { }
+	@Override public void enterJoinDecl(FlowScriptProcessesParser.JoinDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStartNode(FlowScriptProcessesParser.StartNodeContext ctx) { }
+	@Override public void exitJoinDecl(FlowScriptProcessesParser.JoinDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx) { }
+	@Override public void enterWhenClause(FlowScriptProcessesParser.WhenClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTaskNode(FlowScriptProcessesParser.TaskNodeContext ctx) { }
+	@Override public void exitWhenClause(FlowScriptProcessesParser.WhenClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTaskContent(FlowScriptProcessesParser.TaskContentContext ctx) { }
+	@Override public void enterElseClause(FlowScriptProcessesParser.ElseClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTaskContent(FlowScriptProcessesParser.TaskContentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTaskStatements(FlowScriptProcessesParser.TaskStatementsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTaskStatements(FlowScriptProcessesParser.TaskStatementsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTaskStatement(FlowScriptProcessesParser.TaskStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTaskStatement(FlowScriptProcessesParser.TaskStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterGotoStatement(FlowScriptProcessesParser.GotoStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGotoStatement(FlowScriptProcessesParser.GotoStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGatewayStatement(FlowScriptProcessesParser.GatewayStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEndNode(FlowScriptProcessesParser.EndNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEndNode(FlowScriptProcessesParser.EndNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterGatewayNode(FlowScriptProcessesParser.GatewayNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGatewayNode(FlowScriptProcessesParser.GatewayNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExclusiveBranches(FlowScriptProcessesParser.ExclusiveBranchesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExclusiveBranches(FlowScriptProcessesParser.ExclusiveBranchesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWhenBranch(FlowScriptProcessesParser.WhenBranchContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhenBranch(FlowScriptProcessesParser.WhenBranchContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseBranch(FlowScriptProcessesParser.ElseBranchContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseBranch(FlowScriptProcessesParser.ElseBranchContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParallelBranches(FlowScriptProcessesParser.ParallelBranchesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParallelBranches(FlowScriptProcessesParser.ParallelBranchesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBranchStatement(FlowScriptProcessesParser.BranchStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBranchStatement(FlowScriptProcessesParser.BranchStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterJoinStatement(FlowScriptProcessesParser.JoinStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitJoinStatement(FlowScriptProcessesParser.JoinStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNodeName(FlowScriptProcessesParser.NodeNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNodeName(FlowScriptProcessesParser.NodeNameContext ctx) { }
+	@Override public void exitElseClause(FlowScriptProcessesParser.ElseClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -415,193 +259,85 @@ public class FlowScriptProcessesBaseListener implements FlowScriptProcessesListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignmentStatement(FlowScriptProcessesParser.AssignmentStatementContext ctx) { }
+	@Override public void enterAssignment(FlowScriptProcessesParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignmentStatement(FlowScriptProcessesParser.AssignmentStatementContext ctx) { }
+	@Override public void exitAssignment(FlowScriptProcessesParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLeftHandSide(FlowScriptProcessesParser.LeftHandSideContext ctx) { }
+	@Override public void enterGoToStmt(FlowScriptProcessesParser.GoToStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLeftHandSide(FlowScriptProcessesParser.LeftHandSideContext ctx) { }
+	@Override public void exitGoToStmt(FlowScriptProcessesParser.GoToStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatement(FlowScriptProcessesParser.IfStatementContext ctx) { }
+	@Override public void enterIfStmt(FlowScriptProcessesParser.IfStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatement(FlowScriptProcessesParser.IfStatementContext ctx) { }
+	@Override public void exitIfStmt(FlowScriptProcessesParser.IfStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhileStatement(FlowScriptProcessesParser.WhileStatementContext ctx) { }
+	@Override public void enterForStmt(FlowScriptProcessesParser.ForStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhileStatement(FlowScriptProcessesParser.WhileStatementContext ctx) { }
+	@Override public void exitForStmt(FlowScriptProcessesParser.ForStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForStatement(FlowScriptProcessesParser.ForStatementContext ctx) { }
+	@Override public void enterTryCatchStmt(FlowScriptProcessesParser.TryCatchStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForStatement(FlowScriptProcessesParser.ForStatementContext ctx) { }
+	@Override public void exitTryCatchStmt(FlowScriptProcessesParser.TryCatchStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForEachStatement(FlowScriptProcessesParser.ForEachStatementContext ctx) { }
+	@Override public void enterGatewayStmt(FlowScriptProcessesParser.GatewayStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForEachStatement(FlowScriptProcessesParser.ForEachStatementContext ctx) { }
+	@Override public void exitGatewayStmt(FlowScriptProcessesParser.GatewayStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForRangeStatement(FlowScriptProcessesParser.ForRangeStatementContext ctx) { }
+	@Override public void enterExprStmt(FlowScriptProcessesParser.ExprStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForRangeStatement(FlowScriptProcessesParser.ForRangeStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTryStatement(FlowScriptProcessesParser.TryStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTryStatement(FlowScriptProcessesParser.TryStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCatchClause(FlowScriptProcessesParser.CatchClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCatchClause(FlowScriptProcessesParser.CatchClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterThrowStatement(FlowScriptProcessesParser.ThrowStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitThrowStatement(FlowScriptProcessesParser.ThrowStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterReturnStatement(FlowScriptProcessesParser.ReturnStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitReturnStatement(FlowScriptProcessesParser.ReturnStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBreakStatement(FlowScriptProcessesParser.BreakStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBreakStatement(FlowScriptProcessesParser.BreakStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterContinueStatement(FlowScriptProcessesParser.ContinueStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitContinueStatement(FlowScriptProcessesParser.ContinueStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpressionStatement(FlowScriptProcessesParser.ExpressionStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionStatement(FlowScriptProcessesParser.ExpressionStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlock(FlowScriptProcessesParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlock(FlowScriptProcessesParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCondition(FlowScriptProcessesParser.ConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCondition(FlowScriptProcessesParser.ConditionContext ctx) { }
+	@Override public void exitExprStmt(FlowScriptProcessesParser.ExprStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -619,145 +355,37 @@ public class FlowScriptProcessesBaseListener implements FlowScriptProcessesListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignmentExpression(FlowScriptProcessesParser.AssignmentExpressionContext ctx) { }
+	@Override public void enterPrimary(FlowScriptProcessesParser.PrimaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignmentExpression(FlowScriptProcessesParser.AssignmentExpressionContext ctx) { }
+	@Override public void exitPrimary(FlowScriptProcessesParser.PrimaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOrExpression(FlowScriptProcessesParser.LogicalOrExpressionContext ctx) { }
+	@Override public void enterMemberAccessExpr(FlowScriptProcessesParser.MemberAccessExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalOrExpression(FlowScriptProcessesParser.LogicalOrExpressionContext ctx) { }
+	@Override public void exitMemberAccessExpr(FlowScriptProcessesParser.MemberAccessExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalAndExpression(FlowScriptProcessesParser.LogicalAndExpressionContext ctx) { }
+	@Override public void enterArgs(FlowScriptProcessesParser.ArgsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalAndExpression(FlowScriptProcessesParser.LogicalAndExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEqualityExpression(FlowScriptProcessesParser.EqualityExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEqualityExpression(FlowScriptProcessesParser.EqualityExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRelationalExpression(FlowScriptProcessesParser.RelationalExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRelationalExpression(FlowScriptProcessesParser.RelationalExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAdditiveExpression(FlowScriptProcessesParser.AdditiveExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAdditiveExpression(FlowScriptProcessesParser.AdditiveExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMultiplicativeExpression(FlowScriptProcessesParser.MultiplicativeExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMultiplicativeExpression(FlowScriptProcessesParser.MultiplicativeExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUnaryExpression(FlowScriptProcessesParser.UnaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUnaryExpression(FlowScriptProcessesParser.UnaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPostfixExpression(FlowScriptProcessesParser.PostfixExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPostfixExpression(FlowScriptProcessesParser.PostfixExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArgumentList(FlowScriptProcessesParser.ArgumentListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArgumentList(FlowScriptProcessesParser.ArgumentListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryExpression(FlowScriptProcessesParser.PrimaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryExpression(FlowScriptProcessesParser.PrimaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInputReference(FlowScriptProcessesParser.InputReferenceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInputReference(FlowScriptProcessesParser.InputReferenceContext ctx) { }
+	@Override public void exitArgs(FlowScriptProcessesParser.ArgsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -799,25 +427,25 @@ public class FlowScriptProcessesBaseListener implements FlowScriptProcessesListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterObjectProperty(FlowScriptProcessesParser.ObjectPropertyContext ctx) { }
+	@Override public void enterPair(FlowScriptProcessesParser.PairContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitObjectProperty(FlowScriptProcessesParser.ObjectPropertyContext ctx) { }
+	@Override public void exitPair(FlowScriptProcessesParser.PairContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPropertyKey(FlowScriptProcessesParser.PropertyKeyContext ctx) { }
+	@Override public void enterBlock(FlowScriptProcessesParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPropertyKey(FlowScriptProcessesParser.PropertyKeyContext ctx) { }
+	@Override public void exitBlock(FlowScriptProcessesParser.BlockContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
