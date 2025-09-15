@@ -5,97 +5,239 @@ grammar FlowScriptFunctions;
     package edu.eam.ingesoft.tlf;
 }
 
-/*
- * GRAMÁTICA DE FUNCIONES PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de funciones
- * del lenguaje FlowScript, incluyendo:
- * - Declaración de funciones
- * - Parámetros tipados
- * - Tipos de retorno
- * - Cuerpo de funciones con statements
- * - Expresiones y operadores
- * - Control de flujo dentro de funciones
- */
-
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
-
-// Palabras clave para funciones
-
-// ============================
-// DECLARACIÓN DE FUNCIONES
-// ============================
-
-functionDeclaration
-    : EOF
+functionProgram
+    : declaracionFuncion* EOF
     ;
-// ============================
-// EJEMPLOS DE USO
-// ============================
 
-/*
- * EJEMPLOS VÁLIDOS:
- * 
- * 1. Función simple:
- * function greet() -> void {
- *     print("Hello World")
- * }
- * 
- * 2. Función con parámetros y retorno:
- * function add(a: integer, b: integer) -> integer {
- *     return a + b
- * }
- * 
- * 3. Función con lógica compleja:
- * function factorial(n: integer) -> integer {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- * 
- * 4. Función con manejo de errores:
- * function safe_divide(a: decimal, b: decimal) -> decimal {
- *     try {
- *         if b == 0 {
- *             throw { type: "DivisionError", message: "Division by zero" }
- *         }
- *         return a / b
- *     } catch (error) {
- *         print("Error: " + error.message)
- *         return 0.0
- *     }
- * }
- * 
- * 5. Función con estructuras de datos:
- * function process_items(items: list, threshold: decimal) -> object {
- *     result = { count: 0, sum: 0.0 }
- *     
- *     for each item in items {
- *         if item.value > threshold {
- *             result.count = result.count + 1
- *             result.sum = result.sum + item.value
- *         }
- *     }
- *     
- *     return result
- * }
- * 
- * 6. Función con bucles:
- * function find_max(numbers: list) -> decimal {
- *     if numbers.length() == 0 {
- *         return null
- *     }
- *     
- *     max = numbers[0]
- *     for i from 1 to numbers.length() - 1 {
- *         if numbers[i] > max {
- *             max = numbers[i]
- *         }
- *     }
- *     
- *     return max
- * }
- */
+declaracionFuncion
+    : FUNCTION IDENTIFICADOR LPAREN listaParametros? RPAREN (ARROW tipo)? LBRACE estado* RBRACE
+    ;
+
+listaParametros
+    : parametro (COMMA parametro)*
+    ;
+parametro
+    : IDENTIFICADOR COLON tipo
+    ;
+
+tipo
+    : INTEGER
+    | DECIMAL
+    | BOOLEAN
+    | TEXT
+    | LIST
+    | OBJECT
+    | VOID
+    ;
+
+estado
+    : ( asignacion
+      | estadoSi
+      | estadoMientras
+      | estadoParaCada
+      | estadoParaRango
+      | estadoIntentarCapturar
+      | estadoRetornar
+      | estadoRomper
+      | estadoContinuar
+      | estadoLanzar
+      | expresion
+      ) SEMICOLON?   // ';' opcional
+    ;
+
+asignacion
+    : IDENTIFICADOR ASSIGN expresion
+    ;
+
+estadoSi
+    : IF expresion LBRACE estado* RBRACE (ELSE_IF expresion LBRACE estado* RBRACE)* (ELSE LBRACE estado* RBRACE)?
+    ;
+
+estadoMientras
+    : WHILE expresion LBRACE estado* RBRACE
+    ;
+
+estadoParaCada
+    : FOR EACH IDENTIFICADOR IN expresion LBRACE estado* RBRACE
+    ;
+
+estadoParaRango
+    : FOR IDENTIFICADOR FROM expresion TO expresion (STEP expresion)? LBRACE estado* RBRACE
+    ;
+
+estadoIntentarCapturar
+    : TRY LBRACE estado* RBRACE (CATCH LPAREN IDENTIFICADOR RPAREN LBRACE estado* RBRACE)+
+    ;
+
+estadoRetornar
+    : RETURN expresion?
+    ;
+
+estadoRomper
+    : BREAK
+    ;
+estadoContinuar
+    : CONTINUE
+    ;
+
+estadoLanzar
+    : THROW expresion
+    ;
+
+expresion
+    : expresionAsignacion
+    ;
+
+expresionAsignacion
+    : expresionOLogica (ASSIGN expresionAsignacion)?
+    ;
+
+expresionOLogica
+    : expresionYLogica (OR_OP expresionYLogica)*
+    ;
+
+expresionYLogica
+    : expresionIgualdad (AND_OP expresionIgualdad)*
+    ;
+
+expresionIgualdad
+    : expresionRelacional ((EQ | NE) expresionRelacional)*
+    ;
+
+expresionRelacional
+    : expresionAditiva ((LT | GT | LE | GE) expresionAditiva)*
+    ;
+
+expresionAditiva
+    : expresionMultiplicativa ((PLUS | MINUS) expresionMultiplicativa)*
+    ;
+
+expresionMultiplicativa
+    : expresionUnaria ((MULT | DIV | MOD) expresionUnaria)*
+    ;
+
+expresionUnaria
+    : (MINUS | NOT) expresionUnaria
+    | expresionPostfija
+    ;
+
+expresionPostfija
+    : expresionPrimaria accesoPostfijo*
+    ;
+
+accesoPostfijo
+    : DOT IDENTIFICADOR
+    | LBRACKET expresion RBRACKET
+    | LPAREN (expresion (COMMA expresion)*)? RPAREN
+    ;
+
+expresionPrimaria
+    : literal
+    | IDENTIFICADOR
+    | LPAREN expresion RPAREN
+    | literalLista
+    | literalObjeto
+    ;
+
+literalLista
+    : LBRACKET (expresion (COMMA expresion)*)? RBRACKET
+    ;
+
+literalObjeto
+    : LBRACE (propiedad (COMMA propiedad)*)? RBRACE
+    ;
+propiedad
+    : IDENTIFICADOR COLON expresion
+    ;
+
+literal
+    : LITERAL_ENTERO
+    | LITERAL_DECIMAL
+    | LITERAL_BOOLEANO
+    | LITERAL_TEXTO
+    | NULL
+    ;
+
+LITERAL_ENTERO
+    : [0-9]+ ('_' [0-9]+)*
+    ;
+LITERAL_DECIMAL
+    : [0-9]+ '.' [0-9]+ (('e' | 'E') ('+' | '-')? [0-9]+)?
+    ;
+LITERAL_BOOLEANO
+    : 'true' | 'false'
+    ;
+LITERAL_TEXTO
+    : '"' (~["\\\r\n] | '\\' [nrt"\\])* '"'
+    ;
+
+FUNCTION : 'function';
+IF       : 'if';
+ELSE_IF  : 'else_if';
+ELSE     : 'else';
+WHILE    : 'while';
+FOR      : 'for';
+EACH     : 'each';
+IN       : 'in';
+FROM     : 'from';
+TO       : 'to';
+STEP     : 'step';
+TRY      : 'try';
+CATCH    : 'catch';
+RETURN   : 'return';
+BREAK    : 'break';
+CONTINUE : 'continue';
+THROW    : 'throw';
+
+OR_OP    : 'or';
+AND_OP   : 'and';
+NOT      : 'not';
+NULL     : 'null';
+
+INTEGER  : 'integer';
+DECIMAL  : 'decimal';
+BOOLEAN  : 'boolean';
+TEXT     : 'text';
+LIST     : 'list';
+OBJECT   : 'object';
+VOID     : 'void';
+
+EQ       : '==';
+NE       : '!=';
+LE       : '<=';
+GE       : '>=';
+LT       : '<';
+GT       : '>';
+ASSIGN   : '=';
+PLUS     : '+';
+MINUS    : '-';
+MULT     : '*';
+DIV      : '/';
+MOD      : '%';
+LPAREN   : '(';
+RPAREN   : ')';
+LBRACE   : '{';
+RBRACE   : '}';
+LBRACKET : '[';
+RBRACKET : ']';
+DOT      : '.';
+COMMA    : ',';
+COLON    : ':';
+SEMICOLON: ';';
+ARROW    : '->';
+
+IDENTIFICADOR
+    : [a-zA-Z_] [a-zA-Z0-9_]*
+    ;
+
+WS
+    : [ \t\r\n]+ -> skip
+    ;
+
+COMENTARIO_LINEA
+    : '#' ~[\r\n]* -> skip
+    ;
+
+COMENTARIO_BLOQUE
+    : '/*' .*? '*/' -> skip
+    ;
