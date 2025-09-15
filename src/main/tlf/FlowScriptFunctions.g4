@@ -1,14 +1,12 @@
 grammar FlowScriptFunctions;
 
-// ===================================================================
-// Package for generated classes (requerido por los tests en Java)
-// ===================================================================
+
 @header {
 package edu.eam.ingesoft.tlf;
 }
 
 // ===================================================================
-// Parser Rules
+// Steven Cardona Pérez
 // ===================================================================
 
 functionProgram
@@ -111,7 +109,6 @@ returnStatement
     : RETURN expression?
     ;
 
-// ✅ Soporte para múltiples catch y finally opcional
 tryCatchStatement
     : TRY block catchClause+ (FINALLY block)?
     ;
@@ -232,7 +229,7 @@ objectPair
 // Lexer Rules
 // ===================================================================
 
-// Palabras clave (solo funciones/control; SIN keywords de procesos)
+// Palabras clave
 FUNCTION    : 'function';
 RETURN      : 'return';
 IF          : 'if';
