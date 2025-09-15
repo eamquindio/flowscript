@@ -1,101 +1,155 @@
 grammar FlowScriptFunctions;
 
-// Package declaration for generated code
 @header {
     package edu.eam.ingesoft.tlf;
 }
 
-/*
- * GRAMÁTICA DE FUNCIONES PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de funciones
- * del lenguaje FlowScript, incluyendo:
- * - Declaración de funciones
- * - Parámetros tipados
- * - Tipos de retorno
- * - Cuerpo de funciones con statements
- * - Expresiones y operadores
- * - Control de flujo dentro de funciones
- */
+// ---------------------- REGLA INICIAL ----------------------
+functionProgram: functionDecl* EOF;
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
+// ---------------------- DECLARACIÓN DE FUNCIONES ----------------------
+functionDecl:
+	FUNCTION ID '(' listaParametro? ')' ('->' tipo)? bloque;
 
-// Palabras clave para funciones
+listaParametro: parametro (',' parametro)*;
 
-// ============================
-// DECLARACIÓN DE FUNCIONES
-// ============================
+parametro: ID ':' tipo;
 
-functionDeclaration
-    : EOF
-    ;
-// ============================
-// EJEMPLOS DE USO
-// ============================
+tipo:
+	'integer'
+	| 'decimal'
+	| 'boolean'
+	| 'text'
+	| 'list'
+	| 'object'
+	| 'void';
 
-/*
- * EJEMPLOS VÁLIDOS:
- * 
- * 1. Función simple:
- * function greet() -> void {
- *     print("Hello World")
- * }
- * 
- * 2. Función con parámetros y retorno:
- * function add(a: integer, b: integer) -> integer {
- *     return a + b
- * }
- * 
- * 3. Función con lógica compleja:
- * function factorial(n: integer) -> integer {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- * 
- * 4. Función con manejo de errores:
- * function safe_divide(a: decimal, b: decimal) -> decimal {
- *     try {
- *         if b == 0 {
- *             throw { type: "DivisionError", message: "Division by zero" }
- *         }
- *         return a / b
- *     } catch (error) {
- *         print("Error: " + error.message)
- *         return 0.0
- *     }
- * }
- * 
- * 5. Función con estructuras de datos:
- * function process_items(items: list, threshold: decimal) -> object {
- *     result = { count: 0, sum: 0.0 }
- *     
- *     for each item in items {
- *         if item.value > threshold {
- *             result.count = result.count + 1
- *             result.sum = result.sum + item.value
- *         }
- *     }
- *     
- *     return result
- * }
- * 
- * 6. Función con bucles:
- * function find_max(numbers: list) -> decimal {
- *     if numbers.length() == 0 {
- *         return null
- *     }
- *     
- *     max = numbers[0]
- *     for i from 1 to numbers.length() - 1 {
- *         if numbers[i] > max {
- *             max = numbers[i]
- *         }
- *     }
- *     
- *     return max
- * }
- */
+// ---------------------- BLOQUES Y SENTENCIAS ----------------------
+bloque: '{' instrucciones* '}';
+
+instrucciones:
+	instruccionIf
+	| instruccionWhile
+	| instruccionFor
+	| tryCatchStmt
+	| instruccionBreak
+	| instruccionContinue
+	| instruccionReturn
+	| instruccionThrow
+	| instruccionExpr;
+
+instruccionIf:
+	IF '('? expresion ')'? bloque (
+		ELSE IF '('? expresion ')'? bloque
+	)* (ELSE bloque)?;
+
+instruccionWhile: WHILE '('? expresion ')'? bloque;
+
+instruccionFor: instruccionForEach | instruccionForRange;
+
+instruccionForEach: FOR EACH ID IN expresion bloque;
+
+instruccionForRange:
+	FOR ID FROM expresion TO expresion (STEP expresion)? bloque;
+
+tryCatchStmt: TRY bloque (CATCH '(' ID (':' tipo)? ')' bloque)+;
+
+instruccionBreak: BREAK;
+
+instruccionContinue: CONTINUE;
+
+instruccionReturn: RETURN expresion?;
+
+instruccionThrow: THROW expresion;
+
+instruccionExpr:
+	expresion ';'?; // Permite que las expresiones terminen con punto y coma (o no)
+
+// ---------------------- EXPRESIONES Y PRECEDENCIA ----------------------
+expresion: expr;
+
+expr: exprOr (('=' | '+=' | '-=' | '*=' | '/=') expr)?;
+
+exprOr: exprAnd (OR exprAnd)*;
+
+exprAnd: exprEquality (AND exprEquality)*;
+
+exprEquality: exprRelational (('==' | '!=') exprRelational)*;
+
+exprRelational: exprAdd (('<' | '<=' | '>' | '>=') exprAdd)*;
+
+exprAdd: exprMul (('+' | '-') exprMul)*;
+
+exprMul: exprUnary (('*' | '/' | '%') exprUnary)*;
+
+exprUnary: (NOT | '-' | '+') exprUnary | exprPostFix;
+
+exprPostFix: exprPrimary (postfixOp)*;
+
+postfixOp: '(' argList? ')' | '.' ID | '[' expr ']';
+
+argList: expr (',' expr)*;
+
+exprPrimary: literal | ID | '(' expr ')';
+
+// ---------------------- LITERALES ----------------------
+literal:
+	INT
+	| DECIMAL
+	| STRING
+	| 'true'
+	| 'false'
+	| 'null'
+	| listLiteral
+	| objectLiteral;
+
+listLiteral: '[' (expr (',' expr)*)? ']';
+
+objectLiteral: '{' (pair (',' pair)*)? '}';
+
+pair: (STRING | ID) ':' expr;
+
+// ---------------------- TOKENS ----------------------
+IF: 'if';
+ELSE: 'else';
+WHILE: 'while';
+FOR: 'for';
+IN: 'in';
+TRY: 'try';
+CATCH: 'catch';
+RETURN: 'return';
+THROW: 'throw';
+BREAK: 'break';
+CONTINUE: 'continue';
+FUNCTION: 'function';
+
+// Nuevos tokens para el léxico
+EACH: 'each';
+FROM: 'from';
+TO: 'to';
+STEP: 'step';
+AND: 'and';
+OR: 'or';
+NOT: 'not';
+
+ID: [a-zA-Z_][a-zA-Z0-9_]*;
+
+INT: [0-9][0-9_]*;
+
+DECIMAL:
+	[0-9]+ '.' [0-9]* ([eE] [+-]? [0-9]+)?
+	| '.' [0-9]+ ([eE] [+-]? [0-9]+)?;
+
+STRING: '"' (ESC | ~["\\])* '"';
+
+fragment ESC: '\\' ([btnfr"'\\] | 'u' HEX HEX HEX HEX);
+
+fragment HEX: [0-9a-fA-F];
+
+WS: [ \t\r\n]+ -> skip;
+
+COMMENT_LINE: '//' ~[\r\n]* -> skip;
+
+COMMENT_BLOCK: '/*' .*? '*/' -> skip;
+
+COMMENT_POUND: '#' ~[\r\n]* -> skip;
