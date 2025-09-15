@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="520" viewBox="0 0 360 520">
+<style> .box{fill:#fff;stroke:#000;stroke-width:1.2;} .txt{font-family:monospace;font-size:12px;dominant-baseline:middle;text-anchor:middle;} .line{stroke:#000;stroke-width:1.2;fill:none;} </style>
+<line class="line" x1="10" y1="30" x2="40" y2="30"/>
+<path d="M 40,30 L 34.80384757729337,33.0 M 40,30 L 34.80384757729337,27.0" class="line"/>
+<rect class="box" x="40" y="20" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="32.0">expression</text>
+<line class="line" x1="150" y1="44" x2="150" y2="54"/>
+<path d="M 150,54 L 147.0,48.80384757729337 M 150,54 L 153.0,48.80384757729337" class="line"/>
+<rect class="box" x="40" y="64" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="76.0">orExpression</text>
+<line class="line" x1="150" y1="88" x2="150" y2="98"/>
+<path d="M 150,98 L 147.0,92.80384757729337 M 150,98 L 153.0,92.80384757729337" class="line"/>
+<rect class="box" x="40" y="108" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="120.0">andExpression</text>
+<line class="line" x1="150" y1="132" x2="150" y2="142"/>
+<path d="M 150,142 L 147.0,136.80384757729337 M 150,142 L 153.0,136.80384757729337" class="line"/>
+<rect class="box" x="40" y="152" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="164.0">equalityExpression</text>
+<line class="line" x1="150" y1="176" x2="150" y2="186"/>
+<path d="M 150,186 L 147.0,180.80384757729337 M 150,186 L 153.0,180.80384757729337" class="line"/>
+<rect class="box" x="40" y="196" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="208.0">relationalExpression</text>
+<line class="line" x1="150" y1="220" x2="150" y2="230"/>
+<path d="M 150,230 L 147.0,224.80384757729337 M 150,230 L 153.0,224.80384757729337" class="line"/>
+<rect class="box" x="40" y="240" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="252.0">additiveExpression</text>
+<line class="line" x1="150" y1="264" x2="150" y2="274"/>
+<path d="M 150,274 L 147.0,268.80384757729337 M 150,274 L 153.0,268.80384757729337" class="line"/>
+<rect class="box" x="40" y="284" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="296.0">multiplicativeExpression</text>
+<line class="line" x1="150" y1="308" x2="150" y2="318"/>
+<path d="M 150,318 L 147.0,312.80384757729337 M 150,318 L 153.0,312.80384757729337" class="line"/>
+<rect class="box" x="40" y="328" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="340.0">unaryExpression</text>
+<line class="line" x1="150" y1="352" x2="150" y2="362"/>
+<path d="M 150,362 L 147.0,356.80384757729337 M 150,362 L 153.0,356.80384757729337" class="line"/>
+<rect class="box" x="40" y="372" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="384.0">postfixExpression</text>
+<line class="line" x1="150" y1="396" x2="150" y2="406"/>
+<path d="M 150,406 L 147.0,400.80384757729337 M 150,406 L 153.0,400.80384757729337" class="line"/>
+<rect class="box" x="40" y="416" width="220" height="24" rx="6" ry="6"/>
+<text class="txt" x="150.0" y="428.0">primaryExpression</text>
+<line class="line" x1="260" y1="428" x2="300" y2="428"/>
+<path d="M 300,428 L 294.80384757729337,431.0 M 300,428 L 294.80384757729337,425.0" class="line"/>
+</svg>

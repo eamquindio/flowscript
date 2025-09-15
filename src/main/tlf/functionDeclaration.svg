@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="120" viewBox="0 0 700 120">
+<style> .box{fill:#fff;stroke:#000;stroke-width:1.2;} .txt{font-family:monospace;font-size:12px;dominant-baseline:middle;text-anchor:middle;} .line{stroke:#000;stroke-width:1.2;fill:none;} </style>
+<line class="line" x1="10" y1="54.0" x2="20" y2="54.0"/>
+<path d="M 20,54.0 L 14.803847577293368,57.0 M 20,54.0 L 14.803847577293368,51.0" class="line"/>
+<rect class="box" x="20" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="65.0" y="54.0">"function"</text>
+<line class="line" x1="130" y1="54.0" x2="140" y2="54.0"/>
+<path d="M 140,54.0 L 134.80384757729337,57.0 M 140,54.0 L 134.80384757729337,51.0" class="line"/>
+<rect class="box" x="140" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="185.0" y="54.0">functionName</text>
+<line class="line" x1="250" y1="54.0" x2="260" y2="54.0"/>
+<path d="M 260,54.0 L 254.80384757729337,57.0 M 260,54.0 L 254.80384757729337,51.0" class="line"/>
+<rect class="box" x="260" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="305.0" y="54.0">"("</text>
+<line class="line" x1="370" y1="54.0" x2="380" y2="54.0"/>
+<path d="M 380,54.0 L 374.80384757729337,57.0 M 380,54.0 L 374.80384757729337,51.0" class="line"/>
+<rect class="box" x="380" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="425.0" y="54.0">parameterList?</text>
+<line class="line" x1="490" y1="54.0" x2="500" y2="54.0"/>
+<path d="M 500,54.0 L 494.80384757729337,57.0 M 500,54.0 L 494.80384757729337,51.0" class="line"/>
+<rect class="box" x="500" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="545.0" y="54.0">")"</text>
+<line class="line" x1="610" y1="54.0" x2="620" y2="54.0"/>
+<path d="M 620,54.0 L 614.8038475772934,57.0 M 620,54.0 L 614.8038475772934,51.0" class="line"/>
+<rect class="box" x="620" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="665.0" y="54.0">"->" type ?</text>
+<line class="line" x1="730" y1="54.0" x2="740" y2="54.0"/>
+<path d="M 740,54.0 L 734.8038475772934,57.0 M 740,54.0 L 734.8038475772934,51.0" class="line"/>
+<rect class="box" x="740" y="40" width="90" height="28" rx="6" ry="6"/>
+<text class="txt" x="785.0" y="54.0">block</text>
+<line class="line" x1="830" y1="54.0" x2="850" y2="54.0"/>
+<path d="M 850,54.0 L 844.8038475772934,57.0 M 850,54.0 L 844.8038475772934,51.0" class="line"/>
+</svg>
