@@ -1,4 +1,99 @@
 -------------------------------------------------------------------------------
 Test set: edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest
 -------------------------------------------------------------------------------
-Tests run: 34, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 s -- in edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest
+Tests run: 34, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 0.253 s <<< FAILURE! -- in edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest
+edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.testFlowScriptProcesses -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO INVÁLIDO: 'Proceso sin start'
+Código:
+process InvalidProcess {
+    task SomeTask {
+        action:
+            go_to End1
+    }
+    end End1
+}
+El parser debería haber rechazado este código ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.lambda$createTestsFromYaml$1(FlowScriptProcessesTest.java:129)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.testFlowScriptProcesses -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO INVÁLIDO: 'Branch en gateway no paralelo'
+Código:
+process InvalidProcess {
+    start -> Task1
+    task Task1 {
+        action:
+            gateway Decision {
+                branch -> Task2
+                join -> Task3
+            }
+    }
+    task Task2 { action: go_to End1 }
+    task Task3 { action: go_to End1 }
+    end End1
+}
+El parser debería haber rechazado este código ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.lambda$createTestsFromYaml$1(FlowScriptProcessesTest.java:129)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.testFlowScriptProcesses -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO INVÁLIDO: 'Múltiples start'
+Código:
+process InvalidProcess {
+    start -> Task1
+    start -> Task2
+    
+    task Task1 { action: go_to End1 }
+    task Task2 { action: go_to End1 }
+    end End1
+}
+El parser debería haber rechazado este código ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.lambda$createTestsFromYaml$1(FlowScriptProcessesTest.java:129)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.testFlowScriptProcesses -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO INVÁLIDO: 'Proceso sin end'
+Código:
+process InvalidProcess {
+    start -> Task1
+    task Task1 {
+        action:
+            value = 42
+    }
+}
+El parser debería haber rechazado este código ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest.lambda$createTestsFromYaml$1(FlowScriptProcessesTest.java:129)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
