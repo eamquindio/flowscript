@@ -23,7 +23,132 @@ grammar FlowScriptProcesses;
 // ============================
 
 // Palabras clave de estructura
+PROCESS: 'process';
+FUNCTION: 'function';
+IMPORT: 'import';
+IMPORT_JAR: 'import_jar';
+AS: 'as';
 
+// Palabras clave de procesos
+START: 'start';
+END: 'end';
+TASK: 'task';
+GATEWAY: 'gateway';
+GO_TO: 'go_to';
+WHEN: 'when';
+BRANCH: 'branch';
+JOIN: 'join';
+ACTION: 'action';
+PARALLEL: 'parallel';
+INPUT: 'input';
+
+// Palabras clave de funciones (para declaraciones)
+RETURN: 'return';
+VOID: 'void';
+
+// Tipos de datos
+INTEGER_TYPE: 'integer';
+DECIMAL_TYPE: 'decimal';
+BOOLEAN_TYPE: 'boolean';
+TEXT_TYPE: 'text';
+LIST_TYPE: 'list';
+OBJECT_TYPE: 'object';
+
+// Control de flujo
+IF: 'if';
+ELSE_IF: 'else_if';
+ELSE: 'else';
+WHILE: 'while';
+FOR: 'for';
+EACH: 'each';
+IN: 'in';
+FROM: 'from';
+TO: 'to';
+STEP: 'step';
+BREAK: 'break';
+CONTINUE: 'continue';
+TRY: 'try';
+CATCH: 'catch';
+THROW: 'throw';
+
+// Operadores lógicos
+AND: 'and';
+OR: 'or';
+NOT: 'not';
+
+// Literales booleanos y null
+TRUE: 'true';
+FALSE: 'false';
+NULL: 'null';
+
+// Operadores aritméticos
+PLUS: '+';
+MINUS: '-';
+MULTIPLY: '*';
+DIVIDE: '/';
+MODULO: '%';
+
+// Operadores de comparación
+LESS_THAN: '<';
+GREATER_THAN: '>';
+LESS_EQUAL: '<=';
+GREATER_EQUAL: '>=';
+EQUAL: '==';
+NOT_EQUAL: '!=';
+
+// Operadores de asignación y acceso
+ASSIGN: '=';
+DOT: '.';
+ARROW: '->';
+
+// Delimitadores
+LPAREN: '(';
+RPAREN: ')';
+LBRACE: '{';
+RBRACE: '}';
+LBRACKET: '[';
+RBRACKET: ']';
+COMMA: ',';
+SEMICOLON: ';';
+COLON: ':';
+
+// Literales numéricos
+INTEGER_LITERAL
+    : DIGIT+ ('_' DIGIT+)*
+    | '0'
+    ;
+
+DECIMAL_LITERAL
+    : DIGIT+ '.' DIGIT+ EXPONENT?
+    | DIGIT+ EXPONENT
+    | '.' DIGIT+ EXPONENT?
+    ;
+
+// Literal de texto
+STRING_LITERAL
+    : '"' STRING_CONTENT* '"'
+    ;
+
+// Identificadores
+IDENTIFIER
+    : LETTER (LETTER | DIGIT | '_')*
+    | '_' (LETTER | DIGIT | '_')+
+    ;
+
+// Comentarios
+SINGLE_LINE_COMMENT: '#' ~[\r\n]* -> skip;
+MULTI_LINE_COMMENT: '/*' .*? '*/' -> skip;
+
+// Espacios en blanco
+WS: [ \t\r\n]+ -> skip;
+
+// Fragmentos
+fragment DIGIT: [0-9];
+fragment LETTER: [a-zA-Z];
+fragment EXPONENT: [eE] [+-]? DIGIT+;
+fragment STRING_CONTENT: ~["\\\r\n] | '\\' ESCAPE_SEQUENCE;
+fragment ESCAPE_SEQUENCE: [btnfr"\\] | 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT;
+fragment HEX_DIGIT: [0-9a-fA-F];
 
 // ============================
 // PARSER RULES
@@ -34,9 +159,334 @@ grammar FlowScriptProcesses;
 // ============================
 
 program
-    : EOF
+    : importStatement* topLevelDeclaration* EOF
     ;
 
+importStatement
+    : importFlowScript
+    | importJar
+    ;
+
+importFlowScript
+    : IMPORT STRING_LITERAL (AS IDENTIFIER)? SEMICOLON?
+    ;
+
+importJar
+    : IMPORT_JAR STRING_LITERAL AS IDENTIFIER SEMICOLON?
+    ;
+
+topLevelDeclaration
+    : functionDeclaration
+    | processDeclaration
+    | globalVariable
+    ;
+
+globalVariable
+    : IDENTIFIER ASSIGN expression SEMICOLON?
+    ;
+
+// ============================
+// DECLARACIÓN DE FUNCIONES (simplificada)
+// ============================
+
+functionDeclaration
+    : FUNCTION IDENTIFIER LPAREN parameterList? RPAREN returnType? functionBody
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON dataType
+    ;
+
+returnType
+    : ARROW dataType
+    ;
+
+dataType
+    : INTEGER_TYPE | DECIMAL_TYPE | BOOLEAN_TYPE
+    | TEXT_TYPE | LIST_TYPE | OBJECT_TYPE | VOID
+    ;
+
+functionBody
+    : LBRACE statement* RBRACE
+    ;
+
+// ============================
+// DECLARACIÓN DE PROCESOS
+// ============================
+
+processDeclaration
+    : PROCESS processName LBRACE startNode processBody+ endNode+ RBRACE
+    ;
+
+processName
+    : IDENTIFIER
+    ;
+
+processBody
+    : taskNode
+    | gatewayNode
+    ;
+
+processElement
+    : startNode
+    | taskNode
+    | endNode
+    | gatewayNode
+    ;
+
+// ============================
+// NODOS DEL PROCESO
+// ============================
+
+startNode
+    : START ARROW nodeName SEMICOLON?
+    ;
+
+taskNode
+    : TASK nodeName LBRACE taskContent RBRACE
+    ;
+
+taskContent
+    : ACTION COLON taskStatements
+    ;
+
+taskStatements
+    : taskStatement+
+    ;
+
+taskStatement
+    : statement
+    ;
+
+gotoStatement
+    : GO_TO IDENTIFIER SEMICOLON?
+    ;
+
+gatewayStatement
+    : GATEWAY IDENTIFIER PARALLEL LBRACE parallelBranches RBRACE
+    | GATEWAY IDENTIFIER LBRACE exclusiveBranches RBRACE
+    ;
+
+endNode
+    : END nodeName SEMICOLON?
+    ;
+
+gatewayNode
+    : GATEWAY nodeName PARALLEL LBRACE parallelBranches RBRACE
+    | GATEWAY nodeName LBRACE exclusiveBranches RBRACE
+    ;
+
+exclusiveBranches
+    : whenBranch+ elseBranch?
+    ;
+
+whenBranch
+    : WHEN condition ARROW nodeName SEMICOLON?
+    ;
+
+elseBranch
+    : ELSE ARROW nodeName SEMICOLON?
+    ;
+
+parallelBranches
+    : branchStatement+ joinStatement
+    ;
+
+branchStatement
+    : BRANCH ARROW nodeName SEMICOLON?
+    ;
+
+joinStatement
+    : JOIN ARROW nodeName SEMICOLON?
+    ;
+
+nodeName
+    : IDENTIFIER
+    ;
+
+// ============================
+// STATEMENTS
+// ============================
+
+statement
+    : assignmentStatement
+    | ifStatement
+    | whileStatement
+    | forStatement
+    | tryStatement
+    | throwStatement
+    | returnStatement
+    | breakStatement
+    | continueStatement
+    | gotoStatement
+    | gatewayStatement
+    | expressionStatement
+    | block
+    | SEMICOLON
+    ;
+
+assignmentStatement
+    : leftHandSide ASSIGN expression SEMICOLON?
+    ;
+
+leftHandSide
+    : IDENTIFIER
+    | postfixExpression
+    ;
+
+ifStatement
+    : IF condition block (ELSE_IF condition block)* (ELSE block)?
+    ;
+
+whileStatement
+    : WHILE condition block
+    ;
+
+forStatement
+    : forEachStatement
+    | forRangeStatement
+    ;
+
+forEachStatement
+    : FOR EACH IDENTIFIER IN expression block
+    ;
+
+forRangeStatement
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? block
+    ;
+
+tryStatement
+    : TRY block catchClause+
+    ;
+
+catchClause
+    : CATCH LPAREN IDENTIFIER RPAREN block
+    ;
+
+throwStatement
+    : THROW expression SEMICOLON?
+    ;
+
+returnStatement
+    : RETURN expression? SEMICOLON?
+    ;
+
+breakStatement
+    : BREAK SEMICOLON?
+    ;
+
+continueStatement
+    : CONTINUE SEMICOLON?
+    ;
+
+expressionStatement
+    : expression SEMICOLON?
+    ;
+
+block
+    : LBRACE statement* RBRACE
+    ;
+
+condition
+    : expression
+    | LPAREN expression RPAREN
+    ;
+
+// ============================
+// EXPRESIONES
+// ============================
+
+expression
+    : assignmentExpression
+    ;
+
+assignmentExpression
+    : logicalOrExpression (ASSIGN assignmentExpression)?
+    ;
+
+logicalOrExpression
+    : logicalAndExpression (OR logicalAndExpression)*
+    ;
+
+logicalAndExpression
+    : equalityExpression (AND equalityExpression)*
+    ;
+
+equalityExpression
+    : relationalExpression ((EQUAL | NOT_EQUAL) relationalExpression)*
+    ;
+
+relationalExpression
+    : additiveExpression ((LESS_THAN | GREATER_THAN | LESS_EQUAL | GREATER_EQUAL) additiveExpression)*
+    ;
+
+additiveExpression
+    : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    : unaryExpression ((MULTIPLY | DIVIDE | MODULO) unaryExpression)*
+    ;
+
+unaryExpression
+    : (NOT | MINUS) unaryExpression
+    | postfixExpression
+    ;
+
+postfixExpression
+    : primaryExpression (
+        DOT IDENTIFIER                     // Member access
+        | LBRACKET expression RBRACKET     // Array indexing
+        | LPAREN argumentList? RPAREN      // Function call
+      )*
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+primaryExpression
+    : literal
+    | IDENTIFIER
+    | inputReference
+    | LPAREN expression RPAREN
+    | listLiteral
+    | objectLiteral
+    ;
+
+inputReference
+    : INPUT (DOT IDENTIFIER)*
+    ;
+
+literal
+    : INTEGER_LITERAL
+    | DECIMAL_LITERAL
+    | STRING_LITERAL
+    | TRUE
+    | FALSE
+    | NULL
+    ;
+
+listLiteral
+    : LBRACKET (expression (COMMA expression)*)? RBRACKET
+    ;
+
+objectLiteral
+    : LBRACE (objectProperty (COMMA objectProperty)*)? RBRACE
+    ;
+
+objectProperty
+    : propertyKey COLON expression
+    ;
+
+propertyKey
+    : IDENTIFIER
+    | STRING_LITERAL
+    ;
 
 // ============================
 // EJEMPLOS DE USO
