@@ -21,16 +21,72 @@ grammar FlowScriptFunctions;
 // ============================
 // LEXER RULES (TOKENS)
 // ============================
-
-// Palabras clave para funciones
+NOMBRE : [a-zA-Z_] [a-zA-Z0-9_]* ;
+NUMERO  : [0-9]+ ('.' [0-9]+)? ;
+CADENA  : '"' (~["\r\n])* '"' ;
+BOOLEANO: 'verdadero' | 'falso' ;
+WS: [ \t\r\n]+ -> skip ;
+LINEA: ('//' | '#') ~[\r\n]* -> skip ;
+COMENTARIO: '/*' .*? '*/' -> skip ;
 
 // ============================
 // DECLARACIÓN DE FUNCIONES
 // ============================
 
-functionDeclaration
-    : EOF
+functionProgram: functionDeclaration* EOF ;
+
+functionDeclaration: 'function' NOMBRE '(' parametros? ')' ('->' retorno)?  bloque ;
+
+parametros: parametro (',' parametro)* ;
+parametro: NOMBRE ':' tipo ;
+tipo: 'integer' | 'decimal' | 'text' | 'boolean' | 'list' | 'object' | 'void' ;
+retorno: tipo ;
+
+resultado:  return
+    | print
+    | asignacion
+    | if
+    | while
+    | for
+    | tryCatch
+    | error
+    | llamadafunction
+    | 'break'
+    | 'continue'
     ;
+
+return: 'return' expresion? ;
+
+print: 'print' '(' expresion ')' ;
+
+asignacion
+    : NOMBRE '=' expresion
+    | NOMBRE '[' expresion ']' '=' expresion;
+
+if
+    : 'if' expresion bloque ( 'else_if' expresion bloque )* ('else' bloque)?;
+
+while: 'while' expresion bloque ;
+
+for: 'for' NOMBRE 'from' expresion 'to' expresion ('step' expresion)? bloque| 'for' 'each' NOMBRE 'in' expresion bloque;
+
+tryCatch: 'try' bloque ('catch' '(' NOMBRE ')' bloque)+ ;
+
+error: 'throw' '{' (NOMBRE ':' expresion (',' NOMBRE ':' expresion)*)? '}' ;
+
+llamadafunction: NOMBRE '(' argumentos? ')' ;
+
+argumentos: expresion (',' expresion)* ;
+
+expresion: expresion ('+' | '-' | '*' | '/' | '%' | '==' | '!=' | '<' | '<=' | '>' | '>=' | 'and' | 'or') expresion| expresion '.' NOMBRE ('(' argumentos? ')')?| expresion '[' expresion ']'
+    | '(' expresion ')'| llamadafunction| NOMBRE| NUMERO| CADENA| BOOLEANO| lista| objeto;
+
+lista: '[' (expresion (',' expresion)*)? ']' ;
+
+objeto: '{' (NOMBRE ':' expresion (',' NOMBRE ':' expresion)*)? '}' ;
+
+bloque: '{' resultado* '}' ;
+
 // ============================
 // EJEMPLOS DE USO
 // ============================

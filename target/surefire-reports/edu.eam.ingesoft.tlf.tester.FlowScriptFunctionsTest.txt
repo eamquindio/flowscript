@@ -1,4 +1,54 @@
 -------------------------------------------------------------------------------
 Test set: edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
 -------------------------------------------------------------------------------
-Tests run: 49, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+Tests run: 49, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.377 s <<< FAILURE! -- in edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.016 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con break y continue'
+Texto: function find_first_even(numbers: list) -> integer {
+    for each num in numbers {
+        if num < ...
+Errores encontrados: [PARSER ERROR - Línea 13:11 - extraneous input '-' expecting {'break', 'continue', 'return', 'print', 'if', 'while', 'for', 'try', 'throw', '}', NOMBRE}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con operaciones lógicas complejas'
+Texto: function is_valid_user(user: object) -> boolean {
+    age_valid = user.age >= 18 and user.age <= 100...
+Errores encontrados: [PARSER ERROR - Línea 6:66 - no viable alternative at input 'user.'] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.006 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con listas y objetos anidados'
+Texto: function process_orders(orders: list) -> object {
+    summary = {
+        total_orders: orders.lengt...
+Errores encontrados: [PARSER ERROR - Línea 10:15 - no viable alternative at input 'summary.', PARSER ERROR - Línea 14:19 - no viable alternative at input 'summary.', PARSER ERROR - Línea 16:19 - no viable alternative at input 'summary.', PARSER ERROR - Línea 20:19 - no viable alternative at input 'summary.'] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
