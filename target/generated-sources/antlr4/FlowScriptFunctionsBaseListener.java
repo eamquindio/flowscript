@@ -31,6 +31,18 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStatement(FlowScriptFunctionsParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(FlowScriptFunctionsParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionDeclaration(FlowScriptFunctionsParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -38,18 +50,6 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionDeclaration(FlowScriptFunctionsParser.FunctionDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionName(FlowScriptFunctionsParser.FunctionNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionName(FlowScriptFunctionsParser.FunctionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -79,133 +79,49 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterName(FlowScriptFunctionsParser.ParameterNameContext ctx) { }
+	@Override public void enterType(FlowScriptFunctionsParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterName(FlowScriptFunctionsParser.ParameterNameContext ctx) { }
+	@Override public void exitType(FlowScriptFunctionsParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameterType(FlowScriptFunctionsParser.ParameterTypeContext ctx) { }
+	@Override public void enterSimpleType(FlowScriptFunctionsParser.SimpleTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameterType(FlowScriptFunctionsParser.ParameterTypeContext ctx) { }
+	@Override public void exitSimpleType(FlowScriptFunctionsParser.SimpleTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnType(FlowScriptFunctionsParser.ReturnTypeContext ctx) { }
+	@Override public void enterBlock(FlowScriptFunctionsParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnType(FlowScriptFunctionsParser.ReturnTypeContext ctx) { }
+	@Override public void exitBlock(FlowScriptFunctionsParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDataType(FlowScriptFunctionsParser.DataTypeContext ctx) { }
+	@Override public void enterLoopStatement(FlowScriptFunctionsParser.LoopStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDataType(FlowScriptFunctionsParser.DataTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimitiveType(FlowScriptFunctionsParser.PrimitiveTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimitiveType(FlowScriptFunctionsParser.PrimitiveTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCompositeType(FlowScriptFunctionsParser.CompositeTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCompositeType(FlowScriptFunctionsParser.CompositeTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionBody(FlowScriptFunctionsParser.FunctionBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionBody(FlowScriptFunctionsParser.FunctionBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStatement(FlowScriptFunctionsParser.StatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStatement(FlowScriptFunctionsParser.StatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclaration(FlowScriptFunctionsParser.VariableDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclaration(FlowScriptFunctionsParser.VariableDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentStatement(FlowScriptFunctionsParser.AssignmentStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentStatement(FlowScriptFunctionsParser.AssignmentStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLeftHandSide(FlowScriptFunctionsParser.LeftHandSideContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLeftHandSide(FlowScriptFunctionsParser.LeftHandSideContext ctx) { }
+	@Override public void exitLoopStatement(FlowScriptFunctionsParser.LoopStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -223,97 +139,13 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElseIfClause(FlowScriptFunctionsParser.ElseIfClauseContext ctx) { }
+	@Override public void enterTryCatchStatement(FlowScriptFunctionsParser.TryCatchStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElseIfClause(FlowScriptFunctionsParser.ElseIfClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseClause(FlowScriptFunctionsParser.ElseClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseClause(FlowScriptFunctionsParser.ElseClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWhileStatement(FlowScriptFunctionsParser.WhileStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhileStatement(FlowScriptFunctionsParser.WhileStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForStatement(FlowScriptFunctionsParser.ForStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForStatement(FlowScriptFunctionsParser.ForStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForEachStatement(FlowScriptFunctionsParser.ForEachStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForEachStatement(FlowScriptFunctionsParser.ForEachStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForRangeStatement(FlowScriptFunctionsParser.ForRangeStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForRangeStatement(FlowScriptFunctionsParser.ForRangeStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTryStatement(FlowScriptFunctionsParser.TryStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTryStatement(FlowScriptFunctionsParser.TryStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCatchClause(FlowScriptFunctionsParser.CatchClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCatchClause(FlowScriptFunctionsParser.CatchClauseContext ctx) { }
+	@Override public void exitTryCatchStatement(FlowScriptFunctionsParser.TryCatchStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -326,18 +158,6 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturnStatement(FlowScriptFunctionsParser.ReturnStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterThrowStatement(FlowScriptFunctionsParser.ThrowStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitThrowStatement(FlowScriptFunctionsParser.ThrowStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -367,6 +187,42 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterThrowStatement(FlowScriptFunctionsParser.ThrowStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitThrowStatement(FlowScriptFunctionsParser.ThrowStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLvalue(FlowScriptFunctionsParser.LvalueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLvalue(FlowScriptFunctionsParser.LvalueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignmentStatement(FlowScriptFunctionsParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignmentStatement(FlowScriptFunctionsParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpressionStatement(FlowScriptFunctionsParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -374,30 +230,6 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpressionStatement(FlowScriptFunctionsParser.ExpressionStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlock(FlowScriptFunctionsParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlock(FlowScriptFunctionsParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCondition(FlowScriptFunctionsParser.ConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCondition(FlowScriptFunctionsParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -415,109 +247,121 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignmentExpression(FlowScriptFunctionsParser.AssignmentExpressionContext ctx) { }
+	@Override public void enterLogicOr(FlowScriptFunctionsParser.LogicOrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignmentExpression(FlowScriptFunctionsParser.AssignmentExpressionContext ctx) { }
+	@Override public void exitLogicOr(FlowScriptFunctionsParser.LogicOrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOrExpression(FlowScriptFunctionsParser.LogicalOrExpressionContext ctx) { }
+	@Override public void enterLogicAnd(FlowScriptFunctionsParser.LogicAndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalOrExpression(FlowScriptFunctionsParser.LogicalOrExpressionContext ctx) { }
+	@Override public void exitLogicAnd(FlowScriptFunctionsParser.LogicAndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalAndExpression(FlowScriptFunctionsParser.LogicalAndExpressionContext ctx) { }
+	@Override public void enterEquality(FlowScriptFunctionsParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalAndExpression(FlowScriptFunctionsParser.LogicalAndExpressionContext ctx) { }
+	@Override public void exitEquality(FlowScriptFunctionsParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEqualityExpression(FlowScriptFunctionsParser.EqualityExpressionContext ctx) { }
+	@Override public void enterComparison(FlowScriptFunctionsParser.ComparisonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEqualityExpression(FlowScriptFunctionsParser.EqualityExpressionContext ctx) { }
+	@Override public void exitComparison(FlowScriptFunctionsParser.ComparisonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRelationalExpression(FlowScriptFunctionsParser.RelationalExpressionContext ctx) { }
+	@Override public void enterAddition(FlowScriptFunctionsParser.AdditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRelationalExpression(FlowScriptFunctionsParser.RelationalExpressionContext ctx) { }
+	@Override public void exitAddition(FlowScriptFunctionsParser.AdditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAdditiveExpression(FlowScriptFunctionsParser.AdditiveExpressionContext ctx) { }
+	@Override public void enterMultiplication(FlowScriptFunctionsParser.MultiplicationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAdditiveExpression(FlowScriptFunctionsParser.AdditiveExpressionContext ctx) { }
+	@Override public void exitMultiplication(FlowScriptFunctionsParser.MultiplicationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMultiplicativeExpression(FlowScriptFunctionsParser.MultiplicativeExpressionContext ctx) { }
+	@Override public void enterUnary(FlowScriptFunctionsParser.UnaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMultiplicativeExpression(FlowScriptFunctionsParser.MultiplicativeExpressionContext ctx) { }
+	@Override public void exitUnary(FlowScriptFunctionsParser.UnaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUnaryExpression(FlowScriptFunctionsParser.UnaryExpressionContext ctx) { }
+	@Override public void enterMemberExpr(FlowScriptFunctionsParser.MemberExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUnaryExpression(FlowScriptFunctionsParser.UnaryExpressionContext ctx) { }
+	@Override public void exitMemberExpr(FlowScriptFunctionsParser.MemberExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPostfixExpression(FlowScriptFunctionsParser.PostfixExpressionContext ctx) { }
+	@Override public void enterPrimary(FlowScriptFunctionsParser.PrimaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPostfixExpression(FlowScriptFunctionsParser.PostfixExpressionContext ctx) { }
+	@Override public void exitPrimary(FlowScriptFunctionsParser.PrimaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionCall(FlowScriptFunctionsParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionCall(FlowScriptFunctionsParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -530,18 +374,6 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArgumentList(FlowScriptFunctionsParser.ArgumentListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryExpression(FlowScriptFunctionsParser.PrimaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryExpression(FlowScriptFunctionsParser.PrimaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -583,25 +415,13 @@ public class FlowScriptFunctionsBaseListener implements FlowScriptFunctionsListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterObjectProperty(FlowScriptFunctionsParser.ObjectPropertyContext ctx) { }
+	@Override public void enterObjectEntry(FlowScriptFunctionsParser.ObjectEntryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitObjectProperty(FlowScriptFunctionsParser.ObjectPropertyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPropertyKey(FlowScriptFunctionsParser.PropertyKeyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPropertyKey(FlowScriptFunctionsParser.PropertyKeyContext ctx) { }
+	@Override public void exitObjectEntry(FlowScriptFunctionsParser.ObjectEntryContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -1,101 +1,182 @@
 grammar FlowScriptFunctions;
 
-// Package declaration for generated code
 @header {
     package edu.eam.ingesoft.tlf;
 }
 
-/*
- * GRAMÁTICA DE FUNCIONES PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de funciones
- * del lenguaje FlowScript, incluyendo:
- * - Declaración de funciones
- * - Parámetros tipados
- * - Tipos de retorno
- * - Cuerpo de funciones con statements
- * - Expresiones y operadores
- * - Control de flujo dentro de funciones
- */
+functionProgram
+    : (functionDeclaration | statement)* EOF
+    ;
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
-
-// Palabras clave para funciones
-
-// ============================
-// DECLARACIÓN DE FUNCIONES
-// ============================
+statement
+    : assignmentStatement
+    | loopStatement
+    | ifStatement
+    | tryCatchStatement
+    | returnStatement
+    | breakStatement
+    | continueStatement
+    | throwStatement
+    | expressionStatement
+    | block
+    ;
 
 functionDeclaration
-    : EOF
+    : 'function' Identifier '(' parameterList? ')' ('->' type)? block
     ;
-// ============================
-// EJEMPLOS DE USO
-// ============================
 
-/*
- * EJEMPLOS VÁLIDOS:
- * 
- * 1. Función simple:
- * function greet() -> void {
- *     print("Hello World")
- * }
- * 
- * 2. Función con parámetros y retorno:
- * function add(a: integer, b: integer) -> integer {
- *     return a + b
- * }
- * 
- * 3. Función con lógica compleja:
- * function factorial(n: integer) -> integer {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- * 
- * 4. Función con manejo de errores:
- * function safe_divide(a: decimal, b: decimal) -> decimal {
- *     try {
- *         if b == 0 {
- *             throw { type: "DivisionError", message: "Division by zero" }
- *         }
- *         return a / b
- *     } catch (error) {
- *         print("Error: " + error.message)
- *         return 0.0
- *     }
- * }
- * 
- * 5. Función con estructuras de datos:
- * function process_items(items: list, threshold: decimal) -> object {
- *     result = { count: 0, sum: 0.0 }
- *     
- *     for each item in items {
- *         if item.value > threshold {
- *             result.count = result.count + 1
- *             result.sum = result.sum + item.value
- *         }
- *     }
- *     
- *     return result
- * }
- * 
- * 6. Función con bucles:
- * function find_max(numbers: list) -> decimal {
- *     if numbers.length() == 0 {
- *         return null
- *     }
- *     
- *     max = numbers[0]
- *     for i from 1 to numbers.length() - 1 {
- *         if numbers[i] > max {
- *             max = numbers[i]
- *         }
- *     }
- *     
- *     return max
- * }
- */
+parameterList
+    : parameter (',' parameter)*
+    ;
+
+parameter
+    : Identifier ':' type
+    ;
+
+type
+    : simpleType ('<' type (',' type)* '>')?
+    ;
+
+simpleType
+    : 'integer'
+    | 'decimal'
+    | 'boolean'
+    | 'string'
+    | 'text'
+    | 'list'
+    | 'object'
+    | 'void'
+    ;
+
+block
+    : '{' statement* '}'
+    ;
+
+loopStatement
+    : 'for' 'each' Identifier 'in' expression block
+    | 'for' Identifier 'from' expression 'to' expression ('step' expression)? block
+    | 'while' expression block
+    ;
+
+ifStatement
+    : 'if' expression block (('else' 'if' | 'else_if') expression block)* ('else' block)?
+    ;
+
+tryCatchStatement
+    : 'try' block ('catch' '(' Identifier ')' block)+
+    ;
+
+returnStatement
+    : 'return' expression? ';'?
+    ;
+
+breakStatement
+    : 'break' ';'?
+    ;
+
+continueStatement
+    : 'continue' ';'?
+    ;
+
+throwStatement
+    : 'throw' expression ';'?
+    ;
+
+
+lvalue
+    : Identifier ('.' Identifier | '[' expression ']')*
+    ;
+
+assignmentStatement
+    : lvalue '=' expression ';'?
+    ;
+
+expressionStatement
+    : expression ';'?
+    ;
+
+expression
+    : logicOr
+    ;
+
+logicOr
+    : logicAnd (('||' | 'or') logicAnd)*
+    ;
+
+logicAnd
+    : equality (('&&' | 'and') equality)*
+    ;
+
+equality
+    : comparison (('==' | '!=') comparison)*
+    ;
+
+comparison
+    : addition (('>' | '>=' | '<' | '<=') addition)*
+    ;
+
+addition
+    : multiplication (('+' | '-') multiplication)*
+    ;
+
+multiplication
+    : unary (('*' | '/' | '%') unary)*
+    ;
+
+unary
+    : ('!' | 'not' | '-') unary
+    | memberExpr
+    ;
+
+memberExpr
+    : primary ('.' Identifier | '.' functionCall | '[' expression ']')*
+    ;
+
+primary
+    : literal
+    | Identifier
+    | functionCall
+    | listLiteral
+    | objectLiteral
+    | '(' expression ')'
+    ;
+
+functionCall
+    : Identifier '(' argumentList? ')'
+    ;
+
+argumentList
+    : expression (',' expression)*
+    ;
+
+literal
+    : DecimalLiteral
+    | IntegerLiteral
+    | BooleanLiteral
+    | StringLiteral
+    | 'null'
+    ;
+
+listLiteral
+    : '[' (expression (',' expression)*)? ']'
+    ;
+
+objectLiteral
+    : '{' (objectEntry (',' objectEntry)*)? '}'
+    ;
+
+objectEntry
+    : (Identifier | StringLiteral) ':' expression
+    ;
+
+DecimalLiteral : [0-9]+ '.' [0-9]+ ;
+IntegerLiteral : [0-9]+ ;
+BooleanLiteral : 'true' | 'false' ;
+StringLiteral  : '"' (~["\\] | '\\' .)* '"' ;
+
+Identifier     : [a-zA-Z_][a-zA-Z0-9_]* ;
+
+WS             : [ \t\r\n]+ -> skip ;
+LINE_COMMENT   : '//' ~[\r\n]* -> skip ;
+HASH_COMMENT   : '#' ~[\r\n]* -> skip ;
+BLOCK_COMMENT  : '/*' .*? '*/' -> skip ;
