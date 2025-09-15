@@ -1,16 +1,16 @@
 grammar FlowScriptFunctions;
 
-// Package declaration for generated code
+
 @header {
     package edu.eam.ingesoft.tlf;
 }
 
 /*
- * GRAMÁTICA DE FUNCIONES PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de funciones
+ * GRAMATICA DE FUNCIONES PARA FLOWSCRIPT
+ *
+ * Este archivo define la gramatica completa para el sistema de funciones
  * del lenguaje FlowScript, incluyendo:
- * - Declaración de funciones
+ * -- Declaración de funciones
  * - Parámetros tipados
  * - Tipos de retorno
  * - Cuerpo de funciones con statements
@@ -18,84 +18,316 @@ grammar FlowScriptFunctions;
  * - Control de flujo dentro de funciones
  */
 
-// ============================
+// =======================
 // LEXER RULES (TOKENS)
 // ============================
 
-// Palabras clave para funciones
+FUNCION    : 'function';
+RETURN      : 'return';
+IF          : 'if';
+ELSE        : 'else';
+ELSE_IF     : 'else_if';
+WHILE       : 'while';
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+FROM        : 'from';
+TO          : 'to';
+STEP        : 'step';
+TRY         : 'try';
+CATCH       : 'catch';
+THROW       : 'throw';
+BREAK       : 'break';
+CONTINUE    : 'continue';
+NULL        : 'null';
 
-// ============================
-// DECLARACIÓN DE FUNCIONES
-// ============================
 
-functionDeclaration
-    : EOF
+AND         : 'and';
+OR          : 'or';
+NOT         : 'not';
+
+
+ENTERO_TYPE : 'integer';
+DECIMAL_TYPE : 'decimal';
+BOOLEAN_TYPE : 'boolean';
+TEXT_TYPE    : 'text';
+LIST_TYPE    : 'list';
+OBJECT_TYPE  : 'object';
+VOID_TYPE    : 'void';
+
+
+LPAREN  : '(' ;
+RPAREN  : ')' ;
+LBRACE  : '{' ;
+RBRACE  : '}' ;
+LBRACK  : '[' ;
+RBRACK  : ']' ;
+COMA   : ',' ;
+DOSPUNTOS   : ':' ;
+FLECHA   : '->' ;
+ASSIGN  : '=' ;
+PUNTOYCOMA : ';' ;
+PUNTO     : '.' ;
+
+/* Operadores */
+IGUAL      : '==' ;
+DIFERENTE  : '!=' ;
+MENORIGUAL     : '<=' ;
+MAYORIGUAL     : '>=' ;
+MENOR   : '<' ;
+MAYOR   : '>' ;
+MAS     : '+' ;
+MENOS   : '-' ;
+MULT    : '*' ;
+DIV     : '/' ;
+MOD     : '%' ;
+
+
+DECIMAL
+    : [0-9]+ '.' [0-9]+
     ;
-// ============================
-// EJEMPLOS DE USO
-// ============================
+NUMERO
+    : [0-9]+
+    ;
+STRING
+    : '"' ( ~["\\] | '\\' . )* '"'
+    ;
 
-/*
- * EJEMPLOS VÁLIDOS:
- * 
- * 1. Función simple:
- * function greet() -> void {
- *     print("Hello World")
- * }
- * 
- * 2. Función con parámetros y retorno:
- * function add(a: integer, b: integer) -> integer {
- *     return a + b
- * }
- * 
- * 3. Función con lógica compleja:
- * function factorial(n: integer) -> integer {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- * 
- * 4. Función con manejo de errores:
- * function safe_divide(a: decimal, b: decimal) -> decimal {
- *     try {
- *         if b == 0 {
- *             throw { type: "DivisionError", message: "Division by zero" }
- *         }
- *         return a / b
- *     } catch (error) {
- *         print("Error: " + error.message)
- *         return 0.0
- *     }
- * }
- * 
- * 5. Función con estructuras de datos:
- * function process_items(items: list, threshold: decimal) -> object {
- *     result = { count: 0, sum: 0.0 }
- *     
- *     for each item in items {
- *         if item.value > threshold {
- *             result.count = result.count + 1
- *             result.sum = result.sum + item.value
- *         }
- *     }
- *     
- *     return result
- * }
- * 
- * 6. Función con bucles:
- * function find_max(numbers: list) -> decimal {
- *     if numbers.length() == 0 {
- *         return null
- *     }
- *     
- *     max = numbers[0]
- *     for i from 1 to numbers.length() - 1 {
- *         if numbers[i] > max {
- *             max = numbers[i]
- *         }
- *     }
- *     
- *     return max
- * }
- */
+BOOLEAN
+    : 'true' | 'false'
+    ;
+
+/* Identificdor  */
+IDENTIFICADOR
+    : [a-zA-Z_][a-zA-Z_0-9]*
+    ;
+
+/* Comentarios y espacios */
+HASH_COMMENT
+    : '#' ~[\r\n]* -> skip
+    ;
+LINE_COMMENT
+    : '//' ~[\r\n]* -> skip
+    ;
+BLOCK_COMMENT
+    : '/*' .*? '*/' -> skip
+    ;
+WS
+    : [ \t\r\n]+ -> skip
+    ;
+
+
+/* ----------------------------
+   REGLA DE ENTRADA
+   ---------------------------- */
+functionProgram
+    : (declaracionFuncion | sentenciaTope)* EOF
+    ;
+
+/* Sentencias a nivel top  */
+sentenciaTope
+    : sentencia
+    ;
+
+/* ----------------------------
+   DECLARCION DE FUNCIONES
+   --------------------------- */
+declaracionFuncion
+    : FUNCION IDENTIFICADOR LPAREN listaParametros? RPAREN tipoRetorno? bloque
+    ;
+
+/* Lista de params */
+listaParametros
+    : parametro (COMA parametro)*
+    ;
+
+parametro
+    : IDENTIFICADOR DOSPUNTOS tipoNombre
+    ;
+
+/* Tipo de retorn */
+tipoRetorno
+    : FLECHA tipoNombre
+    ;
+
+
+bloque
+    : LBRACE (sentencia (PUNTOYCOMA)?)* RBRACE
+    ;
+
+/* Sentencas */
+sentencia
+    : asignacion
+    | expresionStatement
+    | sentenciaIf
+    | sentenciaWhile
+    | sentenciaForEach
+    | sentenciaForRange
+    | sentenciaReturn
+    | sentenciaTryCatch
+    | sentenciaThrow
+    | sentenciaBreak
+    | sentenciaContinue
+    ;
+
+/* Asignación */
+asignacion
+    : lvalue ASSIGN expresion
+    ;
+
+/* lvalue: permite acceso a campos y a índices anidados */
+lvalue
+    : IDENTIFICADOR
+    | lvalue PUNTO IDENTIFICADOR
+    | lvalue LBRACK expresion RBRACK
+    ;
+
+/* Expresión como sentencia */
+expresionStatement
+    : expresion PUNTOYCOMA?
+    ;
+
+/* Return */
+sentenciaReturn
+    : RETURN expresion? PUNTOYCOMA?
+    ;
+
+/* If / else_if / else  */
+sentenciaIf
+    : IF expresion bloque (parteElseIf)* (ELSE bloque)?
+    ;
+
+parteElseIf
+    : ELSE_IF expresion bloque
+    ;
+
+/* While */
+sentenciaWhile
+    : WHILE expresion bloque
+    ;
+
+/* For-each: */
+sentenciaForEach
+    : FOR EACH IDENTIFICADOR IN expresion bloque
+    ;
+
+/* For-range*/
+sentenciaForRange
+    : FOR IDENTIFICADOR FROM expresion TO expresion (STEP expresion)? bloque
+    ;
+
+/* Try / Catch */
+sentenciaTryCatch
+    : TRY bloque (CATCH LPAREN IDENTIFICADOR RPAREN bloque)+
+    ;
+
+/* Throw */
+sentenciaThrow
+    : THROW expresion PUNTOYCOMA?
+    ;
+
+/* Break / Continue */
+sentenciaBreak
+    : BREAK PUNTOYCOMA?
+    ;
+
+sentenciaContinue
+    : CONTINUE PUNTOYCOMA?
+    ;
+
+
+expresion
+    : expresionOr
+    ;
+
+expresionOr
+    : expresionAnd ( OR expresionAnd )*
+    ;
+
+expresionAnd
+    : expresionEq ( AND expresionEq )*
+    ;
+
+expresionEq
+    : expresionRel ( (IGUAL | DIFERENTE) expresionRel )*
+    ;
+
+expresionRel
+    : expresionAdd ( (MENOR | MENORIGUAL | MAYOR | MAYORIGUAL) expresionAdd )*
+    ;
+
+expresionAdd
+    : expresionMul ( (MAS | MENOS) expresionMul )*
+    ;
+
+expresionMul
+    : expresionUnary ( (MULT | DIV | MOD) expresionUnary )*
+    ;
+
+expresionUnary
+    : (NOT | MENOS) expresionUnary
+    | expresionPostfijo
+    ;
+
+/* Postfijos encadenables  */
+expresionPostfijo
+    : expresionPrimario ( (PUNTO IDENTIFICADOR)
+                        | (PUNTO IDENTIFICADOR LPAREN listaArgumentos? RPAREN)
+                        | (LPAREN listaArgumentos? RPAREN)
+                        | (LBRACK expresion RBRACK)
+                        )*
+    ;
+
+/* Primarioss */
+expresionPrimario
+    : literal
+    | IDENTIFICADOR
+    | LPAREN expresion RPAREN
+    | listaLiteral
+    | objetoLiteral
+    ;
+
+/* Argumentos en llamadas */
+listaArgumentos
+    : expresion (COMA expresion)*
+    ;
+
+/* ----------------------------
+   LITERALES
+   ---------------------------- */
+
+literal
+    : NULL
+    | BOOLEAN
+    | DECIMAL
+    | NUMERO
+    | STRING
+    ;
+
+/* Lista literal */
+listaLiteral
+    : LBRACK (expresion (COMA expresion)*)? RBRACK
+    ;
+
+/* Objeto literal (clave: valor)*/
+objetoLiteral
+    : LBRACE (entradaObjeto (COMA entradaObjeto)*)? RBRACE
+    ;
+
+entradaObjeto
+    : (IDENTIFICADOR | STRING) (DOSPUNTOS | ASSIGN) expresion
+   ;
+
+
+/* ----------------------------
+   TIPOS---------------------------- */
+
+tipoNombre
+    : ENTERO_TYPE
+    | DECIMAL_TYPE
+    | BOOLEAN_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID_TYPE
+    ;

@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/tlf/gramatica_BNF.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,9 +53,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/antlrfunctions"
+    "git-widget-placeholder": "feature/antlrfunctions__240220212010",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bryan\Documents\GitHub\flowscript\src\main\tlf" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.FlowScriptIDE">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
@@ -136,6 +146,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
@@ -143,7 +161,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757220056610</updated>
+      <workItem from="1757899422559" duration="721000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
