@@ -1,4 +1,886 @@
 -------------------------------------------------------------------------------
 Test set: edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
 -------------------------------------------------------------------------------
-Tests run: 49, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+Tests run: 49, Failures: 49, Errors: 0, Skipped: 0, Time elapsed: 0.162 s <<< FAILURE! -- in edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.015 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.001 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+No se pudieron encontrar las clases del lexer o parser.
+Clases esperadas:
+  - FlowScriptFunctionsLexer
+  - FlowScriptFunctionsParser
+Asegúrate de que:
+1. La gramática FlowScriptFunctions.g4 esté en src/main/tlf/
+2. ANTLR haya generado las clases en el paquete edu.eam.ingesoft.tlf
+3. Las clases estén compiladas
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.parseWithReflection(FlowScriptFunctionsTest.java:212)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:118)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
