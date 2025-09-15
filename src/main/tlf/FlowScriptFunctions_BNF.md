@@ -115,20 +115,6 @@ STRING_LITERAL       ::= /" ( \\[btnr"\\] | \\u[0-9a-fA-F]{4} | [^"\\\r\n] )* "/
 
 ---
 
-## (Opcional) Diagramas Mermaid
-
-> Si tu visor soporta Mermaid, estos ayudan a visualizar las reglas clave.
-
-### `functionDeclaration`
-```mermaid
-flowchart LR
-    A["function"] --> B[functionName]
-    B --> C["("]
-    C --> D{parameterList?}
-    D --> E[")"]
-    E --> F{ "->" type ? }
-    F --> G[block]
-```
 
 ### `statement`
 ```mermaid
