@@ -94,10 +94,14 @@ mvn clean compile
 # Ejecutar todos los tests
 mvn test
 
-# Ejecutar solo tests de funciones
+# Ejecutar solo tests de funciones (perfil Team A)
+mvn -q -P teamA clean generate-sources test
+# Alternativa por clase
 mvn test -Dtest=FlowScriptFunctionsTest
 
-# Ejecutar solo tests de procesos
+# Ejecutar solo tests de procesos (perfil Team B)
+mvn -q -P teamB clean generate-sources test
+# Alternativa por clase
 mvn test -Dtest=FlowScriptProcessesTest
 ```
 
@@ -148,6 +152,29 @@ mvn test -Dtest=FlowScriptFunctionsTest
 # Ejecutar un test específico
 mvn test -Dtest=FlowScriptFunctionsTest#testFlowScriptFunctions
 ```
+
+## ✅ Guía Rápida Grupo A (Functions)
+
+- Comando recomendado para validar solo Functions (regenera ANTLR y corre la suite):
+  - `mvn -q clean generate-sources && mvn -q -Dtest="*Functions*" test`
+- Evitar fallas de Processes (Team B):
+  - Ejecuta únicamente la suite de Functions como arriba. Correr `mvn -q test` fallará si la gramática de procesos no está lista.
+- Evidencia para PR:
+  - Adjunta la salida de `target/surefire-reports/TEST-edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.xml`
+  - Incluye el resumen de consola que muestra: “Cargados XX casos … 0 fallos”.
+- Archivos relevantes Grupo A:
+  - `src/main/tlf/FlowScriptFunctions.g4`
+  - `src/test/resources/flowscript-functions.yaml`
+  - `tlf/functions-bnf.md` (BNF/diagrama RR opcional)
+
+### Pasos para PR (Team A)
+- Rama: `feature/antlrfunctions_<amcode>` creada desde `feature/antlrfunctions`.
+- Commit de cambios en gramática, YAML y BNF.
+- Abrir PR hacia `main` con título “Team A: Functions grammar <amcode>”.
+- Descripción:
+  - Regla inicial: `functionProgram`
+  - Alcance: funciones, statements, expresiones con precedencia, literales.
+  - Evidencia: pegar salida de tests y adjuntar archivo XML de surefire.
 
 ### Ejecución
 

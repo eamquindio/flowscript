@@ -1,0 +1,32 @@
+src/
+        └─ main/
+        └─ tlf/
+        ├─ functions_railroad.md        ← documento con el diagrama embebido
+        └─ railroad/
+        ├─ functionProgram.svg
+        ├─ functionDecl.svg
+        ├─ paramList.svg
+        ├─ param.svg
+        ├─ type.svg
+        ├─ block.svg
+        ├─ statement.svg
+        ├─ varAssign.svg
+        ├─ ifStmt.svg
+        ├─ whileStmt.svg
+        ├─ forEachStmt.svg
+        ├─ forRangeStmt.svg
+        ├─ tryCatchStmt.svg
+        ├─ expression.svg
+        ├─ assignment.svg
+        ├─ orExpr.svg
+        ├─ andExpr.svg
+        ├─ equality.svg
+        ├─ relational.svg
+        ├─ additive.svg
+        ├─ multiplicative.svg
+        ├─ unary.svg
+        ├─ postfix.svg
+        ├─ argList.svg
+        ├─ primary.svg
+        ├─ listLiteral.svg
+        └─ objectLiteral.svg

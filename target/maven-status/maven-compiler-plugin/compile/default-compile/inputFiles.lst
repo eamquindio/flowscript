@@ -1,17 +1,16 @@
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptProcessesBaseListener.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptFunctionsListener.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/services/ProjectService.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptFunctionsBaseListener.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/components/IconFactory.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/components/StatusBar.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/components/CodeEditorPane.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptFunctionsLexer.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/components/ProjectExplorer.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/components/ConsolePane.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptProcessesLexer.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptProcessesParser.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/syntax/FlowScriptSyntaxHighlighter.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptProcessesListener.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/FlowScriptIDE.java
-/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/ide/services/ThemeService.java
-/Users/caferrerb/IdeaProjects/flowscript/target/generated-sources/antlr4/FlowScriptFunctionsParser.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptProcessesBaseListener.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\services\ThemeService.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptFunctionsBaseListener.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\components\StatusBar.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptFunctionsListener.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\syntax\FlowScriptSyntaxHighlighter.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\components\ProjectExplorer.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\components\ConsolePane.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\components\IconFactory.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\services\ProjectService.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptFunctionsParser.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptFunctionsLexer.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\FlowScriptIDE.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\src\main\java\com\flowscript\ide\components\CodeEditorPane.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptProcessesListener.java
+E:\Documentos\Sandy\Octavo\LENGUAJES FORMALES\flowscript\target\generated-sources\antlr4\FlowScriptProcessesParser.java
