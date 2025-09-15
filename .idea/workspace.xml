@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,25 +34,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FlowScriptIDE.executor": "Run",
+    "JUnit.FlowScriptFunctionsTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
+    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
+    "Maven. [test].executor": "Run",
+    "Maven.flowscript [clean].executor": "Run",
+    "Maven.flowscript [compile].executor": "Run",
+    "Maven.flowscript [install].executor": "Run",
+    "Maven.flowscript [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "feature/antlrfunctions__240220212010",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bryan\Documents\GitHub\flowscript\src\main\tlf" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.FlowScriptIDE">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
@@ -140,6 +143,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
@@ -147,7 +158,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757220056610</updated>
+      <workItem from="1757899422559" duration="721000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
