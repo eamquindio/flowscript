@@ -18,24 +18,375 @@ grammar FlowScriptProcesses;
  * - Variables globales y contexto del proceso
  */
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
-
-// Palabras clave de estructura
-
 
 // ============================
 // PARSER RULES
 // ============================
 
+program
+    : importStmt* globalVarDecl* declaration* EOF
+    ;
+
+// --------------------
+// Imports y Globales
+// --------------------
+importStmt
+    : IMPORT stringLiteral (AS identifier)?                #flowImport
+    | IMPORT_JAR stringLiteral AS identifier               #jarImport
+    ;
+
+globalVarDecl
+    : identifier ASSIGN expression
+    ;
+
+declaration
+    : functionDecl
+    | processDecl
+    ;
+
+// --------------------
+// Funciones (simplificadas)
+// --------------------
+functionDecl
+    : FUNCTION identifier LPAREN paramList? RPAREN returnType? LBRACE statementList RBRACE
+    ;
+
+paramList
+    : param (COMMA param)*
+    ;
+
+param
+    : identifier COLON type
+    ;
+
+returnType
+    : ARROW type
+    ;
+
+type
+    : INTEGER
+    | DECIMAL
+    | BOOLEAN
+    | TEXT
+    | LIST
+    | OBJECT
+    | VOID
+    ;
+
+// --------------------
+// Procesos
+// --------------------
+processDecl
+    : PROCESS identifier LBRACE startNode processBody endNode+ RBRACE
+    ;
+
+processBody
+    : (taskNode | gatewayNode | endNode)*
+    ;
+
+processElement
+    : startNode
+    | taskNode
+    | endNode
+    | gatewayNode
+    ;
+
+startNode
+    : START ARROW identifier
+    ;
+
+taskNode
+    : TASK identifier LBRACE ACTION COLON (statementList | gatewayNode) RBRACE
+    ;
+
+endNode
+    : END identifier
+    ;
+
+gatewayNode
+    : GATEWAY identifier LBRACE whenClause+ (ELSE ARROW identifier)? RBRACE     #exclusiveGateway
+    | GATEWAY identifier PARALLEL LBRACE branchClauses joinClause RBRACE        #parallelGateway
+    ;
+
+whenClause
+    : WHEN expression ARROW identifier
+    ;
+
+branchClauses
+    : (BRANCH ARROW identifier)+
+    ;
+
+joinClause
+    : JOIN ARROW identifier
+    ;
+
+// --------------------
+// Statements
+// --------------------
+statementList
+    : statement*
+    ;
+
+statement
+    : assignment
+    | ifStmt
+    | whileStmt
+    | forEachStmt
+    | forRangeStmt
+    | tryCatchStmt
+    | throwStmt
+    | gotoStmt
+    | returnStmt
+    | expressionStmt
+    ;
+
+assignment
+    : (identifier | memberAccess | indexAccess) ASSIGN expression
+    ;
+
+ifStmt
+    : IF expression LBRACE statementList RBRACE elseIfClause* elseClause?
+    ;
+
+elseIfClause
+    : ELSE_IF expression LBRACE statementList RBRACE
+    ;
+
+elseClause
+    : ELSE LBRACE statementList RBRACE
+    ;
+
+whileStmt
+    : WHILE expression LBRACE statementList RBRACE
+    ;
+
+forEachStmt
+    : FOR EACH identifier IN expression LBRACE statementList RBRACE
+    ;
+
+forRangeStmt
+    : FOR identifier FROM expression TO expression (STEP expression)? LBRACE statementList RBRACE
+    ;
+
+tryCatchStmt
+    : TRY LBRACE statementList RBRACE CATCH LPAREN identifier RPAREN LBRACE statementList RBRACE
+    ;
+
+throwStmt
+    : THROW expression
+    ;
+
+gotoStmt
+    : GOTO identifier
+    ;
+
+returnStmt
+    : RETURN expression?
+    ;
+
+expressionStmt
+    : expression
+    ;
+
+// --------------------
+// Expressions
+// --------------------
+expression
+    : orExpr
+    ;
+
+orExpr
+    : andExpr (OR andExpr)*
+    ;
+
+andExpr
+    : equalityExpr (AND equalityExpr)*
+    ;
+
+equalityExpr
+    : relationalExpr ((EQ | NEQ) relationalExpr)*
+    ;
+
+relationalExpr
+    : addExpr ((LT | GT | LE | GE) addExpr)*
+    ;
+
+addExpr
+    : mulExpr ((PLUS | MINUS) mulExpr)*
+    ;
+
+mulExpr
+    : unaryExpr ((MUL | DIV | MOD) unaryExpr)*
+    ;
+
+unaryExpr
+    : (NOT | MINUS) unaryExpr
+    | postfixExpr
+    ;
+
+primaryExpr
+    : literal
+    | identifier
+    | functionCall
+    | LPAREN expression RPAREN
+    ;
+
+postfixExpr
+    : primaryExpr ( (DOT identifier) | (DOT functionCall) | (LBRACK expression RBRACK) )*
+    ;
+
+functionCall
+    : identifier LPAREN argList? RPAREN
+    ;
+
+argList
+    : expression (COMMA expression)*
+    ;
+
+memberAccess
+    : postfixExpr DOT identifier
+    ;
+
+indexAccess
+    : postfixExpr LBRACK expression RBRACK
+    ;
+
+// --------------------
+// Literales
+// --------------------
+literal
+    : integerLiteral
+    | decimalLiteral
+    | booleanLiteral
+    | stringLiteral
+    | listLiteral
+    | objectLiteral
+    | NULLLIT
+    ;
+
+integerLiteral
+    : INT
+    ;
+
+decimalLiteral
+    : DECIMAL_LIT
+    ;
+
+booleanLiteral
+    : TRUE
+    | FALSE
+    ;
+
+stringLiteral
+    : STRING
+    ;
+
+listLiteral
+    : LBRACK (expression (COMMA expression)*)? RBRACK
+    ;
+
+objectLiteral
+    : LBRACE (objectField (COMMA objectField)*)? RBRACE
+    ;
+
+objectField
+    : identifier COLON expression
+    ;
+
 // ============================
-// ESTRUCTURA DEL PROGRAMA
+// LEXER RULES (TOKENS)
 // ============================
 
-program
-    : EOF
+// Palabras clave
+IMPORT      : 'import';
+IMPORT_JAR  : 'import_jar';
+AS          : 'as';
+PROCESS     : 'process';
+FUNCTION    : 'function';
+RETURN      : 'return';
+START       : 'start';
+END         : 'end';
+TASK        : 'task';
+ACTION      : 'action';
+GATEWAY     : 'gateway';
+WHEN        : 'when';
+ELSE        : 'else';
+ELSE_IF     : 'else_if';
+PARALLEL    : 'parallel';
+BRANCH      : 'branch';
+JOIN        : 'join';
+IF          : 'if';
+TRY         : 'try';
+CATCH       : 'catch';
+THROW       : 'throw';
+WHILE       : 'while';
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+FROM        : 'from';
+TO          : 'to';
+STEP        : 'step';
+BREAK       : 'break';
+CONTINUE    : 'continue';
+GOTO        : 'go_to';
+
+// Tipos
+INTEGER     : 'integer';
+DECIMAL     : 'decimal';
+BOOLEAN     : 'boolean';
+TEXT        : 'text';
+LIST        : 'list';
+OBJECT      : 'object';
+VOID        : 'void';
+NULLLIT     : 'null';
+TRUE        : 'true';
+FALSE       : 'false';
+
+// Operadores
+PLUS        : '+';
+MINUS       : '-';
+MUL         : '*';
+DIV         : '/';
+MOD         : '%';
+LT          : '<';
+GT          : '>';
+LE          : '<=';
+GE          : '>=';
+EQ          : '==';
+NEQ         : '!=';
+AND         : 'and';
+OR          : 'or';
+NOT         : 'not';
+ASSIGN      : '=';
+DOT         : '.';
+LBRACK      : '[';
+RBRACK      : ']';
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+COMMA       : ',';
+COLON       : ':';
+ARROW       : '->';
+
+// Literales
+INT             : [0-9]+;
+DECIMAL_LIT     : [0-9]+ '.' [0-9]+;
+STRING          : '"' ( ~["\\] | '\\' . )* '"';
+
+// Identificadores
+identifier
+    : IDENT
     ;
+
+IDENT           : [a-zA-Z_][a-zA-Z0-9_]*;
+
+// Comentarios y espacio en blanco
+LINE_COMMENT    : '#' ~[\r\n]* -> skip;
+BLOCK_COMMENT   : '/*' .*? '*/' -> skip;
+WS              : [ \t\r\n]+ -> skip;
+
+
 
 
 // ============================
