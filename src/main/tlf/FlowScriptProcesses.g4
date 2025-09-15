@@ -157,7 +157,7 @@ block
 
 // Procesos
 processDeclaration
-    : PROCESS IDENTIFIER LBRACE startNode processElement* RBRACE
+    : PROCESS IDENTIFIER LBRACE startNode processElement* endNode+ RBRACE
     ;
 
 processElement
