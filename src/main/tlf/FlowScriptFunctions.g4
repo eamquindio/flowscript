@@ -23,14 +23,291 @@ grammar FlowScriptFunctions;
 // ============================
 
 // Palabras clave para funciones
+FUNCTION    : 'function';
+RETURN      : 'return';
+IF          : 'if';
+ELSE_IF     : 'else_if';
+ELSE        : 'else';
+WHILE       : 'while';
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+FROM        : 'from';
+TO          : 'to';
+STEP        : 'step';
+BREAK       : 'break';
+CONTINUE    : 'continue';
+TRY         : 'try';
+CATCH       : 'catch';
+THROW       : 'throw';
+LET         : 'let';
+CONST       : 'const';
+
+// Tipos
+TYPE_INTEGER: 'integer';
+TYPE_DECIMAL: 'decimal';
+TYPE_BOOLEAN: 'boolean';
+TYPE_TEXT   : 'text';
+TYPE_LIST   : 'list';
+TYPE_OBJECT : 'object';
+TYPE_VOID   : 'void';
+
+// Literales
+TRUE        : 'true';
+FALSE       : 'false';
+NULL        : 'null';
+
+// Operadores
+ARROW       : '->';
+ASSIGN      : '=';
+PLUS        : '+';
+MINUS       : '-';
+MUL         : '*';
+DIV         : '/';
+MOD         : '%';
+EQ          : '==';
+NEQ         : '!=';
+LT          : '<';
+GT          : '>';
+LE          : '<=';
+GE          : '>=';
+AND         : 'and';
+OR          : 'or';
+NOT         : 'not';
+
+
+// Símbolos
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+LBRACK      : '[';
+RBRACK      : ']';
+COMMA       : ',';
+COLON       : ':';
+DOT         : '.';
+
+
+// Identificadores
+IDENTIFIER  : [a-zA-Z_] [a-zA-Z_0-9]* ;
+// Números
+INTEGER_LITERAL
+    : '0' | [1-9] [0-9]*
+    ;
+
+DECIMAL_LITERAL
+    : [0-9]+ '.' [0-9]+ ([eE] [+\-]? [0-9]+)?
+    | [0-9]+ [eE] [+\-]? [0-9]+
+    ;
+
+// Cadenas
+STRING_LITERAL
+    : '"' ( '\\' . | ~["\\\r\n] )* '"'
+    ;
+
+// Comentarios
+LINE_COMMENT
+    : '#' ~[\r\n]* -> skip
+    ;
+
+BLOCK_COMMENT
+    : '/*' .*? '*/' -> skip
+    ;
+
+// Espacios en blanco
+WS
+    : [ \t\r\n]+ -> skip
+    ;
 
 // ============================
 // DECLARACIÓN DE FUNCIONES
 // ============================
 
-functionDeclaration
-    : EOF
+functionProgram
+    : functionDeclaration* EOF
     ;
+
+functionDeclaration
+    : FUNCTION IDENTIFIER LPAREN parameterList? RPAREN returnType? block
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON type
+    ;
+
+type
+    : TYPE_INTEGER
+    | TYPE_DECIMAL
+    | TYPE_BOOLEAN
+    | TYPE_TEXT
+    | TYPE_LIST
+    | TYPE_OBJECT
+    | TYPE_VOID
+    ;
+
+returnType
+    : ARROW type
+    ;
+
+block
+    : LBRACE statement* RBRACE
+    ;
+
+statement
+    : variableDeclaration
+    | assignment
+    | ifStatement
+    | whileLoop
+    | forEachLoop
+    | forRangeLoop
+    | returnStatement
+    | breakStatement
+    | continueStatement
+    | tryCatchStatement
+    | throwStatement
+    | expressionStatement
+    ;
+
+variableDeclaration
+    : (LET | CONST) IDENTIFIER (ASSIGN expression)?
+    ;
+
+assignment
+    : (IDENTIFIER
+      | postfixExpr   
+      ) ASSIGN expression
+    ;
+
+expressionStatement
+    : expression
+    ;
+
+ifStatement
+    : IF expression block (ELSE_IF expression block)* (ELSE block)?
+    ;
+
+whileLoop
+    : WHILE expression block
+    ;
+
+forEachLoop
+    : FOR EACH IDENTIFIER IN expression block
+    ;
+
+forRangeLoop
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? block
+    ;
+
+returnStatement
+    : RETURN expression?
+    ;
+
+breakStatement
+    : BREAK
+    ;
+
+continueStatement
+    : CONTINUE
+    ;
+
+tryCatchStatement
+    : TRY block (CATCH LPAREN IDENTIFIER RPAREN block)+
+    ;
+
+throwStatement
+    : THROW expression
+    ;
+
+// ============================
+// EXPRESIONES CON PRECEDENCIA
+// ============================
+expression
+    : orExpr
+    ;
+
+orExpr
+    : andExpr (OR andExpr)*
+    ;
+
+andExpr
+    : equalityExpr (AND equalityExpr)*
+    ;
+
+equalityExpr
+    : relationalExpr ((EQ | NEQ) relationalExpr)*
+    ;
+
+relationalExpr
+    : additiveExpr ((LT | GT | LE | GE) additiveExpr)*
+    ;
+
+additiveExpr
+    : multiplicativeExpr ((PLUS | MINUS) multiplicativeExpr)*
+    ;
+
+multiplicativeExpr
+    : unaryExpr ((MUL | DIV | MOD) unaryExpr)*
+    ;
+
+unaryExpr
+    : (MINUS | NOT) unaryExpr
+    | postfixExpr
+    ;
+
+// llamadas, acceso a miembros, indexación
+postfixExpr
+    : primary (LPAREN argumentList? RPAREN | DOT IDENTIFIER | LBRACK expression RBRACK)*
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+primary
+    : IDENTIFIER
+    | literal
+    | LPAREN expression RPAREN
+    ;
+
+// ============================
+// LITERALES
+// ============================
+
+literal
+    : numberLiteral
+    | stringLiteral
+    | booleanLiteral
+    | NULL
+    | listLiteral
+    | objectLiteral
+    ;
+
+numberLiteral
+    : DECIMAL_LITERAL
+    | INTEGER_LITERAL
+    ;
+
+stringLiteral
+    : STRING_LITERAL
+    ;
+
+booleanLiteral
+    : TRUE
+    | FALSE
+    ;
+
+listLiteral
+    : LBRACK (expression (COMMA expression)*)? RBRACK
+    ;
+
+objectLiteral
+    : LBRACE (IDENTIFIER COLON expression (COMMA IDENTIFIER COLON expression)*)? RBRACE
+    ;
+
 // ============================
 // EJEMPLOS DE USO
 // ============================
