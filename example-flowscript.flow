@@ -1,0 +1,648 @@
+# ========================================================================
+# FlowScript Comprehensive Example - E-Commerce Order Processing System
+# This example demonstrates all major features of the FlowScript language
+# ========================================================================
+
+# Import standard libraries for various operations
+import "std/json" as Json
+import "std/db" as Database
+import "std/http" as Http
+import "std/dates" as Dates
+import "std/io" as IO
+
+# Import external JAR for encryption
+import_jar "libs/security.jar" as Security
+
+# ========================= UTILITY FUNCTIONS =========================
+
+function validate_email(email: text) -> boolean {
+    # Simple email validation using regular expressions
+    if email == null or email == "" {
+        return false
+    }
+
+    # Check for @ symbol and basic format
+    has_at = email.contains("@")
+    has_dot = email.contains(".")
+    min_length = email.length() >= 5
+
+    return has_at and has_dot and min_length
+}
+
+function calculate_tax(amount: decimal, tax_rate: decimal) -> decimal {
+    if tax_rate < 0.0 or tax_rate > 1.0 {
+        throw {
+            type: "InvalidTaxRate",
+            message: "Tax rate must be between 0.0 and 1.0",
+            provided_rate: tax_rate
+        }
+    }
+    return amount * tax_rate
+}
+
+function apply_discount(price: decimal, discount_type: text, discount_value: decimal) -> decimal {
+    try {
+        if discount_type == "percentage" {
+            if discount_value < 0.0 or discount_value > 100.0 {
+                throw { type: "InvalidDiscount", message: "Percentage must be 0-100" }
+            }
+            return price * (1.0 - (discount_value / 100.0))
+        } else_if discount_type == "fixed" {
+            if discount_value < 0.0 {
+                throw { type: "InvalidDiscount", message: "Fixed discount cannot be negative" }
+            }
+            discounted_price = price - discount_value
+            return discounted_price > 0.0 ? discounted_price : 0.0
+        } else {
+            throw { type: "UnknownDiscountType", message: "Type must be 'percentage' or 'fixed'" }
+        }
+    } catch (error) {
+        IO.print("Discount calculation error: " + error.message)
+        return price  # Return original price if error
+    }
+}
+
+function calculate_shipping_cost(weight: decimal, distance: decimal, express: boolean) -> decimal {
+    base_rate = 5.00
+    weight_rate = 2.50
+    distance_rate = 0.10
+    express_multiplier = express ? 2.0 : 1.0
+
+    cost = (base_rate + (weight * weight_rate) + (distance * distance_rate)) * express_multiplier
+    return cost
+}
+
+function validate_inventory(items: list) -> object {
+    # Validate that all items are available in sufficient quantities
+    validation_result = {
+        valid: true,
+        errors: [],
+        warnings: [],
+        total_items: items.length()
+    }
+
+    for each item in items {
+        if item.quantity <= 0 {
+            validation_result.valid = false
+            validation_result.errors.add("Invalid quantity for item " + item.product_id)
+        }
+
+        stock_check = Database.query(
+            "SELECT stock FROM inventory WHERE product_id = ?",
+            [item.product_id]
+        )
+
+        if stock_check.length() == 0 {
+            validation_result.valid = false
+            validation_result.errors.add("Product not found: " + item.product_id)
+        } else_if stock_check[0].stock < item.quantity {
+            validation_result.valid = false
+            validation_result.errors.add("Insufficient stock for " + item.product_id)
+        } else_if stock_check[0].stock < (item.quantity * 1.5) {
+            validation_result.warnings.add("Low stock warning for " + item.product_id)
+        }
+    }
+
+    return validation_result
+}
+
+function generate_order_id() -> text {
+    timestamp = Dates.now()
+    random_suffix = (timestamp % 10000).toString()
+    return "ORD" + Dates.format(timestamp, "yyyyMMdd") + "_" + random_suffix
+}
+
+function encrypt_payment_data(payment_info: object) -> text {
+    try {
+        # Use imported JAR for encryption
+        encrypted_data = Security.AESEncrypt.encrypt(
+            Json.stringify(payment_info),
+            "order_processing_key_2024"
+        )
+        return encrypted_data
+    } catch (crypto_error) {
+        throw {
+            type: "EncryptionError",
+            message: "Failed to encrypt payment data",
+            original_error: crypto_error.message
+        }
+    }
+}
+
+function send_notification(customer_email: text, subject: text, message: text) -> boolean {
+    try {
+        notification_payload = {
+            to: customer_email,
+            subject: subject,
+            body: message,
+            timestamp: Dates.now()
+        }
+
+        response = Http.post(
+            "https://api.notifications.com/send",
+            Json.stringify(notification_payload),
+            { "Content-Type": "application/json", "API-Key": "flowscript_demo_key" }
+        )
+
+        return response.status == 200
+    } catch (notification_error) {
+        IO.print("Failed to send notification: " + notification_error.message)
+        return false
+    }
+}
+
+# ====================== COMPLEX ORDER PROCESSING ======================
+
+process ComprehensiveOrderProcessing {
+    start -> InitializeOrder
+
+    task InitializeOrder {
+        action:
+            # Generate unique order ID
+            order_id = generate_order_id()
+            processing_start = Dates.now()
+
+            # Initialize order tracking object
+            order_tracking = {
+                id: order_id,
+                status: "INITIALIZING",
+                customer_id: input.customer_id,
+                started_at: processing_start,
+                steps_completed: [],
+                total_amount: 0.0,
+                tax_amount: 0.0,
+                shipping_cost: 0.0,
+                discount_applied: 0.0
+            }
+
+            IO.print("Processing order: " + order_id + " for customer: " + input.customer_id)
+            goto ValidateCustomer
+    }
+
+    task ValidateCustomer {
+        action:
+            # Comprehensive customer validation
+            customer_query = Database.query(
+                "SELECT * FROM customers WHERE id = ? AND active = true",
+                [input.customer_id]
+            )
+
+            if customer_query.length() == 0 {
+                order_tracking.status = "CUSTOMER_INVALID"
+                error_details = "Customer not found or inactive: " + input.customer_id
+                goto CustomerValidationFailed
+            }
+
+            customer = customer_query[0]
+
+            # Validate email format
+            if not validate_email(customer.email) {
+                order_tracking.status = "EMAIL_INVALID"
+                error_details = "Invalid email format: " + customer.email
+                goto CustomerValidationFailed
+            }
+
+            # Check customer credit status
+            if customer.credit_limit > 0.0 and customer.outstanding_balance > customer.credit_limit {
+                order_tracking.status = "CREDIT_EXCEEDED"
+                error_details = "Customer credit limit exceeded"
+                goto CreditCheckFailed
+            }
+
+            order_tracking.steps_completed.add("CUSTOMER_VALIDATED")
+            order_tracking.customer_data = customer
+            goto ValidateOrderItems
+    }
+
+    task ValidateOrderItems {
+        action:
+            # Validate each item in the order
+            inventory_check = validate_inventory(input.items)
+
+            if not inventory_check.valid {
+                order_tracking.status = "INVENTORY_INVALID"
+                order_tracking.validation_errors = inventory_check.errors
+                goto InventoryValidationFailed
+            }
+
+            # Calculate preliminary totals
+            subtotal = 0.0
+            total_weight = 0.0
+
+            for each item in input.items {
+                product_info = Database.query(
+                    "SELECT price, weight FROM products WHERE id = ?",
+                    [item.product_id]
+                )[0]
+
+                item_total = product_info.price * item.quantity
+                subtotal = subtotal + item_total
+                total_weight = total_weight + (product_info.weight * item.quantity)
+            }
+
+            order_tracking.subtotal = subtotal
+            order_tracking.total_weight = total_weight
+            order_tracking.steps_completed.add("ITEMS_VALIDATED")
+
+            # Check for any inventory warnings
+            if inventory_check.warnings.length() > 0 {
+                order_tracking.inventory_warnings = inventory_check.warnings
+            }
+
+            goto CalculatePricing
+    }
+
+    task CalculatePricing {
+        action:
+            current_subtotal = order_tracking.subtotal
+
+            # Apply customer-specific discount if applicable
+            discount_amount = 0.0
+            if input.discount != null {
+                try {
+                    discount_amount = current_subtotal - apply_discount(
+                        current_subtotal,
+                        input.discount.type,
+                        input.discount.value
+                    )
+                } catch (discount_error) {
+                    IO.print("Discount calculation failed: " + discount_error.message)
+                    # Continue without discount
+                }
+            }
+
+            # Apply VIP customer automatic discount
+            if order_tracking.customer_data.vip_level == "GOLD" {
+                vip_discount = apply_discount(current_subtotal, "percentage", 10.0)
+                additional_discount = current_subtotal - vip_discount
+                if additional_discount > discount_amount {
+                    discount_amount = additional_discount
+                }
+            } else_if order_tracking.customer_data.vip_level == "PLATINUM" {
+                vip_discount = apply_discount(current_subtotal, "percentage", 15.0)
+                additional_discount = current_subtotal - vip_discount
+                if additional_discount > discount_amount {
+                    discount_amount = additional_discount
+                }
+            }
+
+            discounted_subtotal = current_subtotal - discount_amount
+
+            # Calculate tax
+            tax_rate = input.shipping_address.country == "US" ? 0.08 : 0.12
+            tax_amount = calculate_tax(discounted_subtotal, tax_rate)
+
+            # Calculate shipping
+            shipping_distance = input.shipping_address.distance_km
+            is_express = input.shipping_options.express == true
+            shipping_cost = calculate_shipping_cost(
+                order_tracking.total_weight,
+                shipping_distance,
+                is_express
+            )
+
+            # Final total calculation
+            final_total = discounted_subtotal + tax_amount + shipping_cost
+
+            # Update order tracking
+            order_tracking.discount_applied = discount_amount
+            order_tracking.tax_amount = tax_amount
+            order_tracking.shipping_cost = shipping_cost
+            order_tracking.total_amount = final_total
+            order_tracking.steps_completed.add("PRICING_CALCULATED")
+
+            goto ProcessPaymentDecision
+    }
+
+    gateway ProcessPaymentDecision {
+        when order_tracking.total_amount > 1000.0 -> RequireManagerApproval
+        when order_tracking.customer_data.payment_method == "CREDIT" -> ProcessCreditPayment
+        when order_tracking.customer_data.payment_method == "DEBIT" -> ProcessDebitPayment
+        when order_tracking.customer_data.payment_method == "PAYPAL" -> ProcessPayPalPayment
+        else -> ProcessStandardPayment
+    }
+
+    task RequireManagerApproval {
+        action:
+            # High-value orders require manager approval
+            approval_request = {
+                order_id: order_tracking.id,
+                customer_id: order_tracking.customer_id,
+                amount: order_tracking.total_amount,
+                requested_at: Dates.now(),
+                reason: "HIGH_VALUE_ORDER"
+            }
+
+            Database.insert("approval_requests", approval_request)
+
+            # Send notification to managers
+            send_notification(
+                "managers@company.com",
+                "High Value Order Approval Required",
+                "Order " + order_tracking.id + " for $" + order_tracking.total_amount.toString() + " requires approval"
+            )
+
+            order_tracking.status = "PENDING_APPROVAL"
+            order_tracking.steps_completed.add("APPROVAL_REQUESTED")
+            goto PendingApproval
+    }
+
+    task ProcessCreditPayment {
+        action:
+            # Process credit card payment
+            try {
+                payment_data = {
+                    order_id: order_tracking.id,
+                    amount: order_tracking.total_amount,
+                    currency: "USD",
+                    card_number: input.payment_info.card_number,
+                    expiry: input.payment_info.expiry,
+                    cvv: input.payment_info.cvv
+                }
+
+                encrypted_payment = encrypt_payment_data(payment_data)
+
+                payment_response = Http.post(
+                    "https://api.payments.com/process",
+                    encrypted_payment,
+                    { "Content-Type": "application/json" }
+                )
+
+                if payment_response.status == "SUCCESS" {
+                    order_tracking.payment_id = payment_response.transaction_id
+                    order_tracking.payment_status = "COMPLETED"
+                    order_tracking.steps_completed.add("PAYMENT_PROCESSED")
+                    goto FinalizeOrder
+                } else {
+                    order_tracking.payment_status = "FAILED"
+                    order_tracking.payment_error = payment_response.error_message
+                    goto PaymentFailed
+                }
+            } catch (payment_error) {
+                order_tracking.payment_status = "ERROR"
+                order_tracking.payment_error = payment_error.message
+                goto PaymentFailed
+            }
+    }
+
+    task ProcessDebitPayment {
+        action:
+            # Similar to credit but with different validation
+            account_balance = Http.get(
+                "https://api.bank.com/balance/" + input.payment_info.account_number
+            )
+
+            if account_balance.available < order_tracking.total_amount {
+                order_tracking.payment_status = "INSUFFICIENT_FUNDS"
+                goto PaymentFailed
+            }
+
+            # Process debit payment (simplified)
+            order_tracking.payment_status = "COMPLETED"
+            order_tracking.steps_completed.add("DEBIT_PAYMENT_PROCESSED")
+            goto FinalizeOrder
+    }
+
+    task ProcessPayPalPayment {
+        action:
+            # PayPal payment processing
+            paypal_request = {
+                order_id: order_tracking.id,
+                amount: order_tracking.total_amount,
+                paypal_email: input.payment_info.paypal_email
+            }
+
+            paypal_response = Http.post(
+                "https://api.paypal.com/payments",
+                Json.stringify(paypal_request)
+            )
+
+            if paypal_response.status == "APPROVED" {
+                order_tracking.payment_status = "COMPLETED"
+                order_tracking.payment_id = paypal_response.payment_id
+                order_tracking.steps_completed.add("PAYPAL_PAYMENT_PROCESSED")
+                goto FinalizeOrder
+            } else {
+                order_tracking.payment_status = "PAYPAL_FAILED"
+                goto PaymentFailed
+            }
+    }
+
+    task ProcessStandardPayment {
+        action:
+            # Standard payment processing
+            order_tracking.payment_status = "COMPLETED"
+            order_tracking.steps_completed.add("STANDARD_PAYMENT_PROCESSED")
+            goto FinalizeOrder
+    }
+
+    task FinalizeOrder {
+        action:
+            # Update inventory
+            for each item in input.items {
+                Database.execute(
+                    "UPDATE inventory SET stock = stock - ?, reserved = reserved + ? WHERE product_id = ?",
+                    [item.quantity, item.quantity, item.product_id]
+                )
+            }
+
+            # Create order record
+            final_order = {
+                id: order_tracking.id,
+                customer_id: order_tracking.customer_id,
+                status: "CONFIRMED",
+                subtotal: order_tracking.subtotal,
+                discount: order_tracking.discount_applied,
+                tax: order_tracking.tax_amount,
+                shipping: order_tracking.shipping_cost,
+                total: order_tracking.total_amount,
+                payment_id: order_tracking.payment_id,
+                created_at: order_tracking.started_at,
+                completed_at: Dates.now()
+            }
+
+            Database.insert("orders", final_order)
+
+            # Send confirmation email
+            confirmation_sent = send_notification(
+                order_tracking.customer_data.email,
+                "Order Confirmation - " + order_tracking.id,
+                "Your order has been confirmed and will be processed shortly."
+            )
+
+            order_tracking.status = "COMPLETED"
+            order_tracking.steps_completed.add("ORDER_FINALIZED")
+
+            # Schedule fulfillment
+            fulfillment_job = {
+                order_id: order_tracking.id,
+                priority: order_tracking.customer_data.vip_level == "PLATINUM" ? "HIGH" : "NORMAL",
+                scheduled_date: is_express ? Dates.addDays(Dates.now(), 1) : Dates.addDays(Dates.now(), 3)
+            }
+
+            Database.insert("fulfillment_queue", fulfillment_job)
+            goto OrderSuccess
+    }
+
+    # Parallel gateway for post-processing tasks
+    gateway PostProcessingTasks parallel {
+        branch -> UpdateCustomerStats
+        branch -> GenerateReports
+        branch -> TriggerRecommendations
+        join -> PostProcessingComplete
+    }
+
+    task UpdateCustomerStats {
+        action:
+            # Update customer lifetime value and order count
+            Database.execute(
+                "UPDATE customers SET total_orders = total_orders + 1, lifetime_value = lifetime_value + ? WHERE id = ?",
+                [order_tracking.total_amount, order_tracking.customer_id]
+            )
+            goto CustomerStatsUpdated
+    }
+
+    task GenerateReports {
+        action:
+            # Generate sales and inventory reports
+            report_data = {
+                order_id: order_tracking.id,
+                revenue: order_tracking.total_amount,
+                tax_collected: order_tracking.tax_amount,
+                date: Dates.format(Dates.now(), "yyyy-MM-dd")
+            }
+
+            Database.insert("sales_reports", report_data)
+            goto ReportsGenerated
+    }
+
+    task TriggerRecommendations {
+        action:
+            # Trigger product recommendation engine
+            recommendation_request = {
+                customer_id: order_tracking.customer_id,
+                purchased_items: input.items,
+                order_value: order_tracking.total_amount
+            }
+
+            Http.post(
+                "https://api.recommendations.com/trigger",
+                Json.stringify(recommendation_request)
+            )
+            goto RecommendationsTriggered
+    }
+
+    task PostProcessingComplete {
+        action:
+            IO.print("Order " + order_tracking.id + " fully processed with post-processing tasks completed")
+            goto OrderCompleteSuccess
+    }
+
+    # ======================= ERROR HANDLING TASKS =======================
+
+    task CustomerValidationFailed {
+        action:
+            error_log = {
+                order_id: order_tracking.id,
+                error_type: "CUSTOMER_VALIDATION",
+                error_message: error_details,
+                timestamp: Dates.now()
+            }
+            Database.insert("order_errors", error_log)
+            goto OrderFailed
+    }
+
+    task CreditCheckFailed {
+        action:
+            # Send credit limit notification
+            send_notification(
+                order_tracking.customer_data.email,
+                "Order Processing Issue - Credit Limit",
+                "Your order could not be processed due to credit limit restrictions."
+            )
+            goto OrderFailed
+    }
+
+    task InventoryValidationFailed {
+        action:
+            # Handle inventory issues
+            for each error in order_tracking.validation_errors {
+                IO.print("Inventory error: " + error)
+            }
+            goto OrderFailed
+    }
+
+    task PaymentFailed {
+        action:
+            # Reverse any inventory reservations
+            for each item in input.items {
+                Database.execute(
+                    "UPDATE inventory SET reserved = reserved - ? WHERE product_id = ?",
+                    [item.quantity, item.product_id]
+                )
+            }
+
+            send_notification(
+                order_tracking.customer_data.email,
+                "Payment Processing Failed",
+                "Unfortunately, we could not process your payment. Please try again or contact support."
+            )
+            goto OrderFailed
+    }
+
+    # ======================= END STATES =======================
+
+    end OrderSuccess                    # Successful order completion
+    end OrderCompleteSuccess           # Successful with post-processing
+    end PendingApproval               # Waiting for manager approval
+    end OrderFailed                   # Order failed for various reasons
+    end CustomerStatsUpdated          # Customer stats updated
+    end ReportsGenerated              # Reports generated
+    end RecommendationsTriggered      # Recommendations triggered
+}
+
+# ======================= ADDITIONAL UTILITY PROCESS =======================
+
+process InventoryMonitoring {
+    start -> CheckLowStock
+
+    task CheckLowStock {
+        action:
+            # Monitor inventory levels and trigger restocking
+            low_stock_items = Database.query(
+                "SELECT product_id, stock, minimum_threshold FROM inventory WHERE stock <= minimum_threshold"
+            )
+
+            if low_stock_items.length() > 0 {
+                goto ProcessRestockAlerts
+            } else {
+                goto InventoryHealthy
+            }
+    }
+
+    task ProcessRestockAlerts {
+        action:
+            for each item in low_stock_items {
+                restock_alert = {
+                    product_id: item.product_id,
+                    current_stock: item.stock,
+                    threshold: item.minimum_threshold,
+                    alert_date: Dates.now(),
+                    status: "URGENT"
+                }
+
+                Database.insert("restock_alerts", restock_alert)
+
+                # Send alert to procurement team
+                send_notification(
+                    "procurement@company.com",
+                    "Urgent: Low Stock Alert - " + item.product_id,
+                    "Product " + item.product_id + " has only " + item.stock.toString() + " units remaining"
+                )
+            }
+            goto RestockAlertsProcessed
+    }
+
+    end InventoryHealthy
+    end RestockAlertsProcessed
+}
