@@ -98,10 +98,21 @@ public class CodeEditorPane extends VBox {
     public void openFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open FlowScript File");
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("FlowScript Files", "*.flow"),
-            new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
+
+        // Add extension filters
+        FileChooser.ExtensionFilter flowScriptFilter = new FileChooser.ExtensionFilter("FlowScript Files", "*.flow");
+        FileChooser.ExtensionFilter allFilesFilter = new FileChooser.ExtensionFilter("All Files", "*.*");
+
+        fileChooser.getExtensionFilters().addAll(flowScriptFilter, allFilesFilter);
+
+        // Set FlowScript filter as default
+        fileChooser.setSelectedExtensionFilter(flowScriptFilter);
+
+        // Set initial directory to current project directory
+        File currentDir = new File(System.getProperty("user.dir"));
+        if (currentDir.exists()) {
+            fileChooser.setInitialDirectory(currentDir);
+        }
         
         File selectedFile = fileChooser.showOpenDialog(getScene().getWindow());
         if (selectedFile != null) {
@@ -139,9 +150,26 @@ public class CodeEditorPane extends VBox {
         if (currentTab != null && currentTab.getContent() instanceof CodeArea) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save FlowScript File");
-            fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("FlowScript Files", "*.flow")
-            );
+
+            // Add extension filters
+            FileChooser.ExtensionFilter flowScriptFilter = new FileChooser.ExtensionFilter("FlowScript Files", "*.flow");
+            FileChooser.ExtensionFilter allFilesFilter = new FileChooser.ExtensionFilter("All Files", "*.*");
+
+            fileChooser.getExtensionFilters().addAll(flowScriptFilter, allFilesFilter);
+
+            // Set FlowScript filter as default
+            fileChooser.setSelectedExtensionFilter(flowScriptFilter);
+
+            // Set initial directory to current project directory
+            File currentDir = new File(System.getProperty("user.dir"));
+            if (currentDir.exists()) {
+                fileChooser.setInitialDirectory(currentDir);
+            }
+
+            // Set default file name with .flow extension
+            if (currentTab.getText().contains("Untitled")) {
+                fileChooser.setInitialFileName("untitled.flow");
+            }
             
             File file = fileChooser.showSaveDialog(getScene().getWindow());
             if (file != null) {

@@ -1,0 +1,185 @@
+/* FlowScript Language Grammar
+ * Business Process Modeling and Execution Language
+ * Extracted from FlowScript Specification v1.0
+ */
+
+Program  ::= Declaration*
+Declaration
+         ::= ImportDeclaration | FunctionDeclaration | ProcessDeclaration | VariableDeclaration
+ImportDeclaration
+         ::= 'import' STRING_LITERAL ( 'as' IDENTIFIER )?
+           | 'import_jar' STRING_LITERAL 'as' IDENTIFIER
+FunctionDeclaration
+         ::= 'function' IDENTIFIER '(' ParameterList? ')' ( '->' Type )? Block
+ParameterList
+         ::= Parameter ( ',' Parameter )*
+Parameter
+         ::= IDENTIFIER ':' Type
+Type     ::= 'integer' | 'decimal' | 'boolean' | 'text' | 'list' | 'object' | 'void'
+ProcessDeclaration
+         ::= 'process' IDENTIFIER '{' ProcessBody '}'
+ProcessBody
+         ::= ProcessElement*
+ProcessElement
+         ::= StartElement | TaskElement | GatewayElement | EndElement
+StartElement
+         ::= 'start' '->' IDENTIFIER
+TaskElement
+         ::= 'task' IDENTIFIER '{' TaskBody '}'
+TaskBody ::= 'action:' StatementList
+GatewayElement
+         ::= ExclusiveGateway | ParallelGateway
+ExclusiveGateway
+         ::= 'gateway' IDENTIFIER '{' WhenClause* ElseClause? '}'
+WhenClause
+         ::= 'when' Expression '->' IDENTIFIER
+ElseClause
+         ::= 'else' '->' IDENTIFIER
+ParallelGateway
+         ::= 'gateway' IDENTIFIER 'parallel' '{' ParallelBranch* JoinClause '}'
+ParallelBranch
+         ::= 'branch' '->' IDENTIFIER
+JoinClause
+         ::= 'join' '->' IDENTIFIER
+EndElement
+         ::= 'end' IDENTIFIER
+StatementList
+         ::= Statement*
+Statement
+         ::= ExpressionStatement
+           | IfStatement
+           | TryStatement
+           | ThrowStatement
+           | ReturnStatement
+           | GotoStatement
+           | ForStatement
+           | VariableDeclaration
+           | Block
+ExpressionStatement
+         ::= Expression
+IfStatement
+         ::= 'if' Expression Statement ( 'else_if' Expression Statement )* ( 'else' Statement )?
+TryStatement
+         ::= 'try' Block 'catch' '(' IDENTIFIER ')' Block
+ThrowStatement
+         ::= 'throw' Expression
+ReturnStatement
+         ::= 'return' Expression?
+GotoStatement
+         ::= 'go_to' IDENTIFIER
+ForStatement
+         ::= 'for' 'each' IDENTIFIER 'in' Expression Statement
+VariableDeclaration
+         ::= IDENTIFIER '=' Expression
+Block    ::= '{' StatementList '}'
+Expression
+         ::= TernaryExpression
+TernaryExpression
+         ::= LogicalOrExpression ( '?' Expression ':' Expression )?
+LogicalOrExpression
+         ::= LogicalAndExpression ( 'or' LogicalAndExpression )*
+LogicalAndExpression
+         ::= EqualityExpression ( 'and' EqualityExpression )*
+EqualityExpression
+         ::= RelationalExpression ( ( '==' | '!=' ) RelationalExpression )*
+RelationalExpression
+         ::= AdditiveExpression ( ( '<' | '>' | '<=' | '>=' ) AdditiveExpression )*
+AdditiveExpression
+         ::= MultiplicativeExpression ( ( '+' | '-' ) MultiplicativeExpression )*
+MultiplicativeExpression
+         ::= UnaryExpression ( ( '*' | '/' | '%' ) UnaryExpression )*
+UnaryExpression
+         ::= ( 'not' | '-' )? PostfixExpression
+PostfixExpression
+         ::= PrimaryExpression PostfixOperator*
+PostfixOperator
+         ::= '.' IDENTIFIER
+           | '[' Expression ']'
+           | '(' ArgumentList? ')'
+PrimaryExpression
+         ::= IDENTIFIER
+           | Literal
+           | ObjectLiteral
+           | ListLiteral
+           | '(' Expression ')'
+ArgumentList
+         ::= Expression ( ',' Expression )*
+Literal  ::= IntegerLiteral
+           | DecimalLiteral
+           | BooleanLiteral
+           | StringLiteral
+           | NullLiteral
+IntegerLiteral
+         ::= INTEGER_TOKEN ( '_' INTEGER_TOKEN )*
+DecimalLiteral
+         ::= INTEGER_TOKEN '.' INTEGER_TOKEN ( ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN )?
+           | INTEGER_TOKEN ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN
+BooleanLiteral
+         ::= 'true' | 'false'
+StringLiteral
+         ::= STRING_LITERAL
+NullLiteral
+         ::= 'null'
+ObjectLiteral
+         ::= '{' ObjectMemberList? '}'
+ObjectMemberList
+         ::= ObjectMember ( ',' ObjectMember )*
+ObjectMember
+         ::= IDENTIFIER ':' Expression
+           | STRING_LITERAL ':' Expression
+ListLiteral
+         ::= '[' ExpressionList? ']'
+ExpressionList
+         ::= Expression ( ',' Expression )*
+
+/* Lexical Rules */
+IDENTIFIER
+         ::= LETTER ( LETTER | DIGIT | '_' )*
+STRING_LITERAL
+         ::= '"' STRING_CHARACTER* '"'
+STRING_CHARACTER
+         ::= [^"\\] | ESCAPE_SEQUENCE
+ESCAPE_SEQUENCE
+         ::= '\\' ( '"' | '\\' | 'n' | 'r' | 't' | 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT )
+INTEGER_TOKEN
+         ::= DIGIT+
+LETTER   ::= [a-zA-Z]
+DIGIT    ::= [0-9]
+HEX_DIGIT
+         ::= DIGIT | [a-fA-F]
+SINGLE_LINE_COMMENT
+         ::= '#' [^\\n]* '\\n'
+MULTI_LINE_COMMENT
+         ::= '/*' ( [^*] | '*' [^/] )* '*/'
+WHITESPACE
+         ::= [ \\t\\r\\n]+
+
+/* Keywords */
+/* Structure: import import_jar as function return process */
+/* Flow: start end task gateway go_to when branch join else */
+/* Control: if else_if try catch throw for each in */
+/* Types: integer decimal boolean text list object void */
+/* Literals: true false null */
+/* Operators: and or not */
+
+/* Operators and Delimiters */
+/* Arithmetic: + - * / % */
+/* Comparison: < > <= >= == != */
+/* Assignment: = */
+/* Ternary: ? : */
+/* Access: . [ ] */
+/* Delimiters: ( ) { } , ; */
+/* Arrow: -> */
+
+/* Operator Precedence (Highest to Lowest) */
+/* 15. Access/Indexing: . [ */
+/* 14. Function Call: ( */
+/* 13. Unary: not - */
+/* 12. Multiplicative: * / % */
+/* 11. Additive: + - */
+/* 10. Relational: < > <= >= */
+/*  9. Equality: == != */
+/*  8. Logical AND: and */
+/*  7. Logical OR: or */
+/*  6. Ternary: ? : */
+/*  1. Assignment: = */

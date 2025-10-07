@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/grammar-validation.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/flowscriptsummary.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/DeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/DeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,26 +49,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FlowScriptIDE.executor": "Run",
+    "Application.LexerDemo.executor": "Run",
+    "JUnit.FlowScriptFunctionsTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.executor": "Run",
+    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
+    "JUnit.LexerTest.executor": "Run",
+    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
+    "Maven. [test].executor": "Run",
+    "Maven.flowscript [clean].executor": "Run",
+    "Maven.flowscript [compile].executor": "Run",
+    "Maven.flowscript [install].executor": "Run",
+    "Maven.flowscript [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
   }
-}</component>
-  <component name="RunManager" selected="Application.FlowScriptIDE">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.LexerDemo">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
       <module name="flowscript" />
@@ -70,32 +90,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FlowScriptFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LexerDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.lexer.LexerDemo" />
       <module name="flowscript" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.eam.ingesoft.tlf.tester.*" />
+          <option name="PATTERN" value="com.flowscript.lexer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
-      <option name="MAIN_CLASS_NAME" value="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FlowScriptProcessesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.eam.ingesoft.tlf.tester.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
-      <option name="MAIN_CLASS_NAME" value="edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -116,6 +119,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LexerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.flowscript.lexer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.flowscript.lexer" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.lexer.LexerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="edu.eam.ingesoft.tlf.tester in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="flowscript" />
       <extension name="coverage">
@@ -132,11 +150,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LexerDemo" />
         <item itemvalue="Application.FlowScriptIDE" />
+        <item itemvalue="JUnit.LexerTest" />
         <item itemvalue="JUnit.edu.eam.ingesoft.tlf.tester in flowscript" />
         <item itemvalue="JUnit.FlowScriptProcessesTest.testFlowScriptProcesses" />
-        <item itemvalue="JUnit.FlowScriptProcessesTest" />
-        <item itemvalue="JUnit.FlowScriptFunctionsTest" />
       </list>
     </recent_temporary>
   </component>

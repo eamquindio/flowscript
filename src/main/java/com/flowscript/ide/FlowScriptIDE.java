@@ -27,6 +27,7 @@ public class FlowScriptIDE extends Application {
     private ProjectExplorer projectExplorer;
     private CodeEditorPane codeEditorPane;
     private ConsolePane consolePane;
+    private TokenTablePane tokenTablePane;
     private StatusBar statusBar;
     private ProjectService projectService;
     private ThemeService themeService;
@@ -86,18 +87,26 @@ public class FlowScriptIDE extends Application {
         projectExplorer = new ProjectExplorer(projectService);
         codeEditorPane = new CodeEditorPane();
         consolePane = new ConsolePane();
+        tokenTablePane = new TokenTablePane();
         statusBar = new StatusBar();
-        
-        // Create horizontal split between project explorer and editor
-        SplitPane horizontalSplit = new SplitPane();
-        horizontalSplit.setOrientation(Orientation.HORIZONTAL);
-        horizontalSplit.getItems().addAll(projectExplorer, codeEditorPane);
-        horizontalSplit.setDividerPositions(0.2);
-        
+
+        // Create horizontal split between project explorer and editor area
+        SplitPane leftRightSplit = new SplitPane();
+        leftRightSplit.setOrientation(Orientation.HORIZONTAL);
+
+        // Create right side split between editor and token table
+        SplitPane editorTokenSplit = new SplitPane();
+        editorTokenSplit.setOrientation(Orientation.HORIZONTAL);
+        editorTokenSplit.getItems().addAll(codeEditorPane, tokenTablePane);
+        editorTokenSplit.setDividerPositions(0.65);
+
+        leftRightSplit.getItems().addAll(projectExplorer, editorTokenSplit);
+        leftRightSplit.setDividerPositions(0.2);
+
         // Create vertical split between editor area and console
         SplitPane verticalSplit = new SplitPane();
         verticalSplit.setOrientation(Orientation.VERTICAL);
-        verticalSplit.getItems().addAll(horizontalSplit, consolePane);
+        verticalSplit.getItems().addAll(leftRightSplit, consolePane);
         verticalSplit.setDividerPositions(0.75);
         
         // Set as center
@@ -178,6 +187,8 @@ public class FlowScriptIDE extends Application {
         showProjectExplorer.setSelected(true);
         CheckMenuItem showConsole = new CheckMenuItem("Console");
         showConsole.setSelected(true);
+        CheckMenuItem showTokenTable = new CheckMenuItem("Token Analysis");
+        showTokenTable.setSelected(true);
         CheckMenuItem showStatusBar = new CheckMenuItem("Status Bar");
         showStatusBar.setSelected(true);
         MenuItem zoomIn = new MenuItem("Zoom In");
@@ -218,12 +229,22 @@ public class FlowScriptIDE extends Application {
         themeMenu.getItems().addAll(lightTheme, darkTheme, monokaiTheme);
         
         viewMenu.getItems().addAll(
-            showProjectExplorer, showConsole, showStatusBar,
+            showProjectExplorer, showConsole, showTokenTable, showStatusBar,
             new SeparatorMenuItem(),
             zoomIn, zoomOut, resetZoom,
             new SeparatorMenuItem(),
             themeMenu
         );
+
+        // Setup view menu handlers
+        showProjectExplorer.setOnAction(e ->
+            projectExplorer.setVisible(showProjectExplorer.isSelected()));
+        showConsole.setOnAction(e ->
+            consolePane.setVisible(showConsole.isSelected()));
+        showTokenTable.setOnAction(e ->
+            tokenTablePane.setVisible(showTokenTable.isSelected()));
+        showStatusBar.setOnAction(e ->
+            statusBar.setVisible(showStatusBar.isSelected()));
         
         // Run Menu
         Menu runMenu = new Menu("Run");
@@ -340,17 +361,33 @@ public class FlowScriptIDE extends Application {
         projectExplorer.setOnFileSelected(file -> {
             codeEditorPane.openFile(file);
             statusBar.setMessage("Opened: " + file.getName());
+            // Update tokens when file is opened
+            updateTokenAnalysis();
         });
-        
+
         // Code editor changes
         codeEditorPane.setOnTextChanged(() -> {
             statusBar.setModified(true);
+            // Update tokens when code changes
+            updateTokenAnalysis();
         });
-        
+
+        // Token table refresh
+        tokenTablePane.setOnRefresh(() -> {
+            updateTokenAnalysis();
+        });
+
         // Console commands
         consolePane.setOnCommand(command -> {
             executeCommand(command);
         });
+    }
+
+    private void updateTokenAnalysis() {
+        String currentCode = codeEditorPane.getCurrentText();
+        if (tokenTablePane.isAutoUpdate() || tokenTablePane != null) {
+            tokenTablePane.updateTokens(currentCode);
+        }
     }
     
     private void setupMenuEventHandlers(Menu... menus) {
@@ -404,7 +441,28 @@ public class FlowScriptIDE extends Application {
     private void validateCurrentFile() {
         consolePane.clear();
         consolePane.println("Validating FlowScript syntax...");
-        // Implementation would validate the syntax
+
+        String code = codeEditorPane.getCurrentText();
+        if (code == null || code.trim().isEmpty()) {
+            consolePane.println("No code to validate.");
+            return;
+        }
+
+        try {
+            com.flowscript.lexer.Lexer lexer = new com.flowscript.lexer.Lexer(code, false);
+            java.util.List<com.flowscript.lexer.Token> tokens = lexer.tokenize();
+            int tokenCount = tokens.size() - 1; // Exclude EOF token
+            consolePane.println("✓ Lexical analysis successful!");
+            consolePane.println("  Tokens found: " + tokenCount);
+            consolePane.println("  Lines processed: " + (tokens.isEmpty() ? 0 : tokens.get(tokens.size() - 1).getLine()));
+        } catch (com.flowscript.lexer.Lexer.LexicalException e) {
+            consolePane.println("✗ Lexical error found:");
+            consolePane.println("  " + e.getMessage());
+        } catch (Exception e) {
+            consolePane.println("✗ Unexpected error during validation:");
+            consolePane.println("  " + e.getMessage());
+        }
+
         consolePane.println("Syntax validation completed.");
     }
     
