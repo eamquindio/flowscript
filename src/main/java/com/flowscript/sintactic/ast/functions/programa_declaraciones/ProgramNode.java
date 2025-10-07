@@ -17,6 +17,11 @@ public class ProgramNode extends ASTNode {
         this.declarations = new ArrayList<>();
     }
 
+    public ProgramNode(List<DeclarationNode> declarations) {
+        super(1, 1, 0);
+        this.declarations = new ArrayList<>(declarations);
+    }
+
     public void addDeclaration(DeclarationNode declaration) {
         declarations.add(declaration);
     }

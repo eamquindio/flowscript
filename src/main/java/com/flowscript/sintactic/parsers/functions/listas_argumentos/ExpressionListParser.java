@@ -1,45 +1,41 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
-import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.Parser.ParseException;
-import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
+
 import java.util.List;
 
 /**
- * Parser for ExpressionList grammar rule.
- * Grammar: ExpressionList ::= Expression ( ',' Expression )*
+ * Parser para listas de expresiones.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * ExpressionList ::= Expression ( ',' Expression )*
+ * </pre>
+ *
+ * <h3>Categoría:</h3>
+ * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
+ * Nivel 21: Listas - Expresiones
+ *
+ * <h3>Tarea del Estudiante:</h3>
+ * Implementar el método {@code parse()} siguiendo la gramática BNF.
+ * Debe reconocer listas de expresiones como las usadas en literales de lista: [1, 2, 3]
+ * Nota: Este parser NO implementa IParser porque retorna una List.
+ *
+ * @see ExpressionListNode
  */
-public class ExpressionListParser extends Parser {
+public class ExpressionListParser {
 
-    private final ExpressionParser expressionParser;
-
-    public ExpressionListParser(List<Token> tokens) {
-        super(tokens);
-        this.expressionParser = new ExpressionParser(tokens);
-    }
-
-    public ExpressionListNode parseExpressionList() throws ParseException {
-        // Parse first expression
-        expressionParser.syncTo(getCurrentToken(), getCurrentIndex());
-        ExpressionNode firstExpr = expressionParser.parseExpression();
-        syncTo(expressionParser.getCurrentToken(), expressionParser.getCurrentIndex());
-
-        ExpressionListNode expressionList = new ExpressionListNode(firstExpr);
-
-        // Parse additional expressions separated by commas
-        while (",".equals(getCurrentToken().getValue())) {
-            consume(); // consume ','
-
-            expressionParser.syncTo(getCurrentToken(), getCurrentIndex());
-            ExpressionNode expr = expressionParser.parseExpression();
-            syncTo(expressionParser.getCurrentToken(), expressionParser.getCurrentIndex());
-
-            expressionList.addExpression(expr);
-        }
-
-        return expressionList;
+    /**
+     * Parsea una lista de expresiones.
+     *
+     * @param context El contexto del parser
+     * @return Lista de nodos ExpressionListNode
+     * @throws Parser.ParseException Si hay un error de sintaxis
+     */
+    public List<ExpressionListNode> parse(ParserContext context) throws Parser.ParseException {
+        // TODO: Implementar este método
+        throw new UnsupportedOperationException("ExpressionListParser no implementado - Tarea del estudiante");
     }
 }

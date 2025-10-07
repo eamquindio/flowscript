@@ -1,132 +1,64 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
-import com.flowscript.lexer.Token;
+import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
-import com.flowscript.sintactic.ast.functions.expresiones.*;
-
-import java.util.List;
 
 /**
- * Specialized parser for FlowScript expressions.
- * Handles operator precedence and expression parsing according to BNF grammar.
+ * Parser coordinador para expresiones (punto de entrada del sistema de expresiones).
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * Expression ::= TernaryExpression
+ * </pre>
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Expresiones simples
+ * 42
+ * "Hola"
+ * verdadero
+ *
+ * // Expresiones aritméticas
+ * 10 + 20
+ * x * (y + z)
+ *
+ * // Expresiones lógicas
+ * x > 10 and y < 20
+ * not activo or modo == "prueba"
+ *
+ * // Expresiones ternarias
+ * x > 0 ? "positivo" : "negativo"
+ *
+ * // Llamadas a función
+ * calcular(10, 20)
+ * usuario.obtener_nombre()
+ *
+ * // Acceso a propiedades
+ * usuario.nombre
+ * lista[0]
+ * matriz[i][j]
+ * </pre>
+ *
+ * <h3>Uso:</h3>
+ * <pre>
+ * ParserContext context = new ParserContext(tokens);
+ * ExpressionParser parser = new ExpressionParser();
+ * ExpressionNode expr = parser.parse(context);
+ * </pre>
+ *
+ * <h3>Tarea del Estudiante:</h3>
+ * Implementar el método {@code parse()} delegando a TernaryExpressionParser.
+ *
+ * @see ExpressionNode
  */
-public class ExpressionParser extends Parser {
+public class ExpressionParser implements IParser<ExpressionNode> {
 
-    public ExpressionParser(List<Token> tokens) {
-        super(tokens);
-    }
-
-    /**
-     * Parses a complete expression.
-     * Entry point for expression parsing.
-     * Now delegates to the token-based expression parser.
-     */
-    public ExpressionNode parseExpression() throws ParseException {
-        ExpressionCoordinator expressionCoordinator = new ExpressionCoordinator(tokens);
-        expressionCoordinator.syncTo(currentToken, currentIndex);
-
-        ExpressionNode result = expressionCoordinator.parseExpression();
-
-        // Update our position to match the expression coordinator
-        currentIndex = expressionCoordinator.getCurrentIndex();
-        if (currentIndex < tokens.size()) {
-            currentToken = tokens.get(currentIndex);
-        }
-
-        return result;
-    }
-
-    // Legacy methods kept for backward compatibility
-    // All parsing is now delegated to ComprehensiveExpressionParser
-
-    @Deprecated
-    private ExpressionNode parseTernaryExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseLogicalOrExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseLogicalAndExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseEqualityExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseRelationalExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseAdditiveExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseMultiplicativeExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parseUnaryExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parsePostfixExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    @Deprecated
-    private ExpressionNode parsePrimaryExpression() throws ParseException {
-        return parseExpression();
-    }
-
-    // Legacy methods kept for backward compatibility but deprecated
-    // All parsing now handled by ComprehensiveExpressionParser
-
-    @Deprecated
-    private List<ExpressionNode> parseArgumentList() throws ParseException {
-        // This method is now handled by ComprehensiveExpressionParser
-        throw new UnsupportedOperationException("Use ComprehensiveExpressionParser instead");
-    }
-
-    @Deprecated
-    private ObjectMemberNode parseObjectMember() throws ParseException {
-        // This method is now handled by ComprehensiveExpressionParser
-        throw new UnsupportedOperationException("Use ComprehensiveExpressionParser instead");
-    }
-
-    @Deprecated
-    private ExpressionNode parseObjectLiteral() throws ParseException {
-        // This method is now handled by ComprehensiveExpressionParser
-        throw new UnsupportedOperationException("Use ComprehensiveExpressionParser instead");
-    }
-
-    @Deprecated
-    private ExpressionNode parseListLiteral() throws ParseException {
-        // This method is now handled by ComprehensiveExpressionParser
-        throw new UnsupportedOperationException("Use ComprehensiveExpressionParser instead");
-    }
-
-    /**
-     * Synchronizes this parser's position with another parser.
-     */
-    public void syncTo(Token token, int index) {
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals(token)) {
-                this.currentIndex = i;
-                this.currentToken = token;
-                break;
-            }
-        }
+    @Override
+    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        // TODO: Implementar delegación a TernaryExpressionParser
+        // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
+        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
     }
 }

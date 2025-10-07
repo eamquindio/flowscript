@@ -1,83 +1,96 @@
 package com.flowscript.sintactic.parsers.functions.tipos_parametros;
 
 import com.flowscript.sintactic.Parser;
-import com.flowscript.lexer.Token;
-import com.flowscript.lexer.TokenType;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Parser for function parameter lists.
- * Handles: param1: type1, param2: type2, ...
+ * Parser para listas de parámetros de función.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * ParameterList ::= Parameter ( ',' Parameter )*
+ * </pre>
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Un solo parámetro
+ * x: entero
+ *
+ * // Múltiples parámetros
+ * x: entero, y: decimal, nombre: texto
+ *
+ * // En contexto de funciones
+ * function sumar(a: entero, b: entero) -> entero {
+ *     return a + b
+ * }
+ *
+ * function crear_reporte(
+ *     titulo: texto,
+ *     datos: lista,
+ *     incluir_graficos: booleano,
+ *     formato: texto
+ * ) -> objeto {
+ *     return {
+ *         titulo: titulo,
+ *         contenido: datos,
+ *         graficos: incluir_graficos,
+ *         tipo: formato
+ *     }
+ * }
+ *
+ * // Función con muchos parámetros
+ * function procesar_transaccion(
+ *     id: entero,
+ *     usuario: objeto,
+ *     monto: decimal,
+ *     moneda: texto,
+ *     descripcion: texto,
+ *     metadata: objeto
+ * ) -> booleano {
+ *     // lógica de procesamiento
+ *     return verdadero
+ * }
+ * </pre>
+ *
+ * <h3>Uso:</h3>
+ * <pre>
+ * ParserContext context = new ParserContext(tokens);
+ * ParameterListParser parser = new ParameterListParser();
+ * List&lt;ParameterNode&gt; params = parser.parse(context);
+ * </pre>
+ *
+ * <h3>Nota:</h3>
+ * Este parser no implementa IParser porque retorna una lista, no un nodo AST.
+ *
+ * @see ParameterNode
+ * @see ParameterParser
  */
-public class ParameterListParser extends Parser {
+public class ParameterListParser {
 
-    public ParameterListParser(List<Token> tokens) {
-        super(tokens);
+    private final ParameterParser parameterParser;
+
+    public ParameterListParser() {
+        this.parameterParser = new ParameterParser();
     }
 
-    /**
-     * Parses a parameter list.
-     * Grammar: Parameter ( ',' Parameter )*
-     */
-    public List<ParameterNode> parseParameterList() throws ParseException {
+    public List<ParameterNode> parse(ParserContext context) throws Parser.ParseException {
         List<ParameterNode> parameters = new ArrayList<>();
 
-        // Check for empty parameter list
-        if (!check(TokenType.RIGHT_PAREN)) {
-            // Parse first parameter
-            parameters.add(parseParameter());
+        // Parse primer parámetro
+        ParameterNode firstParam = parameterParser.parse(context);
+        parameters.add(firstParam);
 
-            // Parse remaining parameters
-            while (check(TokenType.COMMA)) {
-                consume(TokenType.COMMA);
-                parameters.add(parseParameter());
-            }
+        // Parse parámetros adicionales (separados por coma)
+        while (context.checkValue(",")) {
+            context.consume(); // consume ','
+            ParameterNode param = parameterParser.parse(context);
+            parameters.add(param);
         }
 
         return parameters;
-    }
-
-    /**
-     * Parses a single parameter.
-     * Grammar: IDENTIFIER ':' Type
-     */
-    private ParameterNode parseParameter() throws ParseException {
-        Token nameToken = consume(TokenType.IDENTIFIER);
-        consume(TokenType.COLON);
-        TypeNode type = parseType();
-
-        return new ParameterNode(nameToken.getValue(), type);
-    }
-
-    /**
-     * Parses a type.
-     * Grammar: 'integer' | 'decimal' | 'boolean' | 'text' | 'list' | 'object' | 'void'
-     */
-    private TypeNode parseType() throws ParseException {
-        if (checkAny(TokenType.INTEGER_TYPE, TokenType.DECIMAL_TYPE, TokenType.BOOLEAN_TYPE,
-                    TokenType.TEXT_TYPE, TokenType.LIST_TYPE, TokenType.OBJECT_TYPE, TokenType.VOID)) {
-            Token typeToken = getCurrentToken();
-            nextToken();
-            return new TypeNode(typeToken);
-        }
-
-        throw new ParseException("Expected type but found " + getCurrentToken().getType() +
-                                " at line " + getCurrentToken().getLine());
-    }
-
-    /**
-     * Synchronizes this parser's position with another parser.
-     */
-    public void syncTo(Token token, int index) {
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals(token)) {
-                this.currentIndex = i;
-                this.currentToken = token;
-                break;
-            }
-        }
     }
 }

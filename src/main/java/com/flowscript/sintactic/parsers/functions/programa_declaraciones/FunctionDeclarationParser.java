@@ -1,103 +1,128 @@
 package com.flowscript.sintactic.parsers.functions.programa_declaraciones;
 
-import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
-import com.flowscript.sintactic.parsers.functions.tipos_parametros.ParameterListParser;
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
-import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
+import com.flowscript.sintactic.IParser;
+import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.FunctionDeclarationNode;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
+import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
+import com.flowscript.sintactic.parsers.functions.tipos_parametros.ParameterListParser;
+import com.flowscript.sintactic.parsers.functions.tipos_parametros.TypeParser;
+import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
+
 import java.util.List;
 
 /**
- * Parser for function declarations.
- * Handles: function name(param: type, ...) -> returnType { ... }
+ * Parser para declaraciones de función en FlowScript.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * FunctionDeclaration ::= 'function' IDENTIFIER '(' ParameterList? ')' ( '->' Type )? Block
+ * </pre>
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Función sin parámetros ni retorno
+ * function saludar() {
+ *     imprimir("Hola mundo")
+ * }
+ *
+ * // Función con parámetros y retorno
+ * function sumar(a: entero, b: entero) -> entero {
+ *     return a + b
+ * }
+ *
+ * // Función con tipos complejos
+ * function procesar_usuario(datos: objeto, opciones: lista) -> booleano {
+ *     if datos.nombre == "" {
+ *         return falso
+ *     }
+ *     return verdadero
+ * }
+ *
+ * // Función recursiva
+ * function factorial(n: entero) -> entero {
+ *     if n <= 1 {
+ *         return 1
+ *     }
+ *     return n * factorial(n - 1)
+ * }
+ *
+ * // Función con lógica compleja
+ * function validar_email(email: texto) -> booleano {
+ *     if no email.contains("@") {
+ *         return falso
+ *     }
+ *     partes = email.split("@")
+ *     return partes.length == 2
+ * }
+ * </pre>
+ *
+ * <h3>Uso:</h3>
+ * <pre>
+ * ParserContext context = new ParserContext(tokens);
+ * FunctionDeclarationParser parser = new FunctionDeclarationParser();
+ * FunctionDeclarationNode node = parser.parse(context);
+ * </pre>
+ *
+ * @see FunctionDeclarationNode
  */
-public class FunctionDeclarationParser extends Parser {
-    private final ParameterListParser parameterParser;
-    private final StatementParser statementParser;
+public class FunctionDeclarationParser implements IParser<FunctionDeclarationNode> {
 
-    public FunctionDeclarationParser(List<Token> tokens) {
-        super(tokens);
-        this.parameterParser = new ParameterListParser(tokens);
-        this.statementParser = new StatementParser(tokens);
+    private final ParameterListParser parameterListParser;
+    private final TypeParser typeParser;
+    private final BlockParser blockParser;
+
+    public FunctionDeclarationParser() {
+        this.parameterListParser = new ParameterListParser();
+        this.typeParser = new TypeParser();
+        this.blockParser = new BlockParser();
     }
 
-    /**
-     * Parses a function declaration.
-     * Grammar: 'function' IDENTIFIER '(' ParameterList? ')' ( '->' Type )? Block
-     */
-    public FunctionDeclarationNode parseFunctionDeclaration() throws ParseException {
-        Token functionToken = consume(TokenType.FUNCTION);
-        Token nameToken = consume(TokenType.IDENTIFIER);
+    @Override
+    public FunctionDeclarationNode parse(ParserContext context) throws Parser.ParseException {
+        // Consume 'function' o 'funcion'
+        Token functionToken = context.getCurrentToken();
+        String keyword = functionToken.getValue();
+
+        if (!keyword.equals("funcion") && !keyword.equals("function") &&
+            functionToken.getType() != TokenType.FUNCTION) {
+            throw new Parser.ParseException(
+                "Expected 'function' or 'funcion' but found '" + keyword +
+                "' at line " + functionToken.getLine()
+            );
+        }
+        context.consume(); // consume 'function'
+
+        // Consume IDENTIFIER (nombre de la función)
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
         String functionName = nameToken.getValue();
 
-        consume(TokenType.LEFT_PAREN);
+        // Consume '('
+        context.consume(TokenType.LEFT_PAREN);
 
-        // Parse parameters
-        parameterParser.syncTo(getCurrentToken(), tokens.indexOf(getCurrentToken()));
-        List<ParameterNode> parameters = parameterParser.parseParameterList();
-        syncFrom(parameterParser);
-
-        consume(TokenType.RIGHT_PAREN);
-
-        // Parse optional return type
-        TypeNode returnType = null;
-        if (check(TokenType.ARROW)) {
-            consume(TokenType.ARROW);
-            returnType = parseType();
+        // Parse parámetros (opcional)
+        List<ParameterNode> parameters = null;
+        if (!context.check(TokenType.RIGHT_PAREN)) {
+            parameters = parameterListParser.parse(context);
         }
 
-        // Parse function body
-        statementParser.syncTo(getCurrentToken(), tokens.indexOf(getCurrentToken()));
-        BlockNode body = statementParser.parseBlock();
-        syncFrom(statementParser);
+        // Consume ')'
+        context.consume(TokenType.RIGHT_PAREN);
+
+        // Parse tipo de retorno opcional
+        TypeNode returnType = null;
+        if (context.checkValue("->")) {
+            context.consume(); // consume '->'
+            returnType = typeParser.parse(context);
+        }
+
+        // Parse cuerpo de la función
+        BlockNode body = blockParser.parse(context);
 
         return new FunctionDeclarationNode(functionToken, functionName, parameters, returnType, body);
-    }
-
-    /**
-     * Parses a type.
-     * Grammar: 'integer' | 'decimal' | 'boolean' | 'text' | 'list' | 'object' | 'void'
-     */
-    private TypeNode parseType() throws ParseException {
-        if (checkAny(TokenType.INTEGER_TYPE, TokenType.DECIMAL_TYPE, TokenType.BOOLEAN_TYPE,
-                    TokenType.TEXT_TYPE, TokenType.LIST_TYPE, TokenType.OBJECT_TYPE, TokenType.VOID)) {
-            Token typeToken = getCurrentToken();
-            nextToken();
-            return new TypeNode(typeToken);
-        }
-
-        throw new ParseException("Expected type but found " + getCurrentToken().getType() +
-                                " at line " + getCurrentToken().getLine());
-    }
-
-    /**
-     * Synchronizes this parser's position with another parser.
-     */
-    public void syncTo(Token token, int index) {
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals(token)) {
-                this.currentIndex = i;
-                this.currentToken = token;
-                break;
-            }
-        }
-    }
-
-    /**
-     * Synchronizes this parser's position from another parser.
-     */
-    private void syncFrom(Parser otherParser) {
-        this.currentToken = otherParser.getCurrentToken();
-        // Find the current index
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals(currentToken)) {
-                this.currentIndex = i;
-                break;
-            }
-        }
     }
 }

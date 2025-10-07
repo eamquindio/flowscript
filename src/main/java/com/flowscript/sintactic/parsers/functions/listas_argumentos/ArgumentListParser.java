@@ -1,45 +1,41 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
-import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.Parser.ParseException;
-import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ArgumentListNode;
+
 import java.util.List;
 
 /**
- * Parser for ArgumentList grammar rule.
- * Grammar: ArgumentList ::= Expression ( ',' Expression )*
+ * Parser para listas de argumentos en llamadas a funciones.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * ArgumentList ::= Expression ( ',' Expression )*
+ * </pre>
+ *
+ * <h3>Categoría:</h3>
+ * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
+ * Nivel 20: Listas - Argumentos de Funciones
+ *
+ * <h3>Tarea del Estudiante:</h3>
+ * Implementar el método {@code parse()} siguiendo la gramática BNF.
+ * Debe reconocer listas de argumentos como: (x, y, z), (42), ("hola", 3.14, verdadero)
+ * Nota: Este parser NO implementa IParser porque retorna una List.
+ *
+ * @see ArgumentListNode
  */
-public class ArgumentListParser extends Parser {
+public class ArgumentListParser {
 
-    private final ExpressionParser expressionParser;
-
-    public ArgumentListParser(List<Token> tokens) {
-        super(tokens);
-        this.expressionParser = new ExpressionParser(tokens);
-    }
-
-    public ArgumentListNode parseArgumentList() throws ParseException {
-        // Parse first argument
-        expressionParser.syncTo(getCurrentToken(), getCurrentIndex());
-        ExpressionNode firstArg = expressionParser.parseExpression();
-        syncTo(expressionParser.getCurrentToken(), expressionParser.getCurrentIndex());
-
-        ArgumentListNode argumentList = new ArgumentListNode(firstArg);
-
-        // Parse additional arguments separated by commas
-        while (",".equals(getCurrentToken().getValue())) {
-            consume(); // consume ','
-
-            expressionParser.syncTo(getCurrentToken(), getCurrentIndex());
-            ExpressionNode arg = expressionParser.parseExpression();
-            syncTo(expressionParser.getCurrentToken(), expressionParser.getCurrentIndex());
-
-            argumentList.addArgument(arg);
-        }
-
-        return argumentList;
+    /**
+     * Parsea una lista de argumentos.
+     *
+     * @param context El contexto del parser
+     * @return Lista de nodos ArgumentListNode
+     * @throws Parser.ParseException Si hay un error de sintaxis
+     */
+    public List<ArgumentListNode> parse(ParserContext context) throws Parser.ParseException {
+        // TODO: Implementar este método
+        throw new UnsupportedOperationException("ArgumentListParser no implementado - Tarea del estudiante");
     }
 }

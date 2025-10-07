@@ -1,152 +1,116 @@
 package com.flowscript.sintactic;
 
 import com.flowscript.lexer.Token;
-import com.flowscript.lexer.TokenType;
-import com.flowscript.sintactic.ast.*;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.ProgramNode;
+import com.flowscript.sintactic.parsers.functions.programa_declaraciones.ProgramParser;
+
 import java.util.List;
 
 /**
- * Base parser class for FlowScript language.
- * Implements recursive descent parsing based on the BNF grammar.
+ * Analizador sintáctico principal de FlowScript.
+ *
+ * <p>Esta clase es el punto de entrada para el análisis sintáctico. Coordina
+ * el proceso de convertir una secuencia de tokens en un árbol de sintaxis abstracta (AST).</p>
+ *
+ * <h3>Arquitectura del Parser:</h3>
+ * <ul>
+ *   <li><b>Parser principal</b>: Punto de entrada que invoca al ProgramParser</li>
+ *   <li><b>ProgramParser</b>: Procesa el símbolo inicial de la gramática (Program)</li>
+ *   <li><b>Parsers especializados</b>: Cada regla gramatical tiene su propio parser (patrón Visitor)</li>
+ *   <li><b>ParserContext</b>: Mantiene el estado compartido (tokens, índice actual)</li>
+ *   <li><b>IParser&lt;T&gt;</b>: Interface común que implementan todos los parsers</li>
+ * </ul>
+ *
+ * <h3>Gramática de FlowScript:</h3>
+ * La gramática completa está definida en: {@code src/main/tlf/flowscript-grammar.bnf}
+ * <pre>
+ * Program ::= Declaration*
+ * Declaration ::= ImportDeclaration | FunctionDeclaration | ProcessDeclaration | VariableDeclaration
+ * </pre>
+ *
+ * <h3>Uso típico:</h3>
+ * <pre>
+ * // 1. Obtener tokens del lexer
+ * Lexer lexer = new Lexer(sourceCode);
+ * List&lt;Token&gt; tokens = lexer.tokenize();
+ *
+ * // 2. Crear parser y parsear
+ * Parser parser = new Parser();
+ * ProgramNode ast = parser.parse(tokens);
+ *
+ * // 3. Usar el AST para interpretación, compilación, etc.
+ * ast.getDeclarations().forEach(declaration -&gt; {
+ *     // Procesar cada declaración
+ * });
+ * </pre>
+ *
+ * <h3>Manejo de errores:</h3>
+ * El parser lanza {@link ParseException} cuando encuentra errores de sintaxis.
+ * La excepción incluye información sobre la ubicación del error (línea, columna).
+ *
+ * @see ProgramNode
+ * @see ProgramParser
+ * @see ParserContext
+ * @see IParser
  */
 public class Parser {
-    protected final List<Token> tokens;
-    protected int currentIndex;
-    protected Token currentToken;
 
-    public Parser(List<Token> tokens) {
-        this.tokens = tokens;
-        this.currentIndex = 0;
-        this.currentToken = tokens.isEmpty() ? null : tokens.get(0);
+    private final ProgramParser programParser;
+
+    /**
+     * Constructor por defecto.
+     * Inicializa el parser con el ProgramParser como punto de entrada.
+     */
+    public Parser() {
+        this.programParser = new ProgramParser();
     }
 
     /**
-     * Parses the token stream into an AST.
+     * Analiza una lista de tokens y construye el árbol de sintaxis abstracta (AST).
+     *
+     * @param tokens Lista de tokens producidos por el lexer
+     * @return El nodo raíz del AST (ProgramNode)
+     * @throws ParseException Si se encuentra un error de sintaxis
+     * @throws IllegalArgumentException Si la lista de tokens es null o vacía
      */
-    public ProgramNode parse() throws ParseException {
-        return parseProgram();
-    }
-
-    /**
-     * Returns the current token being processed.
-     */
-    public Token getCurrentToken() {
-        return currentToken;
-    }
-
-    /**
-     * Returns the token at the specified offset from current position.
-     */
-    protected Token peekToken(int offset) {
-        int index = currentIndex + offset;
-        return (index < tokens.size()) ? tokens.get(index) : null;
-    }
-
-    /**
-     * Advances to the next token.
-     */
-    protected void nextToken() {
-        if (currentIndex < tokens.size() - 1) {
-            currentIndex++;
-            currentToken = tokens.get(currentIndex);
-        } else {
-            currentToken = null;
+    public ProgramNode parse(List<Token> tokens) throws ParseException {
+        if (tokens == null) {
+            throw new IllegalArgumentException("La lista de tokens no puede ser null");
         }
-    }
 
-    /**
-     * Consumes the current token if it matches the expected type.
-     * Throws ParseException if token doesn't match.
-     */
-    protected Token consume(TokenType expectedType) throws ParseException {
-        if (currentToken == null) {
-            throw new ParseException("Unexpected end of input, expected " + expectedType);
+        if (tokens.isEmpty()) {
+            throw new IllegalArgumentException("La lista de tokens no puede estar vacía");
         }
-        if (currentToken.getType() != expectedType) {
-            throw new ParseException("Expected " + expectedType + " but found " +
-                currentToken.getType() + " at line " + currentToken.getLine());
-        }
-        Token token = currentToken;
-        nextToken();
-        return token;
+
+        // Crear contexto del parser
+        ParserContext context = new ParserContext(tokens);
+
+        // Invocar al parser del símbolo inicial de la gramática
+        return programParser.parse(context);
     }
 
     /**
-     * Checks if the current token matches the expected type without consuming it.
-     */
-    protected boolean check(TokenType expectedType) {
-        return currentToken != null && currentToken.getType() == expectedType;
-    }
-
-    /**
-     * Checks if the current token matches any of the expected types.
-     */
-    protected boolean checkAny(TokenType... expectedTypes) {
-        if (currentToken == null) return false;
-        for (TokenType type : expectedTypes) {
-            if (currentToken.getType() == type) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Consumes the current token without type checking.
-     */
-    protected Token consume() throws ParseException {
-        Token token = getCurrentToken();
-        nextToken();
-        return token;
-    }
-
-    /**
-     * Returns the current index in the token list.
-     */
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
-
-    /**
-     * Synchronizes this parser's position with another parser.
-     */
-    public void syncTo(Token token, int index) {
-        this.currentIndex = index;
-        this.currentToken = token;
-    }
-
-    /**
-     * Skips tokens until we reach EOF or recover from error.
-     */
-    protected void skipToRecovery() {
-        while (currentToken != null && currentToken.getType() != TokenType.EOF) {
-            if (checkAny(TokenType.SEMICOLON, TokenType.RIGHT_BRACE, TokenType.FUNCTION,
-                        TokenType.PROCESS, TokenType.IMPORT, TokenType.IMPORT_JAR)) {
-                if (check(TokenType.SEMICOLON)) {
-                    nextToken(); // consume semicolon
-                }
-                break;
-            }
-            nextToken();
-        }
-    }
-
-    /**
-     * Main parsing method - to be implemented by specific parsers.
-     */
-    protected ProgramNode parseProgram() throws ParseException {
-        throw new UnsupportedOperationException("parseProgram() must be implemented by subclasses");
-    }
-
-    /**
-     * Exception thrown during parsing errors.
+     * Excepción lanzada cuando ocurre un error durante el análisis sintáctico.
+     *
+     * <p>Esta excepción incluye información sobre el error y su ubicación en el código fuente.</p>
      */
     public static class ParseException extends Exception {
+
+        /**
+         * Crea una nueva excepción de parseo con un mensaje descriptivo.
+         *
+         * @param message Mensaje que describe el error
+         */
         public ParseException(String message) {
             super(message);
         }
 
+        /**
+         * Crea una nueva excepción de parseo con un mensaje y una causa.
+         *
+         * @param message Mensaje que describe el error
+         * @param cause La causa original del error
+         */
         public ParseException(String message, Throwable cause) {
             super(message, cause);
         }

@@ -2,43 +2,84 @@ package com.flowscript.sintactic.parsers.functions.tipos_parametros;
 
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.Parser.ParseException;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
+import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
-import java.util.List;
+import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
 
 /**
- * Parser for Parameter grammar rule.
- * Grammar: Parameter ::= IDENTIFIER ':' Type
+ * Parser para parámetros individuales de función.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * Parameter ::= IDENTIFIER ':' Type
+ * </pre>
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Parámetros simples
+ * x: entero
+ * nombre: texto
+ * activo: booleano
+ *
+ * // En contexto de función
+ * function procesar(dato: entero, mensaje: texto) {
+ *     imprimir(mensaje + ": " + dato)
+ * }
+ *
+ * function crear_usuario(
+ *     nombre: texto,
+ *     edad: entero,
+ *     correo: texto,
+ *     activo: booleano
+ * ) -> objeto {
+ *     return {
+ *         nombre: nombre,
+ *         edad: edad,
+ *         correo: correo,
+ *         activo: activo
+ *     }
+ * }
+ * </pre>
+ *
+ * <h3>Uso:</h3>
+ * <pre>
+ * ParserContext context = new ParserContext(tokens);
+ * ParameterParser parser = new ParameterParser();
+ * ParameterNode param = parser.parse(context);
+ * </pre>
+ *
+ * @see ParameterNode
+ * @see TypeNode
  */
-public class ParameterParser extends Parser {
+public class ParameterParser implements IParser<ParameterNode> {
 
     private final TypeParser typeParser;
 
-    public ParameterParser(List<Token> tokens) {
-        super(tokens);
-        this.typeParser = new TypeParser(tokens);
+    public ParameterParser() {
+        this.typeParser = new TypeParser();
     }
 
-    public ParameterNode parseParameter() throws ParseException {
-        // Expect identifier
-        if (getCurrentToken().getType() != TokenType.IDENTIFIER) {
-            throw new ParseException("Expected parameter name identifier");
+    @Override
+    public ParameterNode parse(ParserContext context) throws Parser.ParseException {
+        // Consume IDENTIFIER (nombre del parámetro)
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String paramName = nameToken.getValue();
+
+        // Consume ':'
+        Token colon = context.getCurrentToken();
+        if (colon == null || !colon.getValue().equals(":")) {
+            throw new Parser.ParseException(
+                "Expected ':' after parameter name '" + paramName +
+                "' at line " + nameToken.getLine()
+            );
         }
-        Token identifierToken = consume();
+        context.consume(); // consume ':'
 
-        // Expect ':'
-        if (!":".equals(getCurrentToken().getValue())) {
-            throw new ParseException("Expected ':' after parameter name");
-        }
-        consume(); // consume ':'
+        // Parse tipo
+        TypeNode paramType = typeParser.parse(context);
 
-        // Parse type
-        typeParser.syncTo(getCurrentToken(), getCurrentIndex());
-        TypeNode type = typeParser.parseType();
-        syncTo(typeParser.getCurrentToken(), typeParser.getCurrentIndex());
-
-        return new ParameterNode(identifierToken.getValue(), type);
+        return new ParameterNode(paramName, paramType);
     }
 }
