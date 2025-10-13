@@ -1,0 +1,91 @@
+-------------------------------------------------------------------------------
+Test set: edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+-------------------------------------------------------------------------------
+Tests run: 49, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 0.413 s <<< FAILURE! -- in edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.019 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con tipos compuestos'
+Texto: function process_list(items: list, config: object) -> list {
+    result = []
+    for each item in it...
+Errores encontrados: [PARSER ERROR - Línea 5:36 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 8:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con for-range'
+Texto: function fill_array(size: integer) -> list {
+    result = []
+    for i from 0 to size - 1 {
+        ...
+Errores encontrados: [PARSER ERROR - Línea 4:18 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 6:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con for-range y step'
+Texto: function even_numbers(max: integer) -> list {
+    result = []
+    index = 0
+    for i from 0 to max ...
+Errores encontrados: [PARSER ERROR - Línea 5:22 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 8:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función que retorna lista'
+Texto: function create_range(start: integer, end: integer) -> list {
+    result = []
+    for i from start t...
+Errores encontrados: [PARSER ERROR - Línea 4:32 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 6:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.testFlowScriptFunctions -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con listas y objetos anidados'
+Texto: function process_orders(orders: list) -> object {
+    summary = {
+        total_orders: orders.lengt...
+Errores encontrados: [PARSER ERROR - Línea 10:29 - mismatched input '=' expecting {'return', 'if', 'while', 'for', 'break', 'continue', 'try', 'throw', 'true', 'false', 'null', 'and', 'or', 'not', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '{', '}', '[', '.', INTEGER_LITERAL, DECIMAL_LITERAL, TEXT_LITERAL, IDENTIFIER}, PARSER ERROR - Línea 14:44 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 15:10 - extraneous input 'else' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

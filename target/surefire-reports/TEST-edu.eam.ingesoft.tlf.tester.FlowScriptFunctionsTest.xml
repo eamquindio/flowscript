@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.413" tests="49" errors="0" skipped="0" failures="5">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\carme\Documents\ProyectoLenguajes\flowscript\target\test-classes;C:\Users\carme\Documents\ProyectoLenguajes\flowscript\target\classes;C:\Users\carme\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-controls\21.0.1\javafx-controls-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-controls\21.0.1\javafx-controls-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-graphics\21.0.1\javafx-graphics-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-graphics\21.0.1\javafx-graphics-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-base\21.0.1\javafx-base-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-base\21.0.1\javafx-base-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-fxml\21.0.1\javafx-fxml-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-fxml\21.0.1\javafx-fxml-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\fxmisc\richtext\richtextfx\0.11.2\richtextfx-0.11.2.jar;C:\Users\carme\.m2\repository\org\reactfx\reactfx\2.0-M5\reactfx-2.0-M5.jar;C:\Users\carme\.m2\repository\org\fxmisc\undo\undofx\2.1.1\undofx-2.1.1.jar;C:\Users\carme\.m2\repository\org\fxmisc\flowless\flowless\0.7.2\flowless-0.7.2.jar;C:\Users\carme\.m2\repository\org\fxmisc\wellbehaved\wellbehavedfx\0.3.3\wellbehavedfx-0.3.3.jar;C:\Users\carme\.m2\repository\org\controlsfx\controlsfx\11.2.0\controlsfx-11.2.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.16.0\jackson-databind-2.16.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.16.0\jackson-annotations-2.16.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.16.0\jackson-core-2.16.0.jar;C:\Users\carme\.m2\repository\org\slf4j\slf4j-api\2.0.9\slf4j-api-2.0.9.jar;C:\Users\carme\.m2\repository\ch\qos\logback\logback-classic\1.4.14\logback-classic-1.4.14.jar;C:\Users\carme\.m2\repository\ch\qos\logback\logback-core\1.4.14\logback-core-1.4.14.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\carme\.m2\repository\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\carme\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\carme\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\carme\.m2\repository\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.1\junit-jupiter-params-5.10.1.jar;C:\Users\carme\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="America/Bogota"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CO"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
+    <property name="sun.java.command" value="C:\Users\carme\AppData\Local\Temp\surefire7505550010238527366\surefirebooter-20251013170721779_3.jar C:\Users\carme\AppData\Local\Temp\surefire7505550010238527366 2025-10-13T17-07-21_597-jvmRun1 surefire-20251013170721779_1tmp surefire_0-20251013170721779_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="*Functions*"/>
+    <property name="surefire.test.class.path" value="C:\Users\carme\Documents\ProyectoLenguajes\flowscript\target\test-classes;C:\Users\carme\Documents\ProyectoLenguajes\flowscript\target\classes;C:\Users\carme\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-controls\21.0.1\javafx-controls-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-controls\21.0.1\javafx-controls-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-graphics\21.0.1\javafx-graphics-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-graphics\21.0.1\javafx-graphics-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-base\21.0.1\javafx-base-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-base\21.0.1\javafx-base-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-fxml\21.0.1\javafx-fxml-21.0.1.jar;C:\Users\carme\.m2\repository\org\openjfx\javafx-fxml\21.0.1\javafx-fxml-21.0.1-win.jar;C:\Users\carme\.m2\repository\org\fxmisc\richtext\richtextfx\0.11.2\richtextfx-0.11.2.jar;C:\Users\carme\.m2\repository\org\reactfx\reactfx\2.0-M5\reactfx-2.0-M5.jar;C:\Users\carme\.m2\repository\org\fxmisc\undo\undofx\2.1.1\undofx-2.1.1.jar;C:\Users\carme\.m2\repository\org\fxmisc\flowless\flowless\0.7.2\flowless-0.7.2.jar;C:\Users\carme\.m2\repository\org\fxmisc\wellbehaved\wellbehavedfx\0.3.3\wellbehavedfx-0.3.3.jar;C:\Users\carme\.m2\repository\org\controlsfx\controlsfx\11.2.0\controlsfx-11.2.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.16.0\jackson-databind-2.16.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.16.0\jackson-annotations-2.16.0.jar;C:\Users\carme\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.16.0\jackson-core-2.16.0.jar;C:\Users\carme\.m2\repository\org\slf4j\slf4j-api\2.0.9\slf4j-api-2.0.9.jar;C:\Users\carme\.m2\repository\ch\qos\logback\logback-classic\1.4.14\logback-classic-1.4.14.jar;C:\Users\carme\.m2\repository\ch\qos\logback\logback-core\1.4.14\logback-core-1.4.14.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\carme\.m2\repository\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\carme\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\carme\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\carme\.m2\repository\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\carme\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.1\junit-jupiter-params-5.10.1.jar;C:\Users\carme\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\carme"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-21"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\carme\Documents\ProyectoLenguajes\flowscript"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\carme\AppData\Local\Temp\surefire7505550010238527366\surefirebooter-20251013170721779_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.8+12-LTS-250"/>
+    <property name="user.name" value="carme"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\carme\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\carme\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.8"/>
+    <property name="user.dir" value="C:\Users\carme\Documents\ProyectoLenguajes\flowscript"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-21\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\carme\Downloads\apache-maven-3.9.9-bin\apache-maven-3.9.9\bin;C:\Program Files\Kubernetes\Minikube;C:\Program Files\Neovim\bin;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Users\carme\Downloads\gradle-8.14.1-all;C:\Users\carme\Downloads\apache-maven-3.9.9-bin;C:\Users\carme\AppData\Local\Microsoft\WindowsApps;C:\Users\carme\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\carme\AppData\Local\GitHubDesktop\bin;C:\Program Files\Azure Data Studio\bin;C:\Users\carme\AppData\Roaming\npm;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21.0.8+12-LTS-250"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.125">
+    <system-out><![CDATA[
+================================================================================
+INICIANDO PRUEBAS DE GRAMÁTICA: FlowScript Functions
+================================================================================
+Probando sistema completo de funciones FlowScript
+Incluye: declaraciones, parámetros, tipos, control de flujo, recursión
+
+Cargados 49 casos de prueba desde flowscript-functions.yaml
+  • Casos válidos esperados: 32
+  • Casos inválidos esperados: 17
+
+]]></system-out>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.005"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.005"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.019">
+    <failure message="ESPERADO VÁLIDO: &apos;Función con tipos compuestos&apos;&#10;Texto: function process_list(items: list, config: object) -&gt; list {&#10;    result = []&#10;    for each item in it...&#10;Errores encontrados: [PARSER ERROR - Línea 5:36 - mismatched input &apos;=&apos; expecting {&apos;and&apos;, &apos;or&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;[&apos;, &apos;]&apos;, &apos;.&apos;}, PARSER ERROR - Línea 8:4 - extraneous input &apos;return&apos; expecting {&lt;EOF&gt;, &apos;function&apos;}] ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con tipos compuestos'
+Texto: function process_list(items: list, config: object) -> list {
+    result = []
+    for each item in it...
+Errores encontrados: [PARSER ERROR - Línea 5:36 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 8:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.004"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.005">
+    <failure message="ESPERADO VÁLIDO: &apos;Función con for-range&apos;&#10;Texto: function fill_array(size: integer) -&gt; list {&#10;    result = []&#10;    for i from 0 to size - 1 {&#10;        ...&#10;Errores encontrados: [PARSER ERROR - Línea 4:18 - mismatched input &apos;=&apos; expecting {&apos;and&apos;, &apos;or&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;[&apos;, &apos;]&apos;, &apos;.&apos;}, PARSER ERROR - Línea 6:4 - extraneous input &apos;return&apos; expecting {&lt;EOF&gt;, &apos;function&apos;}] ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con for-range'
+Texto: function fill_array(size: integer) -> list {
+    result = []
+    for i from 0 to size - 1 {
+        ...
+Errores encontrados: [PARSER ERROR - Línea 4:18 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 6:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003">
+    <failure message="ESPERADO VÁLIDO: &apos;Función con for-range y step&apos;&#10;Texto: function even_numbers(max: integer) -&gt; list {&#10;    result = []&#10;    index = 0&#10;    for i from 0 to max ...&#10;Errores encontrados: [PARSER ERROR - Línea 5:22 - mismatched input &apos;=&apos; expecting {&apos;and&apos;, &apos;or&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;[&apos;, &apos;]&apos;, &apos;.&apos;}, PARSER ERROR - Línea 8:4 - extraneous input &apos;return&apos; expecting {&lt;EOF&gt;, &apos;function&apos;}] ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con for-range y step'
+Texto: function even_numbers(max: integer) -> list {
+    result = []
+    index = 0
+    for i from 0 to max ...
+Errores encontrados: [PARSER ERROR - Línea 5:22 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 8:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.004"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.007"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.004"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.004"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002">
+    <failure message="ESPERADO VÁLIDO: &apos;Función que retorna lista&apos;&#10;Texto: function create_range(start: integer, end: integer) -&gt; list {&#10;    result = []&#10;    for i from start t...&#10;Errores encontrados: [PARSER ERROR - Línea 4:32 - mismatched input &apos;=&apos; expecting {&apos;and&apos;, &apos;or&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;[&apos;, &apos;]&apos;, &apos;.&apos;}, PARSER ERROR - Línea 6:4 - extraneous input &apos;return&apos; expecting {&lt;EOF&gt;, &apos;function&apos;}] ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función que retorna lista'
+Texto: function create_range(start: integer, end: integer) -> list {
+    result = []
+    for i from start t...
+Errores encontrados: [PARSER ERROR - Línea 4:32 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 6:4 - extraneous input 'return' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.003">
+    <failure message="ESPERADO VÁLIDO: &apos;Función con listas y objetos anidados&apos;&#10;Texto: function process_orders(orders: list) -&gt; object {&#10;    summary = {&#10;        total_orders: orders.lengt...&#10;Errores encontrados: [PARSER ERROR - Línea 10:29 - mismatched input &apos;=&apos; expecting {&apos;return&apos;, &apos;if&apos;, &apos;while&apos;, &apos;for&apos;, &apos;break&apos;, &apos;continue&apos;, &apos;try&apos;, &apos;throw&apos;, &apos;true&apos;, &apos;false&apos;, &apos;null&apos;, &apos;and&apos;, &apos;or&apos;, &apos;not&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;{&apos;, &apos;}&apos;, &apos;[&apos;, &apos;.&apos;, INTEGER_LITERAL, DECIMAL_LITERAL, TEXT_LITERAL, IDENTIFIER}, PARSER ERROR - Línea 14:44 - mismatched input &apos;=&apos; expecting {&apos;and&apos;, &apos;or&apos;, &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;/&apos;, &apos;%&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;==&apos;, &apos;!=&apos;, &apos;(&apos;, &apos;[&apos;, &apos;]&apos;, &apos;.&apos;}, PARSER ERROR - Línea 15:10 - extraneous input &apos;else&apos; expecting {&lt;EOF&gt;, &apos;function&apos;}] ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+ESPERADO VÁLIDO: 'Función con listas y objetos anidados'
+Texto: function process_orders(orders: list) -> object {
+    summary = {
+        total_orders: orders.lengt...
+Errores encontrados: [PARSER ERROR - Línea 10:29 - mismatched input '=' expecting {'return', 'if', 'while', 'for', 'break', 'continue', 'try', 'throw', 'true', 'false', 'null', 'and', 'or', 'not', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '{', '}', '[', '.', INTEGER_LITERAL, DECIMAL_LITERAL, TEXT_LITERAL, IDENTIFIER}, PARSER ERROR - Línea 14:44 - mismatched input '=' expecting {'and', 'or', '+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=', '(', '[', ']', '.'}, PARSER ERROR - Línea 15:10 - extraneous input 'else' expecting {<EOF>, 'function'}] ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest.lambda$createTestsFromYaml$1(FlowScriptFunctionsTest.java:121)
+	at java.base/java.util.Optional.ifPresent(Optional.java:178)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.004"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.002"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.0"/>
+  <testcase name="testFlowScriptFunctions" classname="edu.eam.ingesoft.tlf.tester.FlowScriptFunctionsTest" time="0.001"/>
+</testsuite>

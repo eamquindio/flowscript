@@ -5,97 +5,270 @@ grammar FlowScriptFunctions;
     package edu.eam.ingesoft.tlf;
 }
 
-/*
- * GRAMÁTICA DE FUNCIONES PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de funciones
- * del lenguaje FlowScript, incluyendo:
- * - Declaración de funciones
- * - Parámetros tipados
- * - Tipos de retorno
- * - Cuerpo de funciones con statements
- * - Expresiones y operadores
- * - Control de flujo dentro de funciones
- */
-
 // ============================
 // LEXER RULES (TOKENS)
 // ============================
 
 // Palabras clave para funciones
+FUNCTION        : 'function';
+RETURN          : 'return';
+IF              : 'if';
+ELSE_IF         : 'else_if';
+ELSE            : 'else';
+WHILE           : 'while';
+FOR             : 'for';
+EACH            : 'each';
+IN              : 'in';
+FROM            : 'from';
+TO              : 'to';
+STEP            : 'step';
+BREAK           : 'break';
+CONTINUE        : 'continue';
+TRY             : 'try';
+CATCH           : 'catch';
+THROW           : 'throw';
+
+// Tipos de datos
+INTEGER_TYPE    : 'integer';
+DECIMAL_TYPE    : 'decimal';
+BOOLEAN_TYPE    : 'boolean';
+TEXT_TYPE       : 'text';
+LIST_TYPE       : 'list';
+OBJECT_TYPE     : 'object';
+VOID_TYPE       : 'void';
+
+// Literales booleanos
+TRUE            : 'true';
+FALSE           : 'false';
+NULL            : 'null';
+
+// Operadores lógicos
+AND             : 'and';
+OR              : 'or';
+NOT             : 'not';
+
+// Operadores aritméticos
+PLUS            : '+';
+MINUS           : '-';
+MULTIPLY        : '*';
+DIVIDE          : '/';
+MODULO          : '%';
+
+// Operadores de comparación
+LT              : '<';
+GT              : '>';
+LE              : '<=';
+GE              : '>=';
+EQ              : '==';
+NE              : '!=';
+
+// Operadores de asignación
+ASSIGN          : '=';
+
+// Delimitadores
+LPAREN          : '(';
+RPAREN          : ')';
+LBRACE          : '{';
+RBRACE          : '}';
+LBRACKET        : '[';
+RBRACKET        : ']';
+COMMA           : ',';
+SEMICOLON       : ';';
+COLON           : ':';
+DOT             : '.';
+ARROW           : '->';
+
+// Literales numéricos
+INTEGER_LITERAL : [0-9]+ ('_' [0-9]+)*;
+DECIMAL_LITERAL : [0-9]+ '.' [0-9]+ ([eE] [+-]? [0-9]+)?
+                | [0-9]+ [eE] [+-]? [0-9]+;
+
+// Literales de texto
+TEXT_LITERAL    : '"' (~["\\\r\n] | '\\' .)* '"';
+
+// Identificadores
+IDENTIFIER      : [a-zA-Z_][a-zA-Z0-9_]*;
+
+// Comentarios
+SINGLE_COMMENT  : '#' ~[\r\n]* -> skip;
+MULTI_COMMENT   : '/*' .*? '*/' -> skip;
+
+// Espacios en blanco
+WS              : [ \t\r\n]+ -> skip;
 
 // ============================
-// DECLARACIÓN DE FUNCIONES
+// PARSER RULES
 // ============================
+
+functionProgram
+    : functionDeclaration* EOF
+    ;
 
 functionDeclaration
-    : EOF
+    : FUNCTION IDENTIFIER LPAREN parameterList? RPAREN (ARROW returnType)? LBRACE statementList RBRACE
     ;
-// ============================
-// EJEMPLOS DE USO
-// ============================
 
-/*
- * EJEMPLOS VÁLIDOS:
- * 
- * 1. Función simple:
- * function greet() -> void {
- *     print("Hello World")
- * }
- * 
- * 2. Función con parámetros y retorno:
- * function add(a: integer, b: integer) -> integer {
- *     return a + b
- * }
- * 
- * 3. Función con lógica compleja:
- * function factorial(n: integer) -> integer {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- * 
- * 4. Función con manejo de errores:
- * function safe_divide(a: decimal, b: decimal) -> decimal {
- *     try {
- *         if b == 0 {
- *             throw { type: "DivisionError", message: "Division by zero" }
- *         }
- *         return a / b
- *     } catch (error) {
- *         print("Error: " + error.message)
- *         return 0.0
- *     }
- * }
- * 
- * 5. Función con estructuras de datos:
- * function process_items(items: list, threshold: decimal) -> object {
- *     result = { count: 0, sum: 0.0 }
- *     
- *     for each item in items {
- *         if item.value > threshold {
- *             result.count = result.count + 1
- *             result.sum = result.sum + item.value
- *         }
- *     }
- *     
- *     return result
- * }
- * 
- * 6. Función con bucles:
- * function find_max(numbers: list) -> decimal {
- *     if numbers.length() == 0 {
- *         return null
- *     }
- *     
- *     max = numbers[0]
- *     for i from 1 to numbers.length() - 1 {
- *         if numbers[i] > max {
- *             max = numbers[i]
- *         }
- *     }
- *     
- *     return max
- * }
- */
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON dataType
+    ;
+
+returnType
+    : dataType
+    ;
+
+dataType
+    : INTEGER_TYPE
+    | DECIMAL_TYPE
+    | BOOLEAN_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID_TYPE
+    ;
+
+statementList
+    : statement*
+    ;
+
+statement
+    : ifStatement
+    | whileStatement
+    | forEachStatement
+    | forRangeStatement
+    | breakStatement
+    | continueStatement
+    | returnStatement
+    | tryStatement
+    | throwStatement
+    | assignmentOrExpressionStatement
+    ;
+
+assignmentOrExpressionStatement
+    : IDENTIFIER ASSIGN expression      # assignmentStatement
+    | expression                        # expressionStatement
+    ;
+
+ifStatement
+    : IF expression LBRACE statementList RBRACE elseIfClause* elseClause?
+    ;
+
+elseIfClause
+    : ELSE_IF expression LBRACE statementList RBRACE
+    ;
+
+elseClause
+    : ELSE LBRACE statementList RBRACE
+    ;
+
+whileStatement
+    : WHILE expression LBRACE statementList RBRACE
+    ;
+
+forEachStatement
+    : FOR EACH IDENTIFIER IN expression LBRACE statementList RBRACE
+    ;
+
+forRangeStatement
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? LBRACE statementList RBRACE
+    ;
+
+breakStatement
+    : BREAK
+    ;
+
+continueStatement
+    : CONTINUE
+    ;
+
+returnStatement
+    : RETURN expression?
+    ;
+
+tryStatement
+    : TRY LBRACE statementList RBRACE catchClause+
+    ;
+
+catchClause
+    : CATCH LPAREN IDENTIFIER RPAREN LBRACE statementList RBRACE
+    ;
+
+throwStatement
+    : THROW expression
+    ;
+
+expression
+    : logicalOrExpression
+    ;
+
+logicalOrExpression
+    : logicalAndExpression (OR logicalAndExpression)*
+    ;
+
+logicalAndExpression
+    : equalityExpression (AND equalityExpression)*
+    ;
+
+equalityExpression
+    : relationalExpression ((EQ | NE) relationalExpression)*
+    ;
+
+relationalExpression
+    : additiveExpression ((LT | GT | LE | GE) additiveExpression)*
+    ;
+
+additiveExpression
+    : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    : unaryExpression ((MULTIPLY | DIVIDE | MODULO) unaryExpression)*
+    ;
+
+unaryExpression
+    : (NOT | MINUS) unaryExpression
+    | postfixExpression
+    ;
+
+postfixExpression
+    : primaryExpression (postfixOperator)*
+    ;
+
+postfixOperator
+    : LPAREN argumentList? RPAREN          # functionCall
+    | DOT IDENTIFIER                       # memberAccess
+    | LBRACKET expression RBRACKET         # indexAccess
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+primaryExpression
+    : IDENTIFIER                           # identifierExpression
+    | INTEGER_LITERAL                      # integerLiteral
+    | DECIMAL_LITERAL                      # decimalLiteral
+    | TEXT_LITERAL                         # textLiteral
+    | TRUE                                 # trueLiteral
+    | FALSE                                # falseLiteral
+    | NULL                                 # nullLiteral
+    | listLiteral                          # listExpression
+    | objectLiteral                        # objectExpression
+    | LPAREN expression RPAREN             # parenthesizedExpression
+    ;
+
+listLiteral
+    : LBRACKET (expression (COMMA expression)*)? RBRACKET
+    ;
+
+objectLiteral
+    : LBRACE (objectProperty (COMMA objectProperty)*)? RBRACE
+    ;
+
+objectProperty
+    : IDENTIFIER COLON expression
+    | TEXT_LITERAL COLON expression
+    ;
