@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.process.estructura_principal;
 
+import java.util.List;
+
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
@@ -7,8 +9,6 @@ import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.process.estructura_principal.ProcessDeclarationNode;
-
-import java.util.List;
 
 /**
  * Parser para declaraciones de proceso.
@@ -126,7 +126,11 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // Consume 'process' o 'proceso'
-       return null;
+        Token processToken = context.consume(TokenType.PROCESS);
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        context.consume(TokenType.LEFT_BRACE);
+        List<ASTNode> elements = bodyParser.parse(context);
+        context.consume(TokenType.RIGHT_BRACE);
+        return new ProcessDeclarationNode(processToken, nameToken.getValue(), elements);
     }
 }
