@@ -51,6 +51,26 @@ public class ParallelGatewayParser implements IParser<ParallelGatewayNode> {
     @Override
     public ParallelGatewayNode parse(ParserContext context) throws Parser.ParseException {
         Token gatewayToken = context.getCurrentToken();
-        return null;
+        if (gatewayToken == null || gatewayToken.getType() != TokenType.GATEWAY) {
+            throw new Parser.ParseException("Se esperaba _gateway_ al inicio del gateway paralelo.");
+        }
+        context.consume(TokenType.GATEWAY);
+        Token gateName = context.consume(TokenType.IDENTIFIER);
+        context.consume(TokenType.PARALLEL);
+        context.consume(TokenType.LEFT_BRACE);
+        List<ParallelBranchNode> branchesNodes = new ArrayList<>();
+        JoinClauseNode joinClause = null;
+
+        while (context.getCurrentToken() != null && context.getCurrentToken().getType() == TokenType.BRANCH) {
+            ParallelBranchNode branchNode = branchParser.parse(context);
+            branchesNodes.add(branchNode);
+        }
+
+        if (context.getCurrentToken() == null || context.getCurrentToken().getType() != TokenType.JOIN) {
+            throw new Parser.ParseException("Se esperaba _join_ antes de cerrar el gateway paralelo.");
+        }
+        joinClause = joinParser.parse(context);
+        context.consume(TokenType.RIGHT_BRACE);
+        return new ParallelGatewayNode(gatewayToken, gateName.getValue(), branchesNodes, joinClause);
     }
 }

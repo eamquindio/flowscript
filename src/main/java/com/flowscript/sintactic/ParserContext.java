@@ -176,3 +176,4 @@ public class ParserContext {
         return currentIndex < tokens.size() && getCurrentToken().getType() != TokenType.EOF;
     }
 }
+

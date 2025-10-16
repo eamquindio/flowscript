@@ -58,10 +58,33 @@ public class TaskElementParser implements IParser<TaskElementNode> {
     @Override
     public TaskElementNode parse(ParserContext context) throws Parser.ParseException {
         Token taskToken = context.getCurrentToken();
-       return null;
+        if(taskToken == null || taskToken.getType() != TokenType.TASK){
+            throw new Parser.ParseException("Se esperaba _task_ al inicio del elemento.");
+        }
+        context.consume(TokenType.TASK);
+        Token desName = context.consume(TokenType.IDENTIFIER);
+        context.consume(TokenType.LEFT_BRACE);
+        context.consume(TokenType.ACTION);
+        context.consume(TokenType.COLON);
+        List<StatementNode> body = parseStatementList(context);
+        context.consume(TokenType.RIGHT_BRACE);
+        return new TaskElementNode(taskToken, desName.getValue(), body);
     }
 
     private List<StatementNode> parseStatementList(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+        while(true){
+            Token token = context.getCurrentToken();
+            if (token.getType() == TokenType.RIGHT_BRACE || token.getType() == TokenType.EOF) {
+                break;
+            }
+            if(context.checkAny(TokenType.SINGLE_LINE_COMMENT, TokenType.MULTI_LINE_COMMENT, TokenType.COLON)){
+                context.consume();
+                continue;
+            }
+            StatementNode statement = statementParser.parse(context);
+            statements.add(statement);
+        }
+        return statements;
     }
 }

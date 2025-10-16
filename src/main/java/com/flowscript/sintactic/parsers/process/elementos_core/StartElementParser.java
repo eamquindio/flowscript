@@ -44,6 +44,12 @@ public class StartElementParser implements IParser<StartElementNode> {
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
         Token startToken = context.getCurrentToken();
-       return null;
+        if(startToken == null || startToken.getType() != TokenType.START){
+            throw new Parser.ParseException("Se espera la palabra _start_ al inicio del elemento. ");
+        }
+        context.consume(TokenType.START);
+        context.consume(TokenType.ARROW);
+        Token desName = context.consume(TokenType.IDENTIFIER);
+        return new StartElementNode(startToken, desName.getValue());
     }
 }
