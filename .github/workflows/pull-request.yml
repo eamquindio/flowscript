@@ -215,7 +215,11 @@ jobs:
           if [ "${{ needs.pr-validation.outputs.build-system }}" == "maven" ]; then
             mvn clean -B
             mvn -B -Dtest='*Processes*' test
-            mvn -B jacoco:report
+            if grep -q "jacoco-maven-plugin" pom.xml; then
+              mvn -B jacoco:report
+            else
+              echo "ℹ️ Skipping Jacoco report (plugin not configured)"
+            fi
           elif [ "${{ needs.pr-validation.outputs.build-system }}" == "gradle" ]; then
             chmod +x gradlew
             ./gradlew clean test --tests "*Processes*"
