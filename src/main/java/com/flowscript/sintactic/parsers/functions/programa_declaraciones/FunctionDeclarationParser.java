@@ -84,6 +84,7 @@ public class FunctionDeclarationParser implements IParser<FunctionDeclarationNod
 
     @Override
     public FunctionDeclarationNode parse(ParserContext context) throws Parser.ParseException {
+<<<<<<< HEAD
         // Consume 'function' o 'funcion'
         Token functionToken = context.getCurrentToken();
         String keyword = functionToken.getValue();
@@ -124,5 +125,8 @@ public class FunctionDeclarationParser implements IParser<FunctionDeclarationNod
         BlockNode body = blockParser.parse(context);
 
         return new FunctionDeclarationNode(functionToken, functionName, parameters, returnType, body);
+=======
+      return null;
+>>>>>>> 94097ec60f9c0ffd9f1d6e8e530344d5aac2428b
     }
 }

@@ -109,6 +109,7 @@ public class StatementParser implements IParser<StatementNode> {
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
 
+<<<<<<< HEAD
         if (current == null) {
             throw new Parser.ParseException("Unexpected end of input while parsing statement");
         }
@@ -159,5 +160,8 @@ public class StatementParser implements IParser<StatementNode> {
 
         // Default: ExpressionStatement
         return exprParser.parse(context);
+=======
+        return null;
+>>>>>>> 94097ec60f9c0ffd9f1d6e8e530344d5aac2428b
     }
 }

@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/diagram.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -86,6 +87,9 @@
       <change beforePath="$PROJECT_DIR$/target/test-classes/flowscript-functions.yaml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/flowscript-processes.yaml" beforeDir="false" />
     </list>
+=======
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
+>>>>>>> 94097ec60f9c0ffd9f1d6e8e530344d5aac2428b
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

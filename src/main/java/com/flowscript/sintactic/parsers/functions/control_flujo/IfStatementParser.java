@@ -81,6 +81,7 @@ public class IfStatementParser implements IParser<IfStatementNode> {
 
     @Override
     public IfStatementNode parse(ParserContext context) throws Parser.ParseException {
+<<<<<<< HEAD
         Token ifToken = context.getCurrentToken();
         context.consume(); // consume 'if' or 'si'
 
@@ -110,5 +111,8 @@ public class IfStatementParser implements IParser<IfStatementNode> {
         }
 
         return ifStmt;
+=======
+        return null;
+>>>>>>> 94097ec60f9c0ffd9f1d6e8e530344d5aac2428b
     }
 }
