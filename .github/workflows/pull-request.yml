@@ -117,7 +117,7 @@ jobs:
           done
           
           echo "## File Changes Summary" >> change-report.md
-          echo "- Total files changed: ${{ steps.changed-files.outputs.any_changed }}" >> change-report.md
+          echo "- Total files changed: ${{ steps.changed-files.outputs.all_changed_files }}" >> change-report.md
           echo "- Java files: $java_files" >> change-report.md
           echo "- FlowScript files: $flow_files" >> change-report.md
           echo "- Test files: $test_files" >> change-report.md
