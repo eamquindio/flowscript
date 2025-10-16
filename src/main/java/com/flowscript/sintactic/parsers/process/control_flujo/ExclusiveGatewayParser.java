@@ -51,6 +51,28 @@ public class ExclusiveGatewayParser implements IParser<ExclusiveGatewayNode> {
     @Override
     public ExclusiveGatewayNode parse(ParserContext context) throws Parser.ParseException {
         Token gatewayToken = context.getCurrentToken();
-         return null;
+        if (gatewayToken == null || gatewayToken.getType() != TokenType.GATEWAY) {
+         throw new Parser.ParseException("Se esperaba _gateway_ al inicio del elemento.");
+        }
+        context.consume(TokenType.GATEWAY);
+        Token nameGate = context.consume(TokenType.IDENTIFIER);
+        context.consume(TokenType.LEFT_BRACE);
+        List<WhenClauseNode> whenNodes = new ArrayList<>();
+        ElseClauseNode elseClause = null;
+
+        while (context.getCurrentToken() != null && context.getCurrentToken().getType() == TokenType.WHEN) {
+            WhenClauseNode whenNode = whenParser.parse(context);
+            whenNodes.add(whenNode);
+        }
+
+        if (context.getCurrentToken() != null && context.getCurrentToken().getType() == TokenType.ELSE) {
+            elseClause = elseParser.parse(context);
+        }
+
+        if (context.getCurrentToken() != null && context.getCurrentToken().getType() == TokenType.WHEN) {
+            throw new Parser.ParseException("No se permiten elementos _when_ después de _else_");
+        }
+        context.consume(TokenType.RIGHT_BRACE);
+        return new ExclusiveGatewayNode(gatewayToken, nameGate.getValue(), whenNodes, elseClause);
     }
 }

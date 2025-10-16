@@ -41,6 +41,19 @@ public class ParallelBranchParser implements IParser<ParallelBranchNode> {
     @Override
     public ParallelBranchNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("ParallelBranchParser no implementado - Tarea del estudiante");
+        Token branchToken = context.getCurrentToken();
+        if (branchToken == null || branchToken.getType() != TokenType.BRANCH) {
+            throw new Parser.ParseException("Se esperaba _branch_ al inicio del elemento.");
+        }
+        if(branchToken.getType() == TokenType.BRANCH){
+            context.consume(TokenType.BRANCH);
+        }else if(branchToken.getType() == TokenType.IDENTIFIER && "rama".equals(branchToken.getValue())){
+            context.consume();
+        }else {
+            throw new Parser.ParseException("Se espera la palabra _branch_ o _rama_ al inicio del elemento. ");
+        }
+        context.consume(TokenType.ARROW);
+        Token tarName = context.consume(TokenType.IDENTIFIER);
+        return new ParallelBranchNode(branchToken, tarName.getValue());
     }
 }

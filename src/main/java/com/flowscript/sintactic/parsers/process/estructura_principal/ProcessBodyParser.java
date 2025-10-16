@@ -50,10 +50,43 @@ public class ProcessBodyParser {
     }
 
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<ASTNode> elements = new ArrayList<>();
+        while (true) {
+            Token token = context.getCurrentToken();
+
+            if (token.getType() == TokenType.RIGHT_BRACE || token.getType() == TokenType.EOF) {
+                break;
+            }
+            ASTNode node = parseProcessElement(context);
+            if (node == null) {
+                throw new Parser.ParseException("Se esperaba nodo al proceso del elemento.");
+            }
+            elements.add(node);
+        }
+        return elements;
     }
 
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token current = context.getCurrentToken();
+        if (current == null) return null;
+
+        switch (current.getType()) {
+            case START:
+                return startParser.parse(context);
+            case TASK:
+                return taskParser.parse(context);
+            case END:
+                return endParser.parse(context);
+            case GATEWAY:
+                Token gatewayIdentifier  = context.peek(1);
+                Token gatewayModeToken  = context.peek(2);
+                if (gatewayIdentifier != null && gatewayIdentifier.getType() == TokenType.IDENTIFIER && gatewayModeToken != null && gatewayModeToken.getType() == TokenType.PARALLEL) {
+                    return parallelGatewayParser.parse(context);
+                } else {
+                    return exclusiveGatewayParser.parse(context);
+                }
+            default:
+                throw new Parser.ParseException("Token inesperado: " + current.getType());
+        }
     }
 }

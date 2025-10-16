@@ -49,6 +49,11 @@ public class EndElementParser implements IParser<EndElementNode> {
     @Override
     public EndElementNode parse(ParserContext context) throws Parser.ParseException {
         Token endToken = context.getCurrentToken();
-       return null;
+        if(endToken == null || endToken.getType() != TokenType.END){
+            throw new Parser.ParseException("Se espera la palabra _end_ al final del elemento. ");
+        }
+        context.consume(TokenType.END);
+        Token endName = context.consume(TokenType.IDENTIFIER);
+        return new EndElementNode(endToken, endName.getValue());
     }
 }
