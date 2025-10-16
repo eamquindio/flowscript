@@ -13,7 +13,8 @@ public class BooleanLiteralNode extends ExpressionNode {
 
     public BooleanLiteralNode(Token literalToken) {
         super(literalToken);
-        this.value = "verdadero".equals(literalToken.getValue());
+        String val = literalToken.getValue();
+        this.value = "verdadero".equals(val) || "true".equals(val);
     }
 
     public boolean getValue() {

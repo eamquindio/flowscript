@@ -63,13 +63,29 @@ import java.util.List;
  */
 public class StatementListParser {
 
-    private final StatementParser statementParser;
+    private StatementParser statementParser;
 
     public StatementListParser() {
-        this.statementParser = new StatementParser();
+    }
+
+    private StatementParser getStatementParser() {
+        if (statementParser == null) {
+            statementParser = new StatementParser();
+        }
+        return statementParser;
     }
 
     public List<StatementNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+        
+        while (context.getCurrentToken() != null && 
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE &&
+               context.getCurrentToken().getType() != TokenType.EOF) {
+            
+            StatementNode stmt = getStatementParser().parse(context);
+            statements.add(stmt);
+        }
+        
+        return statements;
     }
 }

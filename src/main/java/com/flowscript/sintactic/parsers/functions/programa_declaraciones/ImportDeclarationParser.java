@@ -51,7 +51,28 @@ public class ImportDeclarationParser implements IParser<ImportDeclarationNode> {
 
     @Override
     public ImportDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ImportDeclarationParser no implementado - Tarea del estudiante");
+        Token importToken = context.getCurrentToken();
+        boolean isJarImport = false;
+
+        if (context.check(TokenType.IMPORT_JAR)) {
+            isJarImport = true;
+            context.advance();
+        } else if (context.check(TokenType.IMPORT)) {
+            context.advance();
+        } else {
+            throw new Parser.ParseException("Expected 'import' or 'import_jar'");
+        }
+
+        Token pathToken = context.consume(TokenType.STRING_LITERAL);
+        String modulePath = pathToken.getValue();
+
+        String alias = null;
+        if (context.check(TokenType.AS)) {
+            context.advance();
+            Token aliasToken = context.consume(TokenType.IDENTIFIER);
+            alias = aliasToken.getValue();
+        }
+
+        return new ImportDeclarationNode(importToken, isJarImport, modulePath, alias);
     }
 }
