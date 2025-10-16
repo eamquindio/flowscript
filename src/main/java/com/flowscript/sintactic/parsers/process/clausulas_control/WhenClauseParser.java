@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.process.clausulas_control.WhenClauseNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
@@ -48,7 +49,31 @@ public class WhenClauseParser implements IParser<WhenClauseNode> {
 
     @Override
     public WhenClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("WhenClauseParser no implementado - Tarea del estudiante");
+        Token startToken = context.getCurrentToken();
+        if (startToken == null ||
+            !(startToken.getValue().equalsIgnoreCase("when") )) {
+            throw new Parser.ParseException("No hay un WHEN");
+        }
+        context.consume(); 
+
+        ExpressionNode expresionCondicional = (ExpressionNode) expressionParser.parse(context);
+        if (expresionCondicional == null) {
+            throw new Parser.ParseException("No es una condicion valida");
+        }
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || !arrowToken.getValue().equals("->")) {
+            throw new Parser.ParseException("No hay una -> después de la condicion");
+        }
+        context.consume(); 
+
+        Token identifierToken = context.getCurrentToken();
+        if (identifierToken == null || identifierToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("No es una expesion valida");
+        }
+        String targetTask = identifierToken.getValue();
+        context.consume(); 
+
+        return new WhenClauseNode(expresionCondicional, targetTask);
     }
 }

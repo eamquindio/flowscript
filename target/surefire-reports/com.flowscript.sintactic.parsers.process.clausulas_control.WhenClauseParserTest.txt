@@ -1,0 +1,74 @@
+-------------------------------------------------------------------------------
+Test set: com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 2, Errors: 4, Skipped: 0, Time elapsed: 0.052 s <<< FAILURE! -- in com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testInvalidWhenClause_MissingCondition -- Time elapsed: 0.014 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.flowscript.sintactic.Parser.ParseException> but was: <java.lang.UnsupportedOperationException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testInvalidWhenClause_MissingCondition(WhenClauseParserTest.java:97)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.lambda$testInvalidWhenClause_MissingCondition$1(WhenClauseParserTest.java:98)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithFunctionCall -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithFunctionCall(WhenClauseParserTest.java:59)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testInvalidWhenClause_MissingArrow -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.flowscript.sintactic.Parser.ParseException> but was: <java.lang.UnsupportedOperationException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testInvalidWhenClause_MissingArrow(WhenClauseParserTest.java:85)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.lambda$testInvalidWhenClause_MissingArrow$0(WhenClauseParserTest.java:86)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testSimpleWhenClause -- Time elapsed: 0.003 s <<< ERROR!
+java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testSimpleWhenClause(WhenClauseParserTest.java:31)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithComplexCondition -- Time elapsed: 0.003 s <<< ERROR!
+java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithComplexCondition(WhenClauseParserTest.java:45)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithBoolean -- Time elapsed: 0 s <<< ERROR!
+java.lang.UnsupportedOperationException: ExpressionParser no implementado - Tarea del estudiante
+	at com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser.parse(ExpressionParser.java:62)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParser.parse(WhenClauseParser.java:59)
+	at com.flowscript.sintactic.parsers.process.clausulas_control.WhenClauseParserTest.testWhenClauseWithBoolean(WhenClauseParserTest.java:72)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+

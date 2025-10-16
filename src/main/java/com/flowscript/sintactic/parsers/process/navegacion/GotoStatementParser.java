@@ -38,6 +38,19 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
 
     @Override
     public GotoStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token gotoToken = context.getCurrentToken();
+
+        if (!gotoToken.getValue().equals("go_to")) {
+            throw new Parser.ParseException(
+                "Expected 'go_to' but found '" + gotoToken.getValue() +
+                "' at line " + gotoToken.getLine()
+            );
+        }
+        context.consume();
+
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetName = targetToken.getValue();
+
+        return new GotoStatementNode(gotoToken, targetName);
     }
 }

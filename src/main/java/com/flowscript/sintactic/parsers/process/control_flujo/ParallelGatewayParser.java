@@ -51,6 +51,49 @@ public class ParallelGatewayParser implements IParser<ParallelGatewayNode> {
     @Override
     public ParallelGatewayNode parse(ParserContext context) throws Parser.ParseException {
         Token gatewayToken = context.getCurrentToken();
-        return null;
+        if (!gatewayToken.getValue().equals("gateway")) {
+            throw new Parser.ParseException(
+                "Expected 'gateway' but found '" + gatewayToken.getValue() +
+                "' at line " + gatewayToken.getLine()
+            );
+        }
+        context.consume();
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String gatewayName = nameToken.getValue();
+
+        Token parallelToken = context.getCurrentToken();
+        if (!parallelToken.getValue().equals("parallel") && !parallelToken.getValue().equals("paralelo")) {
+            throw new Parser.ParseException(
+                "Expected 'parallel' after gateway name but found '" + parallelToken.getValue() +
+                "' at line " + parallelToken.getLine()
+            );
+        }
+        context.consume();
+
+        context.consume(TokenType.LEFT_BRACE);
+
+        List<ParallelBranchNode> branches = new ArrayList<>();
+        while (context.checkValue("rama") || context.checkValue("branch")) {
+            ParallelBranchNode branch = branchParser.parse(context);
+            branches.add(branch);
+        }
+
+        if (branches.isEmpty()) {
+            throw new Parser.ParseException(
+                "Parallel gateway must have at least one branch at line " + gatewayToken.getLine()
+            );
+        }
+
+        if (!context.checkValue("unir") && !context.checkValue("join")) {
+            throw new Parser.ParseException(
+                "Parallel gateway must have a join clause at line " + context.getCurrentToken().getLine()
+            );
+        }
+        JoinClauseNode joinClause = joinParser.parse(context);
+
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new ParallelGatewayNode(gatewayToken, gatewayName, branches, joinClause);
     }
 }

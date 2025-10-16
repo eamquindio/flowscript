@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.flowscript.sintactic.parsers.process.clausulas_control.ElseClauseParserTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 s -- in com.flowscript.sintactic.parsers.process.clausulas_control.ElseClauseParserTest

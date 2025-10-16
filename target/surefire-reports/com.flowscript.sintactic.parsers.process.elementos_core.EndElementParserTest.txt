@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.flowscript.sintactic.parsers.process.elementos_core.EndElementParserTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.flowscript.sintactic.parsers.process.elementos_core.EndElementParserTest

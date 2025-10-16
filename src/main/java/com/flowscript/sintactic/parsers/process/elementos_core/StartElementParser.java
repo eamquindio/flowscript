@@ -44,6 +44,28 @@ public class StartElementParser implements IParser<StartElementNode> {
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
         Token startToken = context.getCurrentToken();
-       return null;
+        String keyword = startToken.getValue();
+
+        if (!keyword.equals("inicio") && !keyword.equals("start")) {
+            throw new Parser.ParseException(
+                "Expected 'start' or 'inicio' but found '" + keyword +
+                "' at line " + startToken.getLine()
+            );
+        }
+        context.consume();
+
+        Token arrow = context.getCurrentToken();
+        if (arrow == null || !arrow.getValue().equals("->")) {
+            throw new Parser.ParseException(
+                "Expected '->' after 'start' at line " +
+                (arrow != null ? arrow.getLine() : startToken.getLine())
+            );
+        }
+        context.consume();
+
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetName = targetToken.getValue();
+
+        return new StartElementNode(startToken, targetName);
     }
 }
