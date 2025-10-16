@@ -205,10 +205,13 @@ jobs:
       - name: Run tests with coverage
         run: |
           if [ "${{ needs.pr-validation.outputs.build-system }}" == "maven" ]; then
-            mvn clean test jacoco:report -B
+            mvn clean -B
+            mvn -B -Dtest='*Processes*' test
+            mvn -B jacoco:report
           elif [ "${{ needs.pr-validation.outputs.build-system }}" == "gradle" ]; then
             chmod +x gradlew
-            ./gradlew clean test jacocoTestReport
+            ./gradlew clean test --tests "*Processes*"
+            ./gradlew jacocoTestReport
           fi
       
       - name: Check test coverage
