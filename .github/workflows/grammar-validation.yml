@@ -206,6 +206,13 @@ jobs:
         run: |
           echo "🔨 Compiling project with generated sources..."
           mvn compile -q
+      
+      # - name: Run Functions tests
+      #   if: steps.detect-grammars.outputs.functions_grammar == 'true'
+      #   run: |
+      #     echo "🧪 Running Functions grammar tests..."
+      #     mvn test -Dtest="*Functions*" -q
+      #     echo "✅ Functions tests completed"
 
       - name: Run Processes tests
         if: steps.detect-grammars.outputs.processes_grammar == 'true'
@@ -213,6 +220,13 @@ jobs:
           echo "🧪 Running Processes grammar tests..."
           mvn test -Dtest="*Processes*" -q
           echo "✅ Processes tests completed"
+
+      # - name: Run all tests
+      #   if: steps.detect-grammars.outputs.functions_grammar == 'true' && steps.detect-grammars.outputs.processes_grammar == 'true'
+      #   run: |
+      #     echo "🧪 Running complete test suite..."
+      #     mvn test -q
+      #     echo "✅ All tests completed"
 
       - name: Grammar analysis
         run: |

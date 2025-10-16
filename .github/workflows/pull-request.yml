@@ -135,13 +135,13 @@ jobs:
             echo "⚠️ **Warning**: Java files modified but no tests added/updated" >> change-report.md
           fi
           
-          # Listar archivos críticos modificados
-          echo "## Critical Files Modified" >> change-report.md
-          for file in "${FILES[@]}"; do
-            if [[ $file == pom.xml ]] || [[ $file == build.gradle* ]] || [[ $file == .github/workflows/* ]]; then
-              echo "- 🔴 $file" >> change-report.md
-            fi
-          done
+          # Listar archivos de configuración corregidos
+          # echo "## Config Files Fixed" >> change-report.md
+          # for file in "${FILES[@]}"; do
+          #   if [[ $file == pom.xml ]] || [[ $file == build.gradle* ]] || [[ $file == .github/workflows/* ]]; then
+          #     echo "- 🟢 $file" >> change-report.md
+          #   fi
+          # done
           
           cat change-report.md
       
@@ -374,21 +374,16 @@ jobs:
           
           review_status="APPROVE"
           review_message="## Automated Review Results\n\n"
-          BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          
-          # Ensure history is available for diff and rev-list
-          git fetch --no-tags --depth=0 origin || true
           
           # Verificar archivos sensibles
-          if git diff --name-only "$BASE_SHA..$HEAD_SHA" | grep -Eq "(password|secret|key|token)" ; then
+          if git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD | grep -E "(password|secret|key|token)" ; then
             review_status="REQUEST_CHANGES"
             review_message="${review_message}❌ Potential sensitive data in file names\n"
           fi
           
           # Verificar commits
-          commit_count=$(git rev-list --count "$BASE_SHA..$HEAD_SHA" 2>/dev/null || echo 0)
-          if [ "$commit_count" -gt 20 ]; then
+          commit_count=$(git rev-list --count origin/${{ github.event.pull_request.base.ref }}..HEAD)
+          if [ $commit_count -gt 20 ]; then
             review_status="COMMENT"
             review_message="${review_message}⚠️ Too many commits ($commit_count). Consider squashing\n"
           fi

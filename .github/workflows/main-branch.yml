@@ -45,15 +45,14 @@ jobs:
             echo "build-system=none" >> $GITHUB_OUTPUT
           fi
       
-      - name: Full build and test (process tests only)
+      - name: Full build and test
         if: steps.detect.outputs.build-system != 'none'
         run: |
           if [ "${{ steps.detect.outputs.build-system }}" == "maven" ]; then
-            mvn clean compile -B
-            mvn -B -Dtest='*Processes*' test
+            mvn clean install -B
           elif [ "${{ steps.detect.outputs.build-system }}" == "gradle" ]; then
             chmod +x gradlew
-            ./gradlew clean test --tests "*Processes*"
+            ./gradlew clean build
           fi
 
   # Job de análisis de calidad profundo
