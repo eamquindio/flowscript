@@ -100,12 +100,7 @@ jobs:
           config_files=0
           doc_files=0
           
-          changed_files="${{ steps.changed-files.outputs.all_changed_files }}"
-          IFS=',' read -ra FILES <<< "$changed_files"
-          files_count=0
-          if [ -n "$changed_files" ]; then
-            files_count=${#FILES[@]}
-          fi
+          IFS=',' read -ra FILES <<< "${{ steps.changed-files.outputs.all_changed_files }}"
           for file in "${FILES[@]}"; do
             if [[ $file == *.java ]]; then
               java_files=$((java_files + 1))
@@ -122,7 +117,7 @@ jobs:
           done
           
           echo "## File Changes Summary" >> change-report.md
-          echo "- Total files changed: $files_count" >> change-report.md
+          echo "- Total files changed: ${{ steps.changed-files.outputs.any_changed }}" >> change-report.md
           echo "- Java files: $java_files" >> change-report.md
           echo "- FlowScript files: $flow_files" >> change-report.md
           echo "- Test files: $test_files" >> change-report.md
