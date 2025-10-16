@@ -108,16 +108,16 @@ jobs:
           fi
           for file in "${FILES[@]}"; do
             if [[ $file == *.java ]]; then
-              ((java_files++))
-              if [[ $file == *Test.java ]] || [[ $file == *IT.java ]]; then
-                ((test_files++))
+              java_files=$((java_files + 1))
+              if [[ $file == *Test.java ]] || [[ $file == *IT.java ]] ; then
+                test_files=$((test_files + 1))
               fi
             elif [[ $file == *.flow ]]; then
-              ((flow_files++))
+              flow_files=$((flow_files + 1))
             elif [[ $file == *.xml ]] || [[ $file == *.gradle ]] || [[ $file == *.properties ]] || [[ $file == *.yml ]] || [[ $file == *.yaml ]]; then
-              ((config_files++))
+              config_files=$((config_files + 1))
             elif [[ $file == *.md ]] || [[ $file == *.txt ]] || [[ $file == *.adoc ]]; then
-              ((doc_files++))
+              doc_files=$((doc_files + 1))
             fi
           done
           
@@ -365,6 +365,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       
       - name: Auto review checks
         id: review
@@ -373,16 +374,21 @@ jobs:
           
           review_status="APPROVE"
           review_message="## Automated Review Results\n\n"
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          
+          # Ensure history is available for diff and rev-list
+          git fetch --no-tags --depth=0 origin || true
           
           # Verificar archivos sensibles
-          if git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD | grep -E "(password|secret|key|token)" ; then
+          if git diff --name-only "$BASE_SHA..$HEAD_SHA" | grep -Eq "(password|secret|key|token)" ; then
             review_status="REQUEST_CHANGES"
             review_message="${review_message}❌ Potential sensitive data in file names\n"
           fi
           
           # Verificar commits
-          commit_count=$(git rev-list --count origin/${{ github.event.pull_request.base.ref }}..HEAD)
-          if [ $commit_count -gt 20 ]; then
+          commit_count=$(git rev-list --count "$BASE_SHA..$HEAD_SHA" 2>/dev/null || echo 0)
+          if [ "$commit_count" -gt 20 ]; then
             review_status="COMMENT"
             review_message="${review_message}⚠️ Too many commits ($commit_count). Consider squashing\n"
           fi
