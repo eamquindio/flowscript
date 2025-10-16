@@ -48,7 +48,8 @@ public class EndElementParser implements IParser<EndElementNode> {
 
     @Override
     public EndElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token endToken = context.getCurrentToken();
-       return null;
+        Token endToken = context.consume(TokenType.END);
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        return new EndElementNode(endToken, nameToken.getValue());
     }
 }
