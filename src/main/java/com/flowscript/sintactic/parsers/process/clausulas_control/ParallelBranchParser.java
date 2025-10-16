@@ -40,7 +40,24 @@ public class ParallelBranchParser implements IParser<ParallelBranchNode> {
 
     @Override
     public ParallelBranchNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ParallelBranchParser no implementado - Tarea del estudiante");
+        Token branchToken = context.getCurrentToken();
+        if (branchToken == null || !branchToken.getValue().equalsIgnoreCase("branch")) {
+            throw new Parser.ParseException("No hay un BRANCH");
+        }
+        context.consume();
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw new Parser.ParseException("Debe ir una -> luego del BRANCH");
+        }
+        context.consume();
+
+        Token targetToken = context.getCurrentToken();
+        if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Debe ir un identificador valido");
+        }
+        context.consume();
+
+        return new ParallelBranchNode(branchToken, targetToken.getValue());
     }
 }
