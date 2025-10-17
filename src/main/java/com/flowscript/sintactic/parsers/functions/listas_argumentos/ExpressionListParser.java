@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
@@ -30,18 +32,19 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  *
  * @see ExpressionListNode
  */
-public class ExpressionListParser {
+public class ExpressionListParser implements IParser<ExpressionListNode> {
   private static final ExpressionParser EXPRESSION_PARSER = new ExpressionParser();
 
-  public List<ExpressionListNode> parse(ParserContext context) throws ParseException {
-    List<ExpressionListNode> expressions = new ArrayList<>();
-    expressions.add(new ExpressionListNode(EXPRESSION_PARSER.parse(context)));
+  @Override
+  public ExpressionListNode parse(ParserContext context) throws ParseException {
+    List<ExpressionNode> expressions = new ArrayList<>();
+    expressions.add(EXPRESSION_PARSER.parse(context));
 
     while (context.check(TokenType.COMMA)) {
       context.consume(TokenType.COMMA);
-      expressions.add(new ExpressionListNode(EXPRESSION_PARSER.parse(context)));
+      expressions.add(EXPRESSION_PARSER.parse(context));
     }
 
-    return expressions;
+    return new ExpressionListNode(context.getCurrentToken(), expressions);
   }
 }

@@ -1,7 +1,7 @@
 package com.flowscript.sintactic.ast.functions.literales;
 
-import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
+import com.flowscript.sintactic.ast.functions.expresiones.PrimaryExpressionNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
 import com.flowscript.lexer.Token;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * Grammar: ObjectLiteral ::= '{' ObjectMemberList? '}'
  * Examples: {}, { name: "Ana", age: 25 }
  */
-public class ObjectLiteralNode extends LiteralNode {
+public class ObjectLiteralNode extends PrimaryExpressionNode {
   private final ObjectMemberListNode memberList;
 
   public ObjectLiteralNode(Token leftBraceToken) {

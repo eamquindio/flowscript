@@ -8,9 +8,6 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
 public class LiteralParser implements IParser<LiteralNode> {
-  private static final ObjectLiteralParser OBJECT_PARSER = new ObjectLiteralParser();
-  private static final ListLiteralParser LIST_PARSER = new ListLiteralParser();
-
   @Override
   public LiteralNode parse(ParserContext context) throws ParseException {
     Token literalToken = context.getCurrentToken();
@@ -25,12 +22,6 @@ public class LiteralParser implements IParser<LiteralNode> {
       case NULL:
         context.advance();
         return new LiteralNode(literalToken);
-
-      case LEFT_BRACE:
-        return OBJECT_PARSER.parse(context);
-
-      case LEFT_BRACKET:
-        return LIST_PARSER.parse(context);
 
       default:
         throw new ParseException("Se esperaba un literal");

@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
 import com.flowscript.sintactic.ast.functions.literales.ListLiteralNode;
 import com.flowscript.sintactic.parsers.functions.listas_argumentos.ExpressionListParser;
 
@@ -37,11 +38,12 @@ public class ListLiteralParser implements IParser<ListLiteralNode> {
   public ListLiteralNode parse(ParserContext context) throws ParseException {
     Token leftBracketToken = context.consume(TokenType.LEFT_BRACKET);
 
+    ExpressionListNode expressionList = null;
     if (!context.check(TokenType.RIGHT_BRACKET)) {
-      EXPRESSION_LIST_PARSER.parse(context);
+      expressionList = EXPRESSION_LIST_PARSER.parse(context);
     }
 
     context.consume(TokenType.RIGHT_BRACKET);
-    return new ListLiteralNode(leftBracketToken);
+    return new ListLiteralNode(leftBracketToken, expressionList);
   }
 }
