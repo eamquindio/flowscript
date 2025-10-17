@@ -410,7 +410,7 @@ ejemplos:
           start -> Task1
           task Task1 {
               action:
-                  result = 5 + + 3
+                  result = 5 +
                   go_to End1
           }
           end End1
