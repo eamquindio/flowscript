@@ -33,6 +33,39 @@ public class PrimaryExpressionParser implements IParser<PrimaryExpressionNode> {
     @Override
     public PrimaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("PrimaryExpressionParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing primary expression");
+        }
+
+        if (context.match(TokenType.LEFT_PAREN)) {
+            Token leftParen = context.consume(TokenType.LEFT_PAREN);
+
+            ExpressionParser exprParser = new ExpressionParser();
+            ExpressionNode innerExpr = exprParser.parse(context);
+
+            if (!context.match(TokenType.RIGHT_PAREN)) {
+                throw new Parser.ParseException(
+                    "Expected ')' to close parenthesized expression at line " + current.getLine());
+            }
+            context.consume(TokenType.RIGHT_PAREN);
+
+            return new ParenthesizedExpressionNode(leftParen, innerExpr);
+        }
+
+        if (current.getType().isLiteral()) {
+            Token literalToken = context.consume();
+            return new LiteralExpressionNode(literalToken);
+        }
+
+        if (context.match(TokenType.IDENTIFIER)) {
+            Token identifierToken = context.consume(TokenType.IDENTIFIER);
+            return new VariableReferenceNode(identifierToken);
+        }
+
+        throw new Parser.ParseException(
+            "Unexpected token '" + current.getValue() + "' while parsing PrimaryExpression at line " + current.getLine());
+
     }
-}
+} 

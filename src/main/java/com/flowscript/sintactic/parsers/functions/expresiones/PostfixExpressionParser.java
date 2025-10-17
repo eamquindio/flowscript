@@ -30,6 +30,25 @@ public class PostfixExpressionParser implements IParser<PostfixExpressionNode> {
     @Override
     public PostfixExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("PostfixExpressionParser no implementado - Tarea del estudiante");
+        PrimaryExpressionParser primaryParser = new PrimaryExpressionParser();
+        ExpressionNode primaryExpr = primaryParser.parse(context);
+
+        Token firstToken = primaryExpr.getToken();
+        PostfixExpressionNode postfixNode = new PostfixExpressionNode(firstToken, primaryExpr);
+
+        PostfixOperatorParser operatorParser = new PostfixOperatorParser();
+        boolean foundOperator = true;
+
+        while (foundOperator) {
+            try {
+                PostfixOperatorNode operator = operatorParser.parse(context);
+                postfixNode.addOperator(operator);
+            } catch (Parser.ParseException e) {
+                foundOperator = false;
+            }
+        }
+
+        return (PostfixExpressionNode) postfixNode.getSimplified();
+
     }
 }

@@ -18,19 +18,190 @@ grammar FlowScriptFunctions;
  * - Control de flujo dentro de funciones
  */
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
-
-// Palabras clave para funciones
-
-// ============================
-// DECLARACIÓN DE FUNCIONES
-// ============================
-
-functionDeclaration
-    : EOF
+/*--------------------------------------------
+ * REGLA PRINCIPAL
+ *-------------------------------------------*/
+program
+    : functionDeclaration* EOF
     ;
+
+/*--------------------------------------------
+ * DECLARACIÓN DE FUNCIONES
+ *-------------------------------------------*/
+functionDeclaration
+    : FUNCTION IDENTIFIER LEFT_PAREN parameterList? RIGHT_PAREN returnType? block
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON type
+    ;
+
+returnType
+    : ARROW type
+    ;
+
+/*--------------------------------------------
+ * TIPOS DE DATOS
+ *-------------------------------------------*/
+type
+    : INTEGER_TYPE
+    | DECIMAL_TYPE
+    | BOOLEAN_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID
+    ;
+
+/*--------------------------------------------
+ * BLOQUES Y SENTENCIAS
+ *-------------------------------------------*/
+block
+    : LEFT_BRACE statement* RIGHT_BRACE
+    ;
+
+statement
+    : variableDeclaration
+    | assignment
+    | ifStatement
+    | whileStatement
+    | forEachStatement
+    | forRangeStatement
+    | tryCatchStatement
+    | returnStatement
+    | throwStatement
+    | expressionStatement
+    ;
+    
+expressionStatement
+    : expression
+    ;
+
+/*--------------------------------------------
+ * DECLARACIÓN Y ASIGNACIÓN
+ *-------------------------------------------*/
+variableDeclaration
+    : IDENTIFIER ASSIGN expression
+    ;
+
+assignment
+    : IDENTIFIER ASSIGN expression
+    ;
+
+/*--------------------------------------------
+ * SENTENCIAS DE CONTROL
+ *-------------------------------------------*/
+ifStatement
+    : IF expression block (ELSE_IF expression block)* (ELSE block)?
+    ;
+
+whileStatement
+    : WHILE expression block
+    ;
+
+forEachStatement
+    : FOR EACH IDENTIFIER IN expression block
+    ;
+
+forRangeStatement
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? block
+    ;
+
+tryCatchStatement
+    : TRY block (CATCH LEFT_PAREN IDENTIFIER RIGHT_PAREN block)+
+    ;
+
+returnStatement
+    : RETURN expression?
+    ;
+
+throwStatement
+    : THROW expression
+    ;
+
+/*--------------------------------------------
+ * EXPRESIONES
+ *-------------------------------------------*/
+expression
+    : logicalOrExpression
+    ;
+
+logicalOrExpression
+    : logicalAndExpression (OR logicalAndExpression)*
+    ;
+
+logicalAndExpression
+    : equalityExpression (AND equalityExpression)*
+    ;
+
+equalityExpression
+    : relationalExpression ((EQUAL | NOT_EQUAL) relationalExpression)*
+    ;
+
+relationalExpression
+    : additiveExpression ((LESS_THAN | LESS_EQUAL | GREATER_THAN | GREATER_EQUAL) additiveExpression)*
+    ;
+
+additiveExpression
+    : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    : unaryExpression ((MULTIPLY | DIVIDE | MODULO) unaryExpression)*
+    ;
+
+unaryExpression
+    : (NOT | MINUS)? primaryExpression
+    ;
+
+primaryExpression
+    : literal
+    | IDENTIFIER
+    | listLiteral
+    | objectLiteral
+    | functionCall
+    | LEFT_PAREN expression RIGHT_PAREN
+    ;
+
+/*--------------------------------------------
+ * LLAMADAS DE FUNCIÓN Y ESTRUCTURAS
+ *-------------------------------------------*/
+functionCall
+    : IDENTIFIER LEFT_PAREN argumentList? RIGHT_PAREN
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+listLiteral
+    : LEFT_BRACKET (expression (COMMA expression)*)? RIGHT_BRACKET
+    ;
+
+objectLiteral
+    : LEFT_BRACE (objectEntry (COMMA objectEntry)*)? RIGHT_BRACE
+    ;
+
+objectEntry
+    : IDENTIFIER COLON expression
+    ;
+
+/*--------------------------------------------
+ * LITERALES
+ *-------------------------------------------*/
+literal
+    : INTEGER_LITERAL
+    | DECIMAL_LITERAL
+    | STRING_LITERAL
+    | TRUE
+    | FALSE
+    | NULL
+    ;
+
 // ============================
 // EJEMPLOS DE USO
 // ============================

@@ -7,7 +7,7 @@ import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_flujo.TryStatementNode;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
-
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para statements try/catch (manejo de excepciones).
  *
@@ -97,6 +97,32 @@ public class TryStatementParser implements IParser<TryStatementNode> {
     public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
         // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
+
+        Token tryToken;
+        if (context.match(TokenType.TRY)) {
+            tryToken = context.consume(TokenType.TRY);
+        } else if (context.match(TokenType.INTENTAR)) {
+            tryToken = context.consume(TokenType.INTENTAR);
+        } else {
+            throw new Parser.ParseException("Expected 'try' or 'intentar' at line " + context.getCurrentLine());
+        }
+
+        BlockNode tryBlock = blockParser.parse(context);
+
+        if (!(context.match(TokenType.CATCH) || context.match(TokenType.CAPTURAR))) {
+            throw new Parser.ParseException("Expected 'catch' or 'capturar' after try block at line " + context.getCurrentLine());
+        }
+        context.consume(context.match(TokenType.CATCH) ? TokenType.CATCH : TokenType.CAPTURAR);
+
+        context.expect(TokenType.LEFT_PAREN, "Expected '(' after 'catch'");
+
+        Token variableToken = context.consume(TokenType.IDENTIFIER, "Expected exception variable inside catch parentheses");
+        String catchVariable = variableToken.getValue();
+
+        context.expect(TokenType.RIGHT_PAREN, "Expected ')' after catch variable");
+
+        BlockNode catchBlock = blockParser.parse(context);
+
+        return new TryStatementNode(tryToken, tryBlock, catchVariable, catchBlock);
     }
 }

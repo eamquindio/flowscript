@@ -22,13 +22,32 @@ import com.flowscript.sintactic.ast.functions.expresiones.AdditiveExpressionNode
  * Soporta operadores + (suma) y - (resta).
  * El operador es asociativo por la izquierda.
  *
- * @see AdditiveExpressionNode
+ * @see AdditiveExpressionNode 
  */
 public class AdditiveExpressionParser implements IParser<AdditiveExpressionNode> {
 
     @Override
     public AdditiveExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("AdditiveExpressionParser no implementado - Tarea del estudiante");
+        MultiplicativeExpressionParser multiplicativeParser = new MultiplicativeExpressionParser();
+        ExpressionNode firstOperand = multiplicativeParser.parse(context);
+
+        Token firstToken = context.getPreviousToken();
+        AdditiveExpressionNode node = new AdditiveExpressionNode(firstToken, firstOperand);
+
+        while (context.match(TokenType.PLUS) || context.match(TokenType.MINUS)) {
+            Token operatorToken = context.getCurrentToken();
+            context.consume(); 
+
+            ExpressionNode nextOperand = multiplicativeParser.parse(context);
+
+            node.addOperand(operatorToken, nextOperand);
+        }
+
+        if (node.isSingleOperand()) {
+            return (AdditiveExpressionNode) node.getSimplified();
+        }
+
+        return node;
     }
 }

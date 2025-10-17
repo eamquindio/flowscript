@@ -7,7 +7,7 @@ import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.statements_basicos.VariableDeclarationStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
-
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para declaración y asignación de variables dentro de funciones/procesos.
  *
@@ -65,6 +65,17 @@ public class VariableDeclarationStatementParser implements IParser<VariableDecla
     public VariableDeclarationStatementNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
         // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("VariableDeclarationStatementParser no implementado - Tarea del estudiante");
+        Token identifierToken = context.consume(TokenType.IDENTIFIER, "Expected variable name before '='");
+        String variableName = identifierToken.getValue();
+
+        if (!context.match(TokenType.ASSIGN)) {
+            throw new Parser.ParseException("Expected '=' after variable name '" + variableName + "'");
+        }
+        context.consume(TokenType.ASSIGN);
+
+        ExpressionNode initializer = expressionParser.parse(context);
+
+        return new VariableDeclarationStatementNode(identifierToken, variableName, initializer);
+
     }
 }

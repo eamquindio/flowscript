@@ -28,6 +28,16 @@ public class StringLiteralParser implements IParser<StringLiteralNode> {
     @Override
     public StringLiteralNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("StringLiteralParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current.getType() != TokenType.STRING && current.getType() != TokenType.STRING_LITERAL) {
+            throw new Parser.ParseException(
+                "Expected string literal (e.g., \"Hola\") but found: " + current.getValue()
+            );
+        }
+
+        context.consume(current.getType());
+
+        return new StringLiteralNode(current);
     }
 }

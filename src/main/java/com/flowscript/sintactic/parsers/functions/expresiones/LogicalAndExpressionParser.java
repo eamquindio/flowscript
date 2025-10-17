@@ -11,7 +11,7 @@ import com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNo
  * <h3>Gramática BNF:</h3>
  * <pre>
  * LogicalAndExpression ::= EqualityExpression ( ( 'and' | 'y' ) EqualityExpression )*
- * </pre>
+ * </pre> 
  *
  * <h3>Categoría:</h3>
  * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
@@ -29,6 +29,27 @@ public class LogicalAndExpressionParser implements IParser<LogicalAndExpressionN
     @Override
     public LogicalAndExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalAndExpressionParser no implementado - Tarea del estudiante");
+        EqualityExpressionParser equalityParser = new EqualityExpressionParser();
+        ExpressionNode firstOperand = equalityParser.parse(context);
+
+        Token firstToken = context.getPreviousToken(); 
+        LogicalAndExpressionNode node = new LogicalAndExpressionNode(firstToken, firstOperand);
+
+        while (context.match(TokenType.AND) || context.match(TokenType.IDENTIFIER, "y")) {
+            Token andToken = context.getCurrentToken();
+            context.consume(); 
+
+            ExpressionNode nextOperand = equalityParser.parse(context);
+
+            node.addOperand(andToken, nextOperand);
+        }
+
+        if (node.isSingleOperand()) {
+            return (LogicalAndExpressionNode) node.getSimplified();
+        }
+
+        return node;
+
+
     }
 }

@@ -28,6 +28,15 @@ public class NullLiteralParser implements IParser<NullLiteralNode> {
     @Override
     public NullLiteralNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("NullLiteralParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        String value = current.getValue().toLowerCase();
+        if (!value.equals("null") && !value.equals("nulo")) {
+            throw new Parser.ParseException("Expected 'null' or 'nulo', but found: " + current.getValue());
+        }
+
+        context.consume(current.getType());
+
+        return new NullLiteralNode(current);
     }
 }

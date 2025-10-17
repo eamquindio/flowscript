@@ -5,7 +5,9 @@ import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.statements_basicos.ExpressionStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
-
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para statements que consisten en una expresión.
  *
@@ -76,6 +78,9 @@ public class ExpressionStatementParser implements IParser<ExpressionStatementNod
     public ExpressionStatementNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
         // HINT: Simplemente parsear la expresión y envolver en ExpressionStatementNode
-        throw new UnsupportedOperationException("ExpressionStatementParser no implementado - Tarea del estudiante");
+        ExpressionNode expression = expressionParser.parse(context);
+
+        return new ExpressionStatementNode(expression);
+
     }
 }
