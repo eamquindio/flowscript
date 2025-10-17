@@ -33,7 +33,7 @@ ELSE        : 'else';
 PARALLEL    : 'parallel';
 BRANCH      : 'branch';
 JOIN        : 'join';
-GO_TO       : 'go_to';
+GO_TO       : 'go_to' | 'goto';
 ACTION      : 'action';
 
 // Importaciones y alias
@@ -95,11 +95,12 @@ DOT         : '.';
 
 // Literales
 IntegerLiteral
-    : '0' | [1-9] [0-9]*
+    : '0'
+    | NonZeroDigit ('_'? Digit)*
     ;
 
 DecimalLiteral
-    : [0-9]+ '.' [0-9]+
+    : DigitSequence '.' DigitSequence
     ;
 
 StringLiteral
@@ -112,6 +113,14 @@ fragment ESC_SEQ
     ;
 
 fragment HEX: [0-9a-fA-F];
+
+fragment Digit : [0-9];
+
+fragment NonZeroDigit : [1-9];
+
+fragment DigitSequence
+    : Digit ('_'? Digit)*
+    ;
 
 Identifier
     : [a-zA-Z_] [a-zA-Z_0-9]*
@@ -192,22 +201,21 @@ functionBody
 
 // Procesos
 processDeclaration
-    : PROCESS Identifier LBRACE startClause processMembers RBRACE
+    : PROCESS Identifier LBRACE startClause processBody RBRACE
     ;
 
 // Requiere al menos un 'end' en el cuerpo del proceso
-processMembers
-    : (taskDeclaration | gatewayDeclaration)* endDeclaration processMember*
+processBody
+    : processElement* endDeclaration+
     ;
 
 startClause
     : START ARROW Identifier
     ;
 
-processMember
+processElement
     : taskDeclaration
     | gatewayDeclaration
-    | endDeclaration
     ;
 
 endDeclaration
@@ -228,12 +236,15 @@ gatewayStatement
     ;
 
 gatewayExclusiveBody
-    : LBRACE gatewayExclusiveRule+ RBRACE
+    : LBRACE gatewayExclusiveWhen+ gatewayExclusiveElse? RBRACE
     ;
 
-gatewayExclusiveRule
+gatewayExclusiveWhen
     : WHEN expression ARROW Identifier
-    | ELSE ARROW Identifier
+    ;
+
+gatewayExclusiveElse
+    : ELSE ARROW Identifier
     ;
 
 gatewayParallelBody
