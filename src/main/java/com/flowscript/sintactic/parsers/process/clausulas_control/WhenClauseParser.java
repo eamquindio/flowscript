@@ -48,7 +48,29 @@ public class WhenClauseParser implements IParser<WhenClauseNode> {
 
     @Override
     public WhenClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("WhenClauseParser no implementado - Tarea del estudiante");
+        // Consumir 'when' o 'cuando'
+        if (!context.check(TokenType.WHEN)) {
+            throw new Parser.ParseException("Se esperaba 'when' o 'cuando'");
+        }
+        context.advance();
+
+        // Parsear la expresión de condición
+        var condition = expressionParser.parse(context);
+
+        // Consumir '->'
+        if (!context.check(TokenType.ARROW)) {
+            throw new Parser.ParseException("Se esperaba '->' después de la condición");
+        }
+        context.advance();
+
+        // Consumir IDENTIFIER (nodo destino)
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de '->'");
+        }
+
+        String targetNodeName = context.getCurrentToken().getValue();
+        context.advance();
+
+        return new WhenClauseNode(condition, targetNodeName);
     }
 }

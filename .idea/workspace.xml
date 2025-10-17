@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +37,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/eamquindio/flowscript.git&quot;,
-    &quot;accountId&quot;: &quot;b6d9aa9f-3c88-4766-966f-add2079dfb2c&quot;
+    &quot;accountId&quot;: &quot;1d0d2561-27b8-4664-9aab-01223cf719e2&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -33,28 +48,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FlowScriptIDE.executor": "Run",
-    "Application.LexerDemo.executor": "Run",
-    "JUnit.FlowScriptFunctionsTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
-    "JUnit.LexerTest.executor": "Run",
-    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
-    "Maven. [test].executor": "Run",
-    "Maven.flowscript [clean].executor": "Run",
-    "Maven.flowscript [compile].executor": "Run",
-    "Maven.flowscript [install].executor": "Run",
-    "Maven.flowscript [test].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LexerDemo.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LexerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/sintactico__process__240220212012&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
@@ -142,6 +167,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
@@ -149,7 +182,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757220056610</updated>
+      <workItem from="1760673433031" duration="1343000" />
+      <workItem from="1760674807093" duration="210000" />
+      <workItem from="1760675032626" duration="14000" />
+      <workItem from="1760675059317" duration="293000" />
+      <workItem from="1760675498541" duration="1915000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

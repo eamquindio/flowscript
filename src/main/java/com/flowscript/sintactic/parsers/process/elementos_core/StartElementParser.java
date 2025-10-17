@@ -44,6 +44,27 @@ public class StartElementParser implements IParser<StartElementNode> {
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
         Token startToken = context.getCurrentToken();
-       return null;
+
+        // Verificar y consumir 'start' o 'inicio'
+        if (!context.check(TokenType.START)) {
+            throw new Parser.ParseException("Se esperaba 'start' o 'inicio'");
+        }
+        context.advance();
+
+        // Verificar y consumir '->'
+        if (!context.check(TokenType.ARROW)) {
+            throw new Parser.ParseException("Se esperaba '->' después de 'start'");
+        }
+        context.advance();
+
+        // Obtener el nombre del nodo destino
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de '->'");
+        }
+
+        String targetNodeName = context.getCurrentToken().getValue();
+        context.advance();
+
+        return new StartElementNode(startToken, targetNodeName);
     }
 }
