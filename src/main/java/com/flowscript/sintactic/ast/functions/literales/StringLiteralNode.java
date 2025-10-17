@@ -9,51 +9,52 @@ import com.flowscript.lexer.Token;
  * Examples: "Hello", "World\n", "Multi\nLine"
  */
 public class StringLiteralNode extends ExpressionNode {
-    private final String rawValue;
-    private final String value;
+  private final String rawValue;
+  private final String value;
 
-    public StringLiteralNode(Token literalToken) {
-        super(literalToken);
-        this.rawValue = literalToken.getValue();
-        this.value = parseStringLiteral(rawValue);
-    }
+  public StringLiteralNode(Token literalToken) {
+    super(literalToken);
+    this.rawValue = literalToken.getValue();
+    this.value = parseStringLiteral(rawValue);
+  }
 
-    private String parseStringLiteral(String raw) {
-        if (raw.length() < 2) return raw;
+  private String parseStringLiteral(String raw) {
+    if (raw.length() < 2)
+      return raw;
 
-        String content = raw.substring(1, raw.length() - 1);
+    String content = raw.substring(1, raw.length() - 1);
 
-        return content.replace("\\n", "\n")
-                     .replace("\\t", "\t")
-                     .replace("\\r", "\r")
-                     .replace("\\\\", "\\")
-                     .replace("\\\"", "\"");
-    }
+    return content.replace("\\n", "\n")
+        .replace("\\t", "\t")
+        .replace("\\r", "\r")
+        .replace("\\\\", "\\")
+        .replace("\\\"", "\"");
+  }
 
-    public String getRawValue() {
-        return rawValue;
-    }
+  public String getRawValue() {
+    return rawValue;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return rawValue;
+  }
 
-    public int length() {
-        return value.length();
-    }
+  public int length() {
+    return value.length();
+  }
 
-    @Override
-    public String getNodeType() {
-        return "StringLiteral";
-    }
+  @Override
+  public String getNodeType() {
+    return "StringLiteral";
+  }
 
-    @Override
-    public String getExpressionType() {
-        return "texto";
-    }
+  @Override
+  public String getExpressionType() {
+    return "texto";
+  }
 
-    @Override
-    public String toString() {
-        return "StringLiteral(" + rawValue + ")";
-    }
+  @Override
+  public String toString() {
+    return "StringLiteral(" + rawValue + ")";
+  }
 }

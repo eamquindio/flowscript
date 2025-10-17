@@ -9,36 +9,36 @@ import com.flowscript.lexer.Token;
  * Example: try { risky_operation() } catch (error) { handle_error(error) }
  */
 public class TryStatementNode extends StatementNode {
-    private final BlockNode tryBlock;
-    private final String catchVariable;
-    private final BlockNode catchBlock;
+  private final BlockNode tryBlock;
+  private final String catchVariable;
+  private final BlockNode catchBlock;
 
-    public TryStatementNode(Token tryToken, BlockNode tryBlock, String catchVariable, BlockNode catchBlock) {
-        super(tryToken);
-        this.tryBlock = tryBlock;
-        this.catchVariable = catchVariable;
-        this.catchBlock = catchBlock;
-    }
+  public TryStatementNode(Token tryToken, BlockNode tryBlock, String catchVariable, BlockNode catchBlock) {
+    super(tryToken);
+    this.tryBlock = tryBlock;
+    this.catchVariable = catchVariable;
+    this.catchBlock = catchBlock;
+  }
 
-    public BlockNode getTryBlock() {
-        return tryBlock;
-    }
+  public BlockNode getTryBlock() {
+    return tryBlock;
+  }
 
-    public String getCatchVariable() {
-        return catchVariable;
-    }
+  public String getCatchVariable() {
+    return catchVariable;
+  }
 
-    public BlockNode getCatchBlock() {
-        return catchBlock;
-    }
+  public BlockNode getCatchBlock() {
+    return catchBlock;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "TryStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "TryStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "TryStatement with catch variable: " + catchVariable;
-    }
+  @Override
+  public String toString() {
+    return "TryStatement with catch variable: " + catchVariable;
+  }
 }

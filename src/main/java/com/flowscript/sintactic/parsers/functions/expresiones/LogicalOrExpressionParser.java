@@ -1,14 +1,18 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNode;
 
 /**
  * Parser para expresiones lógicas OR.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * LogicalOrExpression ::= LogicalAndExpression ( ( 'or' | 'o' ) LogicalAndExpression )*
  * </pre>
@@ -25,10 +29,18 @@ import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNod
  * @see LogicalOrExpressionNode
  */
 public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNode> {
+  private static final LogicalAndExpressionParser AND_PARSER = new LogicalAndExpressionParser();
 
-    @Override
-    public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+  @Override
+  public LogicalOrExpressionNode parse(ParserContext context) throws ParseException {
+    LogicalAndExpressionNode firstOperand = AND_PARSER.parse(context);
+    LogicalOrExpressionNode node = new LogicalOrExpressionNode(firstOperand.getToken(), firstOperand);
+
+    while (context.check(TokenType.OR)) {
+      Token operator = context.consume();
+      node.addOperand(operator, AND_PARSER.parse(context));
     }
+    return node;
+  }
+
 }

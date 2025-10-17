@@ -9,24 +9,24 @@ import com.flowscript.lexer.Token;
  * Example: throw { type: "ValidationError", message: "Invalid input" }
  */
 public class ThrowStatementNode extends StatementNode {
-    private final ExpressionNode expression;
+  private final ExpressionNode expression;
 
-    public ThrowStatementNode(Token throwToken, ExpressionNode expression) {
-        super(throwToken);
-        this.expression = expression;
-    }
+  public ThrowStatementNode(Token throwToken, ExpressionNode expression) {
+    super(throwToken);
+    this.expression = expression;
+  }
 
-    public ExpressionNode getExpression() {
-        return expression;
-    }
+  public ExpressionNode getExpression() {
+    return expression;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "ThrowStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "ThrowStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "ThrowStatement(" + expression.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "ThrowStatement(" + expression.getNodeType() + ")";
+  }
 }

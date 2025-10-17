@@ -1,35 +1,41 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
 import com.flowscript.sintactic.ast.functions.literales.ObjectLiteralNode;
+import com.flowscript.sintactic.parsers.functions.listas_argumentos.ObjectMemberListParser;
 
-/**
- * Parser para literales de objeto.
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * ObjectLiteral ::= '{' ObjectMemberList? '}'
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 18: Literales - Objetos
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Debe reconocer literales de objeto como: { nombre: "Ana", edad: 25 }
- * Un objeto vacío {} también es válido.
- *
- * @see ObjectLiteralNode
- * @see com.flowscript.sintactic.parsers.functions.listas_argumentos.ObjectMemberListParser
- */
 public class ObjectLiteralParser implements IParser<ObjectLiteralNode> {
+  private static final ObjectMemberListParser MEMBER_LIST_PARSER = new ObjectMemberListParser();
 
-    @Override
-    public ObjectLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectLiteralParser no implementado - Tarea del estudiante");
+  @Override
+  public ObjectLiteralNode parse(ParserContext context) throws ParseException {
+    Token leftBraceToken = context.consume(TokenType.LEFT_BRACE);
+
+    if (context.check(TokenType.RIGHT_BRACE)) {
+      context.consume(TokenType.RIGHT_BRACE);
+      return new ObjectLiteralNode(leftBraceToken);
     }
+
+    ObjectMemberListNode memberList = mergeMembers(leftBraceToken, MEMBER_LIST_PARSER.parse(context));
+    context.consume(TokenType.RIGHT_BRACE);
+
+    return new ObjectLiteralNode(leftBraceToken, memberList);
+  }
+
+  private static ObjectMemberListNode mergeMembers(Token firstToken, List<ObjectMemberListNode> nodes) {
+    List<ObjectMemberNode> memberList = new ArrayList<>();
+    for (ObjectMemberListNode node : nodes) {
+      memberList.addAll(node.getMembers());
+    }
+    return new ObjectMemberListNode(firstToken, memberList);
+  }
 }

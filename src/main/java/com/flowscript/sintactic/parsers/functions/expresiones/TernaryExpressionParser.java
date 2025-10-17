@@ -1,33 +1,34 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.TernaryExpressionNode;
 
 /**
  * Parser para expresiones ternarias (operador condicional).
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
  * TernaryExpression ::= LogicalOrExpression ( '?' Expression ':' Expression )?
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 1: Expresiones - Ternarias (más baja precedencia)
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * El operador ternario tiene la forma: condición ? valor_si_verdadero : valor_si_falso
- *
- * @see TernaryExpressionNode
  */
-public class TernaryExpressionParser implements IParser<TernaryExpressionNode> {
+public class TernaryExpressionParser implements IParser<ExpressionNode> {
+  private static final LogicalOrExpressionParser LOGICAL_OR_PARSER = new LogicalOrExpressionParser();
 
-    @Override
-    public TernaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("TernaryExpressionParser no implementado - Tarea del estudiante");
+  @Override
+  public ExpressionNode parse(ParserContext context) throws ParseException {
+    ExpressionNode condition = LOGICAL_OR_PARSER.parse(context);
+
+    if (!context.check(TokenType.QUESTION)) {
+      return condition;
     }
+
+    Token questionToken = context.consume(TokenType.QUESTION);
+    ExpressionNode trueExpression = parse(context);
+    context.consume(TokenType.COLON);
+    ExpressionNode falseExpression = parse(context);
+
+    return new TernaryExpressionNode(condition, questionToken, trueExpression, falseExpression);
+  }
 }

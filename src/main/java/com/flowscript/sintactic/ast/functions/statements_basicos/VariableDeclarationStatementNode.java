@@ -9,30 +9,30 @@ import com.flowscript.lexer.Token;
  * Example: customer_data = get_customer(customer_id)
  */
 public class VariableDeclarationStatementNode extends StatementNode {
-    private final String variableName;
-    private final ExpressionNode initializer;
+  private final String variableName;
+  private final ExpressionNode initializer;
 
-    public VariableDeclarationStatementNode(Token identifierToken, String variableName, ExpressionNode initializer) {
-        super(identifierToken);
-        this.variableName = variableName;
-        this.initializer = initializer;
-    }
+  public VariableDeclarationStatementNode(Token identifierToken, String variableName, ExpressionNode initializer) {
+    super(identifierToken);
+    this.variableName = variableName;
+    this.initializer = initializer;
+  }
 
-    public String getVariableName() {
-        return variableName;
-    }
+  public String getVariableName() {
+    return variableName;
+  }
 
-    public ExpressionNode getInitializer() {
-        return initializer;
-    }
+  public ExpressionNode getInitializer() {
+    return initializer;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "VariableDeclarationStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "VariableDeclarationStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "VariableDeclarationStatement(" + variableName + " = " + initializer.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "VariableDeclarationStatement(" + variableName + " = " + initializer.getNodeType() + ")";
+  }
 }

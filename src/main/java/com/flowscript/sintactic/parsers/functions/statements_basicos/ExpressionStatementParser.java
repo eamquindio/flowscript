@@ -1,7 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.statements_basicos;
 
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.statements_basicos.ExpressionStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
@@ -10,11 +10,13 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  * Parser para statements que consisten en una expresión.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * ExpressionStatement ::= Expression
  * </pre>
  *
  * <h3>Ejemplos:</h3>
+ * 
  * <pre>
  * // Llamada a función
  * imprimir("Hola mundo")
@@ -49,6 +51,7 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  * </pre>
  *
  * <h3>Uso:</h3>
+ * 
  * <pre>
  * ParserContext context = new ParserContext(tokens);
  * ExpressionStatementParser parser = new ExpressionStatementParser();
@@ -58,24 +61,17 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  * <h3>Tarea del Estudiante:</h3>
  * Implementar el método {@code parse()} siguiendo estos pasos:
  * <ol>
- *   <li>Parsear la expresión usando ExpressionParser</li>
- *   <li>Crear y retornar ExpressionStatementNode con la expresión parseada</li>
+ * <li>Parsear la expresión usando ExpressionParser</li>
+ * <li>Crear y retornar ExpressionStatementNode con la expresión parseada</li>
  * </ol>
  *
  * @see ExpressionStatementNode
  */
 public class ExpressionStatementParser implements IParser<ExpressionStatementNode> {
+  private static final ExpressionParser EXPRESSION_PARSER = new ExpressionParser();
 
-    private final ExpressionParser expressionParser;
-
-    public ExpressionStatementParser() {
-        this.expressionParser = new ExpressionParser();
-    }
-
-    @Override
-    public ExpressionStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Simplemente parsear la expresión y envolver en ExpressionStatementNode
-        throw new UnsupportedOperationException("ExpressionStatementParser no implementado - Tarea del estudiante");
-    }
+  @Override
+  public ExpressionStatementNode parse(ParserContext context) throws ParseException {
+    return new ExpressionStatementNode(EXPRESSION_PARSER.parse(context));
+  }
 }

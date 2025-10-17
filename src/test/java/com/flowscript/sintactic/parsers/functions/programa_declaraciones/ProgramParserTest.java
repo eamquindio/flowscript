@@ -2,7 +2,6 @@ package com.flowscript.sintactic.parsers.functions.programa_declaraciones;
 
 import com.flowscript.lexer.Lexer;
 import com.flowscript.lexer.Token;
-import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.ProgramNode;
 import org.junit.jupiter.api.Test;
@@ -63,8 +62,8 @@ public class ProgramParserTest {
     @Test
     public void testProgramWithMultipleDeclarations() throws Exception {
         String input = "import \"std/http\" as http\n\n" +
-                      "x = 10\n\n" +
-                      "function add(a: integer, b: integer) -> integer { return a + b }";
+                "x = 10\n\n" +
+                "function add(a: integer, b: integer) -> integer { return a + b }";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -78,12 +77,12 @@ public class ProgramParserTest {
     @Test
     public void testCompleteProgram() throws Exception {
         String input = "import \"std/http\" as http\n" +
-                      "import \"std/json\" as json\n\n" +
-                      "API_URL = \"https://api.example.com\"\n\n" +
-                      "function get_data(id: integer) -> object {\n" +
-                      "    resp = http.get(API_URL + \"/items/\" + id)\n" +
-                      "    return json.parse(resp.body)\n" +
-                      "}";
+                "import \"std/json\" as json\n\n" +
+                "API_URL = \"https://api.example.com\"\n\n" +
+                "function get_data(id: integer) -> object {\n" +
+                "    resp = http.get(API_URL + \"/items/\" + id)\n" +
+                "    return json.parse(resp.body)\n" +
+                "}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);

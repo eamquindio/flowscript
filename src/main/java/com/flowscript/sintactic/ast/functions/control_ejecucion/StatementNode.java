@@ -9,16 +9,16 @@ import com.flowscript.sintactic.ast.ASTNode;
  */
 public abstract class StatementNode extends ASTNode {
 
-    public StatementNode(int line, int column, int position) {
-        super(line, column, position);
-    }
+  public StatementNode(int line, int column, int position) {
+    super(line, column, position);
+  }
 
-    public StatementNode(Token token) {
-        super(token);
-    }
+  public StatementNode(Token token) {
+    super(token);
+  }
 
-    @Override
-    public String getNodeType() {
-        return "Statement";
-    }
+  @Override
+  public String getNodeType() {
+    return "Statement";
+  }
 }

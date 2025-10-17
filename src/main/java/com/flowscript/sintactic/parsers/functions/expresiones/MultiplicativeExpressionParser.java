@@ -1,14 +1,18 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.MultiplicativeExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.UnaryExpressionNode;
 
 /**
  * Parser para expresiones multiplicativas.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * MultiplicativeExpression ::= UnaryExpression ( ( '*' | '/' | '%' ) UnaryExpression )*
  * </pre>
@@ -25,10 +29,23 @@ import com.flowscript.sintactic.ast.functions.expresiones.MultiplicativeExpressi
  * @see MultiplicativeExpressionNode
  */
 public class MultiplicativeExpressionParser implements IParser<MultiplicativeExpressionNode> {
+    private static final UnaryExpressionParser UNARY_PARSER = new UnaryExpressionParser();
 
     @Override
-    public MultiplicativeExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("MultiplicativeExpressionParser no implementado - Tarea del estudiante");
+    public MultiplicativeExpressionNode parse(ParserContext context) throws ParseException {
+        UnaryExpressionNode firstOperand = UNARY_PARSER.parse(context);
+        MultiplicativeExpressionNode node = new MultiplicativeExpressionNode(firstOperand.getToken(), firstOperand);
+
+        while (isMultiplicativeOperator(context.getCurrentToken().getType())) {
+            Token operator = context.getCurrentToken();
+            context.advance();
+            node.addOperand(operator, UNARY_PARSER.parse(context));
+        }
+
+        return node;
+    }
+
+    private boolean isMultiplicativeOperator(TokenType type) {
+        return type == TokenType.MULTIPLY || type == TokenType.DIVIDE || type == TokenType.MODULO;
     }
 }

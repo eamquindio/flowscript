@@ -1,19 +1,22 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 
 /**
- * Parser coordinador para expresiones (punto de entrada del sistema de expresiones).
+ * Parser coordinador para expresiones (punto de entrada del sistema de
+ * expresiones).
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * Expression ::= TernaryExpression
  * </pre>
  *
  * <h3>Ejemplos:</h3>
+ * 
  * <pre>
  * // Expresiones simples
  * 42
@@ -42,6 +45,7 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  * </pre>
  *
  * <h3>Uso:</h3>
+ * 
  * <pre>
  * ParserContext context = new ParserContext(tokens);
  * ExpressionParser parser = new ExpressionParser();
@@ -55,10 +59,10 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  */
 public class ExpressionParser implements IParser<ExpressionNode> {
 
-    @Override
-    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar delegación a TernaryExpressionParser
-        // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
-        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
-    }
+  private static final TernaryExpressionParser TERNARY_PARSER = new TernaryExpressionParser();
+
+  @Override
+  public ExpressionNode parse(ParserContext context) throws ParseException {
+    return TERNARY_PARSER.parse(context);
+  }
 }

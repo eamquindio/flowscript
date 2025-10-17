@@ -3,31 +3,29 @@ package com.flowscript.sintactic.parsers.functions.control_flujo;
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.ForStatementNode;
-import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
  * Parser para bucles for-each.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * ForStatement ::= 'for' 'each' IDENTIFIER 'in' Expression Statement
  * </pre>
  *
  * <h3>Ejemplos:</h3>
+ * 
  * <pre>
  * // For-each básico
  * for each numero in [1, 2, 3, 4, 5] {
  *     imprimir(numero)
- * }
- *
- * // For-each con variable
- * numeros = [10, 20, 30]
- * for each n in numeros {
- *     imprimir(n * 2)
  * }
  *
  * // For-each con objetos
@@ -39,12 +37,6 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
  *     imprimir(usuario.nombre + " tiene " + usuario.edad + " años")
  * }
  *
- * // For-each con strings
- * texto = "Hola"
- * for each letra in texto {
- *     imprimir(letra)
- * }
- *
  * // For-each anidado
  * matriz = [[1, 2], [3, 4]]
  * for each fila in matriz {
@@ -52,52 +44,24 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
  *         imprimir(numero)
  *     }
  * }
- *
- * // For-each en tarea
- * task NotificarUsuarios {
- *     action:
- *         for each usuario in entrada.usuarios {
- *             email.send(usuario.email, "Notificación")
- *         }
- *         go_to FinNotificaciones
- * }
  * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * ForStatementParser parser = new ForStatementParser();
- * ForStatementNode node = parser.parse(context);
- * </pre>
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo estos pasos:
- * <ol>
- *   <li>Consumir 'for' o 'para'</li>
- *   <li>Consumir 'each' o 'cada'</li>
- *   <li>Consumir IDENTIFIER (variable de iteración)</li>
- *   <li>Consumir 'in' o 'en'</li>
- *   <li>Parsear la expresión iterable usando ExpressionParser</li>
- *   <li>Parsear el statement del cuerpo usando StatementParser</li>
- *   <li>Crear y retornar ForStatementNode</li>
- * </ol>
  *
  * @see ForStatementNode
  */
 public class ForStatementParser implements IParser<ForStatementNode> {
+  private static final ExpressionParser EXPRESSION_PARSER = new ExpressionParser();
+  private static final StatementParser STATEMENT_PARSER = new StatementParser();
 
-    private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
+  @Override
+  public ForStatementNode parse(ParserContext context) throws ParseException {
+    Token forToken = context.consume(TokenType.FOR);
+    context.consume(TokenType.EACH);
+    String iteratorVariable = context.consume(TokenType.IDENTIFIER).getValue();
+    context.consume(TokenType.IN);
 
-    public ForStatementParser() {
-        this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
-    }
+    ExpressionNode iterableExpression = EXPRESSION_PARSER.parse(context);
+    StatementNode body = STATEMENT_PARSER.parse(context);
 
-    @Override
-    public ForStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ForStatementParser no implementado - Tarea del estudiante");
-    }
+    return new ForStatementNode(forToken, iteratorVariable, iterableExpression, body);
+  }
 }

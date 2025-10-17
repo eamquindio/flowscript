@@ -16,6 +16,7 @@ import java.util.List;
  * Parser para el cuerpo de un proceso.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * ProcessBody ::= ProcessElement*
  * ProcessElement ::= StartElement | TaskElement | GatewayElement | EndElement
@@ -35,25 +36,25 @@ import java.util.List;
  */
 public class ProcessBodyParser {
 
-    private final StartElementParser startParser;
-    private final TaskElementParser taskParser;
-    private final EndElementParser endParser;
-    private final ExclusiveGatewayParser exclusiveGatewayParser;
-    private final ParallelGatewayParser parallelGatewayParser;
+  private final StartElementParser startParser;
+  private final TaskElementParser taskParser;
+  private final EndElementParser endParser;
+  private final ExclusiveGatewayParser exclusiveGatewayParser;
+  private final ParallelGatewayParser parallelGatewayParser;
 
-    public ProcessBodyParser() {
-        this.startParser = new StartElementParser();
-        this.taskParser = new TaskElementParser();
-        this.endParser = new EndElementParser();
-        this.exclusiveGatewayParser = new ExclusiveGatewayParser();
-        this.parallelGatewayParser = new ParallelGatewayParser();
-    }
+  public ProcessBodyParser() {
+    this.startParser = new StartElementParser();
+    this.taskParser = new TaskElementParser();
+    this.endParser = new EndElementParser();
+    this.exclusiveGatewayParser = new ExclusiveGatewayParser();
+    this.parallelGatewayParser = new ParallelGatewayParser();
+  }
 
-    public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
-    }
+  public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
+    return null;
+  }
 
-    private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
-    }
+  private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
+    return null;
+  }
 }

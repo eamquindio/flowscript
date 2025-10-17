@@ -9,29 +9,29 @@ import com.flowscript.lexer.Token;
  * Examples: verdadero, falso
  */
 public class BooleanLiteralNode extends ExpressionNode {
-    private final boolean value;
+  private final boolean value;
 
-    public BooleanLiteralNode(Token literalToken) {
-        super(literalToken);
-        this.value = "verdadero".equals(literalToken.getValue());
-    }
+  public BooleanLiteralNode(Token literalToken) {
+    super(literalToken);
+    this.value = "verdadero".equals(literalToken.getValue()) || "true".equals(literalToken.getValue());
+  }
 
-    public boolean getValue() {
-        return value;
-    }
+  public boolean getValue() {
+    return value;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "BooleanLiteral";
-    }
+  @Override
+  public String getNodeType() {
+    return "BooleanLiteral";
+  }
 
-    @Override
-    public String getExpressionType() {
-        return "booleano";
-    }
+  @Override
+  public String getExpressionType() {
+    return "booleano";
+  }
 
-    @Override
-    public String toString() {
-        return "BooleanLiteral(" + value + ")";
-    }
+  @Override
+  public String toString() {
+    return "BooleanLiteral(" + value + ")";
+  }
 }

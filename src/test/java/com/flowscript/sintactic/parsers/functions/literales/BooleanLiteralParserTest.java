@@ -19,67 +19,67 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class BooleanLiteralParserTest {
 
-    private BooleanLiteralParser parser = new BooleanLiteralParser();
+  private BooleanLiteralParser parser = new BooleanLiteralParser();
 
-    @Test
-    public void testTrueLiteral() throws Exception {
-        String input = "true";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
+  @Test
+  public void testTrueLiteral() throws Exception {
+    String input = "true";
+    Lexer lexer = new Lexer(input);
+    List<Token> tokens = lexer.tokenize();
+    ParserContext context = new ParserContext(tokens);
 
-        BooleanLiteralNode result = parser.parse(context);
+    BooleanLiteralNode result = parser.parse(context);
 
-        assertNotNull(result);
-        assertTrue(result.getValue());
-    }
+    assertNotNull(result);
+    assertTrue(result.getValue());
+  }
 
-    @Test
-    public void testFalseLiteral() throws Exception {
-        String input = "false";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
+  @Test
+  public void testFalseLiteral() throws Exception {
+    String input = "false";
+    Lexer lexer = new Lexer(input);
+    List<Token> tokens = lexer.tokenize();
+    ParserContext context = new ParserContext(tokens);
 
-        BooleanLiteralNode result = parser.parse(context);
+    BooleanLiteralNode result = parser.parse(context);
 
-        assertNotNull(result);
-        assertFalse(result.getValue());
-    }
+    assertNotNull(result);
+    assertFalse(result.getValue());
+  }
 
-    @Test
-    public void testInvalidInput_Identifier() throws Exception {
-        String input = "maybe";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
+  @Test
+  public void testInvalidInput_Identifier() throws Exception {
+    String input = "maybe";
+    Lexer lexer = new Lexer(input);
+    List<Token> tokens = lexer.tokenize();
+    ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
-    }
+    assertThrows(Parser.ParseException.class, () -> {
+      parser.parse(context);
+    });
+  }
 
-    @Test
-    public void testInvalidInput_Integer() throws Exception {
-        String input = "1";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
+  @Test
+  public void testInvalidInput_Integer() throws Exception {
+    String input = "1";
+    Lexer lexer = new Lexer(input);
+    List<Token> tokens = lexer.tokenize();
+    ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
-    }
+    assertThrows(Parser.ParseException.class, () -> {
+      parser.parse(context);
+    });
+  }
 
-    @Test
-    public void testInvalidInput_CapitalizedTrue() throws Exception {
-        String input = "True";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
+  @Test
+  public void testInvalidInput_CapitalizedTrue() throws Exception {
+    String input = "True";
+    Lexer lexer = new Lexer(input);
+    List<Token> tokens = lexer.tokenize();
+    ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
-    }
+    assertThrows(Parser.ParseException.class, () -> {
+      parser.parse(context);
+    });
+  }
 }

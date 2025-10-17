@@ -12,50 +12,50 @@ import java.util.ArrayList;
  * Example: if condition { ... } else_if other_condition { ... } else { ... }
  */
 public class IfStatementNode extends StatementNode {
-    private final ExpressionNode condition;
-    private final StatementNode thenStatement;
-    private final List<ElseIfClauseNode> elseIfClauses;
-    private StatementNode elseStatement;
+  private final ExpressionNode condition;
+  private final StatementNode thenStatement;
+  private final List<ElseIfClauseNode> elseIfClauses;
+  private StatementNode elseStatement;
 
-    public IfStatementNode(Token ifToken, ExpressionNode condition, StatementNode thenStatement) {
-        super(ifToken);
-        this.condition = condition;
-        this.thenStatement = thenStatement;
-        this.elseIfClauses = new ArrayList<>();
-    }
+  public IfStatementNode(Token ifToken, ExpressionNode condition, StatementNode thenStatement) {
+    super(ifToken);
+    this.condition = condition;
+    this.thenStatement = thenStatement;
+    this.elseIfClauses = new ArrayList<>();
+  }
 
-    public void addElseIfClause(ExpressionNode condition, StatementNode statement) {
-        elseIfClauses.add(new ElseIfClauseNode(condition, statement));
-    }
+  public void addElseIfClause(ExpressionNode condition, StatementNode statement) {
+    elseIfClauses.add(new ElseIfClauseNode(condition, statement));
+  }
 
-    public void setElseStatement(StatementNode elseStatement) {
-        this.elseStatement = elseStatement;
-    }
+  public void setElseStatement(StatementNode elseStatement) {
+    this.elseStatement = elseStatement;
+  }
 
-    public ExpressionNode getCondition() {
-        return condition;
-    }
+  public ExpressionNode getCondition() {
+    return condition;
+  }
 
-    public StatementNode getThenStatement() {
-        return thenStatement;
-    }
+  public StatementNode getThenStatement() {
+    return thenStatement;
+  }
 
-    public List<ElseIfClauseNode> getElseIfClauses() {
-        return new ArrayList<>(elseIfClauses);
-    }
+  public List<ElseIfClauseNode> getElseIfClauses() {
+    return new ArrayList<>(elseIfClauses);
+  }
 
-    public StatementNode getElseStatement() {
-        return elseStatement;
-    }
+  public StatementNode getElseStatement() {
+    return elseStatement;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "IfStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "IfStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "IfStatement with " + elseIfClauses.size() + " else_if clauses" +
-               (elseStatement != null ? " and else clause" : "");
-    }
+  @Override
+  public String toString() {
+    return "IfStatement with " + elseIfClauses.size() + " else_if clauses" +
+        (elseStatement != null ? " and else clause" : "");
+  }
 }

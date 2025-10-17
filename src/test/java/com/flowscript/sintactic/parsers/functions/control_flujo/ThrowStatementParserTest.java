@@ -2,7 +2,6 @@ package com.flowscript.sintactic.parsers.functions.control_flujo;
 
 import com.flowscript.lexer.Lexer;
 import com.flowscript.lexer.Token;
-import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_flujo.ThrowStatementNode;
 import org.junit.jupiter.api.Test;
