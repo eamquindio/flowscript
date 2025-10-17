@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.VariableDeclarationNode;
 import com.flowscript.sintactic.ast.functions.statements_basicos.VariableDeclarationStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
@@ -98,6 +99,13 @@ public class VariableDeclarationParser implements IParser<VariableDeclarationNod
         // HINT: Seguir los pasos documentados arriba
         // Crear VariableDeclarationNode para declaraciones top-level
         // o VariableDeclarationStatementNode para statements dentro de funciones/procesos
-        throw new UnsupportedOperationException("VariableDeclarationParser no implementado - Tarea del estudiante");
+
+        Token identifierToken = context.consume(TokenType.IDENTIFIER);
+        String variableName = identifierToken.getValue();
+        context.consumeValue("=");
+
+        ExpressionNode expression = expressionParser.parse(context);
+
+        return new VariableDeclarationNode(identifierToken, variableName, expression);
     }
 }
