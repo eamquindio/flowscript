@@ -3,8 +3,10 @@ package com.flowscript.sintactic.parsers.functions.expresiones;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.ast.functions.expresiones.PostfixExpressionNode;
-
+import com.flowscript.sintactic.ast.functions.expresiones.PostfixOperatorNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 /**
  * Parser para expresiones postfijas.
  *
@@ -29,7 +31,21 @@ public class PostfixExpressionParser implements IParser<PostfixExpressionNode> {
 
     @Override
     public PostfixExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("PostfixExpressionParser no implementado - Tarea del estudiante");
+        PrimaryExpressionParser primaryParser = new PrimaryExpressionParser();
+        ExpressionNode primary = primaryParser.parse(context);
+
+        PostfixExpressionNode node = new PostfixExpressionNode(primary.getToken(), primary);
+
+        PostfixOperatorParser operatorParser = new PostfixOperatorParser();
+        while (true) {
+            if (context.checkAny(TokenType.DOT, TokenType.LEFT_BRACKET, TokenType.LEFT_PAREN)) {
+                PostfixOperatorNode operatorNode = operatorParser.parse(context);
+                node.addOperator(operatorNode);
+            } else {
+                break;
+            }
+        }
+        return node;
     }
+
 }

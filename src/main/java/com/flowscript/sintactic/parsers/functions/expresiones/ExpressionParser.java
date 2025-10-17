@@ -55,10 +55,13 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  */
 public class ExpressionParser implements IParser<ExpressionNode> {
 
+     private final TernaryExpressionParser ternaryParser = new TernaryExpressionParser();
+
     @Override
     public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar delegación a TernaryExpressionParser
-        // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
-        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
+        if (!context.hasMoreTokens()) {
+            throw new Parser.ParseException("fin de entrada inesperado en la expresion");
+        }
+        return ternaryParser.parse(context);
     }
 }

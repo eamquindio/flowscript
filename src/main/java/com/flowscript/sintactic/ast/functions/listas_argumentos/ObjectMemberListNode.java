@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.listas_argumentos;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode; 
 import com.flowscript.lexer.Token;
 import java.util.List;
 import java.util.ArrayList;
@@ -15,11 +16,6 @@ import java.util.LinkedHashMap;
  */
 public class ObjectMemberListNode extends ASTNode {
     private final List<ObjectMemberNode> members;
-
-    public ObjectMemberListNode(Token firstToken, List<ObjectMemberNode> members) {
-        super(firstToken);
-        this.members = new ArrayList<>(members);
-    }
 
     public ObjectMemberListNode(ObjectMemberNode firstMember) {
         super(firstMember.getLine(), firstMember.getColumn(), firstMember.getPosition());
@@ -64,36 +60,10 @@ public class ObjectMemberListNode extends ASTNode {
     public String toString() {
         return "ObjectMemberList with " + members.size() + " members";
     }
-
-    /**
-     * Represents a single object member: key: value
-     */
-    public static class ObjectMemberNode extends ASTNode {
-        private final String key;
-        private final ExpressionNode value;
-
-        public ObjectMemberNode(Token keyToken, String key, ExpressionNode value) {
-            super(keyToken);
-            this.key = key;
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public ExpressionNode getValue() {
-            return value;
-        }
-
-        @Override
-        public String getNodeType() {
-            return "ObjectMember";
-        }
-
-        @Override
-        public String toString() {
-            return key + ": " + value.getNodeType();
-        }
+    public ObjectMemberListNode(List<ObjectMemberNode> members) {
+        super(members != null && !members.isEmpty() ? members.get(0).getLine() : -1,
+            members != null && !members.isEmpty() ? members.get(0).getColumn() : -1,
+            members != null && !members.isEmpty() ? members.get(0).getPosition() : -1);
+        this.members = new ArrayList<>(members);
     }
 }

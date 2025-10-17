@@ -84,6 +84,28 @@ public class FunctionDeclarationParser implements IParser<FunctionDeclarationNod
 
     @Override
     public FunctionDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-      return null;
+        Token functionToken = context.consume(TokenType.FUNCTION);
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String functionName = nameToken.getValue();
+
+        context.consume(TokenType.LEFT_PAREN);
+
+        List<ParameterNode> parameters = null;
+        if (!context.check(TokenType.RIGHT_PAREN)) {
+            parameters = parameterListParser.parse(context);
+        }
+
+        context.consume(TokenType.RIGHT_PAREN);
+
+        TypeNode returnType = null;
+        if (context.checkValue("->")) {
+            context.consumeValue("->");
+            returnType = typeParser.parse(context);
+        }
+
+        BlockNode body = blockParser.parse(context);
+
+        return new FunctionDeclarationNode(functionToken, functionName, parameters, returnType, body);
     }
 }

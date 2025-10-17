@@ -1,9 +1,14 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +40,28 @@ public class ObjectMemberListParser {
      * @return Lista de nodos ObjectMemberListNode
      * @throws Parser.ParseException Si hay un error de sintaxis
      */
-    public List<ObjectMemberListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberListParser no implementado - Tarea del estudiante");
+    public ObjectMemberListNode parse(ParserContext context) throws Parser.ParseException {
+        List<ObjectMemberNode> members = new ArrayList<>();
+
+        ObjectMemberParser memberParser = new ObjectMemberParser();
+
+        ObjectMemberNode firstMember = memberParser.parse(context);
+        members.add(firstMember);
+
+        while (context.hasMoreTokens()) {
+            Token current = context.getCurrentToken();
+
+            if (current == null || current.getType() != TokenType.COMMA) break;
+            context.consume(); 
+
+            if (!context.hasMoreTokens() || context.getCurrentToken().getType() == TokenType.RIGHT_BRACE) {
+                throw new Parser.ParseException("',' inesperado antes de '}' en literal de objeto");
+            }
+
+            ObjectMemberNode nextMember = memberParser.parse(context);
+            members.add(nextMember);
+        }
+
+        return new ObjectMemberListNode(members);
     }
 }

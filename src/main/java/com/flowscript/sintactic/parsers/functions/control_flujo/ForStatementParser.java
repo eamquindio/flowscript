@@ -5,7 +5,9 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.ForStatementNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
 
@@ -96,8 +98,21 @@ public class ForStatementParser implements IParser<ForStatementNode> {
 
     @Override
     public ForStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ForStatementParser no implementado - Tarea del estudiante");
+        Token forToken = context.consume(TokenType.FOR);
+
+        context.consumeValue("each");
+
+        Token iteratorToken = context.consume(TokenType.IDENTIFIER);
+
+        String iteratorVariable = iteratorToken.getValue();
+
+        context.consumeValue("in");
+
+        ExpressionNode iterable = expressionParser.parse(context);
+
+        StatementNode body = statementParser.parse(context);
+
+        return new ForStatementNode(forToken, iteratorVariable, iterable, body);
     }
+
 }

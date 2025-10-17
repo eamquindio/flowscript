@@ -78,6 +78,34 @@ public class BlockParser implements IParser<BlockNode> {
 
     @Override
     public BlockNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token open = context.getCurrentToken();
+        if (open == null || open.getType() != TokenType.LEFT_BRACE) {
+            throw new Parser.ParseException("se esperaba '{' al inicio de un bloque");
+        }
+
+        context.consume(); 
+        BlockNode block = new BlockNode(open);
+
+        if (context.check(TokenType.RIGHT_BRACE)) {
+            context.consume();
+            return block;
+        }
+
+        List<StatementNode> statements = statementListParser.parse(context);
+        for (StatementNode s : statements) {
+            block.addStatement(s);
+        }
+
+        if (statements.isEmpty()) {
+            throw new Parser.ParseException("bloque vacio o las sentencias no consumieron ningbn token.");
+        }
+
+        Token close = context.getCurrentToken();
+        if (close == null || close.getType() != TokenType.RIGHT_BRACE) {
+            throw new Parser.ParseException("se esperaba '}' para cerrar el bloque");
+        }
+        context.consume();
+
+        return block;
     }
 }

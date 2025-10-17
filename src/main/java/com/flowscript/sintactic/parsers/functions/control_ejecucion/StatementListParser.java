@@ -1,5 +1,6 @@
 package com.flowscript.sintactic.parsers.functions.control_ejecucion;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -70,6 +71,28 @@ public class StatementListParser {
     }
 
     public List<StatementNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+
+        while (context.hasMoreTokens()) {
+            if (context.check(TokenType.RIGHT_BRACE)) {
+                break;
+            }
+
+            StatementNode stmt = statementParser.parse(context);
+
+            if (stmt != null) {
+                statements.add(stmt);
+            } else {
+                Token current = context.getCurrentToken();
+                if (current == null || current.getType() == TokenType.RIGHT_BRACE) break;
+
+                throw new Parser.ParseException(
+                        "token inesperado en la lista de sentencias en la linea " +
+                    (current != null ? current.getLine() : -1) +
+                            ", value: " + (current != null ? current.getValue() : "null")
+                );
+            }
+        }
+        return statements;
     }
 }

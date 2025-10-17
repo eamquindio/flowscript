@@ -107,8 +107,33 @@ public class StatementParser implements IParser<StatementNode> {
 
     @Override
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
+        if (!context.hasMoreTokens()) return null;
+
         Token current = context.getCurrentToken();
 
-        return null;
+        if (current.getType() == TokenType.RIGHT_BRACE) return null;
+
+        switch (current.getType()) {
+            case IF:
+                return ifParser.parse(context);
+            case FOR:
+                return forParser.parse(context);
+            case TRY:
+                return tryParser.parse(context);
+            case RETURN:
+                return returnParser.parse(context);
+            case THROW:
+                return throwParser.parse(context);
+            case LEFT_BRACE:
+                return blockParser.parse(context);
+            default:
+                if (current.getType().isLiteral() || current.getType() == TokenType.IDENTIFIER) {
+                    return exprParser.parse(context);
+                } else {
+                    throw new Parser.ParseException(
+                            "token inesperadoo '" + current.getValue() + "' en la linea " + current.getLine()
+                    );
+                }
+        }
     }
 }
