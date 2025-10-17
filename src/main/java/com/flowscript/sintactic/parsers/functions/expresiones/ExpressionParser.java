@@ -1,9 +1,12 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.BinaryExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.TernaryExpressionNode;
 
 /**
  * Parser coordinador para expresiones (punto de entrada del sistema de expresiones).
@@ -55,10 +58,42 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  */
 public class ExpressionParser implements IParser<ExpressionNode> {
 
+    private final PrimaryExpressionParser primaryParser;
+
+    public ExpressionParser() {
+        this.primaryParser = new PrimaryExpressionParser();
+    }
+
     @Override
     public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar delegación a TernaryExpressionParser
-        // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
-        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
+        return parseAdditiveExpression(context);
+    }
+
+    private ExpressionNode parseAdditiveExpression(ParserContext context) throws Parser.ParseException {
+        ExpressionNode left = parseMultiplicativeExpression(context);
+
+        while (context.getCurrentToken() != null &&
+                (context.checkValue("+") || context.checkValue("-"))) {
+            Token operator = context.getCurrentToken();
+            context.advance();
+            ExpressionNode right = parseMultiplicativeExpression(context);
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionNode parseMultiplicativeExpression(ParserContext context) throws Parser.ParseException {
+        ExpressionNode left = primaryParser.parse(context);
+
+        while (context.getCurrentToken() != null &&
+                (context.checkValue("*") || context.checkValue("/") || context.checkValue("%"))) {
+            Token operator = context.getCurrentToken();
+            context.advance();
+            ExpressionNode right = primaryParser.parse(context);
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
     }
 }

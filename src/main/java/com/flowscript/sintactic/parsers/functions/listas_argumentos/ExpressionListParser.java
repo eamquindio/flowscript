@@ -1,9 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +39,21 @@ public class ExpressionListParser {
      * @throws Parser.ParseException Si hay un error de sintaxis
      */
     public List<ExpressionListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ExpressionListParser no implementado - Tarea del estudiante");
+        ArrayList<ExpressionNode> exprs = new ArrayList<>();
+
+
+        ExpressionNode primero = new ExpressionParser().parse(context);
+        exprs.add(primero);
+        while (context.check(TokenType.COMMA)) {
+            context.consume(TokenType.COMMA);
+            ExpressionNode tmp = new ExpressionParser().parse(context);
+            exprs.add(tmp);
+        }
+
+        ExpressionListNode nodo = new ExpressionListNode(primero.getToken(), exprs);
+
+        ArrayList<ExpressionListNode> listaFinal = new ArrayList<>();
+        listaFinal.add(nodo);
+        return listaFinal;
     }
 }

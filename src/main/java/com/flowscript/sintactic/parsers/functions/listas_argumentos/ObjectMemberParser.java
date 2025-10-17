@@ -1,9 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
  * Parser para un miembro de objeto (par clave-valor).
@@ -27,7 +31,26 @@ public class ObjectMemberParser implements IParser<ObjectMemberNode> {
 
     @Override
     public ObjectMemberNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberParser no implementado - Tarea del estudiante");
+        Token t = context.getCurrentToken();
+
+        if (t == null) {
+            throw new Parser.ParseException("No hay token para la clave del objeto");
+        }
+        if (t.getType() != TokenType.IDENTIFIER && t.getType() != TokenType.STRING_LITERAL) {
+            throw new Parser.ParseException("Esperaba un nombre o una cadena, no eso");
+        }
+
+        context.consume();
+        if (!context.check(TokenType.COLON)) {
+            throw new Parser.ParseException("Faltan los dos puntos ':' después de la clave");
+        }
+        context.consume(TokenType.COLON);
+
+        ExpressionNode valor;
+        valor = new ExpressionParser().parse(context);
+        boolean esCadena = (t.getType() == TokenType.STRING_LITERAL);
+
+        ObjectMemberNode nodo = new ObjectMemberNode(t.getValue(), esCadena, valor);
+        return nodo;
     }
 }

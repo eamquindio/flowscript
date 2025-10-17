@@ -28,7 +28,20 @@ public class MultiplicativeExpressionParser implements IParser<MultiplicativeExp
 
     @Override
     public MultiplicativeExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("MultiplicativeExpressionParser no implementado - Tarea del estudiante");
+        var first = new UnaryExpressionParser().parse(context);
+
+        if (!(context.checkValue("*") || context.checkValue("/") || context.checkValue("%"))) {
+            return new MultiplicativeExpressionNode(first.getToken(), first);
+        }
+
+        var node = new MultiplicativeExpressionNode(first.getToken(), first);
+
+        while (context.checkValue("*") || context.checkValue("/") || context.checkValue("%")) {
+            var operator = context.consume();
+            var right = new UnaryExpressionParser().parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
     }
 }

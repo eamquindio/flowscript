@@ -1,5 +1,6 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -30,6 +31,16 @@ public class PostfixExpressionParser implements IParser<PostfixExpressionNode> {
     @Override
     public PostfixExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("PostfixExpressionParser no implementado - Tarea del estudiante");
+        var prim = new PrimaryExpressionParser().parse(context);
+        var node = new PostfixExpressionNode(prim.getToken(), prim);
+
+        var operatorP = new PostfixOperatorParser();
+
+        Token current = context.getCurrentToken();
+        while (current != null && (current.getValue().equals(".") || current.getValue().equals("[") || current.getValue().equals("("))){
+            node.addOperator(operatorP.parse(context));
+            current = context.getCurrentToken();
+        }
+        return node;
     }
 }

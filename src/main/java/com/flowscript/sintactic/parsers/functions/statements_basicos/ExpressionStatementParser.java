@@ -72,10 +72,15 @@ public class ExpressionStatementParser implements IParser<ExpressionStatementNod
         this.expressionParser = new ExpressionParser();
     }
 
+    public ExpressionStatementParser(ExpressionParser expressionParser) {
+        this.expressionParser = expressionParser;
+    }
+
     @Override
     public ExpressionStatementNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
         // HINT: Simplemente parsear la expresión y envolver en ExpressionStatementNode
-        throw new UnsupportedOperationException("ExpressionStatementParser no implementado - Tarea del estudiante");
+        var exprNode = expressionParser.parse(context);
+        return new ExpressionStatementNode(exprNode);
     }
 }

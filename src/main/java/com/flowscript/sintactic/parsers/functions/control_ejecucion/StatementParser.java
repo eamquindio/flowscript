@@ -109,6 +109,55 @@ public class StatementParser implements IParser<StatementNode> {
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
 
-        return null;
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing statement");
+        }
+
+        String value = current.getValue();
+
+        // IfStatement
+        if (value.equals("si") || value.equals("if")) {
+            return ifParser.parse(context);
+        }
+
+        // TryStatement
+        if (value.equals("intentar") || value.equals("try")) {
+            return tryParser.parse(context);
+        }
+
+        // ThrowStatement
+        if (value.equals("lanzar") || value.equals("throw")) {
+            return throwParser.parse(context);
+        }
+
+        // ReturnStatement
+        if (value.equals("retornar") || value.equals("return")) {
+            return returnParser.parse(context);
+        }
+
+        // GotoStatement
+        if (value.equals("go_to")) {
+            return gotoParser.parse(context);
+        }
+
+        // ForStatement
+        if (value.equals("para") || value.equals("for")) {
+            return forParser.parse(context);
+        }
+
+        // Block
+        if (current.getType() == TokenType.LEFT_BRACE) {
+            return blockParser.parse(context);
+        }
+
+        // VariableDeclaration (IDENTIFIER '=')
+        if (current.getType() == TokenType.IDENTIFIER &&
+            context.peek(1) != null &&
+            context.peek(1).getValue().equals("=")) {
+            return varParser.parse(context);
+        }
+
+        // Default: ExpressionStatement
+        return exprParser.parse(context);
     }
 }

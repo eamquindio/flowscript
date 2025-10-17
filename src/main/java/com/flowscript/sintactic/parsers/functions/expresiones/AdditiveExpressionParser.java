@@ -1,9 +1,12 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.AdditiveExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+
 
 /**
  * Parser para expresiones aditivas (suma y resta).
@@ -29,6 +32,15 @@ public class AdditiveExpressionParser implements IParser<AdditiveExpressionNode>
     @Override
     public AdditiveExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("AdditiveExpressionParser no implementado - Tarea del estudiante");
+        ExpressionNode first = new MultiplicativeExpressionParser().parse(context);
+        Token firstT = first.getToken();
+
+        AdditiveExpressionNode node = new AdditiveExpressionNode(firstT, first);
+        while (context.checkValue("+") || context.checkValue("-")) {
+            Token op = context.consume();
+            ExpressionNode right = new MultiplicativeExpressionParser().parse(context);
+            node.addOperand(op, right);
+        }
+        return node;
     }
 }

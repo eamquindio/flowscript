@@ -5,9 +5,12 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.ForStatementNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
+
 
 /**
  * Parser para bucles for-each.
@@ -94,10 +97,18 @@ public class ForStatementParser implements IParser<ForStatementNode> {
         this.statementParser = new StatementParser();
     }
 
-    @Override
+     @Override
     public ForStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ForStatementParser no implementado - Tarea del estudiante");
+        Token t = context.consume(TokenType.FOR);
+        context.consume(TokenType.EACH);
+        Token idTok = context.consume(TokenType.IDENTIFIER);
+        String nombreVar = idTok.getValue();
+
+        context.consume(TokenType.IN);
+        ExpressionNode itExpr = expressionParser.parse(context);
+        StatementNode cuerpo = statementParser.parse(context);
+
+        ForStatementNode salida = new ForStatementNode(t, nombreVar, itExpr, cuerpo);
+        return salida;
     }
 }

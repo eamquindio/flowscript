@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Gramática BNF:
  * StringLiteral ::= STRING_LITERAL
+ *
+ * NOTA: getValue() retorna el contenido procesado (sin comillas, escapes resueltos),
+ * getRawValue() retorna el literal exacto con comillas y escapes.
  */
 public class StringLiteralParserTest {
 
@@ -31,7 +34,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Hello World\"", result.getValue());
+        assertEquals("Hello World", result.getValue());        // contenido procesado
+        assertEquals("\"Hello World\"", result.getRawValue()); // literal original
     }
 
     @Test
@@ -44,7 +48,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"\"", result.getValue());
+        assertEquals("", result.getValue());
+        assertEquals("\"\"", result.getRawValue());
     }
 
     @Test
@@ -57,7 +62,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Line 1\\nLine 2\"", result.getValue());
+        assertEquals("Line 1\nLine 2", result.getValue());
+        assertEquals("\"Line 1\\nLine 2\"", result.getRawValue());
     }
 
     @Test
@@ -70,7 +76,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Quote: \\\"Hello\\\"\"", result.getValue());
+        assertEquals("Quote: \"Hello\"", result.getValue());
+        assertEquals("\"Quote: \\\"Hello\\\"\"", result.getRawValue());
     }
 
     @Test
@@ -83,7 +90,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Tab:\\tNewline:\\nBackslash:\\\\\"", result.getValue());
+        assertEquals("Tab:\tNewline:\nBackslash:\\", result.getValue());
+        assertEquals("\"Tab:\\tNewline:\\nBackslash:\\\\\"", result.getRawValue());
     }
 
     @Test
@@ -96,7 +104,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Unicode: \\u0041\"", result.getValue());
+        assertEquals("Unicode: \\u0041", result.getValue());
+        assertEquals("\"Unicode: \\u0041\"", result.getRawValue());
     }
 
     @Test
@@ -106,9 +115,7 @@ public class StringLiteralParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
     }
 
     @Test
@@ -118,8 +125,6 @@ public class StringLiteralParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
     }
 }

@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.TryStatementNode;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
 
@@ -95,8 +96,30 @@ public class TryStatementParser implements IParser<TryStatementNode> {
 
     @Override
     public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
+        Token tokTry = context.getCurrentToken();
+        if (context.checkValue("try") || context.checkValue("intentar")) {
+            tokTry = context.consume();
+        } else {
+            throw new Parser.ParseException("Se esperaba 'try' o 'intentar'");
+        }
+
+        BlockNode blkTry = blockParser.parse(context);
+        if (!context.checkValue("catch") && !context.checkValue("capturar")) {
+            throw new Parser.ParseException("Se esperaba 'catch' o 'capturar'");
+        }
+        context.consume();
+
+        context.consumeValue("(");
+
+        Token idExcep = context.consume(TokenType.IDENTIFIER);
+        String nameEx = idExcep.getValue();
+
+        context.consumeValue(")");
+
+
+
+        BlockNode blkCatch = blockParser.parse(context);
+        TryStatementNode tryStmt = new TryStatementNode(tokTry, blkTry, nameEx, blkCatch);
+        return tryStmt;
     }
 }
