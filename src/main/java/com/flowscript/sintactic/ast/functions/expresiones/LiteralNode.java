@@ -18,7 +18,6 @@ public class LiteralNode extends PrimaryExpressionNode {
   }
 
   private Object parseLiteralValue(Token token) {
-    System.out.println("DEBUG: LiteralNode recibió token " + token.getType() + " con valor " + token.getValue());
     switch (token.getType()) {
       case INTEGER_LITERAL:
         return Long.parseLong(token.getValue().replace("_", ""));
