@@ -3,21 +3,22 @@ package com.flowscript.sintactic.parsers.functions.statements_basicos;
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.VariableDeclarationNode;
-import com.flowscript.sintactic.ast.functions.statements_basicos.VariableDeclarationStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
  * Parser para declaración y asignación de variables.
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * VariableDeclaration ::= IDENTIFIER '=' Expression
  * </pre>
  *
  * <h3>Ejemplos:</h3>
+ * 
  * <pre>
  * // Variables simples
  * x = 10
@@ -66,6 +67,7 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  * </pre>
  *
  * <h3>Uso:</h3>
+ * 
  * <pre>
  * ParserContext context = new ParserContext(tokens);
  * VariableDeclarationParser parser = new VariableDeclarationParser();
@@ -75,29 +77,27 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  * <h3>Tarea del Estudiante:</h3>
  * Implementar el método {@code parse()} siguiendo estos pasos:
  * <ol>
- *   <li>Consumir IDENTIFIER (nombre de la variable)</li>
- *   <li>Consumir '='</li>
- *   <li>Parsear la expresión de valor usando ExpressionParser</li>
- *   <li>Crear y retornar VariableDeclarationStatementNode con nombre y expresión</li>
+ * <li>Consumir IDENTIFIER (nombre de la variable)</li>
+ * <li>Consumir '='</li>
+ * <li>Parsear la expresión de valor usando ExpressionParser</li>
+ * <li>Crear y retornar VariableDeclarationStatementNode con nombre y
+ * expresión</li>
  * </ol>
  *
  * @see VariableDeclarationStatementNode
  * @see VariableDeclarationNode
  */
 public class VariableDeclarationParser implements IParser<VariableDeclarationNode> {
+  private static final ExpressionParser EXPRESSION_PARSER = new ExpressionParser();
 
-    private final ExpressionParser expressionParser;
+  @Override
+  public VariableDeclarationNode parse(ParserContext context) throws ParseException {
+    Token identifierToken = context.consume(TokenType.IDENTIFIER);
+    context.consume(TokenType.ASSIGN);
 
-    public VariableDeclarationParser() {
-        this.expressionParser = new ExpressionParser();
-    }
-
-    @Override
-    public VariableDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        // Crear VariableDeclarationNode para declaraciones top-level
-        // o VariableDeclarationStatementNode para statements dentro de funciones/procesos
-        throw new UnsupportedOperationException("VariableDeclarationParser no implementado - Tarea del estudiante");
-    }
+    return new VariableDeclarationNode(
+        identifierToken,
+        identifierToken.getValue(),
+        EXPRESSION_PARSER.parse(context));
+  }
 }

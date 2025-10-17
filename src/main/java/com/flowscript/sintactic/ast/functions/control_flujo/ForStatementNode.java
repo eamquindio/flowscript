@@ -9,36 +9,36 @@ import com.flowscript.lexer.Token;
  * Example: for each item in items_list { process_item(item) }
  */
 public class ForStatementNode extends StatementNode {
-    private final String iteratorVariable;
-    private final ExpressionNode iterable;
-    private final StatementNode body;
+  private final String iteratorVariable;
+  private final ExpressionNode iterable;
+  private final StatementNode body;
 
-    public ForStatementNode(Token forToken, String iteratorVariable, ExpressionNode iterable, StatementNode body) {
-        super(forToken);
-        this.iteratorVariable = iteratorVariable;
-        this.iterable = iterable;
-        this.body = body;
-    }
+  public ForStatementNode(Token forToken, String iteratorVariable, ExpressionNode iterable, StatementNode body) {
+    super(forToken);
+    this.iteratorVariable = iteratorVariable;
+    this.iterable = iterable;
+    this.body = body;
+  }
 
-    public String getIteratorVariable() {
-        return iteratorVariable;
-    }
+  public String getIteratorVariable() {
+    return iteratorVariable;
+  }
 
-    public ExpressionNode getIterable() {
-        return iterable;
-    }
+  public ExpressionNode getIterable() {
+    return iterable;
+  }
 
-    public StatementNode getBody() {
-        return body;
-    }
+  public StatementNode getBody() {
+    return body;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "ForStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "ForStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "ForStatement(for each " + iteratorVariable + " in " + iterable.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "ForStatement(for each " + iteratorVariable + " in " + iterable.getNodeType() + ")";
+  }
 }

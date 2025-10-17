@@ -11,35 +11,35 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  * inside functions and process tasks.
  */
 public class VariableDeclarationNode extends DeclarationNode {
-    private final String variableName;
-    private final ExpressionNode initializer;
+  private final String variableName;
+  private final ExpressionNode initializer;
 
-    public VariableDeclarationNode(Token identifierToken, String variableName, ExpressionNode initializer) {
-        super(identifierToken);
-        this.variableName = variableName;
-        this.initializer = initializer;
-    }
+  public VariableDeclarationNode(Token identifierToken, String variableName, ExpressionNode initializer) {
+    super(identifierToken);
+    this.variableName = variableName;
+    this.initializer = initializer;
+  }
 
-    public String getVariableName() {
-        return variableName;
-    }
+  public String getVariableName() {
+    return variableName;
+  }
 
-    public ExpressionNode getInitializer() {
-        return initializer;
-    }
+  public ExpressionNode getInitializer() {
+    return initializer;
+  }
 
-    @Override
-    public String getDeclaredName() {
-        return variableName;
-    }
+  @Override
+  public String getDeclaredName() {
+    return variableName;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "VariableDeclaration";
-    }
+  @Override
+  public String getNodeType() {
+    return "VariableDeclaration";
+  }
 
-    @Override
-    public String toString() {
-        return "VariableDeclaration(" + variableName + " = " + initializer.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "VariableDeclaration(" + variableName + " = " + initializer.getNodeType() + ")";
+  }
 }

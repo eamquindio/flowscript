@@ -10,30 +10,30 @@ import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
  * Part of the if statement's conditional chain.
  */
 public class ElseIfClauseNode extends ASTNode {
-    private final ExpressionNode condition;
-    private final StatementNode statement;
+  private final ExpressionNode condition;
+  private final StatementNode statement;
 
-    public ElseIfClauseNode(ExpressionNode condition, StatementNode statement) {
-        super(condition.getLine(), condition.getColumn(), condition.getPosition());
-        this.condition = condition;
-        this.statement = statement;
-    }
+  public ElseIfClauseNode(ExpressionNode condition, StatementNode statement) {
+    super(condition.getLine(), condition.getColumn(), condition.getPosition());
+    this.condition = condition;
+    this.statement = statement;
+  }
 
-    public ExpressionNode getCondition() {
-        return condition;
-    }
+  public ExpressionNode getCondition() {
+    return condition;
+  }
 
-    public StatementNode getStatement() {
-        return statement;
-    }
+  public StatementNode getStatement() {
+    return statement;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "ElseIfClause";
-    }
+  @Override
+  public String getNodeType() {
+    return "ElseIfClause";
+  }
 
-    @Override
-    public String toString() {
-        return "ElseIfClause(" + condition.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "ElseIfClause(" + condition.getNodeType() + ")";
+  }
 }

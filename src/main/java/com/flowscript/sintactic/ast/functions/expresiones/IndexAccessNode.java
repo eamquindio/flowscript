@@ -1,6 +1,5 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
 
 /**
@@ -8,37 +7,37 @@ import com.flowscript.lexer.Token;
  * Examples: items[0], customer["name"], order[item_id]
  */
 public class IndexAccessNode extends ExpressionNode {
-    private final ExpressionNode object;
-    private final ExpressionNode index;
+  private final ExpressionNode object;
+  private final ExpressionNode index;
 
-    public IndexAccessNode(ExpressionNode object, Token leftBracketToken, ExpressionNode index) {
-        super(leftBracketToken);
-        this.object = object;
-        this.index = index;
-    }
+  public IndexAccessNode(ExpressionNode object, Token leftBracketToken, ExpressionNode index) {
+    super(leftBracketToken);
+    this.object = object;
+    this.index = index;
+  }
 
-    public ExpressionNode getObject() {
-        return object;
-    }
+  public ExpressionNode getObject() {
+    return object;
+  }
 
-    public ExpressionNode getIndex() {
-        return index;
-    }
+  public ExpressionNode getIndex() {
+    return index;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "IndexAccess";
-    }
+  @Override
+  public String getNodeType() {
+    return "IndexAccess";
+  }
 
-    @Override
-    public String getExpressionType() {
-        // Type would be determined by symbol table lookup during semantic analysis
-        // Typically the element type of the array/list
-        return "element";
-    }
+  @Override
+  public String getExpressionType() {
+    // Type would be determined by symbol table lookup during semantic analysis
+    // Typically the element type of the array/list
+    return "element";
+  }
 
-    @Override
-    public String toString() {
-        return "IndexAccess(" + object.getNodeType() + "[" + index.getNodeType() + "])";
-    }
+  @Override
+  public String toString() {
+    return "IndexAccess(" + object.getNodeType() + "[" + index.getNodeType() + "])";
+  }
 }

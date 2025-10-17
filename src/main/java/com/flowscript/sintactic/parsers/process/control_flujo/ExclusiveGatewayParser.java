@@ -14,43 +14,56 @@ import com.flowscript.sintactic.parsers.process.clausulas_control.ElseClausePars
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Parser para gateways exclusivos (XOR).
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * ExclusiveGateway ::= 'gateway' IDENTIFIER '{' WhenClause* ElseClause? '}'
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
- * Nivel 4: Elementos de Control de Flujo
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // Gateway exclusivo básico
- * gateway DecisionMonto {
- *     when entrada.monto > 10000 -> RequiereAprobacionGerente
- *     when entrada.monto > 1000 -> RequiereAprobacionSupervisor
- *     else -> AprobacionAutomatica
- * }
- * </pre>
- *
- * @see ExclusiveGatewayNode
- */
 public class ExclusiveGatewayParser implements IParser<ExclusiveGatewayNode> {
 
-    private final WhenClauseParser whenParser;
-    private final ElseClauseParser elseParser;
+  private final WhenClauseParser whenParser;
+  private final ElseClauseParser elseParser;
 
-    public ExclusiveGatewayParser() {
-        this.whenParser = new WhenClauseParser();
-        this.elseParser = new ElseClauseParser();
+  public ExclusiveGatewayParser() {
+    this.whenParser = new WhenClauseParser();
+    this.elseParser = new ElseClauseParser();
+  }
+
+  @Override
+  public ExclusiveGatewayNode parse(ParserContext context) throws Parser.ParseException {
+    Token gatewayToken = context.getCurrentToken();
+
+    if (gatewayToken.getType() != TokenType.GATEWAY) {
+      throw new Parser.ParseException("Se esperaba la palabra clave 'gateway' para iniciar un gateway exclusivo.");
+    }
+    context.consume(TokenType.GATEWAY);
+
+    Token identifierToken = context.getCurrentToken();
+    if (identifierToken.getType() != TokenType.IDENTIFIER) {
+      throw new Parser.ParseException("Se esperaba un IDENTIFIER (nombre del gateway) después de 'gateway'.");
+    }
+    context.consume(TokenType.IDENTIFIER);
+
+    Token openBraceToken = context.getCurrentToken();
+    if (openBraceToken.getType() != TokenType.LEFT_BRACE) {
+      throw new Parser.ParseException("Se esperaba '{' después del nombre del gateway.");
+    }
+    context.consume(TokenType.LEFT_BRACE);
+
+    List<WhenClauseNode> whenClauses = new ArrayList<>();
+
+    while (context.check(TokenType.WHEN)) {
+      WhenClauseNode whenClause = whenParser.parse(context);
+      whenClauses.add(whenClause);
     }
 
-    @Override
-    public ExclusiveGatewayNode parse(ParserContext context) throws Parser.ParseException {
-        Token gatewayToken = context.getCurrentToken();
-         return null;
+    ElseClauseNode elseClause = null;
+
+    if (context.check(TokenType.ELSE)) {
+      elseClause = elseParser.parse(context);
     }
+
+    Token closeBraceToken = context.getCurrentToken();
+    if (closeBraceToken.getType() != TokenType.RIGHT_BRACE) {
+      throw new Parser.ParseException("Se esperaba '}' al final del gateway exclusivo.");
+    }
+    context.consume(TokenType.RIGHT_BRACE);
+
+    return new ExclusiveGatewayNode(gatewayToken, identifierToken.getValue(), whenClauses, elseClause);
+  }
 }

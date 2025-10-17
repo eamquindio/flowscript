@@ -10,26 +10,26 @@ import com.flowscript.lexer.Token;
  */
 public class NullLiteralNode extends ExpressionNode {
 
-    public NullLiteralNode(Token literalToken) {
-        super(literalToken);
-    }
+  public NullLiteralNode(Token literalToken) {
+    super(literalToken);
+  }
 
-    public Object getValue() {
-        return null;
-    }
+  public Object getValue() {
+    return null;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "NullLiteral";
-    }
+  @Override
+  public String getNodeType() {
+    return "NullLiteral";
+  }
 
-    @Override
-    public String getExpressionType() {
-        return "nulo";
-    }
+  @Override
+  public String getExpressionType() {
+    return "nulo";
+  }
 
-    @Override
-    public String toString() {
-        return "NullLiteral(nulo)";
-    }
+  @Override
+  public String toString() {
+    return "NullLiteral(nulo)";
+  }
 }

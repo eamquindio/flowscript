@@ -8,24 +8,24 @@ import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
  * Example: function_call(); variable_assignment = value;
  */
 public class ExpressionStatementNode extends StatementNode {
-    private final ExpressionNode expression;
+  private final ExpressionNode expression;
 
-    public ExpressionStatementNode(ExpressionNode expression) {
-        super(expression.getLine(), expression.getColumn(), expression.getPosition());
-        this.expression = expression;
-    }
+  public ExpressionStatementNode(ExpressionNode expression) {
+    super(expression.getLine(), expression.getColumn(), expression.getPosition());
+    this.expression = expression;
+  }
 
-    public ExpressionNode getExpression() {
-        return expression;
-    }
+  public ExpressionNode getExpression() {
+    return expression;
+  }
 
-    @Override
-    public String getNodeType() {
-        return "ExpressionStatement";
-    }
+  @Override
+  public String getNodeType() {
+    return "ExpressionStatement";
+  }
 
-    @Override
-    public String toString() {
-        return "ExpressionStatement(" + expression.getNodeType() + ")";
-    }
+  @Override
+  public String toString() {
+    return "ExpressionStatement(" + expression.getNodeType() + ")";
+  }
 }

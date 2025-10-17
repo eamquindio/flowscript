@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests para PrimaryExpressionParser.
  *
  * Gramática BNF:
- * PrimaryExpression ::= IDENTIFIER | Literal | ObjectLiteral | ListLiteral | '(' Expression ')'
+ * PrimaryExpression ::= IDENTIFIER | Literal | ObjectLiteral | ListLiteral |
+ * '(' Expression ')'
  */
 public class PrimaryExpressionParserTest {
 

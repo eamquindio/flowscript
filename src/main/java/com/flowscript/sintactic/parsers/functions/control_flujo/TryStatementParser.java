@@ -3,8 +3,9 @@ package com.flowscript.sintactic.parsers.functions.control_flujo;
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
+import com.flowscript.sintactic.Parser.ParseException;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.TryStatementNode;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
 
@@ -12,11 +13,13 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
  * Parser para statements try/catch (manejo de excepciones).
  *
  * <h3>Gramática BNF:</h3>
+ * 
  * <pre>
  * TryStatement ::= 'try' Block 'catch' '(' IDENTIFIER ')' Block
  * </pre>
  *
  * <h3>Ejemplos:</h3>
+ * 
  * <pre>
  * // Try-catch básico
  * try {
@@ -64,6 +67,7 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
  * </pre>
  *
  * <h3>Uso:</h3>
+ * 
  * <pre>
  * ParserContext context = new ParserContext(tokens);
  * TryStatementParser parser = new TryStatementParser();
@@ -73,30 +77,35 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
  * <h3>Tarea del Estudiante:</h3>
  * Implementar el método {@code parse()} siguiendo estos pasos:
  * <ol>
- *   <li>Consumir 'try' o 'intentar'</li>
- *   <li>Parsear el bloque try usando BlockParser</li>
- *   <li>Consumir 'catch' o 'capturar'</li>
- *   <li>Consumir '('</li>
- *   <li>Consumir IDENTIFIER (nombre de la variable de excepción)</li>
- *   <li>Consumir ')'</li>
- *   <li>Parsear el bloque catch usando BlockParser</li>
- *   <li>Crear y retornar TryStatementNode con los bloques parseados</li>
+ * <li>Consumir 'try' o 'intentar'</li>
+ * <li>Parsear el bloque try usando BlockParser</li>
+ * <li>Consumir 'catch' o 'capturar'</li>
+ * <li>Consumir '('</li>
+ * <li>Consumir IDENTIFIER (nombre de la variable de excepción)</li>
+ * <li>Consumir ')'</li>
+ * <li>Parsear el bloque catch usando BlockParser</li>
+ * <li>Crear y retornar TryStatementNode con los bloques parseados</li>
  * </ol>
  *
  * @see TryStatementNode
  */
 public class TryStatementParser implements IParser<TryStatementNode> {
 
-    private final BlockParser blockParser;
+  private static final BlockParser BLOCK_PARSER = new BlockParser();
 
-    public TryStatementParser() {
-        this.blockParser = new BlockParser();
-    }
+  @Override
+  public TryStatementNode parse(ParserContext context) throws ParseException {
+    Token tryToken = context.consume(TokenType.TRY);
+    BlockNode tryBlock = BLOCK_PARSER.parse(context);
 
-    @Override
-    public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
-    }
+    context.consume(TokenType.CATCH);
+    context.consume(TokenType.LEFT_PAREN);
+
+    Token catchVariable = context.consume(TokenType.IDENTIFIER);
+    context.consume(TokenType.RIGHT_PAREN);
+
+    BlockNode catchBlock = BLOCK_PARSER.parse(context);
+
+    return new TryStatementNode(tryToken, tryBlock, catchVariable.getValue(), catchBlock);
+  }
 }
