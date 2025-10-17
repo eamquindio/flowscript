@@ -66,6 +66,25 @@ public class DeclarationParser implements IParser<DeclarationNode> {
 
     @Override
     public DeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        return  null;
+        Token current = context.getCurrentToken();
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input");
+        }
+
+        TokenType type = current.getType();
+
+        if (type == TokenType.IMPORT || type == TokenType.IMPORT_JAR) {
+            return importParser.parse(context);
+        } else if (type == TokenType.FUNCTION) {
+            return functionParser.parse(context);
+        } else if (type == TokenType.PROCESS) {
+            return processParser.parse(context);
+        } else if (type == TokenType.IDENTIFIER) {
+            return variableParser.parse(context);
+        } else {
+            throw new Parser.ParseException(
+                "Expected declaration (import, function, process, or variable) but found " + type
+            );
+        }
     }
 }

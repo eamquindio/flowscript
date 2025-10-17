@@ -108,7 +108,30 @@ public class StatementParser implements IParser<StatementNode> {
     @Override
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input");
+        }
 
-        return null;
+        TokenType type = current.getType();
+
+        if (type == TokenType.IF) {
+            return ifParser.parse(context);
+        } else if (type == TokenType.TRY) {
+            return tryParser.parse(context);
+        } else if (type == TokenType.THROW) {
+            return throwParser.parse(context);
+        } else if (type == TokenType.RETURN) {
+            return returnParser.parse(context);
+        } else if (type == TokenType.GOTO) {
+            return gotoParser.parse(context);
+        } else if (type == TokenType.FOR) {
+            return forParser.parse(context);
+        } else if (type == TokenType.IDENTIFIER && context.peek(1) != null && context.peek(1).getType() == TokenType.ASSIGN) {
+            return varParser.parse(context);
+        } else if (type == TokenType.LEFT_BRACE) {
+            return blockParser.parse(context);
+        } else {
+            return exprParser.parse(context);
+        }
     }
 }

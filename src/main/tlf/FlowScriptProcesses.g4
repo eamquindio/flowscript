@@ -14,7 +14,7 @@ grammar FlowScriptProcesses;
  * - Declaración de procesos
  * - Nodos del proceso (start, task, end, gateway)
  * - Gateways exclusivos y paralelos
- * - Control de flujo con goto
+ * - Control de flujo con go_to
  * - Variables globales y contexto del proceso
  */
 
@@ -23,7 +23,108 @@ grammar FlowScriptProcesses;
 // ============================
 
 // Palabras clave de estructura
+IMPORT      : 'import';
+IMPORT_JAR  : 'import_jar';
+AS          : 'as';
+FUNCTION    : 'function';
+PROCESS     : 'process';
+RETURN      : 'return';
 
+// Palabras clave de nodos de proceso
+START       : 'start';
+END         : 'end';
+TASK        : 'task';
+GATEWAY     : 'gateway';
+ACTION      : 'action';
+GO_TO       : 'go_to';
+
+// Palabras clave de gateway
+WHEN        : 'when';
+ELSE        : 'else';
+BRANCH      : 'branch';
+JOIN        : 'join';
+PARALLEL    : 'parallel';
+
+// Palabras clave de control de flujo
+IF          : 'if';
+ELSE_IF     : 'else_if';
+TRY         : 'try';
+CATCH       : 'catch';
+THROW       : 'throw';
+WHILE       : 'while';
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+FROM        : 'from';
+TO          : 'to';
+STEP        : 'step';
+BREAK       : 'break';
+CONTINUE    : 'continue';
+
+// Tipos de datos
+INTEGER_TYPE : 'integer';
+DECIMAL_TYPE : 'decimal';
+BOOLEAN_TYPE : 'boolean';
+TEXT_TYPE    : 'text';
+LIST_TYPE    : 'list';
+OBJECT_TYPE  : 'object';
+VOID_TYPE    : 'void';
+NULL         : 'null';
+
+// Valores booleanos
+TRUE        : 'true';
+FALSE       : 'false';
+
+// Operadores lógicos
+AND         : 'and';
+OR          : 'or';
+NOT         : 'not';
+
+// Operadores de comparación
+EQ          : '==';
+NE          : '!=';
+LE          : '<=';
+GE          : '>=';
+LT          : '<';
+GT          : '>';
+
+// Operadores aritméticos
+PLUS        : '+';
+MINUS       : '-';
+MULTIPLY    : '*';
+DIVIDE      : '/';
+MODULO      : '%';
+
+// Operadores de asignación
+ASSIGN      : '=';
+
+// Delimitadores
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+LBRACKET    : '[';
+RBRACKET    : ']';
+COMMA       : ',';
+SEMICOLON   : ';';
+COLON       : ':';
+DOT         : '.';
+ARROW       : '->';
+
+// Literales
+INTEGER     : [0-9]+('_'[0-9]+)*;
+DECIMAL     : [0-9]+('_'[0-9]+)*'.'[0-9]+([eE][+-]?[0-9]+)?;
+STRING      : '"' (~["\\\r\n] | '\\' .)* '"';
+
+// Identificadores
+IDENTIFIER  : [a-zA-Z_][a-zA-Z0-9_]*;
+
+// Comentarios
+COMMENT     : '#' ~[\r\n]* -> skip;
+BLOCK_COMMENT : '/*' .*? '*/' -> skip;
+
+// Espacios en blanco
+WS          : [ \t\r\n]+ -> skip;
 
 // ============================
 // PARSER RULES
@@ -34,213 +135,275 @@ grammar FlowScriptProcesses;
 // ============================
 
 program
-    : EOF
+    : (importStatement | globalVariable | functionDeclaration | processDeclaration)* EOF
     ;
 
+// Declaraciones de importación
+importStatement
+    : IMPORT STRING (AS IDENTIFIER)?
+    | IMPORT_JAR STRING AS IDENTIFIER
+    ;
+
+// Variables globales
+globalVariable
+    : IDENTIFIER ASSIGN expression
+    ;
 
 // ============================
-// EJEMPLOS DE USO
+// FUNCIONES (BÁSICAS)
 // ============================
 
-/*
- * PROGRAMA COMPLETO CON PROCESOS:
- * 
- * import "std/http" as http
- * import "std/db" as db
- * import_jar "libs/utils.jar" as utils
- * 
- * # Variable global
- * MAX_RETRIES = 3
- * 
- * # Función auxiliar
- * function validate_email(email: text) -> boolean {
- *     return email.contains("@") and email.length() > 5
- * }
- * 
- * # Proceso principal
- * process OrderValidation {
- *     start -> CheckInput
- *     
- *     task CheckInput {
- *         action:
- *             if input.customer_id == null {
- *                 error_message = "Customer ID required"
- *                 goto ValidationError
- *             }
- *             
- *             if not validate_email(input.email) {
- *                 error_message = "Invalid email"
- *                 goto ValidationError
- *             }
- *             
- *             goto CheckInventory
- *     }
- *     
- *     task CheckInventory {
- *         action:
- *             items_available = true
- *             
- *             for each item in input.items {
- *                 stock = db.get("inventory", item.id)
- *                 if stock.quantity < item.quantity {
- *                     items_available = false
- *                 }
- *             }
- *             
- *             gateway InventoryDecision {
- *                 when items_available -> ProcessPayment
- *                 else -> InsufficientStock
- *             }
- *     }
- *     
- *     task ProcessPayment {
- *         action:
- *             try {
- *                 payment_result = http.post("https://api.payment.com/charge", {
- *                     amount: input.total,
- *                     card: input.payment_info
- *                 })
- *                 
- *                 if payment_result.success {
- *                     order_id = db.insert("orders", {
- *                         customer_id: input.customer_id,
- *                         items: input.items,
- *                         total: input.total,
- *                         status: "paid"
- *                     })
- *                     goto PrepareShipping
- *                 } else {
- *                     goto PaymentFailed
- *                 }
- *             } catch (error) {
- *                 log_error(error)
- *                 goto PaymentFailed
- *             }
- *     }
- *     
- *     # Gateway paralelo para preparar envío y notificar
- *     gateway PrepareShipping parallel {
- *         branch -> UpdateInventory
- *         branch -> NotifyCustomer
- *         branch -> CreateShipment
- *         join -> FinalizeOrder
- *     }
- *     
- *     task UpdateInventory {
- *         action:
- *             for each item in input.items {
- *                 db.execute(
- *                     "UPDATE inventory SET quantity = quantity - ? WHERE id = ?",
- *                     [item.quantity, item.id]
- *                 )
- *             }
- *             goto InventoryUpdated
- *     }
- *     
- *     task NotifyCustomer {
- *         action:
- *             utils.EmailService.send(
- *                 input.email,
- *                 "Order Confirmation",
- *                 "Your order has been confirmed and is being prepared."
- *             )
- *             goto CustomerNotified
- *     }
- *     
- *     task CreateShipment {
- *         action:
- *             shipment = http.post("https://api.shipping.com/create", {
- *                 address: input.shipping_address,
- *                 items: input.items
- *             })
- *             tracking_number = shipment.tracking_number
- *             goto ShipmentCreated
- *     }
- *     
- *     task FinalizeOrder {
- *         action:
- *             db.execute(
- *                 "UPDATE orders SET tracking_number = ?, status = ? WHERE id = ?",
- *                 [tracking_number, "shipped", order_id]
- *             )
- *             goto Success
- *     }
- *     
- *     task ValidationError {
- *         action:
- *             response = { success: false, message: error_message }
- *             goto Error
- *     }
- *     
- *     task InsufficientStock {
- *         action:
- *             response = { success: false, message: "Insufficient stock" }
- *             goto Error
- *     }
- *     
- *     task PaymentFailed {
- *         action:
- *             response = { success: false, message: "Payment failed" }
- *             goto Error
- *     }
- *     
- *     end InventoryUpdated
- *     end CustomerNotified
- *     end ShipmentCreated
- *     end Success
- *     end Error
- * }
- * 
- * # Proceso con gateway exclusivo
- * process ApprovalWorkflow {
- *     start -> EvaluateAmount
- *     
- *     task EvaluateAmount {
- *         action:
- *             gateway ApprovalLevel {
- *                 when input.amount > 10000 -> RequireCEOApproval
- *                 when input.amount > 5000 -> RequireManagerApproval
- *                 when input.amount > 1000 -> RequireSupervisorApproval
- *                 else -> AutoApprove
- *             }
- *     }
- *     
- *     task RequireCEOApproval {
- *         action:
- *             send_approval_request("ceo@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireManagerApproval {
- *         action:
- *             send_approval_request("manager@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireSupervisorApproval {
- *         action:
- *             send_approval_request("supervisor@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task AutoApprove {
- *         action:
- *             update_status(input.id, "approved")
- *             goto Approved
- *     }
- *     
- *     task WaitingApproval {
- *         action:
- *             # En un caso real, esto esperaría una respuesta asíncrona
- *             approval_result = wait_for_approval(input.id)
- *             if approval_result.approved {
- *                 goto Approved
- *             } else {
- *                 goto Rejected
- *             }
- *     }
- *     
- *     end Approved
- *     end Rejected
- * }
- */
+functionDeclaration
+    : FUNCTION IDENTIFIER LPAREN parameterList? RPAREN (ARROW type)? LBRACE statement* RBRACE
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON type
+    ;
+
+type
+    : INTEGER_TYPE
+    | DECIMAL_TYPE
+    | BOOLEAN_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID_TYPE
+    ;
+
+// ============================
+// DECLARACIONES DE PROCESO
+// ============================
+
+processDeclaration
+    : PROCESS IDENTIFIER LBRACE startNode processElement* endNode+ RBRACE
+    ;
+
+processElement
+    : taskNode
+    | gatewayNodeDeclaration
+    ;
+
+// Nodo de inicio
+startNode
+    : START ARROW IDENTIFIER
+    ;
+
+// Nodo de tarea
+taskNode
+    : TASK IDENTIFIER LBRACE ACTION COLON statement* RBRACE
+    ;
+
+// Nodo de fin
+endNode
+    : END IDENTIFIER
+    ;
+
+// Nodo de gateway
+gatewayNodeDeclaration
+    : gatewayExclusiveDeclaration
+    | gatewayParallelDeclaration
+    ;
+
+// Gateway exclusivo como declaración de nodo
+gatewayExclusiveDeclaration
+    : GATEWAY IDENTIFIER LBRACE whenClause+ elseClause? RBRACE
+    ;
+
+// Gateway paralelo como declaración de nodo
+gatewayParallelDeclaration
+    : GATEWAY IDENTIFIER PARALLEL LBRACE branchClause branchClause+ joinClause? RBRACE
+    ;
+
+// Gateway exclusivo (XOR)
+gatewayExclusive
+    : GATEWAY IDENTIFIER LBRACE whenClause+ elseClause? RBRACE
+    ;
+
+// Gateway paralelo (AND)
+gatewayParallel
+    : GATEWAY IDENTIFIER PARALLEL LBRACE branchClause+ joinClause? RBRACE
+    ;
+
+// Cláusulas de gateway
+whenClause
+    : WHEN expression ARROW IDENTIFIER
+    ;
+
+elseClause
+    : ELSE ARROW IDENTIFIER
+    ;
+
+branchClause
+    : BRANCH ARROW IDENTIFIER
+    ;
+
+joinClause
+    : JOIN ARROW IDENTIFIER
+    ;
+
+// ============================
+// DECLARACIONES Y CONTROL DE FLUJO
+// ============================
+
+statement
+    : expressionStatement
+    | ifStatement
+    | whileStatement
+    | forEachStatement
+    | forRangeStatement
+    | tryStatement
+    | throwStatement
+    | returnStatement
+    | breakStatement
+    | continueStatement
+    | goToStatement
+    | gatewayStatement
+    ;
+
+expressionStatement
+    : expression
+    ;
+
+ifStatement
+    : IF expression LBRACE statement* RBRACE (ELSE_IF expression LBRACE statement* RBRACE)* (ELSE LBRACE statement* RBRACE)?
+    ;
+
+whileStatement
+    : WHILE expression LBRACE statement* RBRACE
+    ;
+
+forEachStatement
+    : FOR EACH IDENTIFIER IN expression LBRACE statement* RBRACE
+    ;
+
+forRangeStatement
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? LBRACE statement* RBRACE
+    ;
+
+tryStatement
+    : TRY LBRACE statement* RBRACE CATCH LPAREN IDENTIFIER RPAREN LBRACE statement* RBRACE
+    ;
+
+throwStatement
+    : THROW expression
+    ;
+
+returnStatement
+    : RETURN expression?
+    ;
+
+breakStatement
+    : BREAK
+    ;
+
+continueStatement
+    : CONTINUE
+    ;
+
+goToStatement
+    : GO_TO IDENTIFIER
+    ;
+
+gatewayStatement
+    : gatewayExclusive
+    | gatewayParallel
+    ;
+
+// ============================
+// EXPRESIONES
+// ============================
+
+expression
+    : assignmentExpression
+    ;
+
+assignmentExpression
+    : logicalOrExpression (ASSIGN assignmentExpression)?
+    ;
+
+logicalOrExpression
+    : logicalAndExpression (OR logicalAndExpression)*
+    ;
+
+logicalAndExpression
+    : equalityExpression (AND equalityExpression)*
+    ;
+
+equalityExpression
+    : relationalExpression ((EQ | NE) relationalExpression)*
+    ;
+
+relationalExpression
+    : additiveExpression ((LT | GT | LE | GE) additiveExpression)*
+    ;
+
+additiveExpression
+    : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    : unaryExpression ((MULTIPLY | DIVIDE | MODULO) unaryExpression)*
+    ;
+
+unaryExpression
+    : (NOT | MINUS) unaryExpression
+    | postfixExpression
+    ;
+
+postfixExpression
+    : primaryExpression (memberAccess | indexAccess | functionCall)*
+    ;
+
+memberAccess
+    : DOT IDENTIFIER
+    ;
+
+indexAccess
+    : LBRACKET expression RBRACKET
+    ;
+
+functionCall
+    : LPAREN argumentList? RPAREN
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+primaryExpression
+    : IDENTIFIER
+    | literal
+    | LPAREN expression RPAREN
+    ;
+
+// ============================
+// LITERALES
+// ============================
+
+literal
+    : INTEGER
+    | DECIMAL
+    | STRING
+    | TRUE
+    | FALSE
+    | NULL
+    | listLiteral
+    | objectLiteral
+    ;
+
+listLiteral
+    : LBRACKET (expression (COMMA expression)*)? RBRACKET
+    ;
+
+objectLiteral
+    : LBRACE (objectProperty (COMMA objectProperty)*)? RBRACE
+    ;
+
+objectProperty
+    : IDENTIFIER COLON expression
+    ;
