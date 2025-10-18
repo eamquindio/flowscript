@@ -10,105 +10,125 @@ import com.flowscript.sintactic.parsers.functions.control_flujo.*;
 import com.flowscript.sintactic.parsers.functions.statements_basicos.*;
 import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
 
-/**
- * Parser coordinador para statements en FlowScript.
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * Statement ::= ExpressionStatement
- *             | IfStatement
- *             | TryStatement
- *             | ThrowStatement
- *             | ReturnStatement
- *             | GotoStatement
- *             | ForStatement
- *             | VariableDeclaration
- *             | Block
- * </pre>
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // ExpressionStatement
- * imprimir("Hola")
- * x + y
- *
- * // IfStatement
- * if x > 10 {
- *     imprimir("Grande")
- * } else {
- *     imprimir("Pequeño")
- * }
- *
- * // TryStatement
- * try {
- *     resultado = operacion_riesgosa()
- * } catch (e) {
- *     imprimir("Error: " + e.mensaje)
- * }
- *
- * // ThrowStatement
- * throw { tipo: "Error", mensaje: "Algo salió mal" }
- *
- * // ReturnStatement
- * return x * 2
- *
- * // GotoStatement
- * go_to SiguienteTarea
- *
- * // ForStatement
- * for each item in lista {
- *     imprimir(item)
- * }
- *
- * // VariableDeclaration
- * nombre = "Juan"
- * edad = 25
- *
- * // Block
- * {
- *     x = 10
- *     y = 20
- *     imprimir(x + y)
- * }
- * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * StatementParser parser = new StatementParser();
- * StatementNode statement = parser.parse(context);
- * </pre>
- *
- * @see StatementNode
- */
 public class StatementParser implements IParser<StatementNode> {
 
-    private final IfStatementParser ifParser;
-    private final TryStatementParser tryParser;
-    private final ThrowStatementParser throwParser;
-    private final ReturnStatementParser returnParser;
-    private final GotoStatementParser gotoParser;
-    private final ForStatementParser forParser;
-    private final VariableDeclarationStatementParser varParser;
-    private final BlockParser blockParser;
-    private final ExpressionStatementParser exprParser;
+    // Lazy-initialized parsers
+    private IfStatementParser ifParser;
+    private TryStatementParser tryParser;
+    private ThrowStatementParser throwParser;
+    private ReturnStatementParser returnParser;
+    private GotoStatementParser gotoParser;
+    private ForStatementParser forParser;
+    private VariableDeclarationStatementParser varParser;
+    private BlockParser blockParser;
+    private ExpressionStatementParser exprParser;
 
     public StatementParser() {
-        this.ifParser = new IfStatementParser();
-        this.tryParser = new TryStatementParser();
-        this.throwParser = new ThrowStatementParser();
-        this.returnParser = new ReturnStatementParser();
-        this.gotoParser = new GotoStatementParser();
-        this.forParser = new ForStatementParser();
-        this.varParser = new VariableDeclarationStatementParser();
-        this.blockParser = new BlockParser();
-        this.exprParser = new ExpressionStatementParser();
+        // Empty constructor - lazy initialization
+    }
+
+    private IfStatementParser getIfParser() {
+        if (ifParser == null) {
+            ifParser = new IfStatementParser();
+        }
+        return ifParser;
+    }
+
+    private TryStatementParser getTryParser() {
+        if (tryParser == null) {
+            tryParser = new TryStatementParser();
+        }
+        return tryParser;
+    }
+
+    private ThrowStatementParser getThrowParser() {
+        if (throwParser == null) {
+            throwParser = new ThrowStatementParser();
+        }
+        return throwParser;
+    }
+
+    private ReturnStatementParser getReturnParser() {
+        if (returnParser == null) {
+            returnParser = new ReturnStatementParser();
+        }
+        return returnParser;
+    }
+
+    private GotoStatementParser getGotoParser() {
+        if (gotoParser == null) {
+            gotoParser = new GotoStatementParser();
+        }
+        return gotoParser;
+    }
+
+    private ForStatementParser getForParser() {
+        if (forParser == null) {
+            forParser = new ForStatementParser();
+        }
+        return forParser;
+    }
+
+    private VariableDeclarationStatementParser getVarParser() {
+        if (varParser == null) {
+            varParser = new VariableDeclarationStatementParser();
+        }
+        return varParser;
+    }
+
+    private BlockParser getBlockParser() {
+        if (blockParser == null) {
+            blockParser = new BlockParser();
+        }
+        return blockParser;
+    }
+
+    private ExpressionStatementParser getExprParser() {
+        if (exprParser == null) {
+            exprParser = new ExpressionStatementParser();
+        }
+        return exprParser;
     }
 
     @Override
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
 
-        return null;
+        if (current.getType() == TokenType.IF) {
+            return getIfParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.TRY) {
+            return getTryParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.THROW) {
+            return getThrowParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.RETURN) {
+            return getReturnParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.GOTO) {
+            return getGotoParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.FOR) {
+            return getForParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.LEFT_BRACE) {
+            return getBlockParser().parse(context);
+        }
+        
+        if (current.getType() == TokenType.IDENTIFIER) {
+            Token next = context.peek(1);
+            if (next != null && next.getType() == TokenType.ASSIGN) {
+                return getVarParser().parse(context);
+            }
+        }
+        
+        return getExprParser().parse(context);
     }
 }

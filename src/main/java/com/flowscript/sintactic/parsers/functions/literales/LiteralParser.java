@@ -1,46 +1,44 @@
 package com.flowscript.sintactic.parsers.functions.literales;
-
-import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ParserContext;
-import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
-/**
- * Parser para literales (valores constantes).
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * Literal ::= IntegerLiteral
- *           | DecimalLiteral
- *           | BooleanLiteral
- *           | StringLiteral
- *           | NullLiteral
- *           | ObjectLiteral
- *           | ListLiteral
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 12: Literales - Dispatcher
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Este parser debe determinar qué tipo de literal es y delegar al parser específico.
- *
- * @see LiteralNode
- * @see IntegerLiteralParser
- * @see DecimalLiteralParser
- * @see BooleanLiteralParser
- * @see StringLiteralParser
- * @see NullLiteralParser
- * @see ObjectLiteralParser
- * @see ListLiteralParser
- */
-public class LiteralParser implements IParser<LiteralNode> {
+public class LiteralParser extends Parser {
+    public ExpressionNode parse(ParserContext ctx) throws ParseException {
+        Token tk = ctx.getCurrentToken();
+        
+        if (tk == null) {
+            throw new ParseException("Unexpected end of input");
 
-    @Override
-    public LiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LiteralParser no implementado - Tarea del estudiante");
+        }
+        TokenType tt = tk.getType();
+        
+        if (tt == TokenType.INTEGER_LITERAL) {
+            IntegerLiteralParser ip = new IntegerLiteralParser();
+            return ip.parse(ctx);
+        } else if (tt == TokenType.DECIMAL_LITERAL) {
+            DecimalLiteralParser dp = new DecimalLiteralParser();
+            return dp.parse(ctx);
+        } else if (tt == TokenType.STRING_LITERAL) {
+            StringLiteralParser sp = new StringLiteralParser();
+            return sp.parse(ctx);
+        } else if (tt == TokenType.TRUE || tt == TokenType.FALSE) {
+            BooleanLiteralParser bp = new BooleanLiteralParser();
+            return bp.parse(ctx);
+        } else if (tt == TokenType.NULL) {
+            NullLiteralParser np = new NullLiteralParser();
+            return np.parse(ctx);
+        } else if (tt == TokenType.LEFT_BRACKET) {
+            ListLiteralParser lp = new ListLiteralParser();
+            return lp.parse(ctx);
+        } else if (tt == TokenType.LEFT_BRACE) {
+            ObjectLiteralParser op = new ObjectLiteralParser();
+            return op.parse(ctx);
+        } else {
+            throw new ParseException("Expected literal but got " + tt);
+        }
+
     }
-}
+}  
