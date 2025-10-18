@@ -69,7 +69,7 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
         context.consume();
         String targetName = targetToken.getValue();
 
-        
+
         return new GotoStatementNode(gotoToken, targetName);
     }
 }
