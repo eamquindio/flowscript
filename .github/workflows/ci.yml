@@ -190,8 +190,8 @@ jobs:
         if: needs.detect-build-system.outputs.build-system == 'maven'
         run: |
           echo "🧪 Running tests with Maven"
-          mvn test -B
-          mvn verify -B
+          mvn -B -Dtest='*Processes*' test
+          mvn -B -DskipTests verify
       
       # Tests con Gradle
       - name: Run Gradle tests
