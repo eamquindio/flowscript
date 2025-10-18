@@ -37,10 +37,17 @@ public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
         }
 
         if (isUnaryOperator(current)) {
-            Token operatorToken = context.consume(); 
+            Token operatorToken = context.consume();
 
             UnaryExpressionParser recursiveParser = new UnaryExpressionParser();
             UnaryExpressionNode operand = recursiveParser.parse(context);
+
+            if (operand == null) {
+                Token next = context.getCurrentToken();
+                throw new Parser.ParseException("Se esperaba un operando despues de '" +
+                        operatorToken.getValue() + "' en la línea " +
+                        (next != null ? next.getLine() : -1));
+            }
 
             return new UnaryExpressionNode(operatorToken, operand);
         }
@@ -48,6 +55,11 @@ public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
         PrimaryExpressionParser primaryParser = new PrimaryExpressionParser();
         ExpressionNode operand = primaryParser.parse(context);
 
+        if (operand == null) {
+            Token next = context.getCurrentToken();
+            throw new Parser.ParseException("Se esperaba una expresión válida después de token en línea " +
+                    (next != null ? next.getLine() : -1));
+        }
 
         return new UnaryExpressionNode(operand.getToken(), operand);
     }

@@ -46,7 +46,6 @@ public class PostfixOperatorParser implements IParser<PostfixOperatorNode> {
             throw new Parser.ParseException("fin de entrada inesperado en operador postfijo");
         }
 
-        // --- Caso 1: acceso a propiedad (expr.identificador)
         if (context.check(TokenType.DOT)) {
             Token dotToken = context.consume(TokenType.DOT);
             Token identifier = context.getCurrentToken();

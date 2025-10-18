@@ -67,7 +67,8 @@ public class VariableDeclarationStatementParser implements IParser<VariableDecla
         Token identifierToken = context.consume(TokenType.IDENTIFIER);
         String variableName = identifierToken.getValue();
 
-        context.consumeValue("=");
+        context.consume(TokenType.ASSIGN);
+
 
         ExpressionNode initializer = expressionParser.parse(context);
 

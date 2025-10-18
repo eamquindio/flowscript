@@ -70,14 +70,9 @@ import java.util.List;
  */
 public class BlockParser implements IParser<BlockNode> {
 
-    private final StatementListParser statementListParser;
-
-    public BlockParser() {
-        this.statementListParser = new StatementListParser();
-    }
-
     @Override
     public BlockNode parse(ParserContext context) throws Parser.ParseException {
+        StatementListParser statementListParser = new StatementListParser();
         Token open = context.getCurrentToken();
         if (open == null || open.getType() != TokenType.LEFT_BRACE) {
             throw new Parser.ParseException("se esperaba '{' al inicio de un bloque");

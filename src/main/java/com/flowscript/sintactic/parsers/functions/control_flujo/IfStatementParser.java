@@ -72,16 +72,10 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
  */
 public class IfStatementParser implements IParser<IfStatementNode> {
 
-    private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
-
-    public IfStatementParser() {
-        this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
-    }
-
     @Override
     public IfStatementNode parse(ParserContext context) throws Parser.ParseException {
+        ExpressionParser expressionParser = new ExpressionParser();
+        StatementParser statementParser = new StatementParser();
         Token ifToken = context.consume(TokenType.IF);
 
         ExpressionNode condition = expressionParser.parse(context);

@@ -31,12 +31,10 @@ public class StringLiteralParser implements IParser<StringLiteralNode> {
     public StringLiteralNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
 
-        // 1️⃣ Validar que haya un token actual
         if (current == null) {
             throw new Parser.ParseException("Unexpected end of input while parsing string literal");
         }
 
-        // 2️⃣ Verificar que sea de tipo STRING_LITERAL
         if (current.getType() != TokenType.STRING_LITERAL) {
             throw new Parser.ParseException(
                 "Expected string literal but found '" + current.getValue() +
@@ -44,10 +42,8 @@ public class StringLiteralParser implements IParser<StringLiteralNode> {
             );
         }
 
-        // 3️⃣ Consumir el token
         context.consume();
 
-        // 4️⃣ Crear el nodo AST para la cadena
         return new StringLiteralNode(current);
     }
 }

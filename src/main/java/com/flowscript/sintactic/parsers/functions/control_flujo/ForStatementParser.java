@@ -88,16 +88,11 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
  */
 public class ForStatementParser implements IParser<ForStatementNode> {
 
-    private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
-
-    public ForStatementParser() {
-        this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
-    }
 
     @Override
     public ForStatementNode parse(ParserContext context) throws Parser.ParseException {
+        ExpressionParser expressionParser = new ExpressionParser();
+        StatementParser statementParser = new StatementParser();
         Token forToken = context.consume(TokenType.FOR);
 
         context.consumeValue("each");
