@@ -1,23 +1,14 @@
 package com.flowscript.sintactic.parsers.functions.literales;
-
 import com.flowscript.lexer.Lexer;
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.DecimalLiteralNode;
 import org.junit.jupiter.api.Test;
-
+import java.math.BigDecimal;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests para DecimalLiteralParser.
- *
- * Gramática BNF:
- * DecimalLiteral ::= INTEGER_TOKEN '.' INTEGER_TOKEN ( ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN )?
- *                  | INTEGER_TOKEN ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN
- */
 public class DecimalLiteralParserTest {
 
     private DecimalLiteralParser parser = new DecimalLiteralParser();
@@ -32,7 +23,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("3.14", result.getValue());
+        assertEquals(new BigDecimal("3.14"), result.getValue());
+        assertEquals("3.14", result.getRawValue());
     }
 
     @Test
@@ -45,7 +37,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("0.0", result.getValue());
+        assertEquals(new BigDecimal("0.0"), result.getValue());
+        assertEquals("0.0", result.getRawValue());
     }
 
     @Test
@@ -58,7 +51,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1.23e-5", result.getValue());
+        assertEquals(new BigDecimal("1.23e-5"), result.getValue());
+        assertEquals("1.23e-5", result.getRawValue());
     }
 
     @Test
@@ -71,7 +65,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("2.0e10", result.getValue());
+        assertEquals(new BigDecimal("2.0e10"), result.getValue());
+        assertEquals("2.0e10", result.getRawValue());
     }
 
     @Test
@@ -84,7 +79,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("5e3", result.getValue());
+        assertEquals(new BigDecimal("5e3"), result.getValue());
+        assertEquals("5e3", result.getRawValue());
     }
 
     @Test
@@ -97,7 +93,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("123456.789012", result.getValue());
+        assertEquals(new BigDecimal("123456.789012"), result.getValue());
+        assertEquals("123456.789012", result.getRawValue());
     }
 
     @Test
