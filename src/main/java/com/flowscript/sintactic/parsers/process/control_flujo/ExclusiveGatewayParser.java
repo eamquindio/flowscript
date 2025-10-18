@@ -28,7 +28,6 @@ import java.util.List;
  *
  * <h3>Ejemplos:</h3>
  * <pre>
- * // Gateway exclusivo básico
  * gateway DecisionMonto {
  *     when entrada.monto > 10000 -> RequiereAprobacionGerente
  *     when entrada.monto > 1000 -> RequiereAprobacionSupervisor
@@ -50,6 +49,7 @@ public class ExclusiveGatewayParser implements IParser<ExclusiveGatewayNode> {
 
     @Override
     public ExclusiveGatewayNode parse(ParserContext context) throws Parser.ParseException {
+
         Token gatewayToken = context.getCurrentToken();
         if (!gatewayToken.getValue().equals("gateway")) {
             throw new Parser.ParseException(
@@ -72,13 +72,10 @@ public class ExclusiveGatewayParser implements IParser<ExclusiveGatewayNode> {
             WhenClauseNode whenClause = whenParser.parse(context);
             whenClauses.add(whenClause);
         }
-
-
         ElseClauseNode elseClause = null;
         if (context.checkValue("else") || context.checkValue("sino")) {
             elseClause = elseParser.parse(context);
         }
-
 
         context.consume(TokenType.RIGHT_BRACE);
 

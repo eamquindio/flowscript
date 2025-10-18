@@ -46,7 +46,6 @@ public class StartElementParser implements IParser<StartElementNode> {
         Token current = context.getCurrentToken();
         TokenType type = current.getType();
 
-
         boolean isStart = type == TokenType.START;
         boolean isInicio = type == TokenType.IDENTIFIER && "inicio".equalsIgnoreCase(current.getValue());
 
@@ -74,7 +73,9 @@ public class StartElementParser implements IParser<StartElementNode> {
         return new StartElementNode(current, targetToken.getValue());
     }
 
-
+    /**
+     * Crea una excepción de parseo
+     */
     private Parser.ParseException error(String message, Token token) {
         return new Parser.ParseException(
                 message + " en la línea " + token.getLine() + ", columna " + token.getColumn()

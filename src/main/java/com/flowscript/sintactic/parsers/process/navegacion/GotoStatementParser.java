@@ -8,11 +8,11 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.navegacion.GotoStatementNode;
 
 /**
- * Parser para statements goto (navegación entre nodos de proceso).
+ * Parser para declaraciones de navegación entre nodos de proceso (go_to).
  *
  * <h3>Gramática BNF:</h3>
  * <pre>
- * GotoStatement ::= 'go_to' IDENTIFIER
+ * GotoStatement ::= ('go_to' | 'ir_a') IDENTIFIER
  * </pre>
  *
  * <h3>Categoría:</h3>
@@ -21,15 +21,8 @@ import com.flowscript.sintactic.ast.process.navegacion.GotoStatementNode;
  *
  * <h3>Ejemplos:</h3>
  * <pre>
- * // Goto simple
  * go_to SiguienteTarea
- *
- * // En contexto
- * task ProcesarDatos {
- *     action:
- *         datos = procesar(entrada)
- *         go_to FinExitoso
- * }
+ * ir_a FinExitoso
  * </pre>
  *
  * @see GotoStatementNode
@@ -44,7 +37,6 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
             throw new Parser.ParseException("Unexpected end of file while expecting 'go_to' or 'ir_a'.");
         }
 
-
         String keyword = gotoToken.getValue();
         if (!keyword.equalsIgnoreCase("go_to") && !keyword.equalsIgnoreCase("ir_a")) {
             throw new Parser.ParseException(
@@ -53,9 +45,7 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
             );
         }
 
-
         context.consume();
-
 
         Token targetToken = context.getCurrentToken();
         if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
@@ -65,10 +55,8 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
             );
         }
 
-
         context.consume();
         String targetName = targetToken.getValue();
-
 
         return new GotoStatementNode(gotoToken, targetName);
     }

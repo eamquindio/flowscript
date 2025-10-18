@@ -15,6 +15,7 @@ public enum TokenType {
     // Flow Control Keywords
     START("start"),
     END("end"),
+    FIN("fin"),
     TASK("task"),
     GATEWAY("gateway"),
     GOTO("goto"),

@@ -14,27 +14,6 @@ import com.flowscript.sintactic.ast.process.clausulas_control.ParallelBranchNode
  * <pre>
  * ParallelBranch ::= 'branch' '->' IDENTIFIER
  * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
- * Nivel 5: Cláusulas de Control de Flujo
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * branch -> VerificarCredito
- * branch -> VerificarAntecedentes
- * branch -> NotificarSupervisor
- * </pre>
- *
- * <h3>Tarea del Estudiante:</h3>
- * <ol>
- *   <li>Consumir 'branch' o 'rama'</li>
- *   <li>Consumir '->'</li>
- *   <li>Consumir IDENTIFIER (nodo destino)</li>
- *   <li>Crear y retornar ParallelBranchNode</li>
- * </ol>
- *
- * @see ParallelBranchNode
  */
 public class ParallelBranchParser implements IParser<ParallelBranchNode> {
 
