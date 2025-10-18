@@ -83,26 +83,26 @@ import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
  */
 public class StatementParser implements IParser<StatementNode> {
 
-    private final IfStatementParser ifParser;
-    private final TryStatementParser tryParser;
-    private final ThrowStatementParser throwParser;
-    private final ReturnStatementParser returnParser;
+    //private final IfStatementParser ifParser;
+    //private final TryStatementParser tryParser;
+    //private final ThrowStatementParser throwParser;
+    //private final ReturnStatementParser returnParser;
     private final GotoStatementParser gotoParser;
-    private final ForStatementParser forParser;
-    private final VariableDeclarationStatementParser varParser;
-    private final BlockParser blockParser;
-    private final ExpressionStatementParser exprParser;
+    //private final ForStatementParser forParser;
+    //private final VariableDeclarationStatementParser varParser;
+    //private final BlockParser blockParser;
+    //private final ExpressionStatementParser exprParser;
 
     public StatementParser() {
-        this.ifParser = new IfStatementParser();
-        this.tryParser = new TryStatementParser();
-        this.throwParser = new ThrowStatementParser();
-        this.returnParser = new ReturnStatementParser();
+        //this.ifParser = new IfStatementParser();
+        //this.tryParser = new TryStatementParser();
+        //this.throwParser = new ThrowStatementParser();
+        //this.returnParser = new ReturnStatementParser();
         this.gotoParser = new GotoStatementParser();
-        this.forParser = new ForStatementParser();
-        this.varParser = new VariableDeclarationStatementParser();
-        this.blockParser = new BlockParser();
-        this.exprParser = new ExpressionStatementParser();
+        //this.forParser = new ForStatementParser();
+        //this.varParser = new VariableDeclarationStatementParser();
+        //this.blockParser = new BlockParser();
+        //this.exprParser = new ExpressionStatementParser();
     }
 
     @Override
