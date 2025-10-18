@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,47 +39,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FlowScriptIDE.executor": "Run",
-    "Application.LexerDemo.executor": "Run",
-    "JUnit.ElseClauseParserTest.executor": "Run",
-    "JUnit.EndElementParserTest.executor": "Run",
-    "JUnit.ExclusiveGatewayParserTest.executor": "Run",
-    "JUnit.FlowScriptFunctionsTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
-    "JUnit.GotoStatementParserTest.executor": "Run",
-    "JUnit.JoinClauseParserTest.executor": "Run",
-    "JUnit.LexerTest.executor": "Run",
-    "JUnit.ParallelBranchParserTest.executor": "Run",
-    "JUnit.ParallelGatewayParserTest.executor": "Run",
-    "JUnit.ProcessBodyParserTest.executor": "Run",
-    "JUnit.ProcessDeclarationParserTest.executor": "Run",
-    "JUnit.StartElementParserTest.executor": "Run",
-    "JUnit.TaskElementParserTest.executor": "Run",
-    "JUnit.WhenClauseParserTest.executor": "Run",
-    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
-    "Maven. [test].executor": "Run",
-    "Maven.flowscript [clean].executor": "Run",
-    "Maven.flowscript [compile].executor": "Run",
-    "Maven.flowscript [install].executor": "Run",
-    "Maven.flowscript [test].executor": "Run",
-    "Maven.flowscript [validate].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/sintactico__process__240220202019",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Documentos/Ingenieria de Software/Semestre 8/Lenguajes Formales/flowscript",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LexerDemo.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ElseClauseParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EndElementParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ExclusiveGatewayParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GotoStatementParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JoinClauseParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LexerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ParallelBranchParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ParallelGatewayParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ProcessBodyParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ProcessDeclarationParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StartElementParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TaskElementParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.WhenClauseParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [validate].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/sintactico__process__240220202019&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Documentos/Ingenieria de Software/Semestre 8/Lenguajes Formales/flowscript&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
