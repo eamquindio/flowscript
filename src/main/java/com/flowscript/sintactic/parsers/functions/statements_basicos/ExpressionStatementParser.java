@@ -1,68 +1,21 @@
 package com.flowscript.sintactic.parsers.functions.statements_basicos;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.statements_basicos.ExpressionStatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
- * Parser para statements que consisten en una expresión.
+ * Parser para sentencias de expresión.
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * ExpressionStatement ::= Expression
- * </pre>
+ * Grammar (informal):
+ *   ExpressionStatement ::= Expression (';')?
  *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // Llamada a función
- * imprimir("Hola mundo")
- * log.info("Mensaje de log")
- * db.insert("usuarios", usuario)
- *
- * // Operaciones matemáticas (efecto secundario implícito)
- * x + y
- * contador * 2
- *
- * // Acceso a propiedades
- * usuario.nombre
- * lista[0]
- *
- * // Expresiones compuestas
- * usuario.enviar_email("Notificación")
- * http.post("api/endpoint", { dato: valor })
- *
- * // En contexto
- * function procesar() {
- *     imprimir("Inicio")           // ExpressionStatement
- *     resultado = calcular(10)     // VariableDeclaration (no ExpressionStatement)
- *     imprimir(resultado)          // ExpressionStatement
- * }
- *
- * task EnviarNotificacion {
- *     action:
- *         email.send(entrada.destino, entrada.mensaje)  // ExpressionStatement
- *         log.info("Email enviado")                      // ExpressionStatement
- *         go_to Fin                                      // GotoStatement (no ExpressionStatement)
- * }
- * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * ExpressionStatementParser parser = new ExpressionStatementParser();
- * ExpressionStatementNode node = parser.parse(context);
- * </pre>
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo estos pasos:
- * <ol>
- *   <li>Parsear la expresión usando ExpressionParser</li>
- *   <li>Crear y retornar ExpressionStatementNode con la expresión parseada</li>
- * </ol>
- *
- * @see ExpressionStatementNode
+ * En FlowScript el ';' no es obligatorio; si está, se consume.
  */
 public class ExpressionStatementParser implements IParser<ExpressionStatementNode> {
 
@@ -74,8 +27,28 @@ public class ExpressionStatementParser implements IParser<ExpressionStatementNod
 
     @Override
     public ExpressionStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Simplemente parsear la expresión y envolver en ExpressionStatementNode
-        throw new UnsupportedOperationException("ExpressionStatementParser no implementado - Tarea del estudiante");
+        Token start = context.getCurrentToken();
+        if (start == null) {
+            throw new Parser.ParseException("Se esperaba una expresión, pero no hay más tokens.");
+        }
+
+        // 1) Parsear la expresión con el parser de expresiones existente
+        ExpressionNode expr = expressionParser.parse(context);
+
+        // 2) Consumir ';' opcional
+        consumeOptionalSemicolon(context);
+
+        // 3) Construir el nodo de sentencia de expresión
+        // Nota: si tu ExpressionStatementNode tiene un constructor diferente,
+        // ajusta esta línea (por ejemplo: new ExpressionStatementNode(start, expr))
+        return new ExpressionStatementNode(expr);
+    }
+
+    private static void consumeOptionalSemicolon(ParserContext ctx) {
+        Token t = ctx.getCurrentToken();
+        if (t == null) return;
+        if (t.getType() == TokenType.SEMICOLON || ";".equals(t.getValue())) {
+            ctx.advance();
+        }
     }
 }

@@ -1,5 +1,8 @@
 # Tests para la gramática de FlowScript Processes
 # Este archivo define casos de prueba para validar la gramática de procesos de FlowScript
+grammar: FlowScriptProcesses
+package: edu.eam.ingesoft.tlf
+start_rule: program
 
 ejemplos:
   # ===============================
