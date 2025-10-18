@@ -126,7 +126,48 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // Consume 'process' o 'proceso'
-       return null;
+        Token processToken = parseProcessKeyword(context);
+        String processName = parseProcessName(context);
+        parseOpenBrace(context);
+        List<ASTNode> processElements = bodyParser.parse(context);
+        parseCloseBrace(context);
+
+        return new ProcessDeclarationNode(processToken, processName, processElements);
+    }
+
+    private Token parseProcessKeyword(ParserContext context) throws Parser.ParseException {
+        Token token = context.getCurrentToken();
+
+        if (!context.check(TokenType.PROCESS)) {
+            throw new Parser.ParseException("Se esperaba 'process' o 'proceso'");
+        }
+        context.advance();
+
+        return token;
+    }
+
+    private String parseProcessName(ParserContext context) throws Parser.ParseException {
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de 'process'");
+        }
+
+        String name = context.getCurrentToken().getValue();
+        context.advance();
+
+        return name;
+    }
+
+    private void parseOpenBrace(ParserContext context) throws Parser.ParseException {
+        if (!context.check(TokenType.LEFT_BRACE)) {
+            throw new Parser.ParseException("Se esperaba '{' después del nombre del proceso");
+        }
+        context.advance();
+    }
+
+    private void parseCloseBrace(ParserContext context) throws Parser.ParseException {
+        if (!context.check(TokenType.RIGHT_BRACE)) {
+            throw new Parser.ParseException("Se esperaba '}' al final del proceso");
+        }
+        context.advance();
     }
 }

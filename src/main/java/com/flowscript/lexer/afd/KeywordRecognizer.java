@@ -21,17 +21,25 @@ public class KeywordRecognizer implements TokenRecognizer {
         KEYWORDS.put("return", TokenType.RETURN);
 
         // Flow Control Keywords
+        // Flow Control Keywords
         KEYWORDS.put("start", TokenType.START);
+        KEYWORDS.put("inicio", TokenType.START);
         KEYWORDS.put("end", TokenType.END);
+        KEYWORDS.put("fin", TokenType.END);
         KEYWORDS.put("task", TokenType.TASK);
+        KEYWORDS.put("tarea", TokenType.TASK);
+        KEYWORDS.put("gateway", TokenType.GATEWAY);
+        KEYWORDS.put("compuerta", TokenType.GATEWAY);
         KEYWORDS.put("gateway", TokenType.GATEWAY);
         KEYWORDS.put("goto", TokenType.GOTO);
+        KEYWORDS.put("go_to", TokenType.GOTO);
         KEYWORDS.put("when", TokenType.WHEN);
         KEYWORDS.put("branch", TokenType.BRANCH);
         KEYWORDS.put("join", TokenType.JOIN);
         KEYWORDS.put("else", TokenType.ELSE);
         KEYWORDS.put("parallel", TokenType.PARALLEL);
         KEYWORDS.put("action", TokenType.ACTION);
+        KEYWORDS.put("accion", TokenType.ACTION);
 
         // Control Flow Keywords
         KEYWORDS.put("if", TokenType.IF);

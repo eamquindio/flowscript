@@ -28,6 +28,7 @@ public class TernaryExpressionParser implements IParser<TernaryExpressionNode> {
     @Override
     public TernaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("TernaryExpressionParser no implementado - Tarea del estudiante");
+        throw new UnsupportedOperationException("TernaryExpressionParser HACE PARTE DE FUCTIONS NO CORRESPONDE" +
+                "SI SIGO SE ALARGARA A MUCHO MAS ARCHIVOS");
     }
 }

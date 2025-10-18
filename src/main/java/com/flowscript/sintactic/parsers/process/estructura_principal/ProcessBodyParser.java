@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.ASTNode;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.parsers.process.elementos_core.*;
 import com.flowscript.sintactic.parsers.process.elementos_trabajo.*;
 import com.flowscript.sintactic.parsers.process.control_flujo.*;
@@ -50,10 +51,48 @@ public class ProcessBodyParser {
     }
 
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<ASTNode> processElements = new ArrayList<>();
+
+        while (!context.check(TokenType.RIGHT_BRACE) && context.hasMoreTokens()) {
+            ASTNode element = parseProcessElement(context);
+            processElements.add(element);
+        }
+
+        return processElements;
     }
 
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
+        TokenType currentType = context.getCurrentToken().getType();
+
+        if (currentType == TokenType.START) {
+            return startParser.parse(context);
+        } else if (currentType == TokenType.TASK) {
+            return taskParser.parse(context);
+        } else if (currentType == TokenType.END) {
+            return endParser.parse(context);
+        } else if (currentType == TokenType.GATEWAY) {
+            return parseGateway(context);
+        } else {
+            throw new Parser.ParseException("Token inesperado en el cuerpo del proceso. Se esperaba 'start', 'task', 'gateway' o 'end'");
+        }
+    }
+
+    private ASTNode parseGateway(ParserContext context) throws Parser.ParseException {
+        int savedPosition = context.getCurrentIndex();
+        context.advance();
+
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de 'gateway'");
+        }
+
+        context.advance();
+
+        if (context.check(TokenType.PARALLEL)) {
+            context.setCurrentIndex(savedPosition);
+            return parallelGatewayParser.parse(context);
+        } else {
+            context.setCurrentIndex(savedPosition);
+            return exclusiveGatewayParser.parse(context);
+        }
     }
 }
