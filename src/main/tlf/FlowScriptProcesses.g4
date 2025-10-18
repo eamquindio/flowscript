@@ -1,40 +1,387 @@
 grammar FlowScriptProcesses;
 
-// Package declaration for generated code
 @header {
     package edu.eam.ingesoft.tlf;
 }
 
-/*
- * GRAMÁTICA DE PROCESOS PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de procesos
- * y estructura del programa principal de FlowScript, incluyendo:
- * - Estructura del programa (imports, declaraciones)
- * - Declaración de procesos
- * - Nodos del proceso (start, task, end, gateway)
- * - Gateways exclusivos y paralelos
- * - Control de flujo con goto
- * - Variables globales y contexto del proceso
- */
+// LEXER RULES
+IMPORT: 'import';
+IMPORT_JAR: 'import_jar';
+AS: 'as';
+PROCESS: 'process';
+FUNCTION: 'function';
+START: 'start';
+TASK: 'task';
+END: 'end';
+GATEWAY: 'gateway';
+ACTION: 'action';
+GO_TO: 'go_to';
+WHEN: 'when';
+ELSE: 'else';
+BRANCH: 'branch';
+JOIN: 'join';
+PARALLEL: 'parallel';
+IF: 'if';
+ELSE_IF: 'else_if';
+WHILE: 'while';
+FOR: 'for';
+EACH: 'each';
+IN: 'in';
+FROM: 'from';
+TO: 'to';
+STEP: 'step';
+TRY: 'try';
+CATCH: 'catch';
+THROW: 'throw';
+RETURN: 'return';
+BREAK: 'break';
+CONTINUE: 'continue';
+TRUE: 'true';
+FALSE: 'false';
+NULL: 'null';
+AND: 'and';
+OR: 'or';
+NOT: 'not';
+INTEGER_TYPE: 'integer';
+DECIMAL_TYPE: 'decimal';
+BOOLEAN_TYPE: 'boolean';
+TEXT_TYPE: 'text';
+LIST_TYPE: 'list';
+OBJECT_TYPE: 'object';
+VOID_TYPE: 'void';
+INPUT: 'input';
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
+ARROW: '->';
+EQUALS: '=';
+PLUS: '+';
+MINUS: '-';
+MULTIPLY: '*';
+DIVIDE: '/';
+MODULO: '%';
+EQUAL: '==';
+NOT_EQUAL: '!=';
+LESS_THAN: '<';
+GREATER_THAN: '>';
+LESS_EQUAL: '<=';
+GREATER_EQUAL: '>=';
+LEFT_PAREN: '(';
+RIGHT_PAREN: ')';
+LEFT_BRACE: '{';
+RIGHT_BRACE: '}';
+LEFT_BRACKET: '[';
+RIGHT_BRACKET: ']';
+SEMICOLON: ';';
+COLON: ':';
+COMMA: ',';
+DOT: '.';
 
-// Palabras clave de estructura
+INTEGER_LITERAL: [0-9]+;
+DECIMAL_LITERAL: [0-9]+ '.' [0-9]+;
+STRING_LITERAL: '"' (~["\r\n] | '\\' .)* '"';
+IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 
+SINGLE_LINE_COMMENT: '#' ~[\r\n]* -> skip;
+MULTI_LINE_COMMENT: '/*' .*? '*/' -> skip;
+WHITESPACE: [ \t\r\n]+ -> skip;
 
-// ============================
 // PARSER RULES
-// ============================
-
-// ============================
-// ESTRUCTURA DEL PROGRAMA
-// ============================
-
 program
-    : EOF
+    : (importStatement | topLevelDeclaration)* EOF
+    ;
+
+importStatement
+    : importFlowScript
+    | importJar
+    ;
+
+importFlowScript
+    : IMPORT STRING_LITERAL (AS IDENTIFIER)?
+    ;
+
+importJar
+    : IMPORT_JAR STRING_LITERAL AS IDENTIFIER
+    ;
+
+topLevelDeclaration
+    : globalVariable
+    | functionDeclaration
+    | processDeclaration
+    ;
+
+globalVariable
+    : IDENTIFIER EQUALS expression
+    ;
+
+functionDeclaration
+    : FUNCTION IDENTIFIER LEFT_PAREN parameterList? RIGHT_PAREN (ARROW returnType)? functionBody
+    ;
+
+processDeclaration
+    : PROCESS processName processBody
+    ;
+
+processName
+    : IDENTIFIER
+    ;
+
+processBody
+    : LEFT_BRACE startNode (taskNode | gatewayNode)* endNode+ RIGHT_BRACE
+    ;
+
+processElement
+    : taskNode
+    | gatewayNode
+    ;
+
+startNode
+    : START ARROW nodeName
+    ;
+
+taskNode
+    : TASK IDENTIFIER taskContent
+    ;
+
+taskContent
+    : LEFT_BRACE ACTION COLON taskStatements RIGHT_BRACE
+    ;
+
+taskStatements
+    : statement*
+    ;
+
+endNode
+    : END IDENTIFIER
+    ;
+
+gatewayNode
+    : GATEWAY IDENTIFIER exclusiveBranches
+    | GATEWAY IDENTIFIER PARALLEL parallelBranches
+    ;
+
+exclusiveBranches
+    : LEFT_BRACE whenBranch+ elseBranch? RIGHT_BRACE
+    ;
+
+parallelBranches
+    : LEFT_BRACE branchStatement+ joinStatement RIGHT_BRACE
+    ;
+
+whenBranch
+    : WHEN condition ARROW nodeName
+    ;
+
+elseBranch
+    : ELSE ARROW nodeName
+    ;
+
+branchStatement
+    : BRANCH ARROW nodeName
+    ;
+
+joinStatement
+    : JOIN ARROW nodeName
+    ;
+
+gatewayStatement
+    : GATEWAY IDENTIFIER exclusiveBranches
+    ;
+
+gotoStatement
+    : GO_TO nodeName
+    ;
+
+nodeName
+    : IDENTIFIER
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : IDENTIFIER COLON dataType
+    ;
+
+returnType
+    : dataType
+    ;
+
+dataType
+    : INTEGER_TYPE
+    | DECIMAL_TYPE
+    | BOOLEAN_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID_TYPE
+    ;
+
+functionBody
+    : block
+    ;
+
+block
+    : LEFT_BRACE statement* RIGHT_BRACE
+    ;
+
+statement
+    : assignmentStatement
+    | expressionStatement
+    | ifStatement
+    | whileStatement
+    | forStatement
+    | tryStatement
+    | returnStatement
+    | throwStatement
+    | breakStatement
+    | continueStatement
+    | gotoStatement
+    | gatewayStatement
+    ;
+
+assignmentStatement
+    : leftHandSide EQUALS expression
+    ;
+
+expressionStatement
+    : expression
+    ;
+
+ifStatement
+    : IF condition block (ELSE_IF condition block)* (ELSE block)?
+    ;
+
+whileStatement
+    : WHILE condition block
+    ;
+
+forStatement
+    : forEachStatement
+    | forRangeStatement
+    ;
+
+forEachStatement
+    : FOR EACH IDENTIFIER IN expression block
+    ;
+
+forRangeStatement
+    : FOR IDENTIFIER FROM expression TO expression (STEP expression)? block
+    ;
+
+tryStatement
+    : TRY block catchClause
+    ;
+
+catchClause
+    : CATCH LEFT_PAREN IDENTIFIER RIGHT_PAREN block
+    ;
+
+returnStatement
+    : RETURN expression?
+    ;
+
+throwStatement
+    : THROW expression
+    ;
+
+breakStatement
+    : BREAK
+    ;
+
+continueStatement
+    : CONTINUE
+    ;
+
+condition
+    : expression
+    ;
+
+expression
+    : assignmentExpression
+    ;
+
+assignmentExpression
+    : logicalOrExpression
+    ;
+
+logicalOrExpression
+    : logicalAndExpression (OR logicalAndExpression)*
+    ;
+
+logicalAndExpression
+    : equalityExpression (AND equalityExpression)*
+    ;
+
+equalityExpression
+    : relationalExpression ((EQUAL | NOT_EQUAL) relationalExpression)*
+    ;
+
+relationalExpression
+    : additiveExpression ((LESS_THAN | GREATER_THAN | LESS_EQUAL | GREATER_EQUAL) additiveExpression)*
+    ;
+
+additiveExpression
+    : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+    ;
+
+multiplicativeExpression
+    : unaryExpression ((MULTIPLY | DIVIDE | MODULO) unaryExpression)*
+    ;
+
+unaryExpression
+    : (NOT | MINUS) unaryExpression
+    | postfixExpression
+    ;
+
+postfixExpression
+    : primaryExpression (DOT IDENTIFIER | LEFT_BRACKET expression RIGHT_BRACKET | LEFT_PAREN argumentList? RIGHT_PAREN)*
+    ;
+
+primaryExpression
+    : literal
+    | IDENTIFIER
+    | inputReference
+    | LEFT_PAREN expression RIGHT_PAREN
+    | listLiteral
+    | objectLiteral
+    ;
+
+inputReference
+    : INPUT
+    ;
+
+leftHandSide
+    : IDENTIFIER (DOT IDENTIFIER | LEFT_BRACKET expression RIGHT_BRACKET)*
+    ;
+
+argumentList
+    : expression (COMMA expression)*
+    ;
+
+literal
+    : INTEGER_LITERAL
+    | DECIMAL_LITERAL
+    | STRING_LITERAL
+    | TRUE
+    | FALSE
+    | NULL
+    ;
+
+listLiteral
+    : LEFT_BRACKET (expression (COMMA expression)*)? RIGHT_BRACKET
+    ;
+
+objectLiteral
+    : LEFT_BRACE (objectProperty (COMMA objectProperty)*)? RIGHT_BRACE
+    ;
+
+objectProperty
+    : propertyKey COLON expression
+    ;
+
+propertyKey
+    : IDENTIFIER
+    | STRING_LITERAL
     ;
 
 
