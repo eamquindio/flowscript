@@ -1,9 +1,14 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,15 +33,29 @@ import java.util.List;
  */
 public class ObjectMemberListParser {
 
-    /**
-     * Parsea una lista de miembros de objeto.
-     *
-     * @param context El contexto del parser
-     * @return Lista de nodos ObjectMemberListNode
-     * @throws Parser.ParseException Si hay un error de sintaxis
-     */
-    public List<ObjectMemberListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberListParser no implementado - Tarea del estudiante");
+    private final ObjectMemberParser objectMemberParser;
+
+    public ObjectMemberListParser() {
+        this.objectMemberParser = new ObjectMemberParser();
+    }
+    
+    public ObjectMemberListNode parse(ParserContext context) throws Parser.ParseException {
+        List<ObjectMemberNode> members = new ArrayList<>();
+
+        ObjectMemberNode firstMember = objectMemberParser.parse(context);
+        members.add(firstMember);
+
+        while (context.hasMoreTokens()) {
+            Token current = context.getCurrentToken();
+            if (current == null || current.getType() != TokenType.COMMA) break;
+            context.consume();
+            if (!context.hasMoreTokens() || context.getCurrentToken().getType() == TokenType.RIGHT_BRACE) {
+                throw new Parser.ParseException("Unexpected ',' before '}' in object literal");
+            }
+            ObjectMemberNode nextMember = objectMemberParser.parse(context);
+            members.add(nextMember);
+        }
+
+        return new ObjectMemberListNode(members);
     }
 }

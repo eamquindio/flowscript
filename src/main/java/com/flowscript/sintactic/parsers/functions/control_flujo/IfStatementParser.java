@@ -1,12 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.control_flujo;
 
 import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.IfStatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
-import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
 
@@ -71,16 +72,31 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
  */
 public class IfStatementParser implements IParser<IfStatementNode> {
 
-    private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
-
-    public IfStatementParser() {
-        this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
-    }
-
     @Override
     public IfStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        ExpressionParser expressionParser = new ExpressionParser();
+        StatementParser statementParser = new StatementParser();
+        final String ELSE_IF = "else_if";
+        final String ELSE = "else";
+
+        Token ifToken = context.consume(TokenType.IF);
+        ExpressionNode condition = expressionParser.parse(context);
+        StatementNode thenStatement = statementParser.parse(context);
+        IfStatementNode ifNode = new IfStatementNode(ifToken, condition, thenStatement);
+
+        while (context.checkValue(ELSE_IF)) {
+            context.consumeValue(ELSE_IF);
+            ExpressionNode elseIfCondition = expressionParser.parse(context);
+            StatementNode elseIfStatement = statementParser.parse(context);
+            ifNode.addElseIfClause(elseIfCondition, elseIfStatement);
+        }
+
+        if (context.checkValue(ELSE)) {
+            context.consumeValue(ELSE);
+            StatementNode elseStatement = statementParser.parse(context);
+            ifNode.setElseStatement(elseStatement);
+        }
+
+        return ifNode;
     }
 }

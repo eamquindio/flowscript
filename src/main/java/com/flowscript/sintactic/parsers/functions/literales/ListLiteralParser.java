@@ -1,9 +1,15 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import java.util.List;
+
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
 import com.flowscript.sintactic.ast.functions.literales.ListLiteralNode;
+import com.flowscript.sintactic.parsers.functions.listas_argumentos.ExpressionListParser;
 
 /**
  * Parser para literales de lista.
@@ -29,7 +35,23 @@ public class ListLiteralParser implements IParser<ListLiteralNode> {
 
     @Override
     public ListLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ListLiteralParser no implementado - Tarea del estudiante");
+        // 🔹 1. Consumimos el '[' inicial
+        Token leftBracket = context.consume(TokenType.LEFT_BRACKET);
+
+        // 🔹 2. Si el siguiente token es ']', es una lista vacía
+        if (context.check(TokenType.RIGHT_BRACKET)) {
+            context.consume(TokenType.RIGHT_BRACKET);
+            return new ListLiteralNode(leftBracket); // lista vacía
+        }
+
+        // 🔹 3. Si no está vacía, parseamos la lista de expresiones
+        ExpressionListParser exprListParser = new ExpressionListParser();
+        List<ExpressionListNode> exprLists = exprListParser.parse(context);
+
+        // 🔹 4. Consumimos el ']' de cierre obligatorio
+        context.consume(TokenType.RIGHT_BRACKET);
+
+        // 🔹 5. Creamos y devolvemos el nodo del literal de lista
+        return new ListLiteralNode(leftBracket, exprLists.get(0));
     }
 }

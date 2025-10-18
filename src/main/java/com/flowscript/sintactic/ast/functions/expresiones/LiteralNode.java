@@ -1,6 +1,5 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 
@@ -19,13 +18,16 @@ public class LiteralNode extends ExpressionNode {
     }
 
     private Object parseLiteralValue(Token token) {
-        switch (token.getType()) {
+        TokenType type = token.getType();
+        switch (type) {
+            case LEFT_BRACKET:
+                return "[]";
+            case LEFT_BRACE:
+                return "{}";
             case INTEGER_LITERAL:
-                return Long.parseLong(token.getValue().replace("_", ""));
             case DECIMAL_LITERAL:
-                return Double.parseDouble(token.getValue());
             case STRING_LITERAL:
-                return token.getValue(); // Already processed by lexer
+                return token.getValue();
             case TRUE:
                 return true;
             case FALSE:
@@ -58,7 +60,7 @@ public class LiteralNode extends ExpressionNode {
             case DECIMAL_LITERAL:
                 return "decimal";
             case STRING_LITERAL:
-                return "text";
+                return "texto"; 
             case TRUE:
             case FALSE:
                 return "boolean";
@@ -71,6 +73,6 @@ public class LiteralNode extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "Literal(" + literalType + "=" + value + ")";
+        return value.toString();
     }
 }

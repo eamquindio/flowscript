@@ -89,7 +89,6 @@ public class ProgramParser implements IParser<ProgramNode> {
     public ProgramNode parse(ParserContext context) throws Parser.ParseException {
         ProgramNode program = new ProgramNode();
 
-        // Parsear declaraciones hasta llegar al final del archivo (EOF)
         while (context.getCurrentToken() != null &&
                context.getCurrentToken().getType() != TokenType.EOF) {
 

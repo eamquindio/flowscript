@@ -4,6 +4,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
+import com.flowscript.lexer.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,25 @@ import java.util.List;
  */
 public class StatementListParser {
 
-    private final StatementParser statementParser;
-
-    public StatementListParser() {
-        this.statementParser = new StatementParser();
-    }
-
     public List<StatementNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        StatementParser statementParser = new StatementParser();
+        List<StatementNode> statementsList = new ArrayList<>();
+
+            while (context.hasMoreTokens()) {
+                if (context.check(TokenType.RIGHT_BRACE)) {
+                    break;
+                }else{
+                    StatementNode statementNode = statementParser.parse(context);
+                    if (statementNode == null) {
+                        Token token = context.getCurrentToken();
+                        if (token == null || token.getType() == TokenType.RIGHT_BRACE) {
+                            break;
+                        };
+                    } else {
+                        statementsList.add(statementNode);
+                    }
+                }
+            }
+        return statementsList;
     }
 }

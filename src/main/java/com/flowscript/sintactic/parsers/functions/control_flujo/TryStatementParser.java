@@ -5,6 +5,7 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.TryStatementNode;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
 
@@ -86,17 +87,16 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
  * @see TryStatementNode
  */
 public class TryStatementParser implements IParser<TryStatementNode> {
-
-    private final BlockParser blockParser;
-
-    public TryStatementParser() {
-        this.blockParser = new BlockParser();
-    }
-
     @Override
     public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
+        BlockParser blockParser = new BlockParser();
+        Token tryToken = context.consume(TokenType.TRY);
+        BlockNode block = blockParser.parse(context);
+        context.consume(TokenType.CATCH);
+        context.consume(TokenType.LEFT_PAREN);
+        String catchVariable = context.consume(TokenType.IDENTIFIER).getValue();
+        context.consume(TokenType.RIGHT_PAREN);
+        BlockNode catchBlock = blockParser.parse(context);
+        return new TryStatementNode(tryToken, block, catchVariable, catchBlock);
     }
 }

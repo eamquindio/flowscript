@@ -8,7 +8,6 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.parsers.functions.control_flujo.*;
 import com.flowscript.sintactic.parsers.functions.statements_basicos.*;
-import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
 
 /**
  * Parser coordinador para statements en FlowScript.
@@ -83,32 +82,56 @@ import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
  */
 public class StatementParser implements IParser<StatementNode> {
 
-    private final IfStatementParser ifParser;
-    private final TryStatementParser tryParser;
-    private final ThrowStatementParser throwParser;
-    private final ReturnStatementParser returnParser;
-    private final GotoStatementParser gotoParser;
-    private final ForStatementParser forParser;
-    private final VariableDeclarationStatementParser varParser;
-    private final BlockParser blockParser;
-    private final ExpressionStatementParser exprParser;
-
-    public StatementParser() {
-        this.ifParser = new IfStatementParser();
-        this.tryParser = new TryStatementParser();
-        this.throwParser = new ThrowStatementParser();
-        this.returnParser = new ReturnStatementParser();
-        this.gotoParser = new GotoStatementParser();
-        this.forParser = new ForStatementParser();
-        this.varParser = new VariableDeclarationStatementParser();
-        this.blockParser = new BlockParser();
-        this.exprParser = new ExpressionStatementParser();
-    }
-
     @Override
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
-        Token current = context.getCurrentToken();
+        IfStatementParser ifParser = new IfStatementParser();
+        ForStatementParser forParser = new ForStatementParser();
+        TryStatementParser tryParser = new TryStatementParser();
+        ReturnStatementParser returnParser = new ReturnStatementParser();
+        ThrowStatementParser throwParser = new ThrowStatementParser();
+        VariableDeclarationStatementParser varParser = new VariableDeclarationStatementParser();
+        BlockParser blockParser = new BlockParser();
+        ExpressionStatementParser exprParser = new ExpressionStatementParser();
+        if (context.hasMoreTokens()){
+            Token token = context.getCurrentToken();
+    
+            if (token.getType() != TokenType.RIGHT_BRACE) {
+                TokenType type = token.getType();
+                if (type == TokenType.IF){
+                    return ifParser.parse(context);
+                }
+                else if (type == TokenType.FOR){
+                    return forParser.parse(context);
+                }
+                else if (type == TokenType.TRY){
+                    return tryParser.parse(context);
+                }
+                else if (type == TokenType.RETURN){
+                    return returnParser.parse(context);
+                }
+                else if (type == TokenType.THROW){
+                    return throwParser.parse(context);
+                }
+                else if (type == TokenType.LEFT_BRACE) {
+                    return blockParser.parse(context);
+                }
+                else if (
+                    token.getType().isOperator() ||
+                    token.getType().isLiteral() ||
+                    token.getType() == TokenType.LEFT_PAREN ||
+                    token.getType() == TokenType.IDENTIFIER
+                ){
+                    if (context.peek(1) != null && context.peek(1).getType() == TokenType.ASSIGN) {
+                        return varParser.parse(context);
+                    }
+    
+                    return exprParser.parse(context);
+                }
+                
+            }
+            
+        }
+        throw new Parser.ParseException("StatementParser exception");
 
-        return null;
     }
 }

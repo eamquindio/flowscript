@@ -1,5 +1,6 @@
 package com.flowscript.sintactic.parsers.functions.control_flujo;
 
+import com.flowscript.lexer.TokenType;
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
@@ -90,17 +91,15 @@ import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
  */
 public class ReturnStatementParser implements IParser<ReturnStatementNode> {
 
-    private final ExpressionParser expressionParser;
-
-    public ReturnStatementParser() {
-        this.expressionParser = new ExpressionParser();
-    }
-
     @Override
     public ReturnStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        // HINT: El return puede no tener expresión (return void)
-        throw new UnsupportedOperationException("ReturnStatementParser no implementado - Tarea del estudiante");
+        ExpressionParser expressionParser = new ExpressionParser();
+        Token returnToken = context.consume(TokenType.RETURN);
+
+        ExpressionNode expr = null;
+        if (context.hasMoreTokens() && !context.check(TokenType.RIGHT_BRACE)) {
+            expr = expressionParser.parse(context);
+        }
+        return new ReturnStatementNode(returnToken, expr);
     }
 }
