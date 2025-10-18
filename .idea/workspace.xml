@@ -4,36 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/tlf/resumen.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesBaseListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesBaseListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProgramContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProgramContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesBaseListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcessesParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-    </list>
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +171,7 @@
       <workItem from="1759801249193" duration="1378000" />
       <workItem from="1760586283824" duration="6556000" />
       <workItem from="1760592884755" duration="10265000" />
-      <workItem from="1760736284778" duration="3192000" />
+      <workItem from="1760736284778" duration="3942000" />
     </task>
     <servers />
   </component>
