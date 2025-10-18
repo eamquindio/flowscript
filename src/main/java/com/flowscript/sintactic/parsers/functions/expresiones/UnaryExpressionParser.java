@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -28,7 +30,25 @@ public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
 
     @Override
     public UnaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("UnaryExpressionParser no implementado - Tarea del estudiante");
+        Token token = context.getCurrentToken();
+
+
+        if (token != null && (
+                token.getType() == TokenType.NOT ||
+                        token.getType() == TokenType.NO ||
+                        token.getType() == TokenType.MINUS
+        )) {
+            context.consume();
+
+
+            UnaryExpressionNode operand = this.parse(context);
+
+            return new UnaryExpressionNode(token, operand);
+        }
+
+
+        PostfixExpressionParser postfixParser = new PostfixExpressionParser();
+        return new UnaryExpressionNode(null, postfixParser.parse(context));
     }
+
 }

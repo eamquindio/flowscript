@@ -22,14 +22,257 @@ grammar FlowScriptFunctions;
 // LEXER RULES (TOKENS)
 // ============================
 
-// Palabras clave para funciones
+// Funciones y retorno
+RETURN      : 'return';
+FUNCTION    : 'function';
+AS          : 'as';
+IMPORT      : 'import';
+
+// Control de flujo
+WHILE       : 'while';
+BREAK       : 'break';
+CONTINUE    : 'continue';
+IF          : 'if';
+ELSE        : 'else';
+ELIF        : 'else_if';
+TRY         : 'try';
+THROW       : 'throw';
+CATCH       : 'catch';
+EACH        : 'each';
+IN          : 'in';
+STEP        : 'step';
+FOR         : 'for';
+TO          : 'to';
+FROM        : 'from';
+
+// Tipos de datos
+DECIMAL_TYPE : 'decimal';
+TEXT_TYPE    : 'text';
+INT_TYPE    : 'integer';
+OBJECT_TYPE : 'object';
+LIST_TYPE   : 'list';
+VOID_TYPE   : 'void';
+BOOL_TYPE   : 'boolean';
+NULL        : 'null';
+
+// Booleanos
+TRUE        : 'true' | 'verdadero';
+FALSE       : 'false' | 'falso';
+
+// Operadores
+SUB         : '-';
+ADD         : '+';
+MULT        : '*';
+MOD         : '%';
+DIV         : '/';
+
+NOT         : 'not' | '!';
+AND         : 'and' | '&&';
+OR          : 'or' | '||';
+
+EQ          : '==';
+NEQ         : '!=';
+GTE         : '>=';
+GT          : '>';
+LTE         : '<=';
+LT          : '<';
+
+ASSIGN      : '=';
+
+// Símbolos
+ARROW       : '->';
+COLON       : ':';
+DOT         : '.';
+COMMA       : ',';
+SEMICOLON   : ';';
+UNDERSCORE  : '_';
+
+// Estructura
+LEFT_P      : '(';
+RIGHT_P     : ')';
+LEFT_B      : '{';
+RIGHT_B     : '}';
+LEFT_SB     : '[';
+RIGHT_SB    : ']';
+
+// Literales y nombres
+INTEGER     : [0-9]+ ('_' [0-9]+)*;
+DECIMAL     : [0-9]+ '.' [0-9]+ ([eE] [+-]? [0-9]+)?
+            | [0-9]+ [eE] [+-]? [0-9]+;
+STRING      : '"' (~["\\\r\n] | '\\' .)* '"';
+IDENTIFIER  : [a-zA-Z_][a-zA-Z0-9_]*;
+
+// Comentarios y espacios
+COMMENT     : '//' ~[\r\n]* -> skip;
+HASH_COMMENT: '#' ~[\r\n]* -> skip;
+BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+WS          : [ \t\r\n]+ -> skip;
 
 // ============================
-// DECLARACIÓN DE FUNCIONES
+// PARSER RULES
 // ============================
 
+// Entry point
+functionProgram
+    : functionDeclaration+ EOF
+    ;
+
+// Function definition
 functionDeclaration
-    : EOF
+    : FUNCTION IDENTIFIER LEFT_P params? RIGHT_P (ARROW type_)? block
+    ;
+
+// Function parameters
+params
+    : param (COMMA param)*
+    ;
+
+param
+    : IDENTIFIER COLON type_
+    ;
+
+// Data types
+type_
+    : INT_TYPE
+    | DECIMAL_TYPE
+    | BOOL_TYPE
+    | TEXT_TYPE
+    | LIST_TYPE
+    | OBJECT_TYPE
+    | VOID_TYPE
+    ;
+
+// Code block
+block
+    : LEFT_B statement* RIGHT_B
+    ;
+
+// Statements
+statement
+    : returnStatement
+    | ifStatement
+    | forStatement
+    | whileStatement
+    | tryStatement
+    | throwStatement
+    | exprStatement
+    | varAssign
+    | assignmentStatement
+    | BREAK SEMICOLON?
+    | CONTINUE SEMICOLON?
+    ;
+
+// Return
+returnStatement
+    : RETURN expr? SEMICOLON?
+    ;
+
+// If / Else
+ifStatement
+    : IF expr block elifClause* elseClause?
+    ;
+
+elifClause
+    : ELIF expr block
+    ;
+
+elseClause
+    : ELSE block
+    ;
+
+// For loops
+forStatement
+    : FOR IDENTIFIER FROM expr TO expr (STEP expr)? block         # ForRangeStatement
+    | FOR EACH IDENTIFIER IN expr block                           # ForEachStatement
+    ;
+
+// While loop
+whileStatement
+    : WHILE expr block
+    ;
+
+// Try / Catch
+tryStatement
+    : TRY block catchClause+
+    ;
+
+catchClause
+    : CATCH LEFT_P IDENTIFIER RIGHT_P block
+    ;
+
+// Throw
+throwStatement
+    : THROW expr SEMICOLON?
+    ;
+
+// Standalone expression
+exprStatement
+    : expr SEMICOLON?
+    ;
+
+// Variable declaration and assignment
+varAssign
+    : IDENTIFIER ASSIGN expr SEMICOLON?
+    ;
+
+// Assignment to an existing variable or structure
+assignmentStatement
+    : leftSide ASSIGN expr SEMICOLON?
+    ;
+
+// Left side of an assignment
+leftSide
+    : IDENTIFIER                                                  # SimpleLeftSide
+    | IDENTIFIER LEFT_SB expr RIGHT_SB                            # IndexLeftSide
+    | IDENTIFIER DOT IDENTIFIER                                   # MemberLeftSide
+    | IDENTIFIER DOT IDENTIFIER LEFT_SB expr RIGHT_SB             # MemberIndexLeftSide
+    | IDENTIFIER LEFT_SB expr RIGHT_SB DOT IDENTIFIER             # IndexMemberLeftSide
+    | IDENTIFIER DOT IDENTIFIER DOT IDENTIFIER                    # NestedMemberLeftSide
+    ;
+
+// Expressions
+expr
+    : primary                                                     # ExprPrimary
+    | SUB expr                                                    # ExprUnaryMinus
+    | ADD expr                                                    # ExprUnaryPlus
+    | NOT expr                                                    # ExprLogicalNot
+    | expr (MULT | DIV | MOD) expr                                # ExprMultiplicative
+    | expr (ADD | SUB) expr                                       # ExprAdditive
+    | expr (LT | GT | LTE | GTE) expr                             # ExprRelational
+    | expr (EQ | NEQ) expr                                        # ExprEquality
+    | expr AND expr                                               # ExprLogicalAnd
+    | expr OR expr                                                # ExprLogicalOr
+    | expr LEFT_P exprList? RIGHT_P                               # ExprFunctionCall
+    | expr DOT IDENTIFIER                                         # ExprMemberAccess
+    | expr LEFT_SB expr RIGHT_SB                                  # ExprIndexAccess
+    ;
+
+// Literal values and groupings
+primary
+    : INTEGER                                                     # IntegerLiteral
+    | DECIMAL                                                     # DecimalLiteral
+    | STRING                                                      # StringLiteral
+    | TRUE                                                        # BooleanLiteral
+    | FALSE                                                       # BooleanLiteral
+    | NULL                                                        # NullLiteral
+    | IDENTIFIER                                                  # IdentifierExpression
+    | LEFT_P expr RIGHT_P                                         # ParenthesizedExpression
+    | LEFT_SB exprList? RIGHT_SB                                  # ListLiteral
+    | LEFT_B objectMemberList? RIGHT_B                            # ObjectLiteral
+    ;
+
+// List of expressions
+exprList
+    : expr (COMMA expr)*
+    ;
+
+// Object key-value list
+objectMemberList
+    : objectMember (COMMA objectMember)*
+    ;
+
+objectMember
+    : (IDENTIFIER | STRING) COLON expr
     ;
 // ============================
 // EJEMPLOS DE USO
@@ -37,7 +280,7 @@ functionDeclaration
 
 /*
  * EJEMPLOS VÁLIDOS:
- * 
+ *
  * 1. Función simple:
  * function greet() -> void {
  *     print("Hello World")

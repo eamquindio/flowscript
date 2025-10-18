@@ -1,8 +1,10 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNode;
 
 /**
@@ -28,7 +30,29 @@ public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNod
 
     @Override
     public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+        LogicalAndExpressionParser logicalAndParser = new LogicalAndExpressionParser();
+
+        ExpressionNode firstOperand = logicalAndParser.parse(context);
+        Token firstToken = firstOperand.getToken();
+
+        LogicalOrExpressionNode logicalOrNode = new LogicalOrExpressionNode(firstToken, firstOperand);
+
+        while (true) {
+            Token currentToken = context.getCurrentToken();
+
+            if (currentToken != null &&
+                    (currentToken.getValue().equalsIgnoreCase("or") || currentToken.getValue().equalsIgnoreCase("o"))) {
+
+                context.consume();
+
+                ExpressionNode nextOperand = logicalAndParser.parse(context);
+                logicalOrNode.addOperand(currentToken, nextOperand);
+            } else {
+                break;
+            }
+        }
+
+        return (LogicalOrExpressionNode) logicalOrNode.getSimplified();
     }
+
 }

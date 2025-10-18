@@ -5,7 +5,9 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.ForStatementNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementParser;
 
@@ -96,8 +98,36 @@ public class ForStatementParser implements IParser<ForStatementNode> {
 
     @Override
     public ForStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ForStatementParser no implementado - Tarea del estudiante");
+
+        Token forToken = context.getCurrentToken();
+        if (!(forToken.getValue().equals("for") || forToken.getValue().equals("para"))) {
+            throw new Parser.ParseException("Expected 'for' or 'para'");
+        }
+        context.consume();
+
+        Token eachToken = context.getCurrentToken();
+        if (!(eachToken.getValue().equals("each") || eachToken.getValue().equals("cada"))) {
+            throw new Parser.ParseException("Expected 'each' or 'cada'");
+        }
+        context.consume();
+
+        Token iteratorToken = context.getCurrentToken();
+        if (iteratorToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Expected an identifier after 'each'");
+        }
+        String iteratorName = iteratorToken.getValue();
+        context.consume();
+
+        Token inToken = context.getCurrentToken();
+        if (!(inToken.getValue().equals("in") || inToken.getValue().equals("en"))) {
+            throw new Parser.ParseException("Expected 'in' o 'en'");
+        }
+        context.consume();
+
+        ExpressionNode iterable = expressionParser.parse(context);
+
+        StatementNode body = statementParser.parse(context);
+
+        return new ForStatementNode(forToken, iteratorName, iterable, body);
     }
 }

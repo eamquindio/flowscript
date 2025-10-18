@@ -95,8 +95,40 @@ public class TryStatementParser implements IParser<TryStatementNode> {
 
     @Override
     public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
+
+        Token tryToken = context.getCurrentToken();
+        if (!tryToken.getValue().equals("try") && !tryToken.getValue().equals("intentar")) {
+            throw new Parser.ParseException("Expected 'try' or 'intentar'");
+        }
+        context.consume();
+
+        var tryBlock = blockParser.parse(context);
+
+        Token catchToken = context.getCurrentToken();
+        if (!catchToken.getValue().equals("catch") && !catchToken.getValue().equals("capturar")) {
+            throw new Parser.ParseException("Expected 'catch' or 'capturar'");
+        }
+        context.consume();
+
+        if (!context.getCurrentToken().getValue().equals("(")) {
+            throw new Parser.ParseException("Expected '(' after 'catch'");
+        }
+        context.consume();
+
+        Token identifierToken = context.getCurrentToken();
+        if (identifierToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Expected identifier inside catch parentheses");
+        }
+        String exceptionVarName = identifierToken.getValue();
+        context.consume();
+
+        if (!context.getCurrentToken().getValue().equals(")")) {
+            throw new Parser.ParseException("Expected ')' after exception identifier");
+        }
+        context.consume();
+
+        var catchBlock = blockParser.parse(context);
+
+        return new TryStatementNode(tryToken, tryBlock, exceptionVarName, catchBlock);
     }
 }

@@ -59,6 +59,8 @@ public enum TokenType {
     AND("and"),
     OR("or"),
     NOT("not"),
+    NO("no"),
+
 
     // Arithmetic Operators
     PLUS("+"),

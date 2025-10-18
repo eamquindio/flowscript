@@ -3,7 +3,10 @@ package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ArgumentListNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +38,29 @@ public class ArgumentListParser {
      * @throws Parser.ParseException Si hay un error de sintaxis
      */
     public List<ArgumentListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ArgumentListParser no implementado - Tarea del estudiante");
+        List<ArgumentListNode> result = new ArrayList<>();
+
+        ExpressionParser expressionParser = new ExpressionParser();
+
+        if (context.getCurrentToken() == null) {
+            return result;
+        }
+
+        ExpressionNode firstArg = expressionParser.parse(context);
+        ArgumentListNode argListNode = new ArgumentListNode(firstArg);
+
+        while (true) {
+            if (context.getCurrentToken() != null && context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.COMMA) {
+                context.consume();
+
+                ExpressionNode nextArg = expressionParser.parse(context);
+                argListNode.addArgument(nextArg);
+            } else {
+                break;
+            }
+        }
+
+        result.add(argListNode);
+        return result;
     }
 }

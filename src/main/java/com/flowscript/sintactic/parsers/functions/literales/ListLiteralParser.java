@@ -4,6 +4,13 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.ListLiteralNode;
+import java.util.ArrayList;
+import java.util.List;
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
 
 /**
  * Parser para literales de lista.
@@ -29,7 +36,37 @@ public class ListLiteralParser implements IParser<ListLiteralNode> {
 
     @Override
     public ListLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ListLiteralParser no implementado - Tarea del estudiante");
+        Token token = context.getCurrentToken();
+
+        if (token == null || token.getType() != TokenType.LEFT_BRACKET) {
+            throw new Parser.ParseException("Expected '[' at the beginning of list literal");
+        }
+
+        context.consume();
+
+        token = context.getCurrentToken();
+
+        if (token == null) {
+            throw new Parser.ParseException("Unexpected end of input after '['");
+        }
+
+        if (token.getType() == TokenType.RIGHT_BRACKET) {
+            context.consume();
+            return new ListLiteralNode(token); // Node with no expressions
+        }
+
+        var exprListParser = new com.flowscript.sintactic.parsers.functions.listas_argumentos.ExpressionListParser();
+        var expressionListNode = exprListParser.parse(context);
+
+        token = context.getCurrentToken();
+        if (token == null || token.getType() != TokenType.RIGHT_BRACKET) {
+            throw new Parser.ParseException("Expected ']' at the end of list literal");
+        }
+
+
+        context.consume();
+
+        return new ListLiteralNode(token);
     }
+
 }
