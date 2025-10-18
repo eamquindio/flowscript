@@ -27,7 +27,10 @@ public class StringLiteralParser implements IParser<StringLiteralNode> {
 
     @Override
     public StringLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("StringLiteralParser no implementado - Tarea del estudiante");
+        if (context.check(com.flowscript.lexer.TokenType.STRING_LITERAL)) {
+            com.flowscript.lexer.Token t = context.consume();
+            return new StringLiteralNode(t);
+        }
+        throw new Parser.ParseException("Expected string literal at " + (context.getCurrentToken() != null ? context.getCurrentToken().getLine() + ":" + context.getCurrentToken().getColumn() : "end of input"));
     }
 }

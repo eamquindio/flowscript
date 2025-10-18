@@ -40,7 +40,17 @@ public class LiteralParser implements IParser<LiteralNode> {
 
     @Override
     public LiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LiteralParser no implementado - Tarea del estudiante");
+        // Consume a literal token and return a generic LiteralNode
+        if (context.check(com.flowscript.lexer.TokenType.INTEGER_LITERAL)
+                || context.check(com.flowscript.lexer.TokenType.DECIMAL_LITERAL)
+                || context.check(com.flowscript.lexer.TokenType.STRING_LITERAL)
+                || context.check(com.flowscript.lexer.TokenType.TRUE)
+                || context.check(com.flowscript.lexer.TokenType.FALSE)
+                || context.check(com.flowscript.lexer.TokenType.NULL)) {
+            com.flowscript.lexer.Token t = context.consume();
+            return new LiteralNode(t);
+        }
+
+        throw new Parser.ParseException("Expected literal at " + (context.getCurrentToken() != null ? context.getCurrentToken().getLine() + ":" + context.getCurrentToken().getColumn() : "end of input"));
     }
 }

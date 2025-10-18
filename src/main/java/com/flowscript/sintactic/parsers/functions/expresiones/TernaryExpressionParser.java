@@ -27,7 +27,21 @@ public class TernaryExpressionParser implements IParser<TernaryExpressionNode> {
 
     @Override
     public TernaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("TernaryExpressionParser no implementado - Tarea del estudiante");
+        // Conservative implementation: parse a LogicalOrExpression (fallback to Primary)
+        // and if a '?' is present parse the true/false branches as Expressions via ExpressionParser.
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode condition =
+            new com.flowscript.sintactic.parsers.functions.expresiones.LogicalOrExpressionParser().parse(context);
+
+        if (context.check(com.flowscript.lexer.TokenType.QUESTION)) {
+            com.flowscript.lexer.Token question = context.consume(); // consume '?'
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode trueExpr = new ExpressionParser().parse(context);
+            context.consume(com.flowscript.lexer.TokenType.COLON);
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode falseExpr = new ExpressionParser().parse(context);
+            return new TernaryExpressionNode(condition, question, trueExpr, falseExpr);
+        }
+
+        // No ternary operator: return a node using a synthetic token as marker and null branches
+        com.flowscript.lexer.Token synthetic = new com.flowscript.lexer.Token(com.flowscript.lexer.TokenType.NULL, "null", -1, -1, 0);
+        return new TernaryExpressionNode(condition, synthetic, null, null);
     }
 }

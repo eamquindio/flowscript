@@ -29,7 +29,34 @@ public class ListLiteralParser implements IParser<ListLiteralNode> {
 
     @Override
     public ListLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ListLiteralParser no implementado - Tarea del estudiante");
+        // Expect '['
+        if (!context.check(com.flowscript.lexer.TokenType.LEFT_BRACKET)) {
+            throw new Parser.ParseException("Expected '[' to start list literal");
+        }
+        com.flowscript.lexer.Token left = context.consume();
+
+        // Empty list
+        if (context.check(com.flowscript.lexer.TokenType.RIGHT_BRACKET)) {
+            context.consume();
+            return new ListLiteralNode(left);
+        }
+
+        // Parse first expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstExpr = new com.flowscript.sintactic.parsers.functions.expresiones.PrimaryExpressionParser().parse(context);
+        com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode exprList = new com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode(firstExpr);
+
+        // Parse additional elements separated by commas
+        while (context.check(com.flowscript.lexer.TokenType.COMMA)) {
+            context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode nextExpr = new com.flowscript.sintactic.parsers.functions.expresiones.PrimaryExpressionParser().parse(context);
+            exprList.addExpression(nextExpr);
+        }
+
+        // Expect closing bracket
+        if (!context.check(com.flowscript.lexer.TokenType.RIGHT_BRACKET)) {
+            throw new Parser.ParseException("Expected ']' to close list literal");
+        }
+        context.consume();
+        return new ListLiteralNode(left, exprList);
     }
 }

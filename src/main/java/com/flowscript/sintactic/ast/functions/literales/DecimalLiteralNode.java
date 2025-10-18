@@ -23,8 +23,14 @@ public class DecimalLiteralNode extends ExpressionNode {
         return rawValue;
     }
 
-    public BigDecimal getValue() {
+    // Return the parsed BigDecimal
+    public BigDecimal getBigDecimalValue() {
         return value;
+    }
+
+    // Backwards-compatible: return raw lexeme as string via getValue()
+    public String getValue() {
+        return rawValue;
     }
 
     public double getDoubleValue() {
