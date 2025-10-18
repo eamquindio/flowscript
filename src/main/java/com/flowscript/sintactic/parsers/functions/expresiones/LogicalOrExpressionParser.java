@@ -3,32 +3,22 @@ package com.flowscript.sintactic.parsers.functions.expresiones;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
-import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 
 /**
- * Parser para expresiones lógicas OR.
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * LogicalOrExpression ::= LogicalAndExpression ( ( 'or' | 'o' ) LogicalAndExpression )*
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 2: Expresiones - OR Lógico
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Soporta tanto 'or' (inglés) como 'o' (español).
- * El operador es asociativo por la izquierda.
- *
- * @see LogicalOrExpressionNode
+ * OR lógico. Por ahora delega a AND.
+ * TODO: implementar bucle OR (||) si tu gramática lo requiere.
  */
-public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNode> {
+public class LogicalOrExpressionParser implements IParser<ExpressionNode> {
+
+    private final LogicalAndExpressionParser andParser;
+
+    public LogicalOrExpressionParser(IParser<ExpressionNode> root) {
+        this.andParser = new LogicalAndExpressionParser(root);
+    }
 
     @Override
-    public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        return andParser.parse(context);
     }
 }
