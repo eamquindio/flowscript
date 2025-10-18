@@ -8,6 +8,10 @@ import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.parsers.process.elementos_core.*;
 import com.flowscript.sintactic.parsers.process.elementos_trabajo.*;
 import com.flowscript.sintactic.parsers.process.control_flujo.*;
+import com.flowscript.sintactic.parsers.process.elementos_core.StartElementParser;
+import com.flowscript.sintactic.parsers.process.elementos_trabajo.TaskElementParser;
+import com.flowscript.sintactic.parsers.process.control_flujo.ParallelGatewayParser;
+import com.flowscript.sintactic.parsers.process.elementos_core.EndElementParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +58,7 @@ public class ProcessBodyParser {
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
         List<ASTNode> elements = new ArrayList<>();
 
-        while (context.hasMoreTokens() && context.check(TokenType.RIGHT_BRACE) == false) {
+        while (context.hasMoreTokens() && !context.check(TokenType.RIGHT_BRACE)) {
             ASTNode element = parseProcessElement(context);
             if (element != null) {
                 elements.add(element);

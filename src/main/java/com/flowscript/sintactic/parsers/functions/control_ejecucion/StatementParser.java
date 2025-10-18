@@ -6,8 +6,10 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
-import com.flowscript.sintactic.ast.process.estructura_principal.ProcessDeclarationNode;
-import com.flowscript.sintactic.parsers.process.estructura_principal.ProcessDeclarationParser;
+import com.flowscript.sintactic.parsers.functions.control_flujo.*;
+import com.flowscript.sintactic.parsers.functions.statements_basicos.*;
+import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
+
 /**
  * Parser coordinador para statements en FlowScript.
  *
@@ -79,15 +81,28 @@ import com.flowscript.sintactic.parsers.process.estructura_principal.ProcessDecl
  *
  * @see StatementNode
  */
-
-
 public class StatementParser implements IParser<StatementNode> {
 
-    // ⚠️ No instanciamos aquí para evitar StackOverflow por dependencias circulares.
-    private ProcessDeclarationParser processDeclarationParser;
+    private final IfStatementParser ifParser;
+    private final TryStatementParser tryParser;
+    private final ThrowStatementParser throwParser;
+    private final ReturnStatementParser returnParser;
+    private final GotoStatementParser gotoParser;
+    private final ForStatementParser forParser;
+    private final VariableDeclarationStatementParser varParser;
+    private final BlockParser blockParser;
+    private final ExpressionStatementParser exprParser;
 
     public StatementParser() {
-        // vacío
+        this.ifParser = new IfStatementParser();
+        this.tryParser = new TryStatementParser();
+        this.throwParser = new ThrowStatementParser();
+        this.returnParser = new ReturnStatementParser();
+        this.gotoParser = new GotoStatementParser();
+        this.forParser = new ForStatementParser();
+        this.varParser = new VariableDeclarationStatementParser();
+        this.blockParser = new BlockParser();
+        this.exprParser = new ExpressionStatementParser();
     }
 
     @Override
@@ -98,31 +113,51 @@ public class StatementParser implements IParser<StatementNode> {
             throw new Parser.ParseException("Unexpected end of input while parsing statement");
         }
 
-        // Inicialización diferida (lazy)
-        if (processDeclarationParser == null) {
-            processDeclarationParser = new ProcessDeclarationParser();
+        String value = current.getValue();
+
+        // IfStatement
+        if (value.equals("si") || value.equals("if")) {
+            return ifParser.parse(context);
         }
 
-        // Detectar palabra clave 'process'
-        if (current.getType() == TokenType.PROCESS || "process".equalsIgnoreCase(current.getValue())) {
-            Token processToken = current;
-
-            ProcessDeclarationNode declNode = processDeclarationParser.parse(context);
-
-            return new StatementNode(processToken) {
-                @Override
-                public String getNodeType() {
-                    return "ProcessStatement";
-                }
-
-                @Override
-                public String toString() {
-                    return "ProcessStatement(" + (declNode != null ? declNode.toString() : "null") + ")";
-                }
-            };
+        // TryStatement
+        if (value.equals("intentar") || value.equals("try")) {
+            return tryParser.parse(context);
         }
 
-        throw new Parser.ParseException("Unexpected token in StatementParser: '" +
-                current.getValue() + "' at line " + current.getLine() + ", column " + current.getColumn());
+        // ThrowStatement
+        if (value.equals("lanzar") || value.equals("throw")) {
+            return throwParser.parse(context);
+        }
+
+        // ReturnStatement
+        if (value.equals("retornar") || value.equals("return")) {
+            return returnParser.parse(context);
+        }
+
+        // GotoStatement
+        if (value.equals("go_to")) {
+            return gotoParser.parse(context);
+        }
+
+        // ForStatement
+        if (value.equals("para") || value.equals("for")) {
+            return forParser.parse(context);
+        }
+
+        // Block
+        if (current.getType() == TokenType.LEFT_BRACE) {
+            return blockParser.parse(context);
+        }
+
+        // VariableDeclaration (IDENTIFIER '=')
+        if (current.getType() == TokenType.IDENTIFIER &&
+                context.peek(1) != null &&
+                context.peek(1).getValue().equals("=")) {
+            return varParser.parse(context);
+        }
+
+        // Default: ExpressionStatement
+        return exprParser.parse(context);
     }
 }
