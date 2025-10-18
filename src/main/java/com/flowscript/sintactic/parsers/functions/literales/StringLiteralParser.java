@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -27,7 +29,21 @@ public class StringLiteralParser implements IParser<StringLiteralNode> {
 
     @Override
     public StringLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("StringLiteralParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing string literal");
+        }
+
+        if (current.getType() != TokenType.STRING_LITERAL) {
+            throw new Parser.ParseException(
+                "Expected string literal but found '" + current.getValue() +
+                "' at line " + current.getLine() + ", column " + current.getColumn()
+            );
+        }
+
+        context.consume();
+
+        return new StringLiteralNode(current);
     }
 }

@@ -6,32 +6,67 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
-// Ajusta el nombre si tu nodo unario se llama distinto:
 import com.flowscript.sintactic.ast.functions.expresiones.UnaryExpressionNode;
 
 /**
- * Unarios prefix (!, -, +). Si no hay unario, delega a Primary.
+ * Parser para expresiones unarias.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * UnaryExpression ::= ( 'not' | 'no' | '-' )? PostfixExpression
+ * </pre>
+ *
+ * <h3>Categoría:</h3>
+ * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
+ * Nivel 8: Expresiones - Unarias
+ *
+ * <h3>Tarea del Estudiante:</h3>
+ * Implementar el método {@code parse()} siguiendo la gramática BNF.
+ * Soporta operadores unarios: 'not'/'no' (negación lógica) y '-' (negación aritmética).
+ * El operador es asociativo por la derecha (se evalúa de derecha a izquierda).
+ *
+ * @see UnaryExpressionNode
  */
-public class UnaryExpressionParser implements IParser<ExpressionNode> {
-
-    private final PrimaryExpressionParser primary;
-
-    public UnaryExpressionParser(IParser<ExpressionNode> root) {
-        this.primary = new PrimaryExpressionParser(root);
-    }
+public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
 
     @Override
-    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        Token t = context.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba expresión");
-
-        if (t.getType() == TokenType.NOT || t.getType() == TokenType.MINUS || t.getType() == TokenType.PLUS) {
-            Token op = t;
-            context.consume();
-            ExpressionNode right = this.parse(context); // asociatividad a derecha
-            return new UnaryExpressionNode(op, right);  // <-- cambia si tu AST usa otro nombre
+    public UnaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        Token current = context.getCurrentToken();
+        if (current == null) {
+            throw new Parser.ParseException("fin de entrada inesperado en ExpresionUnaria");
         }
 
-        return primary.parse(context);
+        if (isUnaryOperator(current)) {
+            Token operatorToken = context.consume();
+
+            UnaryExpressionParser recursiveParser = new UnaryExpressionParser();
+            UnaryExpressionNode operand = recursiveParser.parse(context);
+
+            if (operand == null) {
+                Token next = context.getCurrentToken();
+                throw new Parser.ParseException("Se esperaba un operando despues de '" +
+                        operatorToken.getValue() + "' en la línea " +
+                        (next != null ? next.getLine() : -1));
+            }
+
+            return new UnaryExpressionNode(operatorToken, operand);
+        }
+
+        PrimaryExpressionParser primaryParser = new PrimaryExpressionParser();
+        ExpressionNode operand = primaryParser.parse(context);
+
+        if (operand == null) {
+            Token next = context.getCurrentToken();
+            throw new Parser.ParseException("Se esperaba una expresión válida después de token en línea " +
+                    (next != null ? next.getLine() : -1));
+        }
+
+        return new UnaryExpressionNode(operand.getToken(), operand);
+    }
+
+    private boolean isUnaryOperator(Token token) {
+        if (token == null) return false;
+        String value = token.getValue();
+        return value.equals("not") || value.equals("no") || value.equals("-");
     }
 }

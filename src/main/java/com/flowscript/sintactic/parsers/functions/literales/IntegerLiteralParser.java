@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -27,7 +29,21 @@ public class IntegerLiteralParser implements IParser<IntegerLiteralNode> {
 
     @Override
     public IntegerLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("IntegerLiteralParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Fin de entrada inesperado mientras se analizaba literal entero");
+        }
+
+        if (current.getType() == TokenType.INTEGER_LITERAL) {
+            context.consume(); 
+            return new IntegerLiteralNode(current);
+        }
+
+        throw new Parser.ParseException(
+            "Se esperaba literal entero pero se encontro '" + current.getValue() +
+            "' (" + current.getType() + ") en linea " + current.getLine() +
+            ", columna " + current.getColumn()
+        );
     }
 }
