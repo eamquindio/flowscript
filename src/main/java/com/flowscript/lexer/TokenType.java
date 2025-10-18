@@ -17,7 +17,7 @@ public enum TokenType {
     END("end"),
     TASK("task"),
     GATEWAY("gateway"),
-    GOTO("goto"),
+    GOTO("go_to"),
     WHEN("when"),
     BRANCH("branch"),
     JOIN("join"),
@@ -105,9 +105,9 @@ public enum TokenType {
     IDENTIFIER(null),
 
     // Special
-    INPUT("input"),  // Special context object in processes
+    INPUT("input"),
 
-    // Comments (typically filtered out but tracked for completeness)
+    // Comments (tracked for completeness)
     SINGLE_LINE_COMMENT(null),
     MULTI_LINE_COMMENT(null),
 
@@ -127,58 +127,48 @@ public enum TokenType {
         return defaultValue;
     }
 
-    /**
-     * Check if this token type is a keyword.
-     */
+    /** Check if this token type is a keyword. */
     public boolean isKeyword() {
         return defaultValue != null &&
-               this != PLUS && this != MINUS && this != MULTIPLY &&
-               this != DIVIDE && this != MODULO && this != LESS_THAN &&
-               this != GREATER_THAN && this != LESS_EQUAL && this != GREATER_EQUAL &&
-               this != EQUAL && this != NOT_EQUAL && this != ASSIGN &&
-               this != QUESTION && this != DOT && this != LEFT_PAREN && this != RIGHT_PAREN &&
-               this != LEFT_BRACE && this != RIGHT_BRACE && this != LEFT_BRACKET &&
-               this != RIGHT_BRACKET && this != COMMA && this != SEMICOLON &&
-               this != COLON && this != ARROW;
+                this != PLUS && this != MINUS && this != MULTIPLY &&
+                this != DIVIDE && this != MODULO && this != LESS_THAN &&
+                this != GREATER_THAN && this != LESS_EQUAL && this != GREATER_EQUAL &&
+                this != EQUAL && this != NOT_EQUAL && this != ASSIGN &&
+                this != QUESTION && this != DOT && this != LEFT_PAREN && this != RIGHT_PAREN &&
+                this != LEFT_BRACE && this != RIGHT_BRACE && this != LEFT_BRACKET &&
+                this != RIGHT_BRACKET && this != COMMA && this != SEMICOLON &&
+                this != COLON && this != ARROW;
     }
 
-    /**
-     * Check if this token type is an operator.
-     */
+    /** Check if this token type is an operator. */
     public boolean isOperator() {
         return this == PLUS || this == MINUS || this == MULTIPLY ||
-               this == DIVIDE || this == MODULO || this == LESS_THAN ||
-               this == GREATER_THAN || this == LESS_EQUAL || this == GREATER_EQUAL ||
-               this == EQUAL || this == NOT_EQUAL || this == ASSIGN ||
-               this == QUESTION || this == DOT || this == AND || this == OR || this == NOT;
+                this == DIVIDE || this == MODULO || this == LESS_THAN ||
+                this == GREATER_THAN || this == LESS_EQUAL || this == GREATER_EQUAL ||
+                this == EQUAL || this == NOT_EQUAL || this == ASSIGN ||
+                this == QUESTION || this == DOT || this == AND || this == OR || this == NOT;
     }
 
-    /**
-     * Check if this token type is a delimiter.
-     */
+    /** Check if this token type is a delimiter. */
     public boolean isDelimiter() {
         return this == LEFT_PAREN || this == RIGHT_PAREN ||
-               this == LEFT_BRACE || this == RIGHT_BRACE ||
-               this == LEFT_BRACKET || this == RIGHT_BRACKET ||
-               this == COMMA || this == SEMICOLON || this == COLON ||
-               this == ARROW;
+                this == LEFT_BRACE || this == RIGHT_BRACE ||
+                this == LEFT_BRACKET || this == RIGHT_BRACKET ||
+                this == COMMA || this == SEMICOLON || this == COLON ||
+                this == ARROW;
     }
 
-    /**
-     * Check if this token type is a literal.
-     */
+    /** Check if this token type is a literal. */
     public boolean isLiteral() {
         return this == INTEGER_LITERAL || this == DECIMAL_LITERAL ||
-               this == STRING_LITERAL || this == TRUE || this == FALSE ||
-               this == NULL;
+                this == STRING_LITERAL || this == TRUE || this == FALSE ||
+                this == NULL;
     }
 
-    /**
-     * Check if this token type is a data type keyword.
-     */
+    /** Check if this token type is a data type keyword. */
     public boolean isDataType() {
         return this == INTEGER_TYPE || this == DECIMAL_TYPE ||
-               this == BOOLEAN_TYPE || this == TEXT_TYPE ||
-               this == LIST_TYPE || this == OBJECT_TYPE || this == VOID;
+                this == BOOLEAN_TYPE || this == TEXT_TYPE ||
+                this == LIST_TYPE || this == OBJECT_TYPE || this == VOID;
     }
 }
