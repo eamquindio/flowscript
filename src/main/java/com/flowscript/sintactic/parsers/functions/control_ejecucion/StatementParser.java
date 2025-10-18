@@ -83,32 +83,147 @@ import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
  */
 public class StatementParser implements IParser<StatementNode> {
 
-    private final IfStatementParser ifParser;
-    private final TryStatementParser tryParser;
-    private final ThrowStatementParser throwParser;
-    private final ReturnStatementParser returnParser;
-    private final GotoStatementParser gotoParser;
-    private final ForStatementParser forParser;
-    private final VariableDeclarationStatementParser varParser;
-    private final BlockParser blockParser;
-    private final ExpressionStatementParser exprParser;
+    // Parsers especializados
+    private IfStatementParser ifStmt;
+    private TryStatementParser tryStmt;
+    private ThrowStatementParser throwStmt;
+    private ReturnStatementParser returnStmt;
+    private GotoStatementParser gotoStmt;
+    private ForStatementParser forStmt;
+    private VariableDeclarationStatementParser varStmt;
+    private BlockParser blockStmt;
+    private ExpressionStatementParser exprStmt;
 
-    public StatementParser() {
-        this.ifParser = new IfStatementParser();
-        this.tryParser = new TryStatementParser();
-        this.throwParser = new ThrowStatementParser();
-        this.returnParser = new ReturnStatementParser();
-        this.gotoParser = new GotoStatementParser();
-        this.forParser = new ForStatementParser();
-        this.varParser = new VariableDeclarationStatementParser();
-        this.blockParser = new BlockParser();
-        this.exprParser = new ExpressionStatementParser();
+    /** Constructor vacío: usar setup(...) antes de invocar parse(). */
+    public StatementParser() { }
+
+    /** Constructor alternativo con inyección completa. */
+    public StatementParser(
+            IfStatementParser ifStmt,
+            TryStatementParser tryStmt,
+            ThrowStatementParser throwStmt,
+            ReturnStatementParser returnStmt,
+            GotoStatementParser gotoStmt,
+            ForStatementParser forStmt,
+            VariableDeclarationStatementParser varStmt,
+            BlockParser blockStmt,
+            ExpressionStatementParser exprStmt
+    ) {
+        this.ifStmt = ifStmt;
+        this.tryStmt = tryStmt;
+        this.throwStmt = throwStmt;
+        this.returnStmt = returnStmt;
+        this.gotoStmt = gotoStmt;
+        this.forStmt = forStmt;
+        this.varStmt = varStmt;
+        this.blockStmt = blockStmt;
+        this.exprStmt = exprStmt;
+    }
+
+    /**
+     * Método auxiliar para inyectar dependencias después de la construcción.
+     */
+    public void setup(
+            IfStatementParser ifStmt,
+            TryStatementParser tryStmt,
+            ThrowStatementParser throwStmt,
+            ReturnStatementParser returnStmt,
+            GotoStatementParser gotoStmt,
+            ForStatementParser forStmt,
+            VariableDeclarationStatementParser varStmt,
+            BlockParser blockStmt,
+            ExpressionStatementParser exprStmt
+    ) {
+        this.ifStmt = ifStmt;
+        this.tryStmt = tryStmt;
+        this.throwStmt = throwStmt;
+        this.returnStmt = returnStmt;
+        this.gotoStmt = gotoStmt;
+        this.forStmt = forStmt;
+        this.varStmt = varStmt;
+        this.blockStmt = blockStmt;
+        this.exprStmt = exprStmt;
     }
 
     @Override
-    public StatementNode parse(ParserContext context) throws Parser.ParseException {
-        Token current = context.getCurrentToken();
+    public StatementNode parse(ParserContext ctx) throws Parser.ParseException {
+        Token token = ctx.getCurrentToken();
+        if (token == null) {
+            throw new Parser.ParseException("No se encontró una sentencia válida (EOF inesperado).");
+        }
 
-        return null;
+        if (isRBrace(token)) return null;
+
+
+        if (isKeyword(token, TokenType.IF, "if")) {
+            require(ifStmt, "IfStatementParser");
+            return ifStmt.parse(ctx);
+        }
+        if (isKeyword(token, TokenType.TRY, "try")) {
+            require(tryStmt, "TryStatementParser");
+            return tryStmt.parse(ctx);
+        }
+        if (isKeyword(token, TokenType.THROW, "throw")) {
+            require(throwStmt, "ThrowStatementParser");
+            return throwStmt.parse(ctx);
+        }
+
+
+        if (isKeyword(token, TokenType.RETURN, "return")) {
+            require(returnStmt, "ReturnStatementParser");
+            return returnStmt.parse(ctx);
+        }
+        if (isGotoKeyword(token)) {
+            require(gotoStmt, "GotoStatementParser");
+            return gotoStmt.parse(ctx);
+        }
+        if (isKeyword(token, TokenType.FOR, "for")) {
+            require(forStmt, "ForStatementParser");
+            return forStmt.parse(ctx);
+        }
+        if (isAssignmentCandidate(ctx)) {
+            require(varStmt, "VariableDeclarationStatementParser");
+            return varStmt.parse(ctx);
+        }
+
+        // Por defecto: expresión
+        require(exprStmt, "ExpressionStatementParser");
+        return exprStmt.parse(ctx);
+    }
+
+
+    private static boolean isKeyword(Token t, TokenType type, String lexeme) {
+        return (t != null) && (t.getType() == type || lexeme.equals(t.getValue()));
+    }
+
+    private static boolean isGotoKeyword(Token t) {
+        return isKeyword(t, TokenType.GOTO, "goto") || isKeyword(t, TokenType.GOTO, "go_to");
+    }
+
+    private static boolean isLBrace(Token t) {
+        return isKeyword(t, TokenType.LEFT_BRACE, "{");
+    }
+
+    private static boolean isRBrace(Token t) {
+        return isKeyword(t, TokenType.RIGHT_BRACE, "}");
+    }
+
+    private static boolean isAssignmentCandidate(ParserContext ctx) {
+        Token current = ctx.getCurrentToken();
+        if (current == null || current.getType() != TokenType.IDENTIFIER) return false;
+
+        Token next = ctx.peek(1);
+        if (next == null) return false;
+
+        return next.getType() == TokenType.ASSIGN || "=".equals(next.getValue());
+    }
+
+    private static void require(Object dependency, String name) throws Parser.ParseException {
+        if (dependency == null) {
+            throw new Parser.ParseException(
+                    "Dependencia faltante: " + name +
+                            ". Usa StatementParser.setup(...) o el constructor con parámetros."
+            );
+        }
     }
 }
