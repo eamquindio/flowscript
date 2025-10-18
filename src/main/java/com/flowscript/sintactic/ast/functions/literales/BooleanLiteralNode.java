@@ -1,23 +1,24 @@
 package com.flowscript.sintactic.ast.functions.literales;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
-/**
- * Represents boolean literal expressions.
- * Grammar: BooleanLiteral ::= 'verdadero' | 'falso'
- * Examples: verdadero, falso
- */
-public class BooleanLiteralNode extends ExpressionNode {
+public class BooleanLiteralNode extends LiteralNode  {
     private final boolean value;
 
     public BooleanLiteralNode(Token literalToken) {
         super(literalToken);
-        this.value = "verdadero".equals(literalToken.getValue());
+        String value = literalToken.getValue();
+        this.value = "true".equalsIgnoreCase(value);
     }
 
-    public boolean getValue() {
+    public boolean getBooleanValue() {
         return value;
+    }
+
+    @Override
+    public Object getValue() {
+        return value; 
     }
 
     @Override

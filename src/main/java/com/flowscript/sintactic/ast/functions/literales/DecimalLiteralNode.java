@@ -1,38 +1,34 @@
 package com.flowscript.sintactic.ast.functions.literales;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
-import java.math.BigDecimal;
+import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
-/**
- * Represents decimal literal expressions.
- * Grammar: DecimalLiteral ::= DECIMAL_TOKEN
- * Examples: 3.14, 1.5e10, 0.001
- */
-public class DecimalLiteralNode extends ExpressionNode {
+public class DecimalLiteralNode extends LiteralNode {
     private final String rawValue;
-    private final BigDecimal value;
+    private final String normValue;
 
     public DecimalLiteralNode(Token literalToken) {
         super(literalToken);
-        this.rawValue = literalToken.getValue();
-        this.value = new BigDecimal(rawValue);
+        String value = literalToken.getValue();
+        this.rawValue = value;
+        this.normValue = normalize(value);
+    }
+
+    private String normalize(String value) {
+        if (value == null) {
+            return "0.0";
+        }
+        else {
+            return value.replace("E+", "e").replace("E", "e");
+        }
     }
 
     public String getRawValue() {
         return rawValue;
     }
 
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public double getDoubleValue() {
-        return value.doubleValue();
-    }
-
-    public float getFloatValue() {
-        return value.floatValue();
+    public String getValue() {
+        return normValue;
     }
 
     @Override
@@ -47,6 +43,6 @@ public class DecimalLiteralNode extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "DecimalLiteral(" + rawValue + ")";
+        return normValue;
     }
 }

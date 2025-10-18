@@ -2,15 +2,11 @@ package com.flowscript.sintactic.ast.functions.literales;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
+import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 import com.flowscript.lexer.Token;
 import java.util.List;
 
-/**
- * Represents list literal expressions.
- * Grammar: ListLiteral ::= '[' ExpressionList? ']'
- * Examples: [], [1, 2, 3], ["a", "b"]
- */
-public class ListLiteralNode extends ExpressionNode {
+public class ListLiteralNode extends LiteralNode  {
     private final ExpressionListNode expressionList;
 
     public ListLiteralNode(Token leftBracketToken) {

@@ -1,9 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
  * Parser para un miembro de objeto (par clave-valor).
@@ -27,7 +31,41 @@ public class ObjectMemberParser implements IParser<ObjectMemberNode> {
 
     @Override
     public ObjectMemberNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing ObjectMember");
+        }
+
+        String key;
+        boolean keyIsString = false;
+
+        if (current.getType() == TokenType.IDENTIFIER) {
+            key = current.getValue();
+            context.consume();
+        } else if (current.getType() == TokenType.STRING_LITERAL) {
+            key = current.getValue();
+            keyIsString = true;
+            context.consume();
+        } else {
+            throw new Parser.ParseException(
+                "Expected identifier or string for object key but found '" + current.getValue() +
+                "' at line " + current.getLine() + ", column " + current.getColumn()
+            );
+        }
+
+        Token colon = context.getCurrentToken();
+        if (colon == null || colon.getType() != TokenType.COLON) {
+            throw new Parser.ParseException(
+                "Expected ':' after key '" + key + "' but found " +
+                (colon == null ? "end of input" : "'" + colon.getValue() + "'") +
+                " at line " + (colon == null ? current.getLine() : colon.getLine())
+            );
+        }
+        context.consume();
+        ExpressionParser exprParser = new ExpressionParser();
+        ExpressionNode valueNode = exprParser.parse(context);
+
+        return new ObjectMemberNode(key, keyIsString, valueNode);
     }
 }

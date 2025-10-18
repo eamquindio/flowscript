@@ -1,9 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ArgumentListNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,15 +31,24 @@ import java.util.List;
  */
 public class ArgumentListParser {
 
-    /**
-     * Parsea una lista de argumentos.
-     *
-     * @param context El contexto del parser
-     * @return Lista de nodos ArgumentListNode
-     * @throws Parser.ParseException Si hay un error de sintaxis
-     */
+    private final List<ArgumentListNode> argumentListNode;
+    private final ExpressionParser espressionParser;
+
+    public ArgumentListParser() {
+        this.argumentListNode = new ArrayList<>();
+        this.espressionParser = new ExpressionParser();
+    }
+    
     public List<ArgumentListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ArgumentListParser no implementado - Tarea del estudiante");
+        
+        ExpressionNode firstArg = espressionParser.parse(context);
+        ArgumentListNode currentList = new ArgumentListNode(firstArg);
+        while (context.check(TokenType.COMMA)) {
+            context.consume(TokenType.COMMA);
+            ExpressionNode nextArg = espressionParser.parse(context);
+            currentList.addArgument(nextArg);
+        }
+        argumentListNode.add(currentList);
+        return argumentListNode;
     }
 }

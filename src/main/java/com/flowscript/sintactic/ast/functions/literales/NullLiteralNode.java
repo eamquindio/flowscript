@@ -1,14 +1,9 @@
 package com.flowscript.sintactic.ast.functions.literales;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
-/**
- * Represents null literal expressions.
- * Grammar: NullLiteral ::= 'nulo'
- * Examples: nulo
- */
-public class NullLiteralNode extends ExpressionNode {
+public class NullLiteralNode extends LiteralNode  {
 
     public NullLiteralNode(Token literalToken) {
         super(literalToken);

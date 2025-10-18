@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.tipos_parametros;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
@@ -71,26 +73,27 @@ import java.util.List;
  */
 public class ParameterListParser {
 
-    private final ParameterParser parameterParser;
-
-    public ParameterListParser() {
-        this.parameterParser = new ParameterParser();
-    }
-
     public List<ParameterNode> parse(ParserContext context) throws Parser.ParseException {
-        List<ParameterNode> parameters = new ArrayList<>();
+        ParameterParser parameterParser = new ParameterParser();
+        List<ParameterNode> parameterNodes = new ArrayList<>();
 
-        // Parse primer parámetro
-        ParameterNode firstParam = parameterParser.parse(context);
-        parameters.add(firstParam);
+        if (!context.hasMoreTokens()) return parameterNodes;
 
-        // Parse parámetros adicionales (separados por coma)
-        while (context.checkValue(",")) {
-            context.consume(); // consume ','
-            ParameterNode param = parameterParser.parse(context);
-            parameters.add(param);
+        parameterNodes.add(parameterParser.parse(context));
+
+        while (context.hasMoreTokens()) {
+            if (context.checkValue(",")) {
+                context.consume(); // consume ','
+                parameterNodes.add(parameterParser.parse(context));
+            } else if (context.check(TokenType.IDENTIFIER)) {
+                Token t = context.getCurrentToken();
+                throw new Parser.ParseException("ParameterNode exception");
+            } else {
+                break;
+            }
         }
 
-        return parameters;
+        return parameterNodes;
     }
+
 }

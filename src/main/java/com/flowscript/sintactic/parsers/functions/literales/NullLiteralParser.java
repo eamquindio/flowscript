@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
@@ -27,7 +29,24 @@ public class NullLiteralParser implements IParser<NullLiteralNode> {
 
     @Override
     public NullLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("NullLiteralParser no implementado - Tarea del estudiante");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Expected 'null' but found end of input.");
+        }
+
+        String value = current.getValue();
+
+        if (current.getType() == TokenType.NULL ||
+            "null".equals(value) ||   // exact match, case-sensitive
+            "nulo".equals(value)) {   // exact match, case-sensitive
+            context.consume();
+            return new NullLiteralNode(current);
+        }
+
+        // Si llega aquí, el token no es un literal nulo válido
+        throw new Parser.ParseException(
+            "Expected 'null' literal but found: " + current.getValue()
+        );
     }
 }

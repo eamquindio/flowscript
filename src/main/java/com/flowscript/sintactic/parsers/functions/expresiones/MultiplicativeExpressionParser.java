@@ -1,8 +1,11 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.TokenType;
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.MultiplicativeExpressionNode;
 
 /**
@@ -28,7 +31,15 @@ public class MultiplicativeExpressionParser implements IParser<MultiplicativeExp
 
     @Override
     public MultiplicativeExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("MultiplicativeExpressionParser no implementado - Tarea del estudiante");
+        UnaryExpressionParser unaryExpressionParser = new UnaryExpressionParser();
+        ExpressionNode left = unaryExpressionParser.parse(context);
+        MultiplicativeExpressionNode node = new MultiplicativeExpressionNode(context.getCurrentToken(), left);
+        while (context.checkAny(TokenType.MULTIPLY, TokenType.DIVIDE, TokenType.MODULO)) {
+            Token operator = context.consume();
+            ExpressionNode right = unaryExpressionParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
     }
 }
