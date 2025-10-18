@@ -36,24 +36,18 @@ public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
             throw new Parser.ParseException("Unexpected end of input in UnaryExpression");
         }
 
-        // 🔹 Verificar si el token actual es un operador unario
         if (isUnaryOperator(current)) {
-            Token operatorToken = context.consume(); // consume 'not', 'no' o '-'
+            Token operatorToken = context.consume();
 
-            // ⚠️ Recursivo: el operando puede ser otra expresión unaria (asociativo por derecha)
             UnaryExpressionParser recursiveParser = new UnaryExpressionParser();
             UnaryExpressionNode operand = recursiveParser.parse(context);
 
             return new UnaryExpressionNode(operatorToken, operand);
         }
 
-        // 🔹 Caso base: sin operador unario → pasa al siguiente nivel (Postfix o Primary)
-        // Por ahora usamos PrimaryExpressionParser para probar.
         PrimaryExpressionParser primaryParser = new PrimaryExpressionParser();
         ExpressionNode operand = primaryParser.parse(context);
 
-        // Lo envolvemos en un UnaryExpressionNode “neutro” (sin operador)
-        // o podríamos retornar null, pero esto mantiene consistencia de tipos
         return new UnaryExpressionNode(operand.getToken(), operand);
     }
 

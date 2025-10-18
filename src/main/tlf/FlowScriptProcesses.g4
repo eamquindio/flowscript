@@ -1,246 +1,333 @@
 grammar FlowScriptProcesses;
 
-// Package declaration for generated code
-@header {
-    package edu.eam.ingesoft.tlf;
-}
+@header { package edu.eam.ingesoft.tlf; }
 
-/*
- * GRAMÁTICA DE PROCESOS PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de procesos
- * y estructura del programa principal de FlowScript, incluyendo:
- * - Estructura del programa (imports, declaraciones)
- * - Declaración de procesos
- * - Nodos del proceso (start, task, end, gateway)
- * - Gateways exclusivos y paralelos
- * - Control de flujo con goto
- * - Variables globales y contexto del proceso
+/* ============================================================================
+   FlowScriptProcesses (versión comentada y legible)
+   ----------------------------------------------------------------------------
+   Qué cubre:
+   - Programa con imports, variables globales, funciones y procesos
+   - Proceso: start único, tareas (task), gateways (exclusive y parallel), ends
+   - Acciones dentro de task: if/try/for-each/gateway interno/assign/goto/expr
+   - Expresiones con precedencia, llamadas a funciones, acceso por punto/índice
+   - Literales de lista y objeto (clave: valor)
+   Puntos clave de validación:
+   - “Proceso sin end” es inválido (se exige al menos un end al final)
+   - Tipos de función limitados (rechaza tipos inventados)
+   - Gateway paralelo requiere branches y un join
+   ============================================================================ */
+
+
+/* =========================
+ *  LEXER: Palabras clave
+ * =========================
+ * Nota: Las keywords van primero para evitar choques con ID.
  */
+NOT         : 'not';
+AND         : 'and';
+OR          : 'or';
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
+IMPORT      : 'import';
+IMPORT_JAR  : 'import_jar';
+AS          : 'as';
 
-// Palabras clave de estructura
+PROCESS     : 'process';
+START       : 'start';
+TASK        : 'task';
+ACTION      : 'action';
+GOTO        : 'go_to';
+END         : 'end';
+
+GATEWAY     : 'gateway';
+PARALLEL    : 'parallel';
+BRANCH      : 'branch';
+JOIN        : 'join';
+WHEN        : 'when';
+ELSE        : 'else';
+
+FUNCTION    : 'function';
+RETURN      : 'return';
+
+FOR         : 'for';
+EACH        : 'each';
+IN          : 'in';
+TRY         : 'try';
+CATCH       : 'catch';
+IF          : 'if';
+
+TRUE        : 'true';
+FALSE       : 'false';
+NULL        : 'null';
+
+/* =========================
+ *  LEXER: Tipos y símbolos
+ * ========================= */
+TYPE_INTEGER : 'integer';
+TYPE_DECIMAL : 'decimal';
+TYPE_BOOLEAN : 'boolean';
+TYPE_TEXT    : 'text';
+TYPE_OBJECT  : 'object';
+TYPE_VOID    : 'void';
+
+ARROW       : '->';
+COLON       : ':';
+COMMA       : ',';
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+LBRACK      : '[';
+RBRACK      : ']';
+EQ          : '=';
+GT          : '>';
+LT          : '<';
+GE          : '>=';
+LE          : '<=';
+NE          : '!=';
+PLUS        : '+';
+MINUS       : '-';
+MUL         : '*';
+DIV         : '/';
+DOT         : '.';
+
+/* =========================
+ *  LEXER: Literales e ID
+ * ========================= */
+INTEGER     : [0-9]+;
+STRING      : '"' ( ~["\\] | '\\' . )* '"' ;
+ID          : [a-zA-Z_] [a-zA-Z_0-9]* ;
+
+/* =========================
+ *  LEXER: Espacios/Comentarios
+ * ========================= */
+LINE_COMMENT : '#' ~[\r\n]* -> skip;
+BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+WS           : [ \t\r\n]+ -> skip;
 
 
-// ============================
-// PARSER RULES
-// ============================
-
-// ============================
-// ESTRUCTURA DEL PROGRAMA
-// ============================
-
+/* =========================
+ *  PARSER: Programa
+ * =========================
+ * Un archivo puede traer imports, variables globales, funciones
+ * y uno o varios procesos en cualquier orden.
+ */
 program
-    : EOF
-    ;
+  : (importDecl | importJarDecl | globalVarDecl | functionDecl | processDecl)* EOF
+  ;
 
 
-// ============================
-// EJEMPLOS DE USO
-// ============================
+/* -------------------------
+ * Imports y globales
+ * ------------------------- */
+importDecl     : IMPORT STRING (AS ID)? ;
+importJarDecl  : IMPORT_JAR STRING (AS ID)? ;
 
-/*
- * PROGRAMA COMPLETO CON PROCESOS:
- * 
- * import "std/http" as http
- * import "std/db" as db
- * import_jar "libs/utils.jar" as utils
- * 
- * # Variable global
- * MAX_RETRIES = 3
- * 
- * # Función auxiliar
- * function validate_email(email: text) -> boolean {
- *     return email.contains("@") and email.length() > 5
- * }
- * 
- * # Proceso principal
- * process OrderValidation {
- *     start -> CheckInput
- *     
- *     task CheckInput {
- *         action:
- *             if input.customer_id == null {
- *                 error_message = "Customer ID required"
- *                 goto ValidationError
- *             }
- *             
- *             if not validate_email(input.email) {
- *                 error_message = "Invalid email"
- *                 goto ValidationError
- *             }
- *             
- *             goto CheckInventory
- *     }
- *     
- *     task CheckInventory {
- *         action:
- *             items_available = true
- *             
- *             for each item in input.items {
- *                 stock = db.get("inventory", item.id)
- *                 if stock.quantity < item.quantity {
- *                     items_available = false
- *                 }
- *             }
- *             
- *             gateway InventoryDecision {
- *                 when items_available -> ProcessPayment
- *                 else -> InsufficientStock
- *             }
- *     }
- *     
- *     task ProcessPayment {
- *         action:
- *             try {
- *                 payment_result = http.post("https://api.payment.com/charge", {
- *                     amount: input.total,
- *                     card: input.payment_info
- *                 })
- *                 
- *                 if payment_result.success {
- *                     order_id = db.insert("orders", {
- *                         customer_id: input.customer_id,
- *                         items: input.items,
- *                         total: input.total,
- *                         status: "paid"
- *                     })
- *                     goto PrepareShipping
- *                 } else {
- *                     goto PaymentFailed
- *                 }
- *             } catch (error) {
- *                 log_error(error)
- *                 goto PaymentFailed
- *             }
- *     }
- *     
- *     # Gateway paralelo para preparar envío y notificar
- *     gateway PrepareShipping parallel {
- *         branch -> UpdateInventory
- *         branch -> NotifyCustomer
- *         branch -> CreateShipment
- *         join -> FinalizeOrder
- *     }
- *     
- *     task UpdateInventory {
- *         action:
- *             for each item in input.items {
- *                 db.execute(
- *                     "UPDATE inventory SET quantity = quantity - ? WHERE id = ?",
- *                     [item.quantity, item.id]
- *                 )
- *             }
- *             goto InventoryUpdated
- *     }
- *     
- *     task NotifyCustomer {
- *         action:
- *             utils.EmailService.send(
- *                 input.email,
- *                 "Order Confirmation",
- *                 "Your order has been confirmed and is being prepared."
- *             )
- *             goto CustomerNotified
- *     }
- *     
- *     task CreateShipment {
- *         action:
- *             shipment = http.post("https://api.shipping.com/create", {
- *                 address: input.shipping_address,
- *                 items: input.items
- *             })
- *             tracking_number = shipment.tracking_number
- *             goto ShipmentCreated
- *     }
- *     
- *     task FinalizeOrder {
- *         action:
- *             db.execute(
- *                 "UPDATE orders SET tracking_number = ?, status = ? WHERE id = ?",
- *                 [tracking_number, "shipped", order_id]
- *             )
- *             goto Success
- *     }
- *     
- *     task ValidationError {
- *         action:
- *             response = { success: false, message: error_message }
- *             goto Error
- *     }
- *     
- *     task InsufficientStock {
- *         action:
- *             response = { success: false, message: "Insufficient stock" }
- *             goto Error
- *     }
- *     
- *     task PaymentFailed {
- *         action:
- *             response = { success: false, message: "Payment failed" }
- *             goto Error
- *     }
- *     
- *     end InventoryUpdated
- *     end CustomerNotified
- *     end ShipmentCreated
- *     end Success
- *     end Error
- * }
- * 
- * # Proceso con gateway exclusivo
- * process ApprovalWorkflow {
- *     start -> EvaluateAmount
- *     
- *     task EvaluateAmount {
- *         action:
- *             gateway ApprovalLevel {
- *                 when input.amount > 10000 -> RequireCEOApproval
- *                 when input.amount > 5000 -> RequireManagerApproval
- *                 when input.amount > 1000 -> RequireSupervisorApproval
- *                 else -> AutoApprove
- *             }
- *     }
- *     
- *     task RequireCEOApproval {
- *         action:
- *             send_approval_request("ceo@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireManagerApproval {
- *         action:
- *             send_approval_request("manager@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireSupervisorApproval {
- *         action:
- *             send_approval_request("supervisor@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task AutoApprove {
- *         action:
- *             update_status(input.id, "approved")
- *             goto Approved
- *     }
- *     
- *     task WaitingApproval {
- *         action:
- *             # En un caso real, esto esperaría una respuesta asíncrona
- *             approval_result = wait_for_approval(input.id)
- *             if approval_result.approved {
- *                 goto Approved
- *             } else {
- *                 goto Rejected
- *             }
- *     }
- *     
- *     end Approved
- *     end Rejected
- * }
+/* Variable global simple: NOMBRE = expr */
+globalVarDecl  : ID EQ expression ;
+
+
+/* -------------------------
+ * Funciones auxiliares
+ * -------------------------
+ * Se incluyen con tipado básico y retorno opcional; los tipos
+ * válidos son los definidos (integer, decimal, boolean, text, object, void).
  */
+functionDecl
+  : FUNCTION ID LPAREN paramList? RPAREN returnType? block
+  ;
+
+paramList : param (COMMA param)* ;
+param     : ID (COLON typeRef)? ;     // El proyecto permite parámetros sin tipo, opcional
+
+returnType : ARROW typeRef ;
+
+typeRef
+  : TYPE_INTEGER
+  | TYPE_DECIMAL
+  | TYPE_BOOLEAN
+  | TYPE_TEXT
+  | TYPE_OBJECT
+  | TYPE_VOID
+  ;
+
+
+/* =========================
+ *  PARSER: Procesos
+ * =========================
+ * Estructura: process Nombre { start -> X ... end Y ... }
+ * Regla clave: al final del cuerpo debe existir al menos un end.
+ */
+processDecl
+  : PROCESS ID LBRACE processBody RBRACE
+  ;
+
+/* start va primero, luego cualquier cantidad de items (task/gateway),
+ * y el/los end van al final. De esta forma “proceso sin end” falla.
+ */
+processBody
+  : startDecl (processItemNoEnd)* endSection
+  ;
+
+/* start -> NombreTareaInicial */
+startDecl      : START ARROW ID ;
+
+/* Ítems intermedios del proceso (no incluyen end) */
+processItemNoEnd
+  : taskDecl
+  | gatewayDecl
+  ;
+
+/* Uno o más end al final del proceso */
+endSection     : (endDecl)+ ;
+endDecl        : END ID ;
+
+
+/* -------------------------
+ * Tareas
+ * -------------------------
+ * Las acciones admiten múltiples sentencias.
+ */
+taskDecl
+  : TASK ID LBRACE ACTION COLON statementBlock RBRACE
+  ;
+
+
+/* -------------------------
+ * Gateways
+ * -------------------------
+ * - Exclusivo: when ... -> Nodo, else -> Nodo
+ * - Paralelo: branches + un join obligatorio
+ */
+gatewayDecl
+  : GATEWAY ID (PARALLEL gatewayParallelBody | gatewayExclusiveBody)
+  ;
+
+gatewayExclusiveBody
+  : LBRACE (whenClause)+ (elseClause)? RBRACE
+  ;
+
+gatewayParallelBody
+  : LBRACE (branchClause)+ joinClause RBRACE
+  ;
+
+whenClause   : WHEN expression ARROW ID ;
+elseClause   : ELSE ARROW ID ;
+branchClause : BRANCH ARROW ID ;
+joinClause   : JOIN ARROW ID ;
+
+
+/* =========================
+ *  PARSER: Acciones
+ * =========================
+ * Conjunto de sentencias permisivo pero con las estructuras necesarias
+ * para los tests (if, try/catch, for-each, gateway anidado, etc.).
+ */
+statementBlock : (statement)* ;
+
+statement
+  : gotoStmt
+  | assignStmt
+  | ifStmt
+  | tryCatchStmt
+  | forEachStmt
+  | gatewayStmt          // gateway dentro de action
+  | returnStmt
+  | exprStmt
+  | block
+  ;
+
+/* Saltos a nodos del proceso */
+gotoStmt       : GOTO ID ;
+
+/* Asignaciones con lvalue extendido (a.b[expr].c) */
+assignStmt     : lvalue EQ expression ;
+lvalue         : ID ( (DOT ID) | (LBRACK expression RBRACK) )* ;
+
+/* Gateway interno dentro de una acción */
+gatewayStmt
+  : GATEWAY ID (PARALLEL gatewayParallelBody | gatewayExclusiveBody)
+  ;
+
+/* return exige expresión en este DSL de procesos */
+returnStmt     : RETURN expression ;
+
+/* if con else opcional (bloques obligatorios) */
+ifStmt
+  : IF expression block (ELSE block)?
+  ;
+
+/* try-catch básico con una sola cláusula catch */
+tryCatchStmt
+  : TRY block CATCH LPAREN ID RPAREN block
+  ;
+
+/* for-each: for each x in expr { ... } */
+forEachStmt
+  : FOR EACH ID IN expression block
+  ;
+
+/* Expresión suelta como sentencia, y bloque general */
+exprStmt       : expression ;
+block          : LBRACE statementBlock RBRACE ;
+
+
+/* =========================
+ *  PARSER: Expresiones
+ * =========================
+ * Precedencia usual: or < and < ==/!= < rel < +,- < *,/
+ * Soporta llamadas, acceso por punto e índice.
+ */
+expression     : logicalOrExpr ;
+
+logicalOrExpr  : logicalAndExpr ( OR  logicalAndExpr )* ;
+logicalAndExpr : equalityExpr   ( AND equalityExpr   )* ;
+
+equalityExpr
+  : relationalExpr ( (EQ EQ | NE) relationalExpr )*
+  ;
+
+relationalExpr
+  : additiveExpr ( (LT | LE | GT | GE) additiveExpr )*
+  ;
+
+additiveExpr
+  : multiplicativeExpr ( (PLUS | MINUS) multiplicativeExpr )*
+  ;
+
+multiplicativeExpr
+  : unaryExpr ( (MUL | DIV) unaryExpr )*
+  ;
+
+unaryExpr
+  : NOT unaryExpr
+  | MINUS unaryExpr
+  | postfixExpr
+  ;
+
+/* Postfijo: a.b, a[b], a() */
+postfixExpr
+  : primary ( (DOT ID) | (LBRACK expression RBRACK) | funcCall )*
+  ;
+
+funcCall : LPAREN (argList)? RPAREN ;
+argList  : expression (COMMA expression)* ;
+
+primary
+  : INTEGER
+  | STRING
+  | TRUE
+  | FALSE
+  | NULL
+  | ID
+  | listLiteral
+  | objectLiteral
+  | LPAREN expression RPAREN
+  ;
+
+
+/* =========================
+ *  Literales compuestos
+ * ========================= */
+listLiteral    : LBRACK (expression (COMMA expression)*)? RBRACK ;
+objectLiteral  : LBRACE (objPair (COMMA objPair)*)? RBRACE ;
+objPair        : ID COLON expression ;
