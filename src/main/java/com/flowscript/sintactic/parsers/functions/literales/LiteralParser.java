@@ -10,6 +10,7 @@ import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
  *
  * <h3>Gramática BNF:</h3>
  * <pre>
+ * 
  * Literal ::= IntegerLiteral
  *           | DecimalLiteral
  *           | BooleanLiteral
@@ -94,7 +95,7 @@ public class LiteralParser implements IParser<LiteralNode> {
 
             default:
                 throw new Parser.ParseException("Unexpected token in literal: " + current.getType());
-        }
+        }  
 
     }
 }
