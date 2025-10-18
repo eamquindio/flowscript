@@ -43,29 +43,41 @@ public class StartElementParser implements IParser<StartElementNode> {
 
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token startToken = context.getCurrentToken();
-        String keyword = startToken.getValue();
+        Token current = context.getCurrentToken();
+        TokenType type = current.getType();
 
-        if (!keyword.equals("inicio") && !keyword.equals("start")) {
-            throw new Parser.ParseException(
-                "Expected 'start' or 'inicio' but found '" + keyword +
-                "' at line " + startToken.getLine()
-            );
+
+        boolean isStart = type == TokenType.START;
+        boolean isInicio = type == TokenType.IDENTIFIER && "inicio".equalsIgnoreCase(current.getValue());
+
+        if (!isStart && !isInicio) {
+            throw error("Se esperaba 'start' o 'inicio'", current);
         }
+
+
         context.consume();
 
-        Token arrow = context.getCurrentToken();
-        if (arrow == null || !arrow.getValue().equals("->")) {
-            throw new Parser.ParseException(
-                "Expected '->' after 'start' at line " +
-                (arrow != null ? arrow.getLine() : startToken.getLine())
-            );
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw error("Se esperaba '->' después de 'start'/'inicio'",
+                    arrowToken != null ? arrowToken : current);
         }
-        context.consume();
+        context.consume(); // Consumir el token '->'
+
 
         Token targetToken = context.consume(TokenType.IDENTIFIER);
-        String targetName = targetToken.getValue();
+        if (targetToken == null) {
+            throw error("Se esperaba un identificador después de '->'", current);
+        }
 
-        return new StartElementNode(startToken, targetName);
+        return new StartElementNode(current, targetToken.getValue());
+    }
+
+
+    private Parser.ParseException error(String message, Token token) {
+        return new Parser.ParseException(
+                message + " en la línea " + token.getLine() + ", columna " + token.getColumn()
+        );
     }
 }

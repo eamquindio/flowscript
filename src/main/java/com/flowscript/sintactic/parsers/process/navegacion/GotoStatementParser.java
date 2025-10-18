@@ -38,19 +38,38 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
 
     @Override
     public GotoStatementNode parse(ParserContext context) throws Parser.ParseException {
-        Token gotoToken = context.getCurrentToken();
 
-        if (!gotoToken.getValue().equals("go_to")) {
+        Token gotoToken = context.getCurrentToken();
+        if (gotoToken == null) {
+            throw new Parser.ParseException("Unexpected end of file while expecting 'go_to' or 'ir_a'.");
+        }
+
+
+        String keyword = gotoToken.getValue();
+        if (!keyword.equalsIgnoreCase("go_to") && !keyword.equalsIgnoreCase("ir_a")) {
             throw new Parser.ParseException(
-                "Expected 'go_to' but found '" + gotoToken.getValue() +
-                "' at line " + gotoToken.getLine()
+                    "Expected 'go_to' or 'ir_a' but found '" + keyword +
+                            "' at line " + gotoToken.getLine()
             );
         }
+
+
         context.consume();
 
-        Token targetToken = context.consume(TokenType.IDENTIFIER);
+
+        Token targetToken = context.getCurrentToken();
+        if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException(
+                    "Expected an identifier (destination label) after 'go_to' at line " +
+                            (targetToken != null ? targetToken.getLine() : gotoToken.getLine())
+            );
+        }
+
+
+        context.consume();
         String targetName = targetToken.getValue();
 
+        
         return new GotoStatementNode(gotoToken, targetName);
     }
 }

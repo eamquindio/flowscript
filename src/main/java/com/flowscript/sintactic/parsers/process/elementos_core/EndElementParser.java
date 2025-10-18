@@ -48,20 +48,33 @@ public class EndElementParser implements IParser<EndElementNode> {
 
     @Override
     public EndElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token endToken = context.getCurrentToken();
-        String keyword = endToken.getValue();
+        Token current = context.getCurrentToken();
+        TokenType type = current.getType();
 
-        if (!keyword.equals("fin") && !keyword.equals("end")) {
-            throw new Parser.ParseException(
-                "Expected 'end' or 'fin' but found '" + keyword +
-                "' at line " + endToken.getLine()
-            );
+
+        boolean isEnd = type == TokenType.END;
+        boolean isFin = type == TokenType.IDENTIFIER && "fin".equalsIgnoreCase(current.getValue());
+
+        if (!isEnd && !isFin) {
+            throw error("Se esperaba 'end' o 'fin'", current);
         }
+
+
         context.consume();
 
-        Token nameToken = context.consume(TokenType.IDENTIFIER);
-        String endName = nameToken.getValue();
 
-        return new EndElementNode(endToken, endName);
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        if (nameToken == null) {
+            throw error("Se esperaba un identificador después de 'end'/'fin'", current);
+        }
+
+        return new EndElementNode(current, nameToken.getValue());
+    }
+
+
+    private Parser.ParseException error(String message, Token token) {
+        return new Parser.ParseException(
+                message + " en la línea " + token.getLine() + ", columna " + token.getColumn()
+        );
     }
 }

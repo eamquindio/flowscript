@@ -126,31 +126,40 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // Consume 'process' o 'proceso'
-        Token processToken = context.getCurrentToken();
-        String keyword = processToken.getValue();
 
-        if (!keyword.equals("proceso") && !keyword.equals("process") &&
-            processToken.getType() != TokenType.PROCESS) {
+        Token processToken = context.getCurrentToken();
+        if (processToken == null) {
+            throw new Parser.ParseException("Unexpected end of file while expecting 'process' or 'proceso'.");
+        }
+
+        String keyword = processToken.getValue();
+        if (!keyword.equalsIgnoreCase("process") && !keyword.equalsIgnoreCase("proceso")) {
             throw new Parser.ParseException(
-                "Expected 'process' or 'proceso' but found '" + keyword +
-                "' at line " + processToken.getLine()
+                    "Expected 'process' or 'proceso' but found '" + keyword +
+                            "' at line " + processToken.getLine()
             );
         }
-        context.consume(); // consume 'process'
+        context.consume(); // consume la palabra clave
 
-        // Consume IDENTIFIER (nombre del proceso)
+
         Token nameToken = context.consume(TokenType.IDENTIFIER);
         String processName = nameToken.getValue();
 
-        // Consume '{'
+
         context.consume(TokenType.LEFT_BRACE);
 
-        // Parsear el cuerpo del proceso
-        List<ASTNode> processElements = bodyParser.parse(context);
 
-        // Consume '}'
+        List<ASTNode> processElements = bodyParser.parse(context);
+        if (processElements == null) {
+            throw new Parser.ParseException(
+                    "No se pudo analizar el cuerpo del proceso para el proceso'" + processName +
+                            "' en la lineaz " + nameToken.getLine()
+            );
+        }
+
+
         context.consume(TokenType.RIGHT_BRACE);
+
 
         return new ProcessDeclarationNode(processToken, processName, processElements);
     }
