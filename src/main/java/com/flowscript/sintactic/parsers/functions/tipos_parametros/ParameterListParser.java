@@ -1,96 +1,31 @@
 package com.flowscript.sintactic.parsers.functions.tipos_parametros;
 
-import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.ParserContext;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ParameterListNode;
+import com.flowscript.sintactic.parsers.functions.programa_declaraciones.ProgramParser;
+import edu.eam.ingesoft.tlf.FlowScriptFunctionsParser;
 
 /**
- * Parser para listas de parámetros de función.
+ * Parser sencillo para obtener una lista de parámetros desde el código fuente.
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * ParameterList ::= Parameter ( ',' Parameter )*
- * </pre>
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // Un solo parámetro
- * x: entero
- *
- * // Múltiples parámetros
- * x: entero, y: decimal, nombre: texto
- *
- * // En contexto de funciones
- * function sumar(a: entero, b: entero) -> entero {
- *     return a + b
- * }
- *
- * function crear_reporte(
- *     titulo: texto,
- *     datos: lista,
- *     incluir_graficos: booleano,
- *     formato: texto
- * ) -> objeto {
- *     return {
- *         titulo: titulo,
- *         contenido: datos,
- *         graficos: incluir_graficos,
- *         tipo: formato
- *     }
- * }
- *
- * // Función con muchos parámetros
- * function procesar_transaccion(
- *     id: entero,
- *     usuario: objeto,
- *     monto: decimal,
- *     moneda: texto,
- *     descripcion: texto,
- *     metadata: objeto
- * ) -> booleano {
- *     // lógica de procesamiento
- *     return verdadero
- * }
- * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * ParameterListParser parser = new ParameterListParser();
- * List&lt;ParameterNode&gt; params = parser.parse(context);
- * </pre>
- *
- * <h3>Nota:</h3>
- * Este parser no implementa IParser porque retorna una lista, no un nodo AST.
- *
- * @see ParameterNode
- * @see ParameterParser
+ * Básicamente:
+ *   1. Crea un parser general de funciones.
+ *   2. Ejecuta la regla `parameterList`.
+ *   3. Convierte el resultado en un nodo AST (ParameterListNode).
  */
 public class ParameterListParser {
 
-    private final ParameterParser parameterParser;
+    /**
+     * Parsea el texto fuente recibido y devuelve un nodo con la lista de parámetros.
+     */
+    public static ParameterListNode parse(String source) {
+        // Creamos un parser base a partir del código fuente
+        FlowScriptFunctionsParser p = ProgramParser.buildParser(source);
 
-    public ParameterListParser() {
-        this.parameterParser = new ParameterParser();
-    }
+        // Ejecutamos la regla 'parameterList' del parser
+        FlowScriptFunctionsParser.ParameterListContext ctx = p.parameterList();
 
-    public List<ParameterNode> parse(ParserContext context) throws Parser.ParseException {
-        List<ParameterNode> parameters = new ArrayList<>();
-
-        // Parse primer parámetro
-        ParameterNode firstParam = parameterParser.parse(context);
-        parameters.add(firstParam);
-
-        // Parse parámetros adicionales (separados por coma)
-        while (context.checkValue(",")) {
-            context.consume(); // consume ','
-            ParameterNode param = parameterParser.parse(context);
-            parameters.add(param);
-        }
-
-        return parameters;
+        // Visitamos el contexto y devolvemos el nodo correspondiente
+        return (ParameterListNode) new ProgramParser.FunctionsAstVisitor()
+                .visitParameterList(ctx);
     }
 }

@@ -1,34 +1,50 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNode;
 
 /**
- * Parser para expresiones lógicas OR.
+ * Parser para manejar operaciones lógicas con OR.
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * LogicalOrExpression ::= LogicalAndExpression ( ( 'or' | 'o' ) LogicalAndExpression )*
- * </pre>
+ * Regla:
+ *   logicalOrExpr := logicalAndExpr ( 'or' logicalAndExpr )*
  *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 2: Expresiones - OR Lógico
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Soporta tanto 'or' (inglés) como 'o' (español).
- * El operador es asociativo por la izquierda.
- *
- * @see LogicalOrExpressionNode
+ * Se evalúa de izquierda a derecha (asociatividad izquierda).
  */
-public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNode> {
+public class LogicalOrExpressionParser implements IParser<ExpressionNode> {
+
+    private final LogicalAndExpressionParser andParser;
+
+    public LogicalOrExpressionParser() {
+        this.andParser = new LogicalAndExpressionParser();
+    }
 
     @Override
-    public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        // Empezamos leyendo la primera parte (una expresión AND)
+        ExpressionNode left = andParser.parse(context);
+
+        // Mientras encontremos un "or", seguimos encadenando
+        while (isOr(context.getCurrentToken())) {
+            Token op = context.consume();  // consumimos el 'or'
+            ExpressionNode right = andParser.parse(context);
+
+            // Unimos la expresión izquierda y derecha en un nuevo nodo OR
+            left = new LogicalOrExpressionNode(left, op, right);
+        }
+
+        // Devolvemos la expresión final (puede ser compuesta)
+        return left;
+    }
+
+    private static boolean isOr(Token t) {
+        if (t == null) return false;
+        // Aceptamos tanto el tipo de token OR como el texto literal "or"
+        return t.getType() == TokenType.OR || "or".equalsIgnoreCase(t.getValue());
     }
 }

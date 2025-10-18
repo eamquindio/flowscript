@@ -6,6 +6,200 @@
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ForStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ForStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ReturnStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ReturnStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ProgramParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ProgramParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterListParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterListParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/TypeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/TypeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/flowscript-functions.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/flowscript-functions.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/FlowScriptIDE$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/FlowScriptIDE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/CodeEditorPane.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ConsolePane$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ConsolePane.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/IconFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer$FileTreeCell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/ProjectExplorer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/StatusBar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/TokenTablePane$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/TokenTablePane$TokenRow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/components/TokenTablePane.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ProjectService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService$Theme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/services/ThemeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/ide/syntax/FlowScriptSyntaxHighlighter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/ComprehensiveDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/Lexer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/Lexer$LexicalException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/Lexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/LexerDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/TokenType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/CommentRecognizer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/CommentRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/DecimalLiteralRecognizer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/DecimalLiteralRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/IdentifierRecognizer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/IdentifierRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/IntegerLiteralRecognizer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/IntegerLiteralRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/KeywordRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/OperatorRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/StringLiteralRecognizer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/StringLiteralRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/lexer/afd/TokenRecognizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/IParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/Parser$ParseException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ParserContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ParserExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/ASTNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_ejecucion/BlockNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_ejecucion/StatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_flujo/ForStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_flujo/IfStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_flujo/ReturnStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_flujo/ThrowStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/control_flujo/TryStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/AdditiveExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/ArgumentListNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/BinaryExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/EqualityExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/ExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/FunctionCallNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/IdentifierNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/IndexAccessNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/LiteralNode$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/LiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/MultiplicativeExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/ObjectMemberNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PostfixExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PostfixOperatorNode$FunctionCallOperatorNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PostfixOperatorNode$IndexAccessOperatorNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PostfixOperatorNode$PropertyAccessOperatorNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PostfixOperatorNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PrimaryExpressionNode$ParenthesizedExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PrimaryExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/PropertyAccessNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/RelationalExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/TernaryExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/expresiones/UnaryExpressionNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/listas_argumentos/ExpressionListNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/listas_argumentos/ObjectMemberListNode$ObjectMemberNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/listas_argumentos/ObjectMemberListNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/BooleanLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/DecimalLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/IntegerLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/ListLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/NullLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/ObjectLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/literales/StringLiteralNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/programa_declaraciones/DeclarationNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/programa_declaraciones/FunctionDeclarationNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/programa_declaraciones/ImportDeclarationNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/programa_declaraciones/ProgramNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/programa_declaraciones/VariableDeclarationNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/statements_basicos/ElseIfClauseNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/statements_basicos/ExpressionStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/statements_basicos/VariableDeclarationStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/tipos_parametros/ParameterNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/functions/tipos_parametros/TypeNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/clausulas_control/ElseClauseNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/clausulas_control/JoinClauseNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/clausulas_control/ParallelBranchNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/clausulas_control/WhenClauseNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/EndElementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/ExclusiveGatewayNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/ParallelGatewayNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/ProcessDeclarationNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/ProcessElementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/StartElementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/estructura_principal/TaskElementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/ast/process/navegacion/GotoStatementNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_flujo/ForStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_flujo/ReturnStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_flujo/ThrowStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/control_flujo/TryStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/AdditiveExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/EqualityExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/MultiplicativeExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/PostfixExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/PostfixOperatorParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/PrimaryExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/RelationalExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/TernaryExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/expresiones/UnaryExpressionParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/listas_argumentos/ArgumentListParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/listas_argumentos/ExpressionListParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberListParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/BooleanLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/DecimalLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/IntegerLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/ListLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/LiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/NullLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/ObjectLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/literales/StringLiteralParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/programa_declaraciones/DeclarationParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ImportDeclarationParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ProgramParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterListParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/functions/tipos_parametros/TypeParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser$FunctionDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptFunctionsParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesBaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser$ProgramContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/eam/ingesoft/tlf/FlowScriptProcessesParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctions.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptFunctionsParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/antlr4/FlowScriptProcesses.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +221,9 @@
     &quot;accountId&quot;: &quot;b6d9aa9f-3c88-4766-966f-add2079dfb2c&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/Microsoft/Windows/INetCache/IE/1L0L2LV3/TypeParser[1].java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -35,30 +232,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FlowScriptIDE.executor": "Run",
-    "Application.LexerDemo.executor": "Run",
-    "JUnit.FlowScriptFunctionsTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
-    "JUnit.LexerTest.executor": "Run",
-    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
-    "Maven. [test].executor": "Run",
-    "Maven.flowscript [clean].executor": "Run",
-    "Maven.flowscript [compile].executor": "Run",
-    "Maven.flowscript [install].executor": "Run",
-    "Maven.flowscript [test].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "240220221015",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LexerDemo.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LexerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;240220221015&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />

@@ -1,6 +1,8 @@
 # Tests para la gramática de FlowScript Functions
 # Este archivo define casos de prueba para validar la gramática de funciones de FlowScript
-
+grammar: FlowScriptFunctions
+package: edu.eam.ingesoft.tlf
+start_rule: program
 ejemplos:
   # ===============================
   # CASOS VÁLIDOS - FUNCIONES BÁSICAS

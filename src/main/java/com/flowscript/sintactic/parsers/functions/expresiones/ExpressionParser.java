@@ -6,59 +6,23 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 
 /**
- * Parser coordinador para expresiones (punto de entrada del sistema de expresiones).
+ * Parser principal para manejar expresiones.
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * Expression ::= TernaryExpression
- * </pre>
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // Expresiones simples
- * 42
- * "Hola"
- * verdadero
- *
- * // Expresiones aritméticas
- * 10 + 20
- * x * (y + z)
- *
- * // Expresiones lógicas
- * x > 10 and y < 20
- * not activo or modo == "prueba"
- *
- * // Expresiones ternarias
- * x > 0 ? "positivo" : "negativo"
- *
- * // Llamadas a función
- * calcular(10, 20)
- * usuario.obtener_nombre()
- *
- * // Acceso a propiedades
- * usuario.nombre
- * lista[0]
- * matriz[i][j]
- * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * ExpressionParser parser = new ExpressionParser();
- * ExpressionNode expr = parser.parse(context);
- * </pre>
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} delegando a TernaryExpressionParser.
- *
- * @see ExpressionNode
+ * Básicamente arranca desde la parte más general (OR lógico)
+ * y deja que los demás parsers se encarguen de lo demás:
+ * AND, comparaciones, sumas, etc.
  */
 public class ExpressionParser implements IParser<ExpressionNode> {
 
+    private final LogicalOrExpressionParser logicalOrParser;
+
+    public ExpressionParser() {
+        this.logicalOrParser = new LogicalOrExpressionParser();
+    }
+
     @Override
     public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar delegación a TernaryExpressionParser
-        // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
-        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
+        // Entrada principal para analizar cualquier tipo de expresión
+        return logicalOrParser.parse(context);
     }
 }
