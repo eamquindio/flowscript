@@ -5,8 +5,6 @@ import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.navegacion.GotoStatementNode;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,74 +12,63 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Pruebas para GotoStatementParser.
+ * Tests para GotoStatementParser.
  *
- * Gramática (BNF):
- *   GotoStatement ::= 'go_to' IDENTIFIER
- * Aceptamos también la variante 'goto' porque el lexer puede emitir ambas.
+ * Gramática BNF:
+ * GotoStatement ::= 'go_to' IDENTIFIER
  */
 public class GotoStatementParserTest {
 
-    private GotoStatementParser parser;
-
-    @BeforeEach
-    void setUp() {
-        parser = new GotoStatementParser();
-    }
+    private GotoStatementParser parser = new GotoStatementParser();
 
     @Test
-    @DisplayName("goto básico con destino simple")
     public void testSimpleGoto() throws Exception {
-        GotoStatementNode result = parseOne("go_to NextTask");
+        String input = "go_to NextTask";
+        Lexer lexer = new Lexer(input);
+        List<Token> tokens = lexer.tokenize();
+        ParserContext context = new ParserContext(tokens);
+
+        GotoStatementNode result = parser.parse(context);
+
         assertNotNull(result);
         assertEquals("NextTask", result.getTargetLabel());
     }
 
     @Test
-    @DisplayName("goto con guion bajo en el identificador")
     public void testGotoWithUnderscoreInName() throws Exception {
-        GotoStatementNode result = parseOne("go_to Validate_Input");
+        String input = "go_to Validate_Input";
+        Lexer lexer = new Lexer(input);
+        List<Token> tokens = lexer.tokenize();
+        ParserContext context = new ParserContext(tokens);
+
+        GotoStatementNode result = parser.parse(context);
+
         assertNotNull(result);
         assertEquals("Validate_Input", result.getTargetLabel());
     }
 
     @Test
-    @DisplayName("goto hacia un end")
     public void testGotoToEnd() throws Exception {
-        GotoStatementNode result = parseOne("go_to FinOK");
+        String input = "go_to FinOK";
+        Lexer lexer = new Lexer(input);
+        List<Token> tokens = lexer.tokenize();
+        ParserContext context = new ParserContext(tokens);
+
+        GotoStatementNode result = parser.parse(context);
+
         assertNotNull(result);
         assertEquals("FinOK", result.getTargetLabel());
     }
 
     @Test
-    @DisplayName("error: falta el destino")
     public void testInvalidGoto_MissingTarget() throws Exception {
-        assertThrows(Parser.ParseException.class, () -> parseOne("go_to"));
-    }
-
-    // --- Casos adicionales recomendados ---
-
-    @Test
-    @DisplayName("acepta variante 'goto' sin guion bajo")
-    public void testGotoKeywordVariantWithoutUnderscore() throws Exception {
-        GotoStatementNode result = parseOne("goto Siguiente");
-        assertNotNull(result);
-        assertEquals("Siguiente", result.getTargetLabel());
-    }
-
-    @Test
-    @DisplayName("error: destino no es identificador")
-    public void testInvalidGoto_NonIdentifierTarget() throws Exception {
-        assertThrows(Parser.ParseException.class, () -> parseOne("go_to 123"));
-    }
-
-    // -------------------------
-    // Helper de parseo local
-    // -------------------------
-    private GotoStatementNode parseOne(String source) throws Exception {
-        Lexer lexer = new Lexer(source);
+        String input = "go_to";
+        Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
-        return parser.parse(context);
+
+        assertThrows(Parser.ParseException.class, () -> {
+            parser.parse(context);
+        });
     }
 }

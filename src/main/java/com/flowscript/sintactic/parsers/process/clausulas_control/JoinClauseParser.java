@@ -8,58 +8,27 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.clausulas_control.JoinClauseNode;
 
 /**
+ * Parser para cláusulas join en gateways paralelos.
+ *
+ * <h3>Gramática BNF:</h3>
+ * <pre>
  * JoinClause ::= 'join' '->' IDENTIFIER
+ * </pre>
  */
 public class JoinClauseParser implements IParser<JoinClauseNode> {
 
     @Override
     public JoinClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // 'join'
-        Token joinTok = consumeKeyword(context, TokenType.JOIN, "join");
+        // 1️⃣ Consumir la palabra clave 'join'
+        Token joinToken = context.consume(TokenType.JOIN);
 
-        // '->'
-        consumeSymbol(context, TokenType.ARROW, "->");
 
-        // target label
-        Token labelTok = consumeIdentifier(context, "destino del join");
-        String target = labelTok.getValue();
+        context.consume(TokenType.ARROW);
 
-        return new JoinClauseNode(joinTok, target);
-    }
 
-    // ---- utils ----
-    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-        return t;
-    }
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
 
-    private static void consumeSymbol(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-    }
 
-    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
-        if (t.getType() != TokenType.IDENTIFIER) {
-            throw error(t, "Se esperaba un identificador para " + what);
-        }
-        ctx.advance();
-        return t;
-    }
-
-    private static Parser.ParseException error(Token t, String msg) {
-        if (t == null) return new Parser.ParseException(msg + ". Fin de entrada.");
-        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
-                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
+        return new JoinClauseNode(joinToken, targetToken.getValue());
     }
 }

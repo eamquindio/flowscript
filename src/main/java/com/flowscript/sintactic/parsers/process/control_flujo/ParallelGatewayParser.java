@@ -5,11 +5,11 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
-import com.flowscript.sintactic.ast.process.clausulas_control.JoinClauseNode;
-import com.flowscript.sintactic.ast.process.clausulas_control.ParallelBranchNode;
 import com.flowscript.sintactic.ast.process.estructura_principal.ParallelGatewayNode;
-import com.flowscript.sintactic.parsers.process.clausulas_control.JoinClauseParser;
+import com.flowscript.sintactic.ast.process.clausulas_control.ParallelBranchNode;
+import com.flowscript.sintactic.ast.process.clausulas_control.JoinClauseNode;
 import com.flowscript.sintactic.parsers.process.clausulas_control.ParallelBranchParser;
+import com.flowscript.sintactic.parsers.process.clausulas_control.JoinClauseParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,26 @@ import java.util.List;
 /**
  * Parser para gateways paralelos (AND).
  *
- * Gramática (BNF simplificada):
- * ParallelGateway ::= 'gateway' IDENTIFIER 'parallel' '{' ParallelBranch+ JoinClause '}'
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * ParallelGateway ::= 'gateway' IDENTIFIER 'parallel' '{' ParallelBranch* JoinClause '}'
+ * </pre>
+ *
+ * <h3>Categoría:</h3>
+ * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
+ * Nivel 4: Elementos de Control de Flujo
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Gateway paralelo
+ * gateway VerificacionAntecedentes parallel {
+ *     branch -> VerificarCredito
+ *     branch -> VerificarPenal
+ *     join -> Consolidar
+ * }
+ * </pre>
+ *
+ * @see ParallelGatewayNode
  */
 public class ParallelGatewayParser implements IParser<ParallelGatewayNode> {
 
@@ -32,84 +50,50 @@ public class ParallelGatewayParser implements IParser<ParallelGatewayNode> {
 
     @Override
     public ParallelGatewayNode parse(ParserContext context) throws Parser.ParseException {
-        // 'gateway'
-        Token gatewayTok = consumeKeyword(context, TokenType.GATEWAY, "gateway");
+        Token gatewayToken = context.getCurrentToken();
+        if (!gatewayToken.getValue().equals("gateway")) {
+            throw new Parser.ParseException(
+                "Expected 'gateway' but found '" + gatewayToken.getValue() +
+                "' at line " + gatewayToken.getLine()
+            );
+        }
+        context.consume();
 
-        // nombre del gateway
-        Token nameTok = consumeIdentifier(context, "nombre del gateway");
-        String gatewayName = nameTok.getValue();
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String gatewayName = nameToken.getValue();
 
-        // 'parallel'
-        consumeKeyword(context, TokenType.PARALLEL, "parallel");
+        Token parallelToken = context.getCurrentToken();
+        if (!parallelToken.getValue().equals("parallel") && !parallelToken.getValue().equals("paralelo")) {
+            throw new Parser.ParseException(
+                "Expected 'parallel' after gateway name but found '" + parallelToken.getValue() +
+                "' at line " + parallelToken.getLine()
+            );
+        }
+        context.consume();
 
-        // '{'
-        consumeSymbol(context, TokenType.LEFT_BRACE, "{");
+        context.consume(TokenType.LEFT_BRACE);
 
-        // Uno o más branch
         List<ParallelBranchNode> branches = new ArrayList<>();
-        while (check(context, TokenType.BRANCH, "branch")) {
-            ParallelBranchNode b = branchParser.parse(context);
-            branches.add(b);
+        while (context.checkValue("rama") || context.checkValue("branch")) {
+            ParallelBranchNode branch = branchParser.parse(context);
+            branches.add(branch);
         }
+
         if (branches.isEmpty()) {
-            throw error(peekCurrent(context), "Se esperaba al menos una cláusula 'branch' en el gateway paralelo");
+            throw new Parser.ParseException(
+                "Parallel gateway must have at least one branch at line " + gatewayToken.getLine()
+            );
         }
 
-        // join obligatorio
-        if (!check(context, TokenType.JOIN, "join")) {
-            throw error(peekCurrent(context), "Se esperaba la cláusula 'join' en el gateway paralelo");
+        if (!context.checkValue("unir") && !context.checkValue("join")) {
+            throw new Parser.ParseException(
+                "Parallel gateway must have a join clause at line " + context.getCurrentToken().getLine()
+            );
         }
-        JoinClauseNode join = joinParser.parse(context);
+        JoinClauseNode joinClause = joinParser.parse(context);
 
-        // '}'
-        consumeSymbol(context, TokenType.RIGHT_BRACE, "}");
+        context.consume(TokenType.RIGHT_BRACE);
 
-        return new ParallelGatewayNode(gatewayTok, gatewayName, branches, join);
-    }
-
-    // ------------------ utilidades ------------------
-
-    private static boolean check(ParserContext ctx, TokenType type, String lexeme) {
-        Token t = ctx.getCurrentToken();
-        return t != null && (t.getType() == type || lexeme.equals(t.getValue()));
-    }
-
-    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-        return t;
-    }
-
-    private static void consumeSymbol(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-    }
-
-    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
-        if (t.getType() != TokenType.IDENTIFIER) {
-            throw error(t, "Se esperaba un identificador para " + what);
-        }
-        ctx.advance();
-        return t;
-    }
-
-    private static Token peekCurrent(ParserContext ctx) {
-        return ctx.getCurrentToken();
-    }
-
-    private static Parser.ParseException error(Token t, String msg) {
-        if (t == null) return new Parser.ParseException(msg + ". Fin de entrada.");
-        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
-                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
+        return new ParallelGatewayNode(gatewayToken, gatewayName, branches, joinClause);
     }
 }

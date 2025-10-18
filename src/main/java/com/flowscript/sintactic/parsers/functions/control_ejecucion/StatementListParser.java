@@ -70,6 +70,17 @@ public class StatementListParser {
     }
 
     public List<StatementNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+
+        // Parsear statements hasta encontrar '}' o EOF
+        while (context.getCurrentToken() != null &&
+               !context.check(TokenType.RIGHT_BRACE) &&
+               !context.check(TokenType.EOF)) {
+
+            StatementNode statement = statementParser.parse(context);
+            statements.add(statement);
+        }
+
+        return statements;
     }
 }

@@ -1,333 +1,254 @@
-grammar FlowScriptProcesses;
+    grammar FlowScriptProcesses;
 
-@header { package edu.eam.ingesoft.tlf; }
+    // Package declaration for generated code
+    @header {
+        package edu.eam.ingesoft.tlf;
+    }
 
-/* ============================================================================
-   FlowScriptProcesses (versión comentada y legible)
-   ----------------------------------------------------------------------------
-   Qué cubre:
-   - Programa con imports, variables globales, funciones y procesos
-   - Proceso: start único, tareas (task), gateways (exclusive y parallel), ends
-   - Acciones dentro de task: if/try/for-each/gateway interno/assign/goto/expr
-   - Expresiones con precedencia, llamadas a funciones, acceso por punto/índice
-   - Literales de lista y objeto (clave: valor)
-   Puntos clave de validación:
-   - “Proceso sin end” es inválido (se exige al menos un end al final)
-   - Tipos de función limitados (rechaza tipos inventados)
-   - Gateway paralelo requiere branches y un join
-   ============================================================================ */
+    /*
+     * GRAMÁTICA DE PROCESOS PARA FLOWSCRIPT
+     *
+     * Este archivo define la gramática completa para el sistema de procesos
+     * y estructura del programa principal de FlowScript, incluyendo:
+     * - Estructura del programa (imports, declaraciones)
+     * - Declaración de procesos
+     * - Nodos del proceso (start, task, end, gateway)
+     * - Gateways exclusivos y paralelos
+     * - Control de flujo con goto
+     * - Variables globales y contexto del proceso
+     */
 
-
-/* =========================
- *  LEXER: Palabras clave
- * =========================
- * Nota: Las keywords van primero para evitar choques con ID.
- */
-NOT         : 'not';
-AND         : 'and';
-OR          : 'or';
-
-IMPORT      : 'import';
-IMPORT_JAR  : 'import_jar';
-AS          : 'as';
-
-PROCESS     : 'process';
-START       : 'start';
-TASK        : 'task';
-ACTION      : 'action';
-GOTO        : 'go_to';
-END         : 'end';
-
-GATEWAY     : 'gateway';
-PARALLEL    : 'parallel';
-BRANCH      : 'branch';
-JOIN        : 'join';
-WHEN        : 'when';
-ELSE        : 'else';
-
-FUNCTION    : 'function';
-RETURN      : 'return';
-
-FOR         : 'for';
-EACH        : 'each';
-IN          : 'in';
-TRY         : 'try';
-CATCH       : 'catch';
-IF          : 'if';
-
-TRUE        : 'true';
-FALSE       : 'false';
-NULL        : 'null';
-
-/* =========================
- *  LEXER: Tipos y símbolos
- * ========================= */
-TYPE_INTEGER : 'integer';
-TYPE_DECIMAL : 'decimal';
-TYPE_BOOLEAN : 'boolean';
-TYPE_TEXT    : 'text';
-TYPE_OBJECT  : 'object';
-TYPE_VOID    : 'void';
-
-ARROW       : '->';
-COLON       : ':';
-COMMA       : ',';
-LPAREN      : '(';
-RPAREN      : ')';
-LBRACE      : '{';
-RBRACE      : '}';
-LBRACK      : '[';
-RBRACK      : ']';
-EQ          : '=';
-GT          : '>';
-LT          : '<';
-GE          : '>=';
-LE          : '<=';
-NE          : '!=';
-PLUS        : '+';
-MINUS       : '-';
-MUL         : '*';
-DIV         : '/';
-DOT         : '.';
-
-/* =========================
- *  LEXER: Literales e ID
- * ========================= */
-INTEGER     : [0-9]+;
-STRING      : '"' ( ~["\\] | '\\' . )* '"' ;
-ID          : [a-zA-Z_] [a-zA-Z_0-9]* ;
-
-/* =========================
- *  LEXER: Espacios/Comentarios
- * ========================= */
-LINE_COMMENT : '#' ~[\r\n]* -> skip;
-BLOCK_COMMENT: '/*' .*? '*/' -> skip;
-WS           : [ \t\r\n]+ -> skip;
+    // ============================
+    // LEXER RULES (TOKENS)
+    // ============================
 
 
-/* =========================
- *  PARSER: Programa
- * =========================
- * Un archivo puede traer imports, variables globales, funciones
- * y uno o varios procesos en cualquier orden.
- */
-program
-  : (importDecl | importJarDecl | globalVarDecl | functionDecl | processDecl)* EOF
-  ;
+    PROCESO       : 'process';
+    FUNCION  : 'function';
+    IMPORTAR : 'import';
+    IMPORTAR_JAR: 'import_jar';
+    COMO: 'as';
+    RETORNAR: 'return';
+
+    INICIO : 'start';
+    FIN    : 'end';
+    TAREA: 'task';
+    PASARELA : 'gateway';
+    IR_A   : 'go_to';
+    CUANDO : 'when';
+    RAMA : 'branch';
+    UNIR  : 'join';
+    SINO   : 'else';
+    PARALELO: 'parallel';
+    ACCION  : 'action';
+
+    SI : 'if';
+    SINO_SI    : 'else_if';
+    INTENTAR   : 'try';
+    CAPTURAR : 'catch';
+    LANSAR   : 'throw';
+    MIENTRAS  : 'while';
+    PARA     : 'for';
+    CADA       : 'each';
+    EN     : 'in';
+    DESDE    : 'from';
+    HASTA     : 'to';
+    PASO      : 'step';
+    ROMPER    : 'break';
+    CONTINUAR   : 'continue';
+
+    ENTERO: 'integer';
+    DECIMAL    : 'decimal';
+    BOOLEANO  : 'boolean';
+    TEXTO   : 'text';
+    LISTA    : 'list';
+    OBJETO  : 'object';
+    VACIO  : 'void';
+
+    NULO  : 'null';
+    VERDADERO : 'true';
+    FALSO  : 'false';
+
+    Y   : 'and';
+    O  : 'or';
+    NO  : 'not';
+
+    MAS  : '+';
+    MENOS : '-';
+    MULTIPLICAR: '*';
+    DIVIDIR : '/';
+    MODULO : '%';
+
+    MENOR_IGUA: '<=';
+    MAYOR_IGUAL : '>=';
+    IGUAL   : '==';
+    DISTINTO : '!=';
+    MENOR   : '<';
+    MAYOR : '>';
+
+    ASIGNAR : '=';
+    PREGUNTA : '?';
+    PUNTO      : '.';
+
+    PARENTESIS_IZQ : '(';
+    PARENTESIS_DER : ')';
+    LLAVE_IZQ : '{';
+    LLAVE_DER  : '}';
+    CORCHETE_IZQ  : '[';
+    CORCHETE_DER   : ']';
+    COMA  : ',';
+    PUNTO_Y_COMA   : ';';
+    DOS_PUNTOS : ':';
+    FLECHA  : '->';
+
+    ENTERO_LITERAL: [0-9]+;
+    DECIMAL_LITERAL: [0-9]+ '.' [0-9]+;
+    CADENA_LITERAL: '"' ( '\\' . | ~["\\] )* '"';
 
 
-/* -------------------------
- * Imports y globales
- * ------------------------- */
-importDecl     : IMPORT STRING (AS ID)? ;
-importJarDecl  : IMPORT_JAR STRING (AS ID)? ;
+    IDENTIFICADOR : [a-zA-ZáéíóúÁÉÍÓÚñÑ_][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_]*;
+    ENTRADA : 'input';
 
-/* Variable global simple: NOMBRE = expr */
-globalVarDecl  : ID EQ expression ;
+    LINEA_COMENTARIO : '//' ~[\r\n]*  -> skip ;
+    BLOQUE_COMENTARIO : '/*' .*? '*/' -> skip ;
+    HASH_COMENTARIO : '#'  ~[\r\n]*  -> skip ;
+    ESPACIO  : [ \t\r\n]+     -> skip ;
 
+    // ============================
+    // PARSER RULES
+    // ============================
 
-/* -------------------------
- * Funciones auxiliares
- * -------------------------
- * Se incluyen con tipado básico y retorno opcional; los tipos
- * válidos son los definidos (integer, decimal, boolean, text, object, void).
- */
-functionDecl
-  : FUNCTION ID LPAREN paramList? RPAREN returnType? block
-  ;
+    program
+        : ( declaracionImportar| declaracionImportarJar|variableGlobal| declaracionFuncion| declaracionProceso
+          )* EOF
+        ;
 
-paramList : param (COMMA param)* ;
-param     : ID (COLON typeRef)? ;     // El proyecto permite parámetros sin tipo, opcional
+    declaracionImportar
+        : IMPORTAR CADENA_LITERAL (COMO IDENTIFICADOR)? PUNTO_Y_COMA?;
 
-returnType : ARROW typeRef ;
+    declaracionImportarJar
+       : IMPORTAR_JAR CADENA_LITERAL COMO IDENTIFICADOR PUNTO_Y_COMA?;
 
-typeRef
-  : TYPE_INTEGER
-  | TYPE_DECIMAL
-  | TYPE_BOOLEAN
-  | TYPE_TEXT
-  | TYPE_OBJECT
-  | TYPE_VOID
-  ;
+    variableGlobal
+       : IDENTIFICADOR ASIGNAR valorGlobal PUNTO_Y_COMA?;
 
+    valorGlobal
+        : ENTERO_LITERAL | DECIMAL_LITERAL| CADENA_LITERAL| VERDADERO| FALSO | NULO
+        | IDENTIFICADOR;
 
-/* =========================
- *  PARSER: Procesos
- * =========================
- * Estructura: process Nombre { start -> X ... end Y ... }
- * Regla clave: al final del cuerpo debe existir al menos un end.
- */
-processDecl
-  : PROCESS ID LBRACE processBody RBRACE
-  ;
+    declaracionFuncion
+        : FUNCION IDENTIFICADOR PARENTESIS_IZQ listaParametros? PARENTESIS_DER FLECHA tipo
+      LLAVE_IZQ cuerpoFuncion LLAVE_DER;
 
-/* start va primero, luego cualquier cantidad de items (task/gateway),
- * y el/los end van al final. De esta forma “proceso sin end” falla.
- */
-processBody
-  : startDecl (processItemNoEnd)* endSection
-  ;
+    listaParametros
+        : parametro (COMA parametro)*;
 
-/* start -> NombreTareaInicial */
-startDecl      : START ARROW ID ;
+    parametro
+       :IDENTIFICADOR DOS_PUNTOS tipo;
 
-/* Ítems intermedios del proceso (no incluyen end) */
-processItemNoEnd
-  : taskDecl
-  | gatewayDecl
-  ;
+    tipo
+        : ENTERO| DECIMAL| BOOLEANO| TEXTO| LISTA
+        | OBJETO| VACIO;
 
-/* Uno o más end al final del proceso */
-endSection     : (endDecl)+ ;
-endDecl        : END ID ;
+    cuerpoFuncion
+        : ( ~LLAVE_DER )*;
 
+    declaracionProceso
+        : PROCESO IDENTIFICADOR LLAVE_IZQ cuerpoProceso LLAVE_DER;
 
-/* -------------------------
- * Tareas
- * -------------------------
- * Las acciones admiten múltiples sentencias.
- */
-taskDecl
-  : TASK ID LBRACE ACTION COLON statementBlock RBRACE
-  ;
+    cuerpoProceso
+        : elementoInicio (elementoTarea | pasarelaExclusiva |pasarelaParalela)* elementoFin+;
 
+    elementoProceso
+        : elementoInicio| elementoTarea| pasarelaExclusiva| pasarelaParalela| elementoFin ;
 
-/* -------------------------
- * Gateways
- * -------------------------
- * - Exclusivo: when ... -> Nodo, else -> Nodo
- * - Paralelo: branches + un join obligatorio
- */
-gatewayDecl
-  : GATEWAY ID (PARALLEL gatewayParallelBody | gatewayExclusiveBody)
-  ;
+    elementoInicio
+        : INICIO FLECHA IDENTIFICADOR PUNTO_Y_COMA?       ;
 
-gatewayExclusiveBody
-  : LBRACE (whenClause)+ (elseClause)? RBRACE
-  ;
+    elementoFin
+        : FIN IDENTIFICADOR PUNTO_Y_COMA? ;
 
-gatewayParallelBody
-  : LBRACE (branchClause)+ joinClause RBRACE
-  ;
+    elementoTarea
+        : TAREA IDENTIFICADOR LLAVE_IZQ ACCION DOS_PUNTOS itemsAccion LLAVE_DER;
 
-whenClause   : WHEN expression ARROW ID ;
-elseClause   : ELSE ARROW ID ;
-branchClause : BRANCH ARROW ID ;
-joinClause   : JOIN ARROW ID ;
+    itemsAccion
+        : sentencia*;
 
+    sentencia
+        : irA| siSino
+    | intentarCapturar| paraCada| pasarelaExclusiva| pasarelaParalela| asignacion| expresionStmt;
 
-/* =========================
- *  PARSER: Acciones
- * =========================
- * Conjunto de sentencias permisivo pero con las estructuras necesarias
- * para los tests (if, try/catch, for-each, gateway anidado, etc.).
- */
-statementBlock : (statement)* ;
+    irA
+        : IR_A IDENTIFICADOR PUNTO_Y_COMA?;
 
-statement
-  : gotoStmt
-  | assignStmt
-  | ifStmt
-  | tryCatchStmt
-  | forEachStmt
-  | gatewayStmt          // gateway dentro de action
-  | returnStmt
-  | exprStmt
-  | block
-  ;
+    asignacion
+        : lvalue ASIGNAR expresion PUNTO_Y_COMA?;
 
-/* Saltos a nodos del proceso */
-gotoStmt       : GOTO ID ;
+    lvalue
+        : IDENTIFICADOR (PUNTO IDENTIFICADOR | CORCHETE_IZQ expresion CORCHETE_DER)*;
 
-/* Asignaciones con lvalue extendido (a.b[expr].c) */
-assignStmt     : lvalue EQ expression ;
-lvalue         : ID ( (DOT ID) | (LBRACK expression RBRACK) )* ;
+    expresionStmt
+        : expresion PUNTO_Y_COMA?;
 
-/* Gateway interno dentro de una acción */
-gatewayStmt
-  : GATEWAY ID (PARALLEL gatewayParallelBody | gatewayExclusiveBody)
-  ;
+    siSino
+       : SI expresion bloque (SINO_SI expresion bloque)* (SINO bloque)?;
 
-/* return exige expresión en este DSL de procesos */
-returnStmt     : RETURN expression ;
+    intentarCapturar
+        : INTENTAR bloque
+          CAPTURAR PARENTESIS_IZQ IDENTIFICADOR PARENTESIS_DER bloque;
 
-/* if con else opcional (bloques obligatorios) */
-ifStmt
-  : IF expression block (ELSE block)?
-  ;
+    paraCada
+        : PARA CADA IDENTIFICADOR EN expresion bloque;
 
-/* try-catch básico con una sola cláusula catch */
-tryCatchStmt
-  : TRY block CATCH LPAREN ID RPAREN block
-  ;
+    bloque
+        : LLAVE_IZQ sentencia* LLAVE_DER;
 
-/* for-each: for each x in expr { ... } */
-forEachStmt
-  : FOR EACH ID IN expression block
-  ;
+    pasarelaExclusiva
+        : PASARELA IDENTIFICADOR LLAVE_IZQ cuando+ sino? LLAVE_DER;
 
-/* Expresión suelta como sentencia, y bloque general */
-exprStmt       : expression ;
-block          : LBRACE statementBlock RBRACE ;
+    cuando
+        : CUANDO expresion FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
 
+    sino
+        : SINO FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
 
-/* =========================
- *  PARSER: Expresiones
- * =========================
- * Precedencia usual: or < and < ==/!= < rel < +,- < *,/
- * Soporta llamadas, acceso por punto e índice.
- */
-expression     : logicalOrExpr ;
+    pasarelaParalela
+    : PASARELA IDENTIFICADOR PARALELO LLAVE_IZQ ramaParalela+ unirRama LLAVE_DER;
 
-logicalOrExpr  : logicalAndExpr ( OR  logicalAndExpr )* ;
-logicalAndExpr : equalityExpr   ( AND equalityExpr   )* ;
+    ramaParalela
+        : RAMA FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
 
-equalityExpr
-  : relationalExpr ( (EQ EQ | NE) relationalExpr )*
-  ;
+    unirRama
+      : UNIR FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
 
-relationalExpr
-  : additiveExpr ( (LT | LE | GT | GE) additiveExpr )*
-  ;
+    expresion
+        : expresion PREGUNTA expresion DOS_PUNTOS expresion| expresion O expresion| expresion Y expresion
+        | expresion (IGUAL | DISTINTO) expresion| expresion (MENOR | MENOR_IGUA | MAYOR | MAYOR_IGUAL) expresion
+        | expresion (MAS | MENOS) expresion| expresion (MULTIPLICAR | DIVIDIR | MODULO) expresion
+        | NO expresion| MENOS expresion
+        | postfixExpr;
 
-additiveExpr
-  : multiplicativeExpr ( (PLUS | MINUS) multiplicativeExpr )*
-  ;
+    postfixExpr
+        : primario ( PUNTO IDENTIFICADOR| CORCHETE_IZQ expresion CORCHETE_DER
+    | PARENTESIS_IZQ listaArgumentos? PARENTESIS_DER)*;
 
-multiplicativeExpr
-  : unaryExpr ( (MUL | DIV) unaryExpr )*
-  ;
+    primario
+        : literal
+        | ENTRADA| IDENTIFICADOR| PARENTESIS_IZQ expresion PARENTESIS_DER| objetoLiteral
+    |listaLiteral;
 
-unaryExpr
-  : NOT unaryExpr
-  | MINUS unaryExpr
-  | postfixExpr
-  ;
+    listaArgumentos
+        : expresion (COMA expresion)*;
 
-/* Postfijo: a.b, a[b], a() */
-postfixExpr
-  : primary ( (DOT ID) | (LBRACK expression RBRACK) | funcCall )*
-  ;
+    literal
+        : ENTERO_LITERAL
+    | DECIMAL_LITERAL| CADENA_LITERAL| VERDADERO| FALSO| NULO;
 
-funcCall : LPAREN (argList)? RPAREN ;
-argList  : expression (COMMA expression)* ;
+    objetoLiteral
+        : LLAVE_IZQ (campoObjeto (COMA campoObjeto)*)? LLAVE_DER;
 
-primary
-  : INTEGER
-  | STRING
-  | TRUE
-  | FALSE
-  | NULL
-  | ID
-  | listLiteral
-  | objectLiteral
-  | LPAREN expression RPAREN
-  ;
+    campoObjeto
+        : (IDENTIFICADOR | CADENA_LITERAL) DOS_PUNTOS expresion;
 
-
-/* =========================
- *  Literales compuestos
- * ========================= */
-listLiteral    : LBRACK (expression (COMMA expression)*)? RBRACK ;
-objectLiteral  : LBRACE (objPair (COMMA objPair)*)? RBRACE ;
-objPair        : ID COLON expression ;
+    listaLiteral
+        : CORCHETE_IZQ (expresion (COMA expresion)*)? CORCHETE_DER;

@@ -5,11 +5,9 @@ import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.ASTNode;
-import com.flowscript.sintactic.parsers.process.elementos_core.EndElementParser;
-import com.flowscript.sintactic.parsers.process.elementos_core.StartElementParser;
-import com.flowscript.sintactic.parsers.process.elementos_trabajo.TaskElementParser;
-import com.flowscript.sintactic.parsers.process.control_flujo.ExclusiveGatewayParser;
-import com.flowscript.sintactic.parsers.process.control_flujo.ParallelGatewayParser;
+import com.flowscript.sintactic.parsers.process.elementos_core.*;
+import com.flowscript.sintactic.parsers.process.elementos_trabajo.*;
+import com.flowscript.sintactic.parsers.process.control_flujo.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +15,23 @@ import java.util.List;
 /**
  * Parser para el cuerpo de un proceso.
  *
+ * <h3>Gramática BNF:</h3>
  * <pre>
- * ProcessBody      ::= ProcessElement*
- * ProcessElement   ::= StartElement | TaskElement | GatewayElement | EndElement
- * StartElement     ::= 'start' '->' IDENTIFIER
- * TaskElement      ::= 'task' IDENTIFIER '{' 'action:' Statement* '}'
- * EndElement       ::= 'end' IDENTIFIER
- * GatewayElement   ::= ExclusiveGateway | ParallelGateway
- * ExclusiveGateway ::= 'gateway' IDENTIFIER '{' WhenClause+ ElseClause? '}'
- * ParallelGateway  ::= 'gateway' IDENTIFIER 'parallel' '{' Branch* Join '}'
+ * ProcessBody ::= ProcessElement*
+ * ProcessElement ::= StartElement | TaskElement | GatewayElement | EndElement
  * </pre>
  *
- * Se detiene cuando encuentra la llave de cierre '}' del bloque del proceso
- * (esa llave la consume el parser que invoca a este cuerpo, típicamente ProcessDeclarationParser).
+ * <h3>Categoría:</h3>
+ * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
+ * Nivel 1: Estructura Principal del Proceso
+ *
+ * <h3>Responsabilidad:</h3>
+ * Coordina el parseo de todos los elementos que componen un proceso BPMN.
+ *
+ * <h3>Nota:</h3>
+ * Este parser no implementa IParser porque retorna una lista, no un nodo AST.
+ *
+ * @see ProcessDeclarationParser
  */
 public class ProcessBodyParser {
 
@@ -47,82 +49,59 @@ public class ProcessBodyParser {
         this.parallelGatewayParser = new ParallelGatewayParser();
     }
 
-    /**
-     * Parsea una lista de elementos del proceso hasta ver '}' o EOF.
-     * No consume la '}' final; solo se detiene frente a ella.
-     */
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
         List<ASTNode> elements = new ArrayList<>();
 
-        while (context.hasMoreTokens()) {
-            Token current = context.getCurrentToken();
-            if (current == null) break;
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE &&
+               context.getCurrentToken().getType() != TokenType.EOF) {
 
-            // Si llegamos a la '}' que cierra el bloque del proceso, devolvemos lo acumulado.
-            if (isRBrace(current)) {
-                break;
-            }
-
-            // Parsear un elemento de proceso según el token actual.
             ASTNode element = parseProcessElement(context);
-            elements.add(element);
+            if (element != null) {
+                elements.add(element);
+            }
         }
 
         return elements;
     }
 
-    /**
-     * Decide qué tipo de elemento de proceso viene y delega al parser correspondiente.
-     */
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        Token t = context.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba un elemento de proceso, pero no hay más tokens.");
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            return null;
         }
 
-        TokenType type = t.getType();
-        switch (type) {
-            case START:
-                // start -> Label
-                return startParser.parse(context);
+        String value = current.getValue();
 
-            case TASK:
-                // task Nombre { action: ... }
-                return taskParser.parse(context);
-
-            case END:
-                // end Nombre
-                return endParser.parse(context);
-
-            case GATEWAY:
-                // gateway Nombre [parallel] { ... }
-                // Decidimos si es paralelo mirando hacia adelante:
-                // pos 0: 'gateway', pos 1: IDENTIFIER, pos 2: 'parallel' (si es paralelo)
-                Token afterName = context.peek(2);
-                boolean isParallel = afterName != null &&
-                        (afterName.getType() == TokenType.PARALLEL || "parallel".equals(afterName.getValue()));
-
-                if (isParallel) {
-                    return parallelGatewayParser.parse(context);
-                } else {
-                    return exclusiveGatewayParser.parse(context);
-                }
-
-            default:
-                // Mensaje claro si vino algo inesperado dentro del proceso.
-                throw new Parser.ParseException(
-                        "Se esperaba 'start', 'task', 'gateway' o 'end', pero se encontró '" +
-                                t.getValue() + "' en línea " + t.getLine() + ", columna " + t.getColumn());
+        // StartElement
+        if (value.equals("inicio") || value.equals("start")) {
+            return startParser.parse(context);
         }
-    }
 
-    // -------------------------
-    // Utilidad local
-    // -------------------------
+        // TaskElement
+        if (value.equals("tarea") || value.equals("task")) {
+            return taskParser.parse(context);
+        }
 
-    private static boolean isRBrace(Token t) {
-        if (t == null) return false;
-        // Soporta tanto por tipo como por lexema literal, por si el lexer no seteó el tipo exacto
-        return t.getType() == TokenType.RIGHT_BRACE || "}".equals(t.getValue());
+        // EndElement
+        if (value.equals("fin") || value.equals("end")) {
+            return endParser.parse(context);
+        }
+
+        // GatewayElement
+        if (value.equals("gateway")) {
+            Token next = context.peek(2);
+            if (next != null && (next.getValue().equals("parallel") || next.getValue().equals("paralelo"))) {
+                return parallelGatewayParser.parse(context);
+            } else {
+                return exclusiveGatewayParser.parse(context);
+            }
+        }
+
+        throw new Parser.ParseException(
+            "Unexpected token '" + value + "' in process body at line " + current.getLine() +
+            ". Expected start, task, gateway, or end."
+        );
     }
 }

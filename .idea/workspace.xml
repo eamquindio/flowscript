@@ -5,49 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_core/StartEndParsersTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/TokenType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/AdditiveExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/AdditiveExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/EqualityExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/EqualityExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/FunctionCallNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/FunctionCallNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/IdentifierNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/IdentifierNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/MultiplicativeExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/MultiplicativeExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PropertyAccessNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PropertyAccessNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/RelationalExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/RelationalExpressionNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/WhenClauseNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/WhenClauseNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/EndElementNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/EndElementNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/StartElementNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/StartElementNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/navegacion/GotoStatementNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/navegacion/GotoStatementNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/AdditiveExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/AdditiveExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/EqualityExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/EqualityExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/MultiplicativeExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/MultiplicativeExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/PrimaryExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/PrimaryExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/RelationalExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/RelationalExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/UnaryExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/UnaryExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptProcesses.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/flowscript-processes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/flowscript-processes.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,56 +26,64 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;caferrerb&quot;
-  }
-}</component>
+        &quot;lastFilter&quot;: {
+        &quot;state&quot;: &quot;OPEN&quot;,
+        &quot;assignee&quot;: &quot;caferrerb&quot;
+        }
+        }</component>
   <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/eamquindio/flowscript.git&quot;,
-    &quot;accountId&quot;: &quot;b6d9aa9f-3c88-4766-966f-add2079dfb2c&quot;
-  }
-}</component>
+        &quot;selectedUrlAndAccountId&quot;: {
+        &quot;url&quot;: &quot;https://github.com/eamquindio/flowscript.git&quot;,
+        &quot;accountId&quot;: &quot;b6d9aa9f-3c88-4766-966f-add2079dfb2c&quot;
+        }
+        }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
+        &quot;associatedIndex&quot;: 8
+        }</component>
   <component name="ProjectId" id="32MARBF9ynU1SD2HXtGiuYq89U2" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FlowScriptIDE.executor": "Run",
-    "Application.LexerDemo.executor": "Run",
-    "JUnit.FlowScriptFunctionsTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.executor": "Run",
-    "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
-    "JUnit.LexerTest.executor": "Run",
-    "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
-    "Maven. [test].executor": "Run",
-    "Maven.flowscript [clean].executor": "Run",
-    "Maven.flowscript [compile].executor": "Run",
-    "Maven.flowscript [install].executor": "Run",
-    "Maven.flowscript [test].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/EAM/VIII Semestre/Lenguajes Formales/Parcial_II/flowscript/src/main/tlf"
-  }
-}]]></component>
+  <component name="PropertiesComponent">{
+        &quot;keyToString&quot;: {
+        &quot;Application.FlowScriptIDE.executor&quot;: &quot;Run&quot;,
+        &quot;Application.LexerDemo.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.ElseClauseParserTest.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.FlowScriptFunctionsTest.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.FlowScriptProcessesTest.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.LexerTest.executor&quot;: &quot;Run&quot;,
+        &quot;JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor&quot;: &quot;Run&quot;,
+        &quot;Maven. [test].executor&quot;: &quot;Run&quot;,
+        &quot;Maven.flowscript [clean].executor&quot;: &quot;Run&quot;,
+        &quot;Maven.flowscript [compile].executor&quot;: &quot;Run&quot;,
+        &quot;Maven.flowscript [install].executor&quot;: &quot;Run&quot;,
+        &quot;Maven.flowscript [test].executor&quot;: &quot;Run&quot;,
+        &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+        &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+        &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+        &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+        &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+        &quot;git-widget-placeholder&quot;: &quot;feature/sintactico__process__240220212010&quot;,
+        &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+        &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+        &quot;last_opened_file_path&quot;: &quot;/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic&quot;,
+        &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+        &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+        &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+        &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+        &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+        &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+        &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+        }
+        }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\EAM\VIII Semestre\Lenguajes Formales\Parcial_II\flowscript\src\main\tlf" />
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.LexerDemo">
+  <component name="RunManager" selected="JUnit.ElseClauseParserTest">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
       <module name="flowscript" />
@@ -134,7 +110,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FlowScriptProcessesTest.testFlowScriptProcesses" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ElseClauseParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.clausulas_control.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.clausulas_control" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.clausulas_control.ElseClauseParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FlowScriptProcessesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="flowscript" />
       <extension name="coverage">
         <pattern>
@@ -144,8 +135,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
       <option name="MAIN_CLASS_NAME" value="edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest" />
-      <option name="METHOD_NAME" value="testFlowScriptProcesses" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -165,34 +155,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="edu.eam.ingesoft.tlf.tester in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.eam.ingesoft.tlf.tester.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ElseClauseParserTest" />
+        <item itemvalue="JUnit.FlowScriptProcessesTest" />
         <item itemvalue="Application.LexerDemo" />
         <item itemvalue="Application.FlowScriptIDE" />
         <item itemvalue="JUnit.LexerTest" />
-        <item itemvalue="JUnit.edu.eam.ingesoft.tlf.tester in flowscript" />
-        <item itemvalue="JUnit.FlowScriptProcessesTest.testFlowScriptProcesses" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -203,7 +180,33 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757220056610</updated>
+      <workItem from="1759801249193" duration="1378000" />
+      <workItem from="1760586283824" duration="6556000" />
+      <workItem from="1760592884755" duration="10265000" />
+      <workItem from="1760736284778" duration="3942000" />
+      <workItem from="1760755224224" duration="41000" />
+      <workItem from="1760755536056" duration="1233000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

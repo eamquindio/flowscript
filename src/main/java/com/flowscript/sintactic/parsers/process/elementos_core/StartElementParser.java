@@ -43,61 +43,42 @@ public class StartElementParser implements IParser<StartElementNode> {
 
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
-        // 'start'
-        Token startTok = consumeKeyword(context, TokenType.START, "start");
+        Token current = context.getCurrentToken();
+        TokenType type = current.getType();
 
-        // '->'
-        consumeSymbol(context, TokenType.ARROW, "->");
+        boolean isStart = type == TokenType.START;
+        boolean isInicio = type == TokenType.IDENTIFIER && "inicio".equalsIgnoreCase(current.getValue());
 
-        // ID de destino
-        Token target = consumeIdentifier(context, "nombre del primer nodo (ID)");
-        String targetName = target.getValue();
+        if (!isStart && !isInicio) {
+            throw error("Se esperaba 'start' o 'inicio'", current);
+        }
 
-        // Construye el nodo AST (asumiendo ctor StartElementNode(Token, String))
-        return new StartElementNode(startTok, targetName);
+
+        context.consume();
+
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw error("Se esperaba '->' después de 'start'/'inicio'",
+                    arrowToken != null ? arrowToken : current);
+        }
+        context.consume(); // Consumir el token '->'
+
+
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        if (targetToken == null) {
+            throw error("Se esperaba un identificador después de '->'", current);
+        }
+
+        return new StartElementNode(current, targetToken.getValue());
     }
 
-    // ----------------------
-    // Utilidades locales
-    // ----------------------
-
-    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        }
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-        return t;
-    }
-
-    private static void consumeSymbol(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
-        }
-        if (t.getType() != type && !lexeme.equals(t.getValue())) {
-            throw error(t, "Se esperaba '" + lexeme + "'");
-        }
-        ctx.advance();
-    }
-
-    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
-        }
-        if (t.getType() != TokenType.IDENTIFIER) {
-            throw error(t, "Se esperaba un identificador para " + what);
-        }
-        ctx.advance();
-        return t;
-    }
-
-    private static Parser.ParseException error(Token t, String msg) {
-        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
-                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
+    /**
+     * Crea una excepción de parseo
+     */
+    private Parser.ParseException error(String message, Token token) {
+        return new Parser.ParseException(
+                message + " en la línea " + token.getLine() + ", columna " + token.getColumn()
+        );
     }
 }

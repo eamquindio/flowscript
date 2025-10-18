@@ -1,6 +1,5 @@
 package com.flowscript.sintactic.ast.process.clausulas_control;
 
-import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 
@@ -13,7 +12,7 @@ public class WhenClauseNode extends ASTNode {
     private final ExpressionNode condition;
     private final String targetTask;
 
-    public WhenClauseNode(Token whenTok, ExpressionNode condition, String targetTask) {
+    public WhenClauseNode(ExpressionNode condition, String targetTask) {
         super(condition.getLine(), condition.getColumn(), condition.getPosition());
         this.condition = condition;
         this.targetTask = targetTask;

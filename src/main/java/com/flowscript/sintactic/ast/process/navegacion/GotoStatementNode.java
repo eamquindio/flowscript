@@ -19,11 +19,6 @@ public class GotoStatementNode extends StatementNode {
         return targetLabel;
     }
 
-    /** Alias de conveniencia: algunos tests usan getTargetName(). */
-    public String getTargetName() {
-        return targetLabel;
-    }
-
     @Override
     public String getNodeType() {
         return "GotoStatement";

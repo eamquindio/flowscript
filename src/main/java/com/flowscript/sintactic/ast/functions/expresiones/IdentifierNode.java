@@ -1,5 +1,6 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
 
 /**
@@ -9,7 +10,7 @@ import com.flowscript.lexer.Token;
 public class IdentifierNode extends ExpressionNode {
     private final String name;
 
-    public IdentifierNode(Token identifierToken, String value) {
+    public IdentifierNode(Token identifierToken) {
         super(identifierToken);
         this.name = identifierToken.getValue();
     }

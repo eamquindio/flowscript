@@ -29,8 +29,4 @@ public class EndElementNode extends ASTNode {
     public String toString() {
         return "EndElement(" + endName + ")";
     }
-
-    public String getName() {
-        return endName;
-    }
 }

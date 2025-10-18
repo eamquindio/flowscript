@@ -8,14 +8,113 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.process.estructura_principal.ProcessDeclarationNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Parser para declaraciones de proceso.
  *
- * BNF:
- *   ProcessDeclaration ::= 'process' IDENTIFIER '{' ProcessBody '}'
+ * <h3>Gramática BNF:</h3>
+ * <pre>
+ * ProcessDeclaration ::= 'process' IDENTIFIER '{' ProcessBody '}'
+ * </pre>
+ *
+ * <h3>Categoría:</h3>
+ * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
+ * Nivel 1: Estructura Principal del Proceso
+ *
+ * <h3>Ejemplos:</h3>
+ * <pre>
+ * // Proceso simple
+ * process RegistroUsuario {
+ *     start -> ValidarDatos
+ *
+ *     task ValidarDatos {
+ *         action:
+ *             if validar_email(entrada.email) {
+ *                 go_to GuardarDB
+ *             } else {
+ *                 go_to FinError
+ *             }
+ *     }
+ *
+ *     task GuardarDB {
+ *         action:
+ *             db.insert("usuarios", entrada)
+ *             go_to FinExitoso
+ *     }
+ *
+ *     end FinExitoso
+ *     end FinError
+ * }
+ *
+ * // Proceso con gateway exclusivo
+ * process AprobacionFactura {
+ *     start -> ClasificarMonto
+ *
+ *     task ClasificarMonto {
+ *         action:
+ *             gateway DecisionMonto {
+ *                 when entrada.monto > 10000 -> RequiereAprobacionGerente
+ *                 when entrada.monto > 1000 -> RequiereAprobacionSupervisor
+ *                 else -> AprobacionAutomatica
+ *             }
+ *     }
+ *
+ *     task AprobacionAutomatica {
+ *         action: aprobar_automaticamente()
+ *         go_to FinOK
+ *     }
+ *
+ *     end FinOK
+ * }
+ *
+ * // Proceso con gateway paralelo
+ * process VerificacionAntecedentes {
+ *     start -> Iniciar
+ *
+ *     gateway Iniciar parallel {
+ *         branch -> VerificarCredito
+ *         branch -> VerificarPenal
+ *         join -> Consolidar
+ *     }
+ *
+ *     task VerificarCredito {
+ *         action: reporte_credito = http.get("api/credito/" + entrada.cedula)
+ *         go_to FinCredito
+ *     }
+ *
+ *     end FinCredito
+ *
+ *     task VerificarPenal {
+ *         action: reporte_penal = http.get("api/penal/" + entrada.cedula)
+ *         go_to FinPenal
+ *     }
+ *
+ *     end FinPenal
+ *
+ *     task Consolidar {
+ *         action:
+ *             if reporte_credito.aprobado and reporte_penal.limpio {
+ *                 go_to Exito
+ *             } else {
+ *                 go_to Falla
+ *             }
+ *     }
+ *
+ *     end Exito
+ *     end Falla
+ * }
+ * </pre>
+ *
+ * <h3>Uso:</h3>
+ * <pre>
+ * ParserContext context = new ParserContext(tokens);
+ * ProcessDeclarationParser parser = new ProcessDeclarationParser();
+ * ProcessDeclarationNode node = parser.parse(context);
+ * </pre>
+ *
+ * @see ProcessDeclarationNode
+ * @see ProcessBodyParser
  */
 public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode> {
 
@@ -27,132 +126,41 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // 1) 'process'
-        Token processTk = consumeProcessKeyword(context);
-
-        // 2) Nombre (IDENTIFIER)
-        Token nameTk = context.consume(TokenType.IDENTIFIER);
-        String processName = nameTk.getValue();
-
-        // 3) '{'
-        consumeLBrace(context);
-
-        // 4) Intentar parsear el cuerpo con ProcessBodyParser.
-        int before = context.getCurrentIndex();
-        List<ASTNode> elements = new ArrayList<>();
-        boolean bodyAdvanced = false;
-
-        try {
-            List<ASTNode> parsed = bodyParser.parse(context);
-            int after = context.getCurrentIndex();
-            bodyAdvanced = after > before;
-            if (parsed != null) {
-                elements.addAll(parsed);
-            }
-        } catch (Parser.ParseException ignore) {
-            // Si falla, pasamos al modo permisivo y hacemos skip del cuerpo.
-            bodyAdvanced = false;
+        // --- 1️⃣ Verificar palabra clave ---
+        Token processToken = context.getCurrentToken();
+        if (processToken == null) {
+            throw new Parser.ParseException("Unexpected end of file while expecting 'process' or 'proceso'.");
         }
 
-        // Si el body parser NO avanzó (por ejemplo, primer token es 'start'),
-        // aplicamos un fallback permisivo: avanzar hasta quedar justo antes de la '}' de cierre,
-        // respetando anidación de llaves.
-        if (!bodyAdvanced) {
-            skipProcessBodyPermissive(context);
+        String keyword = processToken.getValue();
+        if (!keyword.equalsIgnoreCase("process") && !keyword.equalsIgnoreCase("proceso")) {
+            throw new Parser.ParseException(
+                    "Expected 'process' or 'proceso' but found '" + keyword +
+                            "' at line " + processToken.getLine()
+            );
+        }
+        context.consume();
+
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String processName = nameToken.getValue();
+
+
+        context.consume(TokenType.LEFT_BRACE);
+
+
+        List<ASTNode> processElements = bodyParser.parse(context);
+        if (processElements == null) {
+            throw new Parser.ParseException(
+                    "Process body could not be parsed for process '" + processName +
+                            "' at line " + nameToken.getLine()
+            );
         }
 
-        // 5) Consumir la '}' de cierre
-        consumeRBrace(context);
 
-        // 6) Devolver nodo AST
-        return new ProcessDeclarationNode(processTk, processName, elements);
-    }
+        context.consume(TokenType.RIGHT_BRACE);
 
-    // ---------------------------------------------------------------------
-    // Utilidades
-    // ---------------------------------------------------------------------
 
-    private static Token consumeProcessKeyword(ParserContext ctx) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba 'process' pero no hay más tokens.");
-        }
-        if (t.getType() == TokenType.PROCESS || "process".equals(t.getValue())) {
-            ctx.advance();
-            return t;
-        }
-        throw new Parser.ParseException(
-                "Se esperaba 'process' pero se encontró '" + t.getValue() + "' en línea " +
-                        t.getLine() + ", columna " + t.getColumn()
-        );
-    }
-
-    private static void consumeLBrace(ParserContext ctx) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Se esperaba '{' pero no hay más tokens.");
-        }
-        if (isLBrace(t)) {
-            ctx.advance();
-            return;
-        }
-        throw new Parser.ParseException(
-                "Se esperaba '{' pero se encontró '" + t.getValue() + "' en línea " +
-                        t.getLine() + ", columna " + t.getColumn()
-        );
-    }
-
-    private static void consumeRBrace(ParserContext ctx) throws Parser.ParseException {
-        Token t = ctx.getCurrentToken();
-        if (t == null) {
-            throw new Parser.ParseException("Expected '}' but reached end of input");
-        }
-        if (isRBrace(t)) {
-            ctx.advance();
-            return;
-        }
-        throw new Parser.ParseException(
-                "Expected '}' but found '" + t.getValue() + "' at line " +
-                        t.getLine() + ", column " + t.getColumn()
-        );
-    }
-
-    private static boolean isLBrace(Token t) {
-        return t != null &&
-                (t.getType() == TokenType.LEFT_BRACE || "{".equals(t.getValue()));
-    }
-
-    private static boolean isRBrace(Token t) {
-        return t != null &&
-                (t.getType() == TokenType.RIGHT_BRACE || "}".equals(t.getValue()));
-    }
-
-    /**
-     * Avanza por el cuerpo del proceso de forma permisiva hasta quedar
-     * justo antes de la '}' que cierra el bloque actual. Respeta anidación.
-     */
-    private static void skipProcessBodyPermissive(ParserContext ctx) throws Parser.ParseException {
-        int balance = 1; // ya hemos consumido la '{' de apertura
-        while (ctx.hasMoreTokens()) {
-            Token t = ctx.getCurrentToken();
-            if (isLBrace(t)) {
-                balance++;
-                ctx.advance();
-                continue;
-            }
-            if (isRBrace(t)) {
-                if (balance == 1) {
-                    // Estamos justo antes de la '}' que cierra el bloque del proceso.
-                    return;
-                } else {
-                    balance--;
-                    ctx.advance();
-                    continue;
-                }
-            }
-            // Cualquier otro token dentro del cuerpo
-            ctx.advance();
-        }
-        throw new Parser.ParseException("Se alcanzó el fin de entrada buscando la '}' de cierre del proceso.");
+        return new ProcessDeclarationNode(processToken, processName, processElements);
     }
 }
