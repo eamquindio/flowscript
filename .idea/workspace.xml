@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ProcessElementNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ProcessElementNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParserTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,10 +38,13 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/eamquindio/flowscript.git&quot;,
-    &quot;accountId&quot;: &quot;b6d9aa9f-3c88-4766-966f-add2079dfb2c&quot;
+    &quot;url&quot;: &quot;git@github.com:eamquindio/flowscript.git&quot;,
+    &quot;accountId&quot;: &quot;72cd9a1d-4e57-49c1-aa82-32d9ecfe351b&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -37,22 +57,41 @@
   "keyToString": {
     "Application.FlowScriptIDE.executor": "Run",
     "Application.LexerDemo.executor": "Run",
+    "JUnit.ElseClauseParserTest.executor": "Run",
+    "JUnit.EndElementParserTest.executor": "Run",
+    "JUnit.ExclusiveGatewayParserTest.executor": "Run",
     "JUnit.FlowScriptFunctionsTest.executor": "Run",
     "JUnit.FlowScriptProcessesTest.executor": "Run",
     "JUnit.FlowScriptProcessesTest.testFlowScriptProcesses.executor": "Run",
+    "JUnit.GotoStatementParserTest.executor": "Run",
+    "JUnit.JoinClauseParserTest.executor": "Run",
     "JUnit.LexerTest.executor": "Run",
+    "JUnit.ParallelBranchParserTest.executor": "Run",
+    "JUnit.ParallelGatewayParserTest.executor": "Run",
+    "JUnit.ProcessBodyParserTest.executor": "Run",
+    "JUnit.ProcessDeclarationParserTest.executor": "Run",
+    "JUnit.StartElementParserTest.executor": "Run",
+    "JUnit.TaskElementParserTest.executor": "Run",
+    "JUnit.WhenClauseParserTest.executor": "Run",
     "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
     "Maven. [test].executor": "Run",
     "Maven.flowscript [clean].executor": "Run",
     "Maven.flowscript [compile].executor": "Run",
     "Maven.flowscript [install].executor": "Run",
     "Maven.flowscript [test].executor": "Run",
+    "Maven.flowscript [validate].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
+    "git-widget-placeholder": "feature/sintactico__process__240220202019",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Documentos/Ingenieria de Software/Semestre 8/Lenguajes Formales/flowscript",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -60,85 +99,89 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.LexerDemo">
-    <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
+  <component name="RunManager" selected="JUnit.ProcessDeclarationParserTest">
+    <configuration name="GotoStatementParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="flowscript" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.flowscript.ide.*" />
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.navegacion.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LexerDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.flowscript.lexer.LexerDemo" />
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.flowscript.lexer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FlowScriptProcessesTest.testFlowScriptProcesses" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.eam.ingesoft.tlf.tester.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
-      <option name="MAIN_CLASS_NAME" value="edu.eam.ingesoft.tlf.tester.FlowScriptProcessesTest" />
-      <option name="METHOD_NAME" value="testFlowScriptProcesses" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LexerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.flowscript.lexer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.flowscript.lexer" />
-      <option name="MAIN_CLASS_NAME" value="com.flowscript.lexer.LexerTest" />
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.navegacion" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParserTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="edu.eam.ingesoft.tlf.tester in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ProcessBodyParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="flowscript" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.eam.ingesoft.tlf.tester.*" />
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.estructura_principal.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="edu.eam.ingesoft.tlf.tester" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.estructura_principal" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.estructura_principal.ProcessBodyParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProcessDeclarationParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.estructura_principal.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.estructura_principal" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.estructura_principal.ProcessDeclarationParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StartElementParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.elementos_core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.elementos_core" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.elementos_core.StartElementParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskElementParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.flowscript.sintactic.parsers.process.elementos_trabajo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.flowscript.sintactic.parsers.process.elementos_trabajo" />
+      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.parsers.process.elementos_trabajo.TaskElementParserTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LexerDemo" />
-        <item itemvalue="Application.FlowScriptIDE" />
-        <item itemvalue="JUnit.LexerTest" />
-        <item itemvalue="JUnit.edu.eam.ingesoft.tlf.tester in flowscript" />
-        <item itemvalue="JUnit.FlowScriptProcessesTest.testFlowScriptProcesses" />
+        <item itemvalue="JUnit.ProcessDeclarationParserTest" />
+        <item itemvalue="JUnit.ProcessBodyParserTest" />
+        <item itemvalue="JUnit.GotoStatementParserTest" />
+        <item itemvalue="JUnit.TaskElementParserTest" />
+        <item itemvalue="JUnit.StartElementParserTest" />
       </list>
     </recent_temporary>
   </component>
@@ -151,5 +194,15 @@
       <updated>1757220056610</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

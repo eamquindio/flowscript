@@ -126,7 +126,16 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // Consume 'process' o 'proceso'
-       return null;
+
+        Token processToken = context.consume(TokenType.PROCESS);
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String processName = nameToken.getValue();
+
+        context.consume(TokenType.LEFT_BRACE);
+        List<ASTNode> processElements = bodyParser.parse(context);
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new ProcessDeclarationNode(processToken, processName, processElements);
     }
 }

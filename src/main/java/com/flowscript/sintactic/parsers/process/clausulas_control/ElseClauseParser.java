@@ -6,7 +6,6 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.clausulas_control.ElseClauseNode;
-
 /**
  * Parser para cláusulas else en gateways exclusivos.
  *
@@ -35,11 +34,31 @@ import com.flowscript.sintactic.ast.process.clausulas_control.ElseClauseNode;
  *
  * @see ElseClauseNode
  */
+
+
 public class ElseClauseParser implements IParser<ElseClauseNode> {
 
     @Override
     public ElseClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ElseClauseParser no implementado - Tarea del estudiante");
+        Token elseToken = context.getCurrentToken();
+        if (elseToken == null || elseToken.getType() != TokenType.ELSE) {
+            throw new Parser.ParseException("Expected 'else' but found " +
+                    (elseToken != null ? elseToken.getValue() : "end of input"));
+        }
+        context.consume();
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw new Parser.ParseException("Expected '->' after 'else'");
+        }
+        context.consume();
+
+        Token targetToken = context.getCurrentToken();
+        if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Expected identifier after 'else ->'");
+        }
+        context.consume();
+
+        return new ElseClauseNode(elseToken, targetToken.getValue());
     }
 }

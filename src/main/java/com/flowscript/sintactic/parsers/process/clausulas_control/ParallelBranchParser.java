@@ -6,7 +6,6 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.clausulas_control.ParallelBranchNode;
-
 /**
  * Parser para ramas paralelas en gateways paralelos.
  *
@@ -40,7 +39,25 @@ public class ParallelBranchParser implements IParser<ParallelBranchNode> {
 
     @Override
     public ParallelBranchNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ParallelBranchParser no implementado - Tarea del estudiante");
+        Token branchToken = context.getCurrentToken();
+        if (branchToken == null || branchToken.getType() != TokenType.BRANCH) {
+            throw new Parser.ParseException("Expected 'branch' but found " +
+                    (branchToken != null ? branchToken.getValue() : "end of input"));
+        }
+        context.consume();
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw new Parser.ParseException("Expected '->' after 'branch'");
+        }
+        context.consume();
+
+        Token targetToken = context.getCurrentToken();
+        if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Expected identifier after 'branch ->'");
+        }
+        context.consume();
+
+        return new ParallelBranchNode(branchToken, targetToken.getValue());
     }
 }
