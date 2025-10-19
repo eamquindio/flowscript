@@ -25,13 +25,6 @@ public class EndElementParserTest {
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
-
-        // Note: You'll need to create the actual parser
-        // EndElementParser parser = new EndElementParser();
-        // EndElementNode result = parser.parse(context);
-
-        // assertNotNull(result);
-        // assertEquals("Success", result.getName());
     }
 
     @Test
@@ -40,12 +33,6 @@ public class EndElementParserTest {
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
-
-        // EndElementParser parser = new EndElementParser();
-        // EndElementNode result = parser.parse(context);
-
-        // assertNotNull(result);
-        // assertEquals("Error_Occurred", result.getName());
     }
 
     @Test
@@ -54,14 +41,5 @@ public class EndElementParserTest {
         Lexer lexer = new Lexer(input + "\n" + "end Failure");
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
-
-        // EndElementParser parser = new EndElementParser();
-        // EndElementNode result1 = parser.parse(context);
-        // EndElementNode result2 = parser.parse(context);
-
-        // assertNotNull(result1);
-        // assertNotNull(result2);
-        // assertEquals("Success", result1.getName());
-        // assertEquals("Failure", result2.getName());
     }
 }

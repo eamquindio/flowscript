@@ -34,10 +34,34 @@ import com.flowscript.sintactic.ast.process.navegacion.GotoStatementNode;
  *
  * @see GotoStatementNode
  */
+
 public class GotoStatementParser implements IParser<GotoStatementNode> {
 
     @Override
     public GotoStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token gotoToken;
+
+        if (context.check(TokenType.GOTO)) {
+            gotoToken = context.consume(TokenType.GOTO);
+        }
+
+        else if (context.check(TokenType.IDENTIFIER) && context.checkValue("go_to")) {
+
+            gotoToken = context.consumeValue("go_to");
+        }
+
+        else {
+            Token current = context.getCurrentToken();
+            throw new Parser.ParseException(
+                    "Expected 'go_to' (GOTO) but found " + current.getType() +
+                            " ('" + current.getValue() + "') at line " + current.getLine() +
+                            ", column " + current.getColumn()
+            );
+        }
+
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetLabel = targetToken.getValue();
+
+        return new GotoStatementNode(gotoToken, targetLabel);
     }
 }

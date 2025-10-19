@@ -6,7 +6,6 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.clausulas_control.JoinClauseNode;
-
 /**
  * Parser para cláusulas join en gateways paralelos.
  *
@@ -39,7 +38,25 @@ public class JoinClauseParser implements IParser<JoinClauseNode> {
 
     @Override
     public JoinClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("JoinClauseParser no implementado - Tarea del estudiante");
+        Token joinToken = context.getCurrentToken();
+        if (joinToken == null || joinToken.getType() != TokenType.JOIN) {
+            throw new Parser.ParseException("Expected 'join' but found " +
+                    (joinToken != null ? joinToken.getValue() : "end of input"));
+        }
+        context.consume();
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw new Parser.ParseException("Expected '->' after 'join'");
+        }
+        context.consume();
+
+        Token targetToken = context.getCurrentToken();
+        if (targetToken == null || targetToken.getType() != TokenType.IDENTIFIER) {
+            throw new Parser.ParseException("Expected identifier after 'join ->'");
+        }
+        context.consume();
+
+        return new JoinClauseNode(joinToken, targetToken.getValue());
     }
 }

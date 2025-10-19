@@ -8,6 +8,10 @@ import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.parsers.process.elementos_core.*;
 import com.flowscript.sintactic.parsers.process.elementos_trabajo.*;
 import com.flowscript.sintactic.parsers.process.control_flujo.*;
+import com.flowscript.sintactic.parsers.process.elementos_core.StartElementParser;
+import com.flowscript.sintactic.parsers.process.elementos_trabajo.TaskElementParser;
+import com.flowscript.sintactic.parsers.process.control_flujo.ParallelGatewayParser;
+import com.flowscript.sintactic.parsers.process.elementos_core.EndElementParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,8 @@ import java.util.List;
  *
  * @see ProcessDeclarationParser
  */
+
+
 public class ProcessBodyParser {
 
     private final StartElementParser startParser;
@@ -50,10 +56,53 @@ public class ProcessBodyParser {
     }
 
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<ASTNode> elements = new ArrayList<>();
+
+        while (context.hasMoreTokens() && !context.check(TokenType.RIGHT_BRACE)) {
+            ASTNode element = parseProcessElement(context);
+            if (element != null) {
+                elements.add(element);
+            } else {
+                break;
+            }
+        }
+
+        return elements;
     }
 
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            return null;
+        }
+
+        switch (current.getType()) {
+            case START:
+                return startParser.parse(context);
+
+            case TASK:
+                return taskParser.parse(context);
+
+            case END:
+                return endParser.parse(context);
+
+            case GATEWAY:
+                Token typeCheckToken = context.peek(2);
+
+                if (typeCheckToken != null && typeCheckToken.getType() == TokenType.PARALLEL) {
+                    return parallelGatewayParser.parse(context);
+                } else {
+                    return exclusiveGatewayParser.parse(context);
+                }
+
+            default:
+                throw new Parser.ParseException(
+                        "Unexpected token '" + current.getValue() +
+                                "' in process body at line " + current.getLine() +
+                                ", column " + current.getColumn() +
+                                ". Expected START, TASK, GATEWAY, or END keyword."
+                );
+        }
     }
 }

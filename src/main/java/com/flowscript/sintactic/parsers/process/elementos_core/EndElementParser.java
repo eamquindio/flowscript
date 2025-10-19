@@ -1,7 +1,6 @@
 package com.flowscript.sintactic.parsers.process.elementos_core;
 
 import com.flowscript.lexer.Token;
-import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;

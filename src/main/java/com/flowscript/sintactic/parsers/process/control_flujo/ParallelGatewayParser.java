@@ -16,12 +16,10 @@ import java.util.List;
 
 /**
  * Parser para gateways paralelos (AND).
- *
  * <h3>Gramática BNF:</h3>
  * <pre>
  * ParallelGateway ::= 'gateway' IDENTIFIER 'parallel' '{' ParallelBranch* JoinClause '}'
  * </pre>
- *
  * <h3>Categoría:</h3>
  * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
  * Nivel 4: Elementos de Control de Flujo
