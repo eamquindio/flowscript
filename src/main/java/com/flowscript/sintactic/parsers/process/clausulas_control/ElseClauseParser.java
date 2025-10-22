@@ -39,7 +39,28 @@ public class ElseClauseParser implements IParser<ElseClauseNode> {
 
     @Override
     public ElseClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ElseClauseParser no implementado - Tarea del estudiante");
+        Token elseToken = context.getCurrentToken();
+
+        // Consumir 'else' o 'sino'
+        if (!context.check(TokenType.ELSE)) {
+            throw new Parser.ParseException("Se esperaba 'else' o 'sino'");
+        }
+        context.advance();
+
+        // Consumir '->'
+        if (!context.check(TokenType.ARROW)) {
+            throw new Parser.ParseException("Se esperaba '->' después de 'else'");
+        }
+        context.advance();
+
+        // Consumir IDENTIFIER (nodo destino)
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de '->'");
+        }
+
+        String targetNodeName = context.getCurrentToken().getValue();
+        context.advance();
+
+        return new ElseClauseNode(elseToken, targetNodeName);
     }
 }

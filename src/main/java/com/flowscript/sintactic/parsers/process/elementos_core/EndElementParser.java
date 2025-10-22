@@ -49,6 +49,21 @@ public class EndElementParser implements IParser<EndElementNode> {
     @Override
     public EndElementNode parse(ParserContext context) throws Parser.ParseException {
         Token endToken = context.getCurrentToken();
-       return null;
+
+        // Verificar y consumir 'end' o 'fin'
+        if (!context.check(TokenType.END)) {
+            throw new Parser.ParseException("Se esperaba 'end' o 'fin'");
+        }
+        context.advance();
+
+        // Obtener el nombre del nodo final
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de 'end'");
+        }
+
+        String endName = context.getCurrentToken().getValue();
+        context.advance();
+
+        return new EndElementNode(endToken, endName);
     }
 }

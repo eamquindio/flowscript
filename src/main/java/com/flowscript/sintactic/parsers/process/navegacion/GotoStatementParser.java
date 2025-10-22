@@ -38,6 +38,22 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
 
     @Override
     public GotoStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token gotoToken = context.getCurrentToken();
+
+        // Verificar y consumir 'go_to', 'goto' o 'ir_a'
+        if (!context.check(TokenType.GOTO)) {
+            throw new Parser.ParseException("Se esperaba 'go_to', 'goto' o 'ir_a'");
+        }
+        context.advance();
+
+        // Obtener el nombre del nodo destino
+        if (!context.check(TokenType.IDENTIFIER)) {
+            throw new Parser.ParseException("Se esperaba un identificador después de 'go_to'");
+        }
+
+        String targetNodeName = context.getCurrentToken().getValue();
+        context.advance();
+
+        return new GotoStatementNode(gotoToken, targetNodeName);
     }
 }
