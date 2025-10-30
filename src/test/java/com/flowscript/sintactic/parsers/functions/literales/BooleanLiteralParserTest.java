@@ -1,24 +1,14 @@
 package com.flowscript.sintactic.parsers.functions.literales;
-
 import com.flowscript.lexer.Lexer;
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.BooleanLiteralNode;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests para BooleanLiteralParser.
- *
- * Gramática BNF:
- * BooleanLiteral ::= 'true' | 'false'
- */
 public class BooleanLiteralParserTest {
-
     private BooleanLiteralParser parser = new BooleanLiteralParser();
 
     @Test
@@ -82,4 +72,4 @@ public class BooleanLiteralParserTest {
             parser.parse(context);
         });
     }
-}
+} 
