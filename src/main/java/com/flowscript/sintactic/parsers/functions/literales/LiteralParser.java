@@ -10,6 +10,7 @@ import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
  *
  * <h3>Gramática BNF:</h3>
  * <pre>
+ * 
  * Literal ::= IntegerLiteral
  *           | DecimalLiteral
  *           | BooleanLiteral
@@ -38,9 +39,63 @@ import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
  */
 public class LiteralParser implements IParser<LiteralNode> {
 
+    private final IntegerLiteralParser integerLiteralParser;
+    private final DecimalLiteralParser decimalLiteralParser;
+    private final BooleanLiteralParser booleanLiteralParser;
+    private final StringLiteralParser stringLiteralParser;
+    private final NullLiteralParser nullLiteralParser;
+    private final ObjectLiteralParser objectLiteralParser;
+    private final ListLiteralParser listLiteralParser;
+
+    public LiteralParser() {
+        this.integerLiteralParser = new IntegerLiteralParser();
+        this.decimalLiteralParser = new DecimalLiteralParser();
+        this.booleanLiteralParser = new BooleanLiteralParser();
+        this.stringLiteralParser = new StringLiteralParser();
+        this.nullLiteralParser = new NullLiteralParser();
+        this.objectLiteralParser = new ObjectLiteralParser();
+        this.listLiteralParser = new ListLiteralParser();
+    }
+
     @Override
     public LiteralNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("LiteralParser no implementado - Tarea del estudiante");
+        Token current = context.peek();
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing literal");
+        }
+
+        switch (current.getType()) {
+            case INTEGER_LITERAL:
+                return new LiteralNode(integerLiteralParser.parse(context).getToken());
+
+            case DECIMAL_LITERAL:
+                return new LiteralNode(decimalLiteralParser.parse(context).getToken());
+
+            case TRUE:
+            case FALSE:
+            case VERDADERO:
+            case FALSO:
+                return new LiteralNode(booleanLiteralParser.parse(context).getToken());
+
+            case STRING_LITERAL:
+                return new LiteralNode(stringLiteralParser.parse(context).getToken());
+
+            case NULL:
+            case NULO:
+                return new LiteralNode(nullLiteralParser.parse(context).getToken());
+
+            case LEFT_BRACE:
+                var objNode = objectLiteralParser.parse(context);
+                return new LiteralNode(objNode.getToken());
+
+            case LEFT_BRACKET:
+                var listNode = listLiteralParser.parse(context);
+                return new LiteralNode(listNode.getToken());
+
+            default:
+                throw new Parser.ParseException("Unexpected token in literal: " + current.getType());
+        }  
+
     }
 }

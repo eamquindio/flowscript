@@ -59,6 +59,9 @@ public class ExpressionParser implements IParser<ExpressionNode> {
     public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar delegación a TernaryExpressionParser
         // Cuando TernaryExpressionParser esté implementado, crear instancia y delegar
-        throw new UnsupportedOperationException("ExpressionParser no implementado - Tarea del estudiante");
+
+        TernaryExpressionParser ternaryParser = new TernaryExpressionParser();
+        return ternaryParser.parse(context);
+
     }
 }

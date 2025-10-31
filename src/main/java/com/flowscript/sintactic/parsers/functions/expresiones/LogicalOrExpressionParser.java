@@ -29,6 +29,26 @@ public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNod
     @Override
     public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+        LogicalAndExpressionParser andParser = new LogicalAndExpressionParser();
+        ExpressionNode firstOperand = andParser.parse(context);
+
+        Token firstToken = context.getPreviousToken(); 
+        LogicalOrExpressionNode node = new LogicalOrExpressionNode(firstToken, firstOperand);
+
+        while (context.match(TokenType.OR) || context.match(TokenType.IDENTIFIER, "o")) {
+            Token orToken = context.getCurrentToken();
+            context.consume();
+
+            ExpressionNode nextOperand = andParser.parse(context);
+
+            node.addOperand(orToken, nextOperand);
+        }
+
+        if (node.isSingleOperand()) {
+            return (LogicalOrExpressionNode) node.getSimplified();
+        }
+
+        return node;
+
     }
-}
+} 

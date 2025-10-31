@@ -3,7 +3,9 @@ package com.flowscript.sintactic.parsers.functions.listas_argumentos;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode;
-
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 import java.util.List;
 
 /**
@@ -36,6 +38,31 @@ public class ExpressionListParser {
      */
     public List<ExpressionListNode> parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("ExpressionListParser no implementado - Tarea del estudiante");
+        List<ExpressionListNode> expressionLists = new ArrayList<>();
+
+        if (context.match(TokenType.RIGHT_BRACKET)) {
+            return expressionLists;
+        }
+
+        ExpressionParser exprParser = new ExpressionParser();
+
+        ExpressionNode firstExpr = exprParser.parse(context);
+        ExpressionListNode exprListNode = new ExpressionListNode(firstExpr);
+
+        while (context.match(TokenType.COMMA)) {
+            context.consume(TokenType.COMMA);
+
+            if (context.match(TokenType.RIGHT_BRACKET)) {
+                throw new Parser.ParseException("Unexpected ',' before ']' in expression list");
+            }
+
+            ExpressionNode nextExpr = exprParser.parse(context);
+            exprListNode.addExpression(nextExpr);
+        }
+
+        expressionLists.add(exprListNode);
+
+        return expressionLists;
+
     }
 }

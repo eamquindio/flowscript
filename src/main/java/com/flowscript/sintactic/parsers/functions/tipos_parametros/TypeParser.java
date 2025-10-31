@@ -6,7 +6,7 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
-
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para tipos de datos en FlowScript.
  *
@@ -63,6 +63,9 @@ public class TypeParser implements IParser<TypeNode> {
             throw new Parser.ParseException("Expected type but reached end of input");
         }
 
+        Token typeName = context.consume(TokenType.IDENTIFIER);
+        context.consume(TokenType.COLON);
+
         // Verificar si es un tipo válido
         if (!isValidType(typeToken)) {
             throw new Parser.ParseException(
@@ -72,7 +75,7 @@ public class TypeParser implements IParser<TypeNode> {
         }
 
         context.consume(); // consume el tipo
-        return new TypeNode(typeToken);
+        return new TypeNode(typeName.getValue());
     }
 
     /**

@@ -7,7 +7,8 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_flujo.ReturnStatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
-
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para statements return.
  *
@@ -101,6 +102,22 @@ public class ReturnStatementParser implements IParser<ReturnStatementNode> {
         // TODO: Implementar este método
         // HINT: Seguir los pasos documentados arriba
         // HINT: El return puede no tener expresión (return void)
-        throw new UnsupportedOperationException("ReturnStatementParser no implementado - Tarea del estudiante");
+        Token returnToken;
+        if (context.match(TokenType.RETURN)) {
+            returnToken = context.consume(TokenType.RETURN);
+        } else if (context.match(TokenType.RETORNAR)) {
+            returnToken = context.consume(TokenType.RETORNAR);
+        } else {
+            throw new Parser.ParseException("Expected 'return' or 'retornar' at line " + context.getCurrentLine());
+        }
+
+        if (context.match(TokenType.RIGHT_BRACE) || context.isAtEnd()) {
+            return new ReturnStatementNode(returnToken); // return void
+        }
+
+        ExpressionNode expression = expressionParser.parse(context);
+
+        return new ReturnStatementNode(returnToken, expression);
+
     }
 }

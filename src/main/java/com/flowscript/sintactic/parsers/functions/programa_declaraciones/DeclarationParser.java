@@ -68,4 +68,4 @@ public class DeclarationParser implements IParser<DeclarationNode> {
     public DeclarationNode parse(ParserContext context) throws Parser.ParseException {
         return  null;
     }
-}
+} 

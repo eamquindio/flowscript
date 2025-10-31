@@ -10,3 +10,4 @@ en @estud
 3. asigna una calificacion para estudiante. y unas observaciones.
 5. para cada entrega indica cual es el mejor.
 6. crear un markdown de resumen con un atabla y los mejores.
+

@@ -4,7 +4,9 @@ import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.ObjectLiteralNode;
-
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
+import com.flowscript.sintactic.ast.expressions.ExpressionNode;
 /**
  * Parser para literales de objeto.
  *
@@ -27,9 +29,40 @@ import com.flowscript.sintactic.ast.functions.literales.ObjectLiteralNode;
  */
 public class ObjectLiteralParser implements IParser<ObjectLiteralNode> {
 
+    
+    private final ObjectMemberListParser memberListParser;
+
+    public ObjectLiteralParser() {
+        this.memberListParser = new ObjectMemberListParser();
+    }
+
     @Override
     public ObjectLiteralNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectLiteralParser no implementado - Tarea del estudiante");
+
+        Token leftBrace = context.expect(TokenType.LEFT_BRACE, "Expected '{' to start object literal");
+
+        if (context.match(TokenType.RIGHT_BRACE)) {
+            context.consume(TokenType.RIGHT_BRACE);
+            return new ObjectLiteralNode(leftBrace);
+        }
+
+        ObjectMemberListNode memberList;
+        try {
+            var members = memberListParser.parse(context);
+            if (members == null || members.isEmpty()) {
+                memberList = null;
+            } else {
+                memberList = members.get(0);
+            }
+        } catch (Parser.ParseException e) {
+            throw new Parser.ParseException("Error parsing object member list: " + e.getMessage());
+        }
+
+        context.expect(TokenType.RIGHT_BRACE, "Expected '}' to close object literal");
+
+        return new ObjectLiteralNode(leftBrace, memberList);
     }
 }
+    
+

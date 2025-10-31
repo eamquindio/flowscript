@@ -98,5 +98,5 @@ public class ProgramParser implements IParser<ProgramNode> {
         }
 
         return program;
-    }
+    } 
 }

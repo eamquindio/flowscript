@@ -37,6 +37,31 @@ public class ObjectMemberListParser {
      */
     public List<ObjectMemberListNode> parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberListParser no implementado - Tarea del estudiante");
+        List<ObjectMemberListNode> memberLists = new ArrayList<>();
+
+        if (context.match(TokenType.RIGHT_BRACE)) {
+            return memberLists;
+        }
+
+        ObjectMemberParser memberParser = new ObjectMemberParser();
+
+        ObjectMemberNode firstMember = memberParser.parse(context);
+        ObjectMemberListNode listNode = new ObjectMemberListNode(firstMember);
+
+        while (context.match(TokenType.COMMA)) {
+            context.consume(TokenType.COMMA);
+
+            if (context.match(TokenType.RIGHT_BRACE)) {
+                throw new Parser.ParseException("Unexpected ',' before '}' in object member list");
+            }
+
+            ObjectMemberNode nextMember = memberParser.parse(context);
+            listNode.addMember(nextMember);
+        }
+
+        memberLists.add(listNode);
+
+        return memberLists;
+
     }
 }

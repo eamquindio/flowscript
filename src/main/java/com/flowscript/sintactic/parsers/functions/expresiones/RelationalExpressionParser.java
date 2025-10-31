@@ -17,7 +17,7 @@ import com.flowscript.sintactic.ast.functions.expresiones.RelationalExpressionNo
  * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
  * Nivel 5: Expresiones - Relacionales
  *
- * <h3>Tarea del Estudiante:</h3>
+ * <h3>Tarea del Estudiante:</h3> 
  * Implementar el método {@code parse()} siguiendo la gramática BNF.
  * Soporta operadores &lt;, &gt;, &lt;=, &gt;= (menor, mayor, menor o igual, mayor o igual).
  * El operador es asociativo por la izquierda.
@@ -29,6 +29,28 @@ public class RelationalExpressionParser implements IParser<RelationalExpressionN
     @Override
     public RelationalExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // TODO: Implementar este método
-        throw new UnsupportedOperationException("RelationalExpressionParser no implementado - Tarea del estudiante");
+        AdditiveExpressionParser additiveParser = new AdditiveExpressionParser();
+        ExpressionNode firstOperand = additiveParser.parse(context);
+
+        Token firstToken = context.getPreviousToken();
+        RelationalExpressionNode node = new RelationalExpressionNode(firstToken, firstOperand);
+
+        while (context.match(TokenType.LESS_THAN) ||
+               context.match(TokenType.GREATER_THAN) ||
+               context.match(TokenType.LESS_EQUAL) ||
+               context.match(TokenType.GREATER_EQUAL)) {
+
+            Token operatorToken = context.getCurrentToken();
+            context.consume();
+
+            ExpressionNode nextOperand = additiveParser.parse(context);
+
+            node.addOperand(operatorToken, nextOperand);
+        }
+        if (node.isSingleOperand()) {
+            return (RelationalExpressionNode) node.getSimplified();
+        }
+
+        return node;
     }
 }
