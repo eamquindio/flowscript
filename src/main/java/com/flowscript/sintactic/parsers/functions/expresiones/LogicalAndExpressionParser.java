@@ -1,34 +1,43 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNode;
 
 /**
- * Parser para expresiones lógicas AND.
+ * logicalAndExpr := equalityExpr ( 'and' equalityExpr )*
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * LogicalAndExpression ::= EqualityExpression ( ( 'and' | 'y' ) EqualityExpression )*
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 3: Expresiones - AND Lógico
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Soporta tanto 'and' (inglés) como 'y' (español).
- * El operador es asociativo por la izquierda.
- *
- * @see LogicalAndExpressionNode
+ * Asociatividad izquierda.
  */
-public class LogicalAndExpressionParser implements IParser<LogicalAndExpressionNode> {
+public class LogicalAndExpressionParser implements IParser<ExpressionNode> {
+
+    private final EqualityExpressionParser equalityParser;
+
+    public LogicalAndExpressionParser() {
+        this.equalityParser = new EqualityExpressionParser();
+    }
 
     @Override
-    public LogicalAndExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalAndExpressionParser no implementado - Tarea del estudiante");
+    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        ExpressionNode left = equalityParser.parse(context);
+
+        while (isAnd(context.getCurrentToken())) {
+            Token op = context.consume();              // consume 'and'
+            ExpressionNode right = equalityParser.parse(context);
+            // Encadenamos en un nodo AND (izq op der)
+            left = new LogicalAndExpressionNode(left, op, right);
+        }
+
+        return left;
+    }
+
+    private static boolean isAnd(Token t) {
+        if (t == null) return false;
+        // Acepta por tipo o por lexema (según como venga del lexer)
+        return t.getType() == TokenType.AND || "and".equalsIgnoreCase(t.getValue());
     }
 }

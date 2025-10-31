@@ -1,34 +1,51 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNode;
 
 /**
- * Parser para expresiones lógicas OR.
+ * Analizador para expresiones con operador lógico OR.
  *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * LogicalOrExpression ::= LogicalAndExpression ( ( 'or' | 'o' ) LogicalAndExpression )*
- * </pre>
+ * Regla de producción:
+ *   LogicalOrExpression ::= LogicalAndExpression ('or' LogicalAndExpression)*
  *
- * <h3>Categoría:</h3>
- * 🔧 GRAMÁTICAS DE IMPLEMENTACIÓN DE FUNCIONES
- * Nivel 2: Expresiones - OR Lógico
- *
- * <h3>Tarea del Estudiante:</h3>
- * Implementar el método {@code parse()} siguiendo la gramática BNF.
- * Soporta tanto 'or' (inglés) como 'o' (español).
- * El operador es asociativo por la izquierda.
- *
- * @see LogicalOrExpressionNode
+ * Asociación de izquierda a derecha.
  */
-public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNode> {
+public class LogicalOrExpressionParser implements IParser<ExpressionNode> {
+
+    private final LogicalAndExpressionParser andExprParser;
+
+    public LogicalOrExpressionParser() {
+        this.andExprParser = new LogicalAndExpressionParser();
+    }
 
     @Override
-    public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+    public ExpressionNode parse(ParserContext ctx) throws Parser.ParseException {
+        // Parseamos el primer operando
+        ExpressionNode leftExpr = andExprParser.parse(ctx);
+
+        // Mientras encontremos 'or', seguimos creando nodos encadenados
+        while (isOrOperator(ctx.getCurrentToken())) {
+            Token operator = ctx.consume(); // consumir 'or'
+            ExpressionNode rightExpr = andExprParser.parse(ctx);
+
+            // Encadenar en un nuevo nodo OR
+            leftExpr = new LogicalOrExpressionNode(leftExpr, operator, rightExpr);
+        }
+
+        return leftExpr;
+    }
+
+    /**
+     * Verifica si el token actual representa el operador lógico OR.
+     */
+    private static boolean isOrOperator(Token token) {
+        if (token == null) return false;
+        return token.getType() == TokenType.OR || "or".equalsIgnoreCase(token.getValue());
     }
 }

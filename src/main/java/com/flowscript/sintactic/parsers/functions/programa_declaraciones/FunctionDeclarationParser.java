@@ -1,89 +1,13 @@
 package com.flowscript.sintactic.parsers.functions.programa_declaraciones;
 
-import com.flowscript.lexer.Token;
-import com.flowscript.lexer.TokenType;
-import com.flowscript.sintactic.IParser;
-import com.flowscript.sintactic.Parser;
-import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.FunctionDeclarationNode;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
-import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
-import com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode;
-import com.flowscript.sintactic.parsers.functions.tipos_parametros.ParameterListParser;
-import com.flowscript.sintactic.parsers.functions.tipos_parametros.TypeParser;
-import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
+import edu.eam.ingesoft.tlf.FlowScriptFunctionsParser;
 
-import java.util.List;
+public class FunctionDeclarationParser {
 
-/**
- * Parser para declaraciones de función en FlowScript.
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
- * FunctionDeclaration ::= 'function' IDENTIFIER '(' ParameterList? ')' ( '->' Type )? Block
- * </pre>
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * // Función sin parámetros ni retorno
- * function saludar() {
- *     imprimir("Hola mundo")
- * }
- *
- * // Función con parámetros y retorno
- * function sumar(a: entero, b: entero) -> entero {
- *     return a + b
- * }
- *
- * // Función con tipos complejos
- * function procesar_usuario(datos: objeto, opciones: lista) -> booleano {
- *     if datos.nombre == "" {
- *         return falso
- *     }
- *     return verdadero
- * }
- *
- * // Función recursiva
- * function factorial(n: entero) -> entero {
- *     if n <= 1 {
- *         return 1
- *     }
- *     return n * factorial(n - 1)
- * }
- *
- * // Función con lógica compleja
- * function validar_email(email: texto) -> booleano {
- *     if no email.contains("@") {
- *         return falso
- *     }
- *     partes = email.split("@")
- *     return partes.length == 2
- * }
- * </pre>
- *
- * <h3>Uso:</h3>
- * <pre>
- * ParserContext context = new ParserContext(tokens);
- * FunctionDeclarationParser parser = new FunctionDeclarationParser();
- * FunctionDeclarationNode node = parser.parse(context);
- * </pre>
- *
- * @see FunctionDeclarationNode
- */
-public class FunctionDeclarationParser implements IParser<FunctionDeclarationNode> {
-
-    private final ParameterListParser parameterListParser;
-    private final TypeParser typeParser;
-    private final BlockParser blockParser;
-
-    public FunctionDeclarationParser() {
-        this.parameterListParser = new ParameterListParser();
-        this.typeParser = new TypeParser();
-        this.blockParser = new BlockParser();
-    }
-
-    @Override
-    public FunctionDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-      return null;
+    public static FunctionDeclarationNode parse(String source) {
+        FlowScriptFunctionsParser p = ProgramParser.buildParser(source);
+        FlowScriptFunctionsParser.FunctionDeclarationContext ctx = p.functionDeclaration();
+        return (FunctionDeclarationNode) new ProgramParser.FunctionsAstVisitor().visitFunctionDeclaration(ctx);
     }
 }

@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="" />
+    <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/tlf/FlowScriptFunctions.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/flowscript-functions.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/flowscript-functions.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,10 +63,13 @@
     "Maven.flowscript [test].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
+    "git-widget-placeholder": "feature/antlrfunctions__240220221017",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/valar/Documents/universidad/octavo semestre/flowscript"
   }
 }]]></component>
   <component name="RecentsManager">
