@@ -34,7 +34,13 @@ public class StringLiteralNode extends ExpressionNode {
         return rawValue;
     }
 
+    // Return raw lexeme including quotes to match tests
     public String getValue() {
+        return rawValue;
+    }
+
+    // Parsed content without surrounding quotes and with escapes interpreted
+    public String getParsed() {
         return value;
     }
 

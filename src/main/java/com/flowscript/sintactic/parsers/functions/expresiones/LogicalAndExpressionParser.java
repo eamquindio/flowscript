@@ -28,7 +28,20 @@ public class LogicalAndExpressionParser implements IParser<LogicalAndExpressionN
 
     @Override
     public LogicalAndExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalAndExpressionParser no implementado - Tarea del estudiante");
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode left =
+            new com.flowscript.sintactic.parsers.functions.expresiones.EqualityExpressionParser().parse(context);
+
+        com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNode node =
+            new com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNode(firstToken, left);
+
+        while (context.check(com.flowscript.lexer.TokenType.AND) || context.checkValue("y")) {
+            com.flowscript.lexer.Token andToken = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right =
+                new com.flowscript.sintactic.parsers.functions.expresiones.EqualityExpressionParser().parse(context);
+            node.addOperand(andToken, right);
+        }
+
+        return node;
     }
 }

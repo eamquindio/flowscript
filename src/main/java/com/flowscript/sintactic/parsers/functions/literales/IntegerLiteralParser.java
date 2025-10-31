@@ -27,7 +27,11 @@ public class IntegerLiteralParser implements IParser<IntegerLiteralNode> {
 
     @Override
     public IntegerLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("IntegerLiteralParser no implementado - Tarea del estudiante");
+        // If current token is an integer literal, consume and create node
+        if (context.check(com.flowscript.lexer.TokenType.INTEGER_LITERAL)) {
+            com.flowscript.lexer.Token t = context.consume();
+            return new IntegerLiteralNode(t);
+        }
+        throw new Parser.ParseException("Expected integer literal at " + (context.getCurrentToken() != null ? context.getCurrentToken().getLine() + ":" + context.getCurrentToken().getColumn() : "end of input"));
     }
 }

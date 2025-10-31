@@ -1,0 +1,25 @@
+process SimpleOrder {
+    start -> Check
+
+    task Check {
+        action:
+            customer = input.customer
+            if customer == null {
+                goto Error
+            }
+            goto Pay
+    }
+
+    task Pay {
+        action:
+            ok = true
+            if ok {
+                goto Done
+            } else {
+                goto Error
+            }
+    }
+
+    end Done
+    end Error
+}

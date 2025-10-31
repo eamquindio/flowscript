@@ -25,8 +25,14 @@ public class IntegerLiteralNode extends ExpressionNode {
         return rawValue;
     }
 
-    public BigInteger getValue() {
+    public BigInteger getBigIntegerValue() {
         return value;
+    }
+
+    // For tests and legacy code: return the raw lexeme as value
+    // Backwards-compatible method used by tests
+    public String getValue() {
+        return rawValue;
     }
 
     public long getLongValue() {

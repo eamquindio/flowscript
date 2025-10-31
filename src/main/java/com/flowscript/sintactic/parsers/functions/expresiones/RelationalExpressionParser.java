@@ -28,7 +28,23 @@ public class RelationalExpressionParser implements IParser<RelationalExpressionN
 
     @Override
     public RelationalExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("RelationalExpressionParser no implementado - Tarea del estudiante");
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode left =
+            new com.flowscript.sintactic.parsers.functions.expresiones.AdditiveExpressionParser().parse(context);
+
+        com.flowscript.sintactic.ast.functions.expresiones.RelationalExpressionNode node =
+            new com.flowscript.sintactic.ast.functions.expresiones.RelationalExpressionNode(firstToken, left);
+
+        while (context.check(com.flowscript.lexer.TokenType.LESS)
+                || context.check(com.flowscript.lexer.TokenType.GREATER)
+                || context.check(com.flowscript.lexer.TokenType.LESS_EQUAL)
+                || context.check(com.flowscript.lexer.TokenType.GREATER_EQUAL)) {
+            com.flowscript.lexer.Token op = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right =
+                new com.flowscript.sintactic.parsers.functions.expresiones.AdditiveExpressionParser().parse(context);
+            node.addOperand(op, right);
+        }
+
+        return node;
     }
 }

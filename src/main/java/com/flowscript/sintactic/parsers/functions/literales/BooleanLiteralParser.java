@@ -27,7 +27,10 @@ public class BooleanLiteralParser implements IParser<BooleanLiteralNode> {
 
     @Override
     public BooleanLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("BooleanLiteralParser no implementado - Tarea del estudiante");
+        if (context.check(com.flowscript.lexer.TokenType.TRUE) || context.check(com.flowscript.lexer.TokenType.FALSE)) {
+            com.flowscript.lexer.Token t = context.consume();
+            return new BooleanLiteralNode(t);
+        }
+        throw new Parser.ParseException("Expected boolean literal at " + (context.getCurrentToken() != null ? context.getCurrentToken().getLine() + ":" + context.getCurrentToken().getColumn() : "end of input"));
     }
 }

@@ -27,7 +27,10 @@ public class NullLiteralParser implements IParser<NullLiteralNode> {
 
     @Override
     public NullLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("NullLiteralParser no implementado - Tarea del estudiante");
+        if (context.check(com.flowscript.lexer.TokenType.NULL)) {
+            com.flowscript.lexer.Token t = context.consume();
+            return new NullLiteralNode(t);
+        }
+        throw new Parser.ParseException("Expected null literal at " + (context.getCurrentToken() != null ? context.getCurrentToken().getLine() + ":" + context.getCurrentToken().getColumn() : "end of input"));
     }
 }
