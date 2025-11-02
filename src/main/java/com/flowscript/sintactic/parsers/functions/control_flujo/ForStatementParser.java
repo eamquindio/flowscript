@@ -87,11 +87,17 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
 public class ForStatementParser implements IParser<ForStatementNode> {
 
     private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
+    private StatementParser statementParser;
 
     public ForStatementParser() {
         this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
+    }
+
+    private StatementParser getStatementParser() {
+        if (statementParser == null) {
+            statementParser = new StatementParser();
+        }
+        return statementParser;
     }
 
     @Override

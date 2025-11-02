@@ -78,6 +78,17 @@ public class BlockParser implements IParser<BlockNode> {
 
     @Override
     public BlockNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token leftBrace = context.consume(TokenType.LEFT_BRACE);
+        
+        BlockNode block = new BlockNode(leftBrace);
+        List<StatementNode> statements = statementListParser.parse(context);
+        
+        for (StatementNode stmt : statements) {
+            block.addStatement(stmt);
+        }
+        
+        context.consume(TokenType.RIGHT_BRACE);
+        
+        return block;
     }
 }

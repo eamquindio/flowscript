@@ -28,11 +28,35 @@ import com.flowscript.sintactic.ast.functions.expresiones.PrimaryExpressionNode;
  *
  * @see PrimaryExpressionNode
  */
-public class PrimaryExpressionParser implements IParser<PrimaryExpressionNode> {
+public class PrimaryExpressionParser implements IParser<com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode> {
+
+    private final com.flowscript.sintactic.parsers.functions.literales.LiteralParser literalParser;
+
+    public PrimaryExpressionParser() {
+        this.literalParser = new com.flowscript.sintactic.parsers.functions.literales.LiteralParser();
+    }
 
     @Override
-    public PrimaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("PrimaryExpressionParser no implementado - Tarea del estudiante");
+    public com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        com.flowscript.lexer.Token token = context.getCurrentToken();
+        
+        if (token == null) {
+            throw new Parser.ParseException("Expected expression but reached end of input");
+        }
+        
+        com.flowscript.lexer.TokenType type = token.getType();
+        
+        if (type == com.flowscript.lexer.TokenType.IDENTIFIER) {
+            com.flowscript.lexer.Token idToken = context.consume(com.flowscript.lexer.TokenType.IDENTIFIER);
+            return new com.flowscript.sintactic.ast.functions.expresiones.IdentifierNode(idToken);
+        } else if (type == com.flowscript.lexer.TokenType.LEFT_PAREN) {
+            context.consume(com.flowscript.lexer.TokenType.LEFT_PAREN);
+            ExpressionParser exprParser = new ExpressionParser();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode expr = exprParser.parse(context);
+            context.consume(com.flowscript.lexer.TokenType.RIGHT_PAREN);
+            return expr;
+        } else {
+            return literalParser.parse(context);
+        }
     }
 }

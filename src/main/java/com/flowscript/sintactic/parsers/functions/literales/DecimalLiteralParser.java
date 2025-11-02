@@ -27,7 +27,7 @@ public class DecimalLiteralParser implements IParser<DecimalLiteralNode> {
 
     @Override
     public DecimalLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("DecimalLiteralParser no implementado - Tarea del estudiante");
+        com.flowscript.lexer.Token token = context.consume(com.flowscript.lexer.TokenType.DECIMAL_LITERAL);
+        return new DecimalLiteralNode(token);
     }
 }
