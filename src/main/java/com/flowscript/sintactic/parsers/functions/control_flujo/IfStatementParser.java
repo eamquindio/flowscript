@@ -81,6 +81,34 @@ public class IfStatementParser implements IParser<IfStatementNode> {
 
     @Override
     public IfStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token ifToken = context.getCurrentToken();
+        context.consume(); 
+
+        
+        ExpressionNode condition = expressionParser.parse(context);
+
+       
+        StatementNode thenStatement = statementParser.parse(context);
+
+        IfStatementNode ifStmt = new IfStatementNode(ifToken, condition, thenStatement);
+
+        
+        while (context.checkValue("sino_si") || context.checkValue("else_if")) {
+            context.consume(); 
+
+            ExpressionNode elseIfCondition = expressionParser.parse(context);
+            StatementNode elseIfStatement = statementParser.parse(context);
+
+            ifStmt.addElseIfClause(elseIfCondition, elseIfStatement);
+        }
+
+        
+        if (context.checkValue("sino") || context.checkValue("else")) {
+            context.consume(); // consume 'else' or 'sino'
+            StatementNode elseStatement = statementParser.parse(context);
+            ifStmt.setElseStatement(elseStatement);
+        }
+
+        return ifStmt;
     }
 }

@@ -8,6 +8,7 @@ import com.flowscript.sintactic.ast.functions.literales.IntegerLiteralNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Gramática BNF:
  * IntegerLiteral ::= INTEGER_TOKEN
+ *
+ * NOTA: getValue() retorna BigInteger (valor procesado),
+ * getRawValue() retorna el literal original como String.
  */
 public class IntegerLiteralParserTest {
 
@@ -31,7 +35,8 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("42", result.getValue());
+        assertEquals(new BigInteger("42"), result.getValue());
+        assertEquals("42", result.getRawValue());
     }
 
     @Test
@@ -44,7 +49,8 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("0", result.getValue());
+        assertEquals(BigInteger.ZERO, result.getValue());
+        assertEquals("0", result.getRawValue());
     }
 
     @Test
@@ -57,7 +63,8 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1_000_000", result.getValue());
+        assertEquals(new BigInteger("1000000"), result.getValue()); // procesado sin _
+        assertEquals("1_000_000", result.getRawValue());
     }
 
     @Test
@@ -70,7 +77,8 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("9876543210", result.getValue());
+        assertEquals(new BigInteger("9876543210"), result.getValue());
+        assertEquals("9876543210", result.getRawValue());
     }
 
     @Test
@@ -83,7 +91,8 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1_2_3_4_5", result.getValue());
+        assertEquals(new BigInteger("12345"), result.getValue());
+        assertEquals("1_2_3_4_5", result.getRawValue());
     }
 
     @Test
@@ -93,9 +102,7 @@ public class IntegerLiteralParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
     }
 
     @Test
@@ -105,8 +112,6 @@ public class IntegerLiteralParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
     }
 }

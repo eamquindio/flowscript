@@ -1,8 +1,11 @@
 package com.flowscript.sintactic.parsers.functions.literales;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 
 /**
@@ -36,11 +39,34 @@ import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
  * @see ObjectLiteralParser
  * @see ListLiteralParser
  */
-public class LiteralParser implements IParser<LiteralNode> {
+public class LiteralParser implements IParser<ExpressionNode> {
+
+    private final IntegerLiteralParser integerParser = new IntegerLiteralParser();
+    private final DecimalLiteralParser decimalParser = new DecimalLiteralParser();
+    private final BooleanLiteralParser booleanParser = new BooleanLiteralParser();
+    private final StringLiteralParser stringParser = new StringLiteralParser();
+    private final NullLiteralParser nullParser = new NullLiteralParser();
+    private final ObjectLiteralParser objectParser = new ObjectLiteralParser();
+    private final ListLiteralParser listParser = new ListLiteralParser();
 
     @Override
-    public LiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LiteralParser no implementado - Tarea del estudiante");
+    public ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        Token t = context.getCurrentToken();
+
+        if (t == null) {
+            throw new Parser.ParseException("Literal esperado pero se acabaron los tokens");
+        }
+
+        TokenType tp = t.getType();
+
+        if (tp == TokenType.INTEGER_LITERAL) return integerParser.parse(context);
+        if (tp == TokenType.DECIMAL_LITERAL) return decimalParser.parse(context);
+        if (tp == TokenType.TRUE || tp == TokenType.FALSE) return booleanParser.parse(context);
+        if (tp == TokenType.STRING_LITERAL) return stringParser.parse(context);
+        if (tp == TokenType.NULL) return nullParser.parse(context);
+        if (tp == TokenType.LEFT_BRACE) return objectParser.parse(context);
+        if (tp == TokenType.LEFT_BRACKET) return listParser.parse(context);
+
+        throw new Parser.ParseException("Literal esperado, pero salió " + tp);
     }
 }

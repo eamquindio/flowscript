@@ -101,6 +101,15 @@ public class ReturnStatementParser implements IParser<ReturnStatementNode> {
         // TODO: Implementar este método
         // HINT: Seguir los pasos documentados arriba
         // HINT: El return puede no tener expresión (return void)
-        throw new UnsupportedOperationException("ReturnStatementParser no implementado - Tarea del estudiante");
+        Token returnToken = context.getCurrentToken();
+        context.consume();
+
+        ExpressionNode expression = null;
+        Token next = context.getCurrentToken();
+
+        if (next != null && !"}".equals(next.getValue())) {
+            expression = expressionParser.parse(context);
+        }
+        return new ReturnStatementNode(returnToken, expression);
     }
 }

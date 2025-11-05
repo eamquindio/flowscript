@@ -7,6 +7,7 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.DecimalLiteralNode;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Gramática BNF:
  * DecimalLiteral ::= INTEGER_TOKEN '.' INTEGER_TOKEN ( ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN )?
  *                  | INTEGER_TOKEN ( 'e' | 'E' ) ( '+' | '-' )? INTEGER_TOKEN
+ *
+ * NOTA: getValue() retorna BigDecimal (valor procesado),
+ * getRawValue() retorna el literal exacto como String.
  */
 public class DecimalLiteralParserTest {
 
@@ -32,7 +36,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("3.14", result.getValue());
+        assertEquals(new BigDecimal("3.14"), result.getValue());
+        assertEquals("3.14", result.getRawValue());
     }
 
     @Test
@@ -45,7 +50,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("0.0", result.getValue());
+        assertEquals(new BigDecimal("0.0"), result.getValue());
+        assertEquals("0.0", result.getRawValue());
     }
 
     @Test
@@ -58,7 +64,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1.23e-5", result.getValue());
+        assertEquals(new BigDecimal("1.23e-5"), result.getValue());
+        assertEquals("1.23e-5", result.getRawValue());
     }
 
     @Test
@@ -71,7 +78,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("2.0e10", result.getValue());
+        assertEquals(new BigDecimal("2.0e10"), result.getValue());
+        assertEquals("2.0e10", result.getRawValue());
     }
 
     @Test
@@ -84,7 +92,8 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("5e3", result.getValue());
+        assertEquals(new BigDecimal("5e3"), result.getValue());
+        assertEquals("5e3", result.getRawValue());
     }
 
     @Test
@@ -97,30 +106,27 @@ public class DecimalLiteralParserTest {
         DecimalLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("123456.789012", result.getValue());
-    }
-
-    @Test
-    public void testInvalidInput_Integer() throws Exception {
-        String input = "42";
-        Lexer lexer = new Lexer(input);
-        List<Token> tokens = lexer.tokenize();
-        ParserContext context = new ParserContext(tokens);
-
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertEquals(new BigDecimal("123456.789012"), result.getValue());
+        assertEquals("123456.789012", result.getRawValue());
     }
 
     @Test
     public void testInvalidInput_Identifier() throws Exception {
-        String input = "abc";
+        String input = "hello";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        assertThrows(Parser.ParseException.class, () -> {
-            parser.parse(context);
-        });
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
+    }
+
+    @Test
+    public void testInvalidInput_Integer() throws Exception {
+        String input = "123";
+        Lexer lexer = new Lexer(input);
+        List<Token> tokens = lexer.tokenize();
+        ParserContext context = new ParserContext(tokens);
+
+        assertThrows(Parser.ParseException.class, () -> parser.parse(context));
     }
 }
