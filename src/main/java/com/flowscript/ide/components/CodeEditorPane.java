@@ -201,7 +201,13 @@ public class CodeEditorPane extends VBox {
         // Configure code area
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.getStyleClass().add("code-area");
-        codeArea.setStyle("-fx-font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace; -fx-font-size: 14px;");
+        codeArea.setEditable(true);
+        codeArea.setStyle(
+            "-fx-font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace; " +
+            "-fx-font-size: 14px; " +
+            "-fx-background-color: #1e1e1e; " +
+            "-fx-text-fill: #d4d4d4;"
+        );
         
         // Set initial content
         codeArea.replaceText(0, 0, content);
