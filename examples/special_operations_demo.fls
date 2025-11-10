@@ -1,12 +1,12 @@
 // =============================================================================
-// FlowScript: Demostración de Operaciones Especiales
+// FlowScript: Demostracion de Operaciones Especiales
 // Prueba de db.ejecutar, db.consultar, http.get, http.post, http.delete
 // =============================================================================
 
-// === FUNCIONES DE INICIALIZACIÓN ===
+// === FUNCIONES DE INICIALIZACION ===
 
 funcion inicializarBaseDatos() -> nulo {
-    // Simula la inicialización de la base de datos
+    // Simula la inicializacion de la base de datos
     retornar nulo
 }
 
@@ -43,7 +43,7 @@ funcion buscarUsuariosMayores(edadMinima: entero) -> lista {
 }
 
 funcion obtenerUsuarioPorId(userId: entero) -> objeto {
-    // Consultar un usuario específico por ID
+    // Consultar un usuario especifico por ID
     resultados = db.consultar(
         "SELECT * FROM usuarios WHERE id = ?",
         [userId]
@@ -66,12 +66,12 @@ funcion obtenerDatosAPI(endpoint: texto) -> objeto {
 }
 
 funcion obtenerDatosConAuth(endpoint: texto, token: texto) -> objeto {
-    // GET con headers de autenticación
+    // GET con headers de autenticacion
     respuesta = http.get(
         "https://api.ejemplo.com" + endpoint,
         {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json"
+            Authorization: "Bearer " + token,
+            ContentType: "application/json"
         }
     )
 
@@ -94,8 +94,8 @@ funcion enviarDatosConAuth(datos: objeto, token: texto) -> objeto {
         "https://api.ejemplo.com/usuarios",
         datos,
         {
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json"
+            Authorization: "Bearer " + token,
+            ContentType: "application/json"
         }
     )
 
@@ -103,18 +103,18 @@ funcion enviarDatosConAuth(datos: objeto, token: texto) -> objeto {
 }
 
 funcion eliminarRecurso(resourceId: entero, token: texto) -> objeto {
-    // DELETE con autenticación
+    // DELETE con autenticacion
     respuesta = http.delete(
         "https://api.ejemplo.com/recursos/" + resourceId,
         {
-            "Authorization": "Bearer " + token
+            Authorization: "Bearer " + token
         }
     )
 
     retornar respuesta
 }
 
-// === FUNCIÓN COMPLEJA: SINCRONIZACIÓN BD <-> API ===
+// === FUNCION COMPLEJA: SINCRONIZACION BD <-> API ===
 
 funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
     // 1. Obtener usuario de la base de datos local
@@ -128,8 +128,8 @@ funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
         "https://api.ejemplo.com/sync/usuarios",
         usuariosLocal,
         {
-            "Authorization": "Bearer " + apiToken,
-            "Content-Type": "application/json"
+            Authorization: "Bearer " + apiToken,
+            ContentType: "application/json"
         }
     )
 
@@ -144,18 +144,18 @@ funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
     retornar respuestaAPI
 }
 
-// === FUNCIÓN DE DEMOSTRACIÓN COMPLETA ===
+// === FUNCION DE DEMOSTRACION COMPLETA ===
 
 funcion demostracionCompleta() -> objeto {
     // DATABASE OPERATIONS
     filas1 = db.ejecutar(
         "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
-        ["Juan Pérez", "juan@example.com", 25]
+        ["Juan Perez", "juan@example.com", 25]
     )
 
     filas2 = db.ejecutar(
         "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
-        ["María García", "maria@example.com", 30]
+        ["Maria Garcia", "maria@example.com", 30]
     )
 
     usuarios = db.consultar(
@@ -169,9 +169,9 @@ funcion demostracionCompleta() -> objeto {
     respuestaPost = http.post(
         "https://jsonplaceholder.typicode.com/posts",
         {
-            "title": "Test desde FlowScript",
-            "body": "Cuerpo del post",
-            "userId": 1
+            title: "Test desde FlowScript",
+            body: "Cuerpo del post",
+            userId: 1
         }
     )
 
@@ -179,11 +179,11 @@ funcion demostracionCompleta() -> objeto {
 
     // Retornar resumen
     resumen = {
-        "usuariosInsertados": filas1 + filas2,
-        "usuariosEncontrados": usuarios,
-        "apiGetStatus": respuestaGet,
-        "apiPostStatus": respuestaPost,
-        "apiDeleteStatus": respuestaDelete
+        usuariosInsertados: filas1 + filas2,
+        usuariosEncontrados: usuarios,
+        apiGetStatus: respuestaGet,
+        apiPostStatus: respuestaPost,
+        apiDeleteStatus: respuestaDelete
     }
 
     retornar resumen
