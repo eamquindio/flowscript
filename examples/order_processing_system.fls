@@ -132,8 +132,8 @@ funcion procesarOrdenCompleta(clienteEmail: texto, productoId: entero, cantidad:
     tarjetaValida = validarTarjeta(tarjeta)
 
     si (no emailValido o no tarjetaValida) {
-        resultadoError = { exitoso: falso, mensaje: "Datos invalidos" }
-        retornar resultadoError
+        error = { exitoso: falso, mensaje: "Datos invalidos" }
+        retornar error
     }
 
     # Paso 2: Obtener producto via API REST
@@ -143,8 +143,8 @@ funcion procesarOrdenCompleta(clienteEmail: texto, productoId: entero, cantidad:
     # Paso 3: Verificar inventario en BD
     stockDisponible = consultarInventarioBD(productoId)
     si (stockDisponible < cantidad) {
-        resultadoError = { exitoso: falso, mensaje: "Stock insuficiente" }
-        retornar resultadoError
+        errorStock = { exitoso: falso, mensaje: "Stock insuficiente" }
+        retornar errorStock
     }
 
     # Paso 4: Calcular montos
@@ -160,8 +160,8 @@ funcion procesarOrdenCompleta(clienteEmail: texto, productoId: entero, cantidad:
     pagoExitoso = procesarPagoAPI(totalFinal, tarjeta)
     si (no pagoExitoso) {
         actualizarEstadoOrdenBD(ordenId, "PAGO_FALLIDO")
-        resultadoError = { exitoso: falso, mensaje: "Pago rechazado" }
-        retornar resultadoError
+        errorPago = { exitoso: falso, mensaje: "Pago rechazado" }
+        retornar errorPago
     }
 
     # Paso 7: Actualizar inventario en BD

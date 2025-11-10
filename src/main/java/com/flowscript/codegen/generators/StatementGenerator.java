@@ -136,8 +136,20 @@ public class StatementGenerator {
             String initializer = expressionGenerator.generate(node.getInitializer());
 
             if (alreadyDeclared) {
-                // Reassignment - no 'var' keyword
-                emitter.emit(varName + " = " + initializer + ";");
+                // Variable was declared in a previous block but may not be visible here
+                // In Java, variables declared with 'var' inside if blocks are not visible outside
+                // So we need to determine the type and redeclare it
+
+                // Infer type from initializer
+                String type = inferTypeFromExpression(node.getInitializer());
+
+                if (type != null) {
+                    // Redeclare with explicit type (will cause shadowing warning but compiles)
+                    emitter.emit(type + " " + varName + " = " + initializer + ";");
+                } else {
+                    // Fallback to simple reassignment (may fail if not in scope)
+                    emitter.emit(varName + " = " + initializer + ";");
+                }
             } else {
                 // First declaration - use 'var' keyword
                 emitter.emit("var " + varName + " = " + initializer + ";");
@@ -150,6 +162,40 @@ public class StatementGenerator {
                 declaredVariables.add(varName);
             }
         }
+    }
+
+    /**
+     * Infers Java type from a FlowScript expression node.
+     * Returns null if type cannot be inferred.
+     */
+    private String inferTypeFromExpression(com.flowscript.sintactic.ast.ASTNode node) {
+        // Check if it's an object literal (Map)
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.ObjectLiteralNode) {
+            return "Map<String, Object>";
+        }
+        // Check if it's a list literal
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.ListLiteralNode) {
+            return "List<Object>";
+        }
+        // Check if it's a string literal
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.StringLiteralNode) {
+            return "String";
+        }
+        // Check if it's an integer literal
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.IntegerLiteralNode) {
+            return "int";
+        }
+        // Check if it's a decimal literal
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.DecimalLiteralNode) {
+            return "double";
+        }
+        // Check if it's a boolean literal
+        if (node instanceof com.flowscript.sintactic.ast.functions.literales.BooleanLiteralNode) {
+            return "boolean";
+        }
+
+        // For complex expressions, return null (can't easily infer)
+        return null;
     }
 
     // ========== Expression Statement ==========

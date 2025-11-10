@@ -177,10 +177,13 @@ public class ProcessGenerator {
             return;
         }
 
+        // Use gateway name as prefix to ensure unique variable names
+        String gatewayPrefix = gateway.getGatewayName();
+
         // Generate CompletableFutures for each branch
         for (int i = 0; i < branches.size(); i++) {
             ParallelBranchNode branch = branches.get(i);
-            emitter.emit("CompletableFuture<Void> rama" + i +
+            emitter.emit("CompletableFuture<Void> " + gatewayPrefix + "_rama" + i +
                         " = CompletableFuture.runAsync(() ->");
             emitter.openBlock();
             emitter.emit("try");
@@ -203,7 +206,7 @@ public class ProcessGenerator {
         StringBuilder allOf = new StringBuilder("CompletableFuture.allOf(");
         for (int i = 0; i < branches.size(); i++) {
             if (i > 0) allOf.append(", ");
-            allOf.append("rama").append(i);
+            allOf.append(gatewayPrefix).append("_rama").append(i);
         }
         allOf.append(").join();");
 

@@ -160,37 +160,23 @@ public class ExpressionGenerator {
 
     private String generateObjectLiteral(ObjectLiteralNode node) {
         if (node.getMembers() == null || node.getMembers().isEmpty()) {
-            return "Map.of()";
+            return "new HashMap<>()";
         }
 
         var members = node.getMembers();
 
-        // Map.of() has a limit of 10 key-value pairs
-        if (members.size() > 10) {
-            // Use Map.ofEntries for more than 10 pairs
-            StringBuilder sb = new StringBuilder("Map.ofEntries(");
-            boolean first = true;
-            for (var member : members) {
-                if (!first) sb.append(", ");
-                first = false;
-                sb.append("Map.entry(\"").append(member.getKey()).append("\", ");
-                sb.append(generate(member.getValue())).append(")");
-            }
-            sb.append(")");
-            return sb.toString();
+        // Use HashMap to avoid type inference issues with Map.of()
+        // Map.of() creates immutable maps with complex intersection types
+        // that don't match Map<String, Object> return types
+        StringBuilder sb = new StringBuilder();
+        sb.append("new HashMap<String, Object>() {{ ");
+
+        for (var member : members) {
+            sb.append("put(\"").append(member.getKey()).append("\", ");
+            sb.append(generate(member.getValue())).append("); ");
         }
 
-        // For Map.of() we need alternating key-value pairs
-        StringBuilder sb = new StringBuilder("Map.of(");
-        boolean first = true;
-        for (var member : members) {
-            if (!first) sb.append(", ");
-            first = false;
-            sb.append("\"").append(member.getKey()).append("\"");
-            sb.append(", ");
-            sb.append(generate(member.getValue()));
-        }
-        sb.append(")");
+        sb.append("}}");
         return sb.toString();
     }
 

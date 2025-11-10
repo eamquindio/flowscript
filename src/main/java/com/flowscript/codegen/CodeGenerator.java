@@ -57,7 +57,6 @@ public class CodeGenerator {
 
         // Add standard imports
         emitter.addImports(
-            "com.flowscript.runtime.*",
             "java.util.*",
             "java.util.concurrent.*"
         );
