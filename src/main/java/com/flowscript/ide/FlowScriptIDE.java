@@ -17,6 +17,11 @@ import org.slf4j.LoggerFactory;
 import com.flowscript.ide.components.*;
 import com.flowscript.ide.services.ProjectService;
 import com.flowscript.ide.services.ThemeService;
+import com.flowscript.FlowScriptTranspiler;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FlowScriptIDE extends Application {
     private static final Logger logger = LoggerFactory.getLogger(FlowScriptIDE.class);
@@ -28,9 +33,12 @@ public class FlowScriptIDE extends Application {
     private CodeEditorPane codeEditorPane;
     private ConsolePane consolePane;
     private TokenTablePane tokenTablePane;
+    private ASTTreePane astTreePane;
+    private TranspilationResultPane transpilationResultPane;
     private StatusBar statusBar;
     private ProjectService projectService;
     private ThemeService themeService;
+    private FlowScriptTranspiler transpiler;
     private Scene scene;
     
     @Override
@@ -56,18 +64,33 @@ public class FlowScriptIDE extends Application {
             
             primaryStage.show();
             
-            // Load last project if exists
-            projectService.loadLastProject();
-            
+            // Load example on startup
+            loadExampleOnStartup();
+
         } catch (Exception e) {
             logger.error("Failed to start FlowScript IDE", e);
             showErrorDialog("Startup Error", "Failed to start FlowScript IDE", e.getMessage());
         }
     }
-    
+
     private void initializeServices() {
         projectService = new ProjectService();
         themeService = new ThemeService();
+        transpiler = new FlowScriptTranspiler();
+    }
+
+    private void loadExampleOnStartup() {
+        try {
+            // Load the comprehensive order processing example
+            File exampleFile = new File("examples/order_processing_system.fls");
+            if (exampleFile.exists()) {
+                codeEditorPane.openFile(exampleFile);
+                statusBar.setMessage("Ejemplo cargado: Sistema de Procesamiento de Órdenes");
+                logger.info("Loaded example file: order_processing_system.fls");
+            }
+        } catch (Exception e) {
+            logger.warn("Could not load example file", e);
+        }
     }
     
     private BorderPane createMainLayout() {
@@ -88,16 +111,28 @@ public class FlowScriptIDE extends Application {
         codeEditorPane = new CodeEditorPane();
         consolePane = new ConsolePane();
         tokenTablePane = new TokenTablePane();
+        astTreePane = new ASTTreePane();
+        transpilationResultPane = new TranspilationResultPane();
         statusBar = new StatusBar();
+
+        // Create tabbed pane for analysis views (Tokens, AST, and Transpilation Results)
+        TabPane analysisTabPane = new TabPane();
+        analysisTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+        Tab tokenTab = new Tab("Token Analysis", tokenTablePane);
+        Tab astTab = new Tab("AST Tree", astTreePane);
+        Tab transpilationTab = new Tab("Transpilation Results", transpilationResultPane);
+
+        analysisTabPane.getTabs().addAll(tokenTab, astTab, transpilationTab);
 
         // Create horizontal split between project explorer and editor area
         SplitPane leftRightSplit = new SplitPane();
         leftRightSplit.setOrientation(Orientation.HORIZONTAL);
 
-        // Create right side split between editor and token table
+        // Create right side split between editor and analysis pane
         SplitPane editorTokenSplit = new SplitPane();
         editorTokenSplit.setOrientation(Orientation.HORIZONTAL);
-        editorTokenSplit.getItems().addAll(codeEditorPane, tokenTablePane);
+        editorTokenSplit.getItems().addAll(codeEditorPane, analysisTabPane);
         editorTokenSplit.setDividerPositions(0.65);
 
         leftRightSplit.getItems().addAll(projectExplorer, editorTokenSplit);
@@ -323,13 +358,21 @@ public class FlowScriptIDE extends Application {
         Button runBtn = createToolButton("Run");
         Button debugBtn = createToolButton("Debug");
         Button stopBtn = createToolButton("Stop");
-        
+
         // Search
         Button searchBtn = createToolButton("Search");
-        
+
         // Format
         Button formatBtn = createToolButton("Format");
-        
+
+        // Set up toolbar button actions
+        newBtn.setOnAction(e -> codeEditorPane.newFile());
+        openBtn.setOnAction(e -> codeEditorPane.openFile());
+        saveBtn.setOnAction(e -> codeEditorPane.saveFile());
+        runBtn.setOnAction(e -> runCurrentFile());
+        debugBtn.setOnAction(e -> compileCurrentFile());
+        stopBtn.setOnAction(e -> statusBar.setMessage("Stop - Not implemented yet"));
+
         toolBar.getItems().addAll(
             newBtn, openBtn, saveBtn,
             new Separator(),
@@ -339,7 +382,7 @@ public class FlowScriptIDE extends Application {
             new Separator(),
             searchBtn, formatBtn
         );
-        
+
         return toolBar;
     }
     
@@ -385,8 +428,28 @@ public class FlowScriptIDE extends Application {
 
     private void updateTokenAnalysis() {
         String currentCode = codeEditorPane.getCurrentText();
+
+        // Update token analysis
         if (tokenTablePane.isAutoUpdate() || tokenTablePane != null) {
             tokenTablePane.updateTokens(currentCode);
+        }
+
+        // Update AST tree
+        if (astTreePane != null && astTreePane.isAutoUpdateEnabled()) {
+            try {
+                // Parse the code to generate AST
+                com.flowscript.lexer.Lexer lexer = new com.flowscript.lexer.Lexer(currentCode, false);
+                java.util.List<com.flowscript.lexer.Token> tokens = lexer.tokenize();
+
+                com.flowscript.sintactic.Parser parser = new com.flowscript.sintactic.Parser();
+                com.flowscript.sintactic.ast.functions.programa_declaraciones.ProgramNode ast = parser.parse(tokens);
+
+                astTreePane.updateAST(ast);
+            } catch (Exception e) {
+                // If parsing fails, show empty tree with error
+                logger.warn("Failed to parse AST: " + e.getMessage());
+                astTreePane.updateAST(null);
+            }
         }
     }
     
@@ -423,6 +486,9 @@ public class FlowScriptIDE extends Application {
             case "Run FlowScript":
                 runCurrentFile();
                 break;
+            case "Debug FlowScript":
+                compileCurrentFile();
+                break;
             case "Validate Syntax":
                 validateCurrentFile();
                 break;
@@ -432,38 +498,150 @@ public class FlowScriptIDE extends Application {
     }
     
     private void runCurrentFile() {
-        consolePane.clear();
-        consolePane.println("Running FlowScript file...");
-        // Implementation would execute the FlowScript interpreter
-        consolePane.println("FlowScript execution completed.");
+        javafx.application.Platform.runLater(() -> {
+            consolePane.clear();
+            consolePane.println("🚀 Iniciando transpilación FlowScript...");
+            consolePane.println("=".repeat(60));
+
+            String code = codeEditorPane.getCurrentText();
+            if (code == null || code.trim().isEmpty()) {
+                consolePane.println("⚠ No hay código para ejecutar.");
+                statusBar.setMessage("Sin código para ejecutar");
+                return;
+            }
+
+            statusBar.setMessage("Transpilando...");
+
+            // Run transpilation in background thread
+            new Thread(() -> {
+                try {
+                    FlowScriptTranspiler.TranspilationResult result = transpiler.transpileAndExecute(code);
+
+                    javafx.application.Platform.runLater(() -> {
+                        // Show results in console
+                        consolePane.println("\n📊 Resultado de Transpilación:");
+                        consolePane.println("-".repeat(60));
+                        for (String message : result.getMessages()) {
+                            consolePane.println(message);
+                        }
+
+                        // Show results in transpilation pane
+                        transpilationResultPane.displayResult(result);
+
+                        if (result.success) {
+                            consolePane.println("\n✅ Transpilación exitosa!");
+                            statusBar.setMessage("✓ Transpilación completada en " + result.totalTime + "ms");
+                        } else {
+                            consolePane.println("\n❌ Transpilación fallida: " + result.error);
+                            statusBar.setMessage("✗ Error en transpilación");
+                        }
+                    });
+
+                } catch (Exception e) {
+                    javafx.application.Platform.runLater(() -> {
+                        consolePane.println("\n❌ Error inesperado: " + e.getMessage());
+                        transpilationResultPane.displayError(e.getMessage());
+                        statusBar.setMessage("✗ Error: " + e.getMessage());
+                        logger.error("Transpilation error", e);
+                    });
+                }
+            }).start();
+        });
     }
-    
+
     private void validateCurrentFile() {
-        consolePane.clear();
-        consolePane.println("Validating FlowScript syntax...");
+        javafx.application.Platform.runLater(() -> {
+            consolePane.clear();
+            consolePane.println("🔍 Validando sintaxis FlowScript...");
+            consolePane.println("=".repeat(60));
 
-        String code = codeEditorPane.getCurrentText();
-        if (code == null || code.trim().isEmpty()) {
-            consolePane.println("No code to validate.");
-            return;
-        }
+            String code = codeEditorPane.getCurrentText();
+            if (code == null || code.trim().isEmpty()) {
+                consolePane.println("⚠ No hay código para validar.");
+                return;
+            }
 
-        try {
-            com.flowscript.lexer.Lexer lexer = new com.flowscript.lexer.Lexer(code, false);
-            java.util.List<com.flowscript.lexer.Token> tokens = lexer.tokenize();
-            int tokenCount = tokens.size() - 1; // Exclude EOF token
-            consolePane.println("✓ Lexical analysis successful!");
-            consolePane.println("  Tokens found: " + tokenCount);
-            consolePane.println("  Lines processed: " + (tokens.isEmpty() ? 0 : tokens.get(tokens.size() - 1).getLine()));
-        } catch (com.flowscript.lexer.Lexer.LexicalException e) {
-            consolePane.println("✗ Lexical error found:");
-            consolePane.println("  " + e.getMessage());
-        } catch (Exception e) {
-            consolePane.println("✗ Unexpected error during validation:");
-            consolePane.println("  " + e.getMessage());
-        }
+            statusBar.setMessage("Validando...");
 
-        consolePane.println("Syntax validation completed.");
+            new Thread(() -> {
+                try {
+                    FlowScriptTranspiler.TranspilationResult result = transpiler.analyzeOnly(code);
+
+                    javafx.application.Platform.runLater(() -> {
+                        consolePane.println("\n📋 Resultados de Análisis:");
+                        consolePane.println("-".repeat(60));
+                        for (String message : result.getMessages()) {
+                            consolePane.println(message);
+                        }
+
+                        transpilationResultPane.displayResult(result);
+
+                        if (result.success && result.semanticErrors.isEmpty()) {
+                            consolePane.println("\n✅ Código válido!");
+                            statusBar.setMessage("✓ Validación exitosa");
+                        } else {
+                            consolePane.println("\n⚠ Se encontraron problemas");
+                            statusBar.setMessage("⚠ Validación con errores");
+                        }
+                    });
+
+                } catch (Exception e) {
+                    javafx.application.Platform.runLater(() -> {
+                        consolePane.println("\n❌ Error en validación: " + e.getMessage());
+                        statusBar.setMessage("✗ Error en validación");
+                        logger.error("Validation error", e);
+                    });
+                }
+            }).start();
+        });
+    }
+
+    private void compileCurrentFile() {
+        javafx.application.Platform.runLater(() -> {
+            consolePane.clear();
+            consolePane.println("⚙️ Compilando FlowScript a Java...");
+            consolePane.println("=".repeat(60));
+
+            String code = codeEditorPane.getCurrentText();
+            if (code == null || code.trim().isEmpty()) {
+                consolePane.println("⚠ No hay código para compilar.");
+                return;
+            }
+
+            statusBar.setMessage("Compilando...");
+
+            new Thread(() -> {
+                try {
+                    FlowScriptTranspiler.TranspilationResult result = transpiler.transpileToJava(code);
+
+                    javafx.application.Platform.runLater(() -> {
+                        consolePane.println("\n📄 Resultado de Compilación:");
+                        consolePane.println("-".repeat(60));
+                        for (String message : result.getMessages()) {
+                            consolePane.println(message);
+                        }
+
+                        transpilationResultPane.displayResult(result);
+
+                        if (result.success) {
+                            consolePane.println("\n✅ Compilación exitosa!");
+                            consolePane.println("📦 Código Java generado disponible en la pestaña 'Transpilation Results'");
+                            statusBar.setMessage("✓ Compilado en " + result.totalTime + "ms");
+                        } else {
+                            consolePane.println("\n❌ Compilación fallida");
+                            statusBar.setMessage("✗ Error en compilación");
+                        }
+                    });
+
+                } catch (Exception e) {
+                    javafx.application.Platform.runLater(() -> {
+                        consolePane.println("\n❌ Error: " + e.getMessage());
+                        statusBar.setMessage("✗ Error: " + e.getMessage());
+                        logger.error("Compilation error", e);
+                    });
+                }
+            }).start();
+        });
     }
     
     private void executeCommand(String command) {

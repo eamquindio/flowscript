@@ -94,10 +94,40 @@ public class VariableDeclarationParser implements IParser<VariableDeclarationNod
 
     @Override
     public VariableDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        // Crear VariableDeclarationNode para declaraciones top-level
-        // o VariableDeclarationStatementNode para statements dentro de funciones/procesos
-        throw new UnsupportedOperationException("VariableDeclarationParser no implementado - Tarea del estudiante");
+        // 1. Consume IDENTIFIER (permitir keywords como "y", "o", "no" como nombres de variables)
+        Token identifierToken = context.getCurrentToken();
+        if (identifierToken == null) {
+            throw new Parser.ParseException("Expected variable name but found end of file");
+        }
+
+        // Aceptar IDENTIFIER o keywords como nombres de variables
+        if (identifierToken.getType() != TokenType.IDENTIFIER && !isAcceptableAsIdentifier(identifierToken)) {
+            throw new Parser.ParseException(
+                "Expected IDENTIFIER but found " + identifierToken.getType() +
+                " at line " + identifierToken.getLine() + ", column " + identifierToken.getColumn()
+            );
+        }
+
+        context.consume(); // consume el token
+        String variableName = identifierToken.getValue();
+
+        // 2. Consume '='
+        context.consume(TokenType.ASSIGN);
+
+        // 3. Parse expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode initializer = expressionParser.parse(context);
+
+        // 4. Create and return VariableDeclarationNode (top-level)
+        return new VariableDeclarationNode(identifierToken, variableName, initializer);
+    }
+
+    /**
+     * Verifica si un token keyword puede ser usado como identificador.
+     * Esto permite usar keywords como "y", "o", "no" como nombres de variables.
+     */
+    private boolean isAcceptableAsIdentifier(Token token) {
+        TokenType type = token.getType();
+        // Permitir operadores lógicos como identificadores
+        return type == TokenType.AND || type == TokenType.OR || type == TokenType.NOT;
     }
 }

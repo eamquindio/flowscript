@@ -64,7 +64,21 @@ public class ParameterParser implements IParser<ParameterNode> {
     @Override
     public ParameterNode parse(ParserContext context) throws Parser.ParseException {
         // Consume IDENTIFIER (nombre del parámetro)
-        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        // Permitir keywords como identificadores en este contexto
+        Token nameToken = context.getCurrentToken();
+        if (nameToken == null) {
+            throw new Parser.ParseException("Expected parameter name but found end of file");
+        }
+
+        // Aceptar IDENTIFIER o keywords como nombres de parámetros
+        if (nameToken.getType() != TokenType.IDENTIFIER && !isAcceptableAsIdentifier(nameToken)) {
+            throw new Parser.ParseException(
+                "Expected IDENTIFIER but found " + nameToken.getType() +
+                " at line " + nameToken.getLine() + ", column " + nameToken.getColumn()
+            );
+        }
+
+        context.consume(); // consume el token (IDENTIFIER o keyword)
         String paramName = nameToken.getValue();
 
         // Consume ':'
@@ -81,5 +95,15 @@ public class ParameterParser implements IParser<ParameterNode> {
         TypeNode paramType = typeParser.parse(context);
 
         return new ParameterNode(paramName, paramType);
+    }
+
+    /**
+     * Verifica si un token keyword puede ser usado como identificador.
+     * Esto permite usar keywords como "y", "o", "no" como nombres de variables/parámetros.
+     */
+    private boolean isAcceptableAsIdentifier(Token token) {
+        TokenType type = token.getType();
+        // Permitir operadores lógicos como identificadores
+        return type == TokenType.AND || type == TokenType.OR || type == TokenType.NOT;
     }
 }
