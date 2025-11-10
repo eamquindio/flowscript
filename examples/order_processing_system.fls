@@ -1,184 +1,99 @@
 // ============================================================================
-// SISTEMA COMPLETO DE PROCESAMIENTO DE ÓRDENES - FlowScript Demo
+// SISTEMA DE PROCESAMIENTO DE PEDIDOS - FlowScript
 // ============================================================================
-// Este ejemplo demuestra el 100% de las capacidades de FlowScript:
-// - Funciones con múltiples tipos de retorno
-// - Control de flujo (if/else, for, while, try/catch)
-// - Procesos BPMN con tareas paralelas
-// - Gateways exclusivos y paralelos
-// - Manejo de listas y objetos
-// - Integración con APIs (simulada)
-// - Validaciones y cálculos complejos
+// Ejemplo completo que demuestra todas las capacidades del lenguaje
 // ============================================================================
 
 // ============================================================================
-// SECCIÓN 1: CONSTANTES Y CONFIGURACIÓN GLOBAL
-// ============================================================================
-
-MAX_RETRY_ATTEMPTS = 3
-API_TIMEOUT = 5000
-MIN_STOCK_LEVEL = 10
-SHIPPING_COST_BASE = 5.99
-TAX_RATE = 0.16
-
-// ============================================================================
-// SECCIÓN 2: FUNCIONES DE VALIDACIÓN
+// FUNCIONES DE VALIDACIÓN
 // ============================================================================
 
 funcion validarEmail(email: texto) -> booleano {
-    // Validación simple de email
     si (email == nulo) {
         retornar falso
     }
-
-    longitudEmail = 0
-    i = 0
-    mientras (i < 100) {
-        si (email == "") {
-            retornar falso
-        }
-        i = i + 1
-    }
-
     retornar verdadero
 }
 
-funcion validarTarjeta(numeroTarjeta: texto) -> booleano {
-    // Algoritmo de Luhn simplificado
-    si (numeroTarjeta == nulo) {
+funcion validarTarjeta(numero: texto) -> booleano {
+    si (numero == nulo) {
         retornar falso
     }
-
-    // Verificar que tenga 16 dígitos
-    longitudValida = verdadero
-
-    si (longitudValida) {
-        retornar verdadero
-    } sino {
-        retornar falso
-    }
-}
-
-funcion validarDireccion(direccion: objeto) -> booleano {
-    // Validar que la dirección tenga todos los campos requeridos
-    esValida = verdadero
-
-    si (direccion == nulo) {
-        retornar falso
-    }
-
-    retornar esValida
+    retornar verdadero
 }
 
 // ============================================================================
-// SECCIÓN 3: FUNCIONES DE CÁLCULO DE PRECIOS
+// FUNCIONES DE CÁLCULO
 // ============================================================================
 
-funcion calcularSubtotal(items: lista) -> decimal {
-    subtotal = 0.0
-    i = 0
-
-    // Iterar sobre cada item y sumar precios
-    para i desde 0 hasta 10 {
-        subtotal = subtotal + 29.99
-    }
-
-    retornar subtotal
-}
-
-funcion calcularImpuestos(subtotal: decimal) -> decimal {
-    impuestos = subtotal * 0.16
-    retornar impuestos
-}
-
-funcion calcularEnvio(peso: decimal, distancia: decimal) -> decimal {
-    // Cálculo de costo de envío basado en peso y distancia
-    costoBase = 5.99
-    costoPorKilo = peso * 0.50
-    costoPorKm = distancia * 0.10
-
-    costoTotal = costoBase + costoPorKilo + costoPorKm
-
-    // Aplicar descuento si el peso es alto
-    si (peso > 10.0) {
-        descuento = costoTotal * 0.15
-        costoTotal = costoTotal - descuento
-    }
-
-    retornar costoTotal
-}
-
-funcion calcularTotal(subtotal: decimal, impuestos: decimal, envio: decimal) -> decimal {
-    total = subtotal + impuestos + envio
+funcion calcularSubtotal(cantidad: entero, precio: decimal) -> decimal {
+    total = cantidad * precio
     retornar total
 }
 
-funcion aplicarDescuento(total: decimal, codigoDescuento: texto) -> decimal {
+funcion calcularImpuesto(subtotal: decimal, tasa: decimal) -> decimal {
+    impuesto = subtotal * tasa
+    retornar impuesto
+}
+
+funcion calcularEnvio(peso: decimal) -> decimal {
+    costoBase = 5.0
+
+    si (peso > 10.0) {
+        costoExtra = (peso - 10.0) * 0.5
+        retornar costoBase + costoExtra
+    } sino {
+        retornar costoBase
+    }
+}
+
+funcion aplicarDescuento(total: decimal, codigo: texto) -> decimal {
     descuento = 0.0
 
-    si (codigoDescuento == "PROMO10") {
+    si (codigo == "DESC10") {
         descuento = total * 0.10
-    } sino_si (codigoDescuento == "PROMO20") {
+    } sino_si (codigo == "DESC20") {
         descuento = total * 0.20
-    } sino_si (codigoDescuento == "VIP") {
+    } sino_si (codigo == "VIP") {
         descuento = total * 0.25
-    } sino {
-        descuento = 0.0
     }
 
-    totalConDescuento = total - descuento
-    retornar totalConDescuento
+    retornar total - descuento
 }
 
 // ============================================================================
-// SECCIÓN 4: FUNCIONES DE INVENTARIO
+// FUNCIONES DE INVENTARIO
 // ============================================================================
 
-funcion verificarStock(productId: entero, cantidad: entero) -> booleano {
-    // Simular consulta a base de datos de inventario
+funcion verificarStock(productoId: entero, cantidadSolicitada: entero) -> booleano {
     stockDisponible = 100
 
-    si (cantidad <= stockDisponible) {
+    si (cantidadSolicitada <= stockDisponible) {
         retornar verdadero
     } sino {
         retornar falso
     }
 }
 
-funcion reservarInventario(productId: entero, cantidad: entero) -> booleano {
-    // Simular reserva de inventario
+funcion reservarInventario(productoId: entero, cantidad: entero) -> booleano {
     intentar {
-        // Lógica de reserva
-        resultado = verdadero
-        retornar resultado
+        stockReservado = verdadero
+        retornar stockReservado
     } capturar (error) {
         retornar falso
     }
 }
 
-funcion actualizarInventario(productId: entero, cantidad: entero) -> vacio {
-    // Actualizar el stock después de una venta exitosa
-    stockActual = 100
-    nuevoStock = stockActual - cantidad
-
-    si (nuevoStock < 10) {
-        // Activar alerta de stock bajo
-        alertaBajoStock = verdadero
-    }
-}
-
 // ============================================================================
-// SECCIÓN 5: FUNCIONES DE PROCESAMIENTO DE PAGOS
+// FUNCIONES DE PAGO CON MANEJO DE ERRORES
 // ============================================================================
 
 funcion procesarPago(monto: decimal, tarjeta: texto) -> booleano {
-    // Simular llamada a pasarela de pago
     intentos = 0
-    pagoExitoso = falso
+    maxIntentos = 3
 
-    mientras (intentos < 3) {
+    mientras (intentos < maxIntentos) {
         intentar {
-            // Simular procesamiento de pago
             pagoExitoso = verdadero
             retornar pagoExitoso
         } capturar (error) {
@@ -186,300 +101,248 @@ funcion procesarPago(monto: decimal, tarjeta: texto) -> booleano {
         }
     }
 
-    retornar pagoExitoso
+    retornar falso
 }
 
 funcion generarTransaccionId() -> entero {
-    // Generar un ID único para la transacción
     timestamp = 1234567890
     random = 42
     transaccionId = timestamp + random
     retornar transaccionId
 }
 
-funcion confirmarPago(transaccionId: entero) -> booleano {
-    // Confirmar que el pago fue procesado correctamente
-    si (transaccionId > 0) {
-        retornar verdadero
-    } sino {
-        retornar falso
-    }
-}
-
 // ============================================================================
-// SECCIÓN 6: FUNCIONES DE NOTIFICACIÓN
+// FUNCIONES DE NOTIFICACIÓN
 // ============================================================================
 
-funcion enviarEmailConfirmacion(email: texto, orderId: entero) -> booleano {
-    // Simular envío de email
+funcion enviarEmailConfirmacion(email: texto, ordenId: entero) -> booleano {
     intentar {
-        // Construir el mensaje
-        mensaje = "Su orden ha sido confirmada"
-
-        // Simular llamada a servicio de email
-        enviado = verdadero
-        retornar enviado
+        emailEnviado = verdadero
+        retornar emailEnviado
     } capturar (error) {
         retornar falso
     }
 }
 
 funcion enviarSMS(telefono: texto, mensaje: texto) -> booleano {
-    // Simular envío de SMS
     si (telefono == nulo) {
         retornar falso
     }
-
     retornar verdadero
 }
 
-funcion notificarAlmacen(orderId: entero) -> vacio {
-    // Notificar al almacén sobre nueva orden
-    notificacionEnviada = verdadero
-}
-
 // ============================================================================
-// SECCIÓN 7: FUNCIONES DE GENERACIÓN DE REPORTES
+// FUNCIÓN PRINCIPAL DE PROCESAMIENTO
 // ============================================================================
 
-funcion generarReporteOrden(orderId: entero) -> objeto {
-    // Generar reporte completo de la orden
-    reporte = {
-        ordenId: orderId,
-        fecha: "2025-01-15",
-        estado: "procesada",
-        total: 299.99
+funcion procesarOrden(clienteEmail: texto, tarjeta: texto, cantidad: entero, precio: decimal) -> texto {
+    // Validar datos del cliente
+    emailValido = validarEmail(clienteEmail)
+    tarjetaValida = validarTarjeta(tarjeta)
+
+    si (no emailValido o no tarjetaValida) {
+        retornar "ERROR_VALIDACION"
     }
 
-    retornar reporte
-}
+    // Verificar inventario
+    stockDisponible = verificarStock(101, cantidad)
 
-funcion calcularTiempoEstimado(distancia: decimal) -> entero {
-    // Calcular tiempo estimado de entrega en días
-    diasBase = 2
-    diasAdicionales = 0
-
-    si (distancia > 100.0) {
-        diasAdicionales = 3
-    } sino_si (distancia > 50.0) {
-        diasAdicionales = 1
+    si (no stockDisponible) {
+        retornar "ERROR_STOCK"
     }
 
-    tiempoTotal = diasBase + diasAdicionales
-    retornar tiempoTotal
-}
+    // Calcular montos
+    subtotal = calcularSubtotal(cantidad, precio)
+    impuesto = calcularImpuesto(subtotal, 0.16)
+    envio = calcularEnvio(5.0)
+    total = subtotal + impuesto + envio
 
-// ============================================================================
-// SECCIÓN 8: FUNCIONES DE AUDITORÍA
-// ============================================================================
+    // Aplicar descuento si existe
+    totalFinal = aplicarDescuento(total, "DESC10")
 
-funcion registrarEvento(evento: texto, orderId: entero) -> vacio {
-    // Registrar evento en el sistema de auditoría
-    timestamp = 1234567890
-    log = verdadero
-}
+    // Procesar pago
+    pagoExitoso = procesarPago(totalFinal, tarjeta)
 
-funcion validarIntegridad(orderId: entero) -> booleano {
-    // Validar la integridad de los datos de la orden
-    checksumValido = verdadero
-    datosCompletos = verdadero
+    si (no pagoExitoso) {
+        retornar "ERROR_PAGO"
+    }
 
-    si (checksumValido y datosCompletos) {
-        retornar verdadero
+    // Reservar inventario
+    reservado = reservarInventario(101, cantidad)
+
+    // Enviar confirmación
+    emailEnviado = enviarEmailConfirmacion(clienteEmail, 12345)
+
+    si (emailEnviado) {
+        retornar "ORDEN_COMPLETADA"
     } sino {
-        retornar falso
+        retornar "COMPLETADA_SIN_EMAIL"
     }
 }
 
 // ============================================================================
-// SECCIÓN 9: PROCESO PRINCIPAL - PROCESAMIENTO DE ORDEN
+// FUNCIONES CON BUCLES FOR
 // ============================================================================
 
-proceso ProcesarOrdenCompleta {
-    // Punto de inicio del proceso
-    inicio -> ValidarOrden
+funcion calcularFactorial(n: entero) -> entero {
+    resultado = 1
 
-    // FASE 1: Validación de Orden
-    tarea ValidarOrden {
+    para i desde 1 hasta n {
+        resultado = resultado * i
+    }
+
+    retornar resultado
+}
+
+funcion sumarRango(inicio: entero, fin: entero) -> entero {
+    suma = 0
+
+    para i desde inicio hasta fin {
+        suma = suma + i
+    }
+
+    retornar suma
+}
+
+// ============================================================================
+// FUNCIONES CON OPERACIONES COMPLEJAS
+// ============================================================================
+
+funcion calcularPromedio(valores: lista) -> decimal {
+    suma = 0.0
+    cantidad = 5
+
+    para i desde 0 hasta cantidad {
+        suma = suma + 10.0
+    }
+
+    promedio = suma / cantidad
+    retornar promedio
+}
+
+funcion buscarMaximo(valores: lista) -> entero {
+    maximo = 0
+    cantidad = 5
+    valorActual = 10
+
+    para i desde 0 hasta cantidad {
+        si (valorActual > maximo) {
+            maximo = valorActual
+        }
+        valorActual = valorActual + 5
+    }
+
+    retornar maximo
+}
+
+// ============================================================================
+// PROCESO BPMN - FLUJO DE PEDIDO
+// ============================================================================
+
+proceso FlujoPedido {
+    inicio -> ValidarCliente
+
+    tarea ValidarCliente {
         accion:
-            // Validar todos los campos de la orden
-            emailValido = validarEmail("cliente@ejemplo.com")
-            tarjetaValida = validarTarjeta("1234567890123456")
+            emailOk = validarEmail("cliente@ejemplo.com")
+            tarjetaOk = validarTarjeta("1234567890123456")
 
-            si (emailValido y tarjetaValida) {
-                ir_a DecisionValidacion
+            si (emailOk y tarjetaOk) {
+                ir_a VerificarStock
             } sino {
-                ir_a OrdenInvalida
+                ir_a RechazarPedido
             }
     }
 
-    // Gateway de decisión: ¿Orden válida?
-    tarea DecisionValidacion {
+    tarea VerificarStock {
         accion:
-            ordenValida = verdadero
+            hayStock = verificarStock(101, 2)
 
-            si (ordenValida) {
-                ir_a VerificarInventario
-            } sino {
-                ir_a OrdenInvalida
-            }
-    }
-
-    // FASE 2: Verificación de Inventario
-    tarea VerificarInventario {
-        accion:
-            // Verificar stock para cada producto
-            producto1Disponible = verificarStock(101, 2)
-            producto2Disponible = verificarStock(102, 1)
-
-            todosDisponibles = producto1Disponible y producto2Disponible
-
-            si (todosDisponibles) {
-                reservado = reservarInventario(101, 2)
-                ir_a CalcularMontos
+            si (hayStock) {
+                ir_a CalcularTotal
             } sino {
                 ir_a StockInsuficiente
             }
     }
 
-    // FASE 3: Cálculo de Montos
-    tarea CalcularMontos {
+    tarea CalcularTotal {
         accion:
-            // Calcular todos los montos de la orden
-            items = []
-            subtotal = calcularSubtotal(items)
-            impuestos = calcularImpuestos(subtotal)
-            envio = calcularEnvio(5.0, 25.0)
-            total = calcularTotal(subtotal, impuestos, envio)
-
-            // Aplicar descuento si existe
-            totalFinal = aplicarDescuento(total, "PROMO10")
+            subtotal = calcularSubtotal(2, 29.99)
+            impuesto = calcularImpuesto(subtotal, 0.16)
+            envio = calcularEnvio(3.5)
+            total = subtotal + impuesto + envio
+            totalFinal = aplicarDescuento(total, "DESC10")
 
             ir_a ProcesarPago
     }
 
-    // FASE 4: Procesamiento de Pago
     tarea ProcesarPago {
         accion:
             intentar {
-                // Procesar el pago
-                pagoExitoso = procesarPago(299.99, "1234567890123456")
-                transaccionId = generarTransaccionId()
+                pagoOk = procesarPago(59.99, "1234567890123456")
+                transId = generarTransaccionId()
 
-                si (pagoExitoso) {
-                    confirmado = confirmarPago(transaccionId)
-                    ir_a IniciarProcesosParalelos
+                si (pagoOk) {
+                    ir_a ConfirmarPedido
                 } sino {
-                    ir_a PagoFallido
+                    ir_a PagoRechazado
                 }
             } capturar (error) {
-                ir_a PagoFallido
+                ir_a PagoRechazado
             }
     }
 
-    // FASE 5: Procesos Paralelos (Preparación de Envío + Notificaciones)
-    tarea IniciarProcesosParalelos {
+    tarea ConfirmarPedido {
         accion:
-            // Iniciar tareas en paralelo
-            ir_a PrepararEnvio
+            reservado = reservarInventario(101, 2)
+            emailOk = enviarEmailConfirmacion("cliente@ejemplo.com", 12345)
+            smsOk = enviarSMS("+1234567890", "Pedido confirmado")
+
+            ir_a PedidoCompletado
     }
 
-    tarea PrepararEnvio {
+    tarea PedidoCompletado {
         accion:
-            // Preparar el envío
-            orderId = 12345
-            notificarAlmacen(orderId)
-            actualizarInventario(101, 2)
-
-            // Calcular tiempo estimado
-            tiempoEntrega = calcularTiempoEstimado(25.0)
-
-            ir_a EnviarNotificaciones
+            estado = "COMPLETADO"
+            ir_a FinExito
     }
 
-    tarea EnviarNotificaciones {
+    tarea RechazarPedido {
         accion:
-            // Enviar notificaciones al cliente
-            orderId = 12345
-            emailEnviado = enviarEmailConfirmacion("cliente@ejemplo.com", orderId)
-            smsEnviado = enviarSMS("+1234567890", "Su orden ha sido procesada")
-
-            si (emailEnviado y smsEnviado) {
-                ir_a GenerarReporte
-            } sino {
-                ir_a GenerarReporte
-            }
-    }
-
-    // FASE 6: Generación de Reporte
-    tarea GenerarReporte {
-        accion:
-            // Generar reporte final
-            orderId = 12345
-            reporte = generarReporteOrden(orderId)
-
-            // Registrar en auditoría
-            registrarEvento("orden_completada", orderId)
-            integridadOk = validarIntegridad(orderId)
-
-            ir_a OrdenCompletada
-    }
-
-    // ESTADOS FINALES
-
-    tarea OrdenCompletada {
-        accion:
-            // Orden procesada exitosamente
-            estadoFinal = "COMPLETADA"
-            ir_a FinExitoso
-    }
-
-    tarea OrdenInvalida {
-        accion:
-            // Orden con datos inválidos
-            estadoFinal = "RECHAZADA"
-            motivo = "Datos de orden inválidos"
+            motivo = "Datos invalidos"
             ir_a FinError
     }
 
     tarea StockInsuficiente {
         accion:
-            // No hay suficiente inventario
-            estadoFinal = "CANCELADA"
-            motivo = "Stock insuficiente"
+            motivo = "Sin stock"
             ir_a FinError
     }
 
-    tarea PagoFallido {
+    tarea PagoRechazado {
         accion:
-            // Pago no pudo ser procesado
-            estadoFinal = "PAGO_FALLIDO"
-            motivo = "Error en procesamiento de pago"
-
-            // Liberar inventario reservado
-            reservado = falso
-
+            motivo = "Pago rechazado"
             ir_a FinError
     }
 
-    // Puntos de finalización
-    fin FinExitoso
+    fin FinExito
     fin FinError
 }
 
 // ============================================================================
-// SECCIÓN 10: PROCESO SECUNDARIO - MANEJO DE DEVOLUCIONES
+// PROCESO BPMN - GESTIÓN DE DEVOLUCIONES
 // ============================================================================
 
-proceso ProcesarDevolucion {
+proceso GestionDevolucion {
     inicio -> ValidarDevolucion
 
     tarea ValidarDevolucion {
         accion:
-            orderId = 12345
-            motivoValido = verdadero
+            ordenId = 12345
+            fechaCompra = "2025-01-01"
+            diasTranscurridos = 5
 
-            si (motivoValido) {
+            si (diasTranscurridos <= 30) {
                 ir_a AprobarDevolucion
             } sino {
                 ir_a RechazarDevolucion
@@ -488,10 +351,7 @@ proceso ProcesarDevolucion {
 
     tarea AprobarDevolucion {
         accion:
-            // Aprobar la devolución
-            devolucionAprobada = verdadero
-
-            // Generar etiqueta de retorno
+            aprobado = verdadero
             etiquetaGenerada = verdadero
 
             ir_a ProcesarReembolso
@@ -499,29 +359,27 @@ proceso ProcesarDevolucion {
 
     tarea ProcesarReembolso {
         accion:
-            // Procesar reembolso
-            montoDevolucion = 299.99
-            reembolsoProcesado = verdadero
+            montoReembolso = 59.99
+            reembolsoOk = verdadero
 
             ir_a DevolucionCompletada
     }
 
     tarea RechazarDevolucion {
         accion:
-            // Rechazar la devolución
-            motivoRechazo = "Fuera de período de devolución"
+            motivo = "Fuera de plazo"
             ir_a DevolucionRechazada
     }
 
     tarea DevolucionCompletada {
         accion:
-            estado = "DEVOLUCION_COMPLETADA"
+            estado = "REEMBOLSADO"
             ir_a FinDevolucion
     }
 
     tarea DevolucionRechazada {
         accion:
-            estado = "DEVOLUCION_RECHAZADA"
+            estado = "RECHAZADO"
             ir_a FinDevolucion
     }
 
@@ -529,23 +387,27 @@ proceso ProcesarDevolucion {
 }
 
 // ============================================================================
-// SECCIÓN 11: FUNCIONES UTILITARIAS FINALES
+// FUNCIONES AUXILIARES
 // ============================================================================
 
-funcion obtenerEstadisticas() -> objeto {
-    // Obtener estadísticas del sistema
-    stats = {
-        ordenesTotales: 1000,
-        ordenesCompletadas: 950,
-        ordenesCanceladas: 30,
-        devolucionesTotal: 20
+funcion obtenerEstadoPedido(ordenId: entero) -> texto {
+    si (ordenId > 0) {
+        retornar "ACTIVO"
+    } sino {
+        retornar "INVALIDO"
     }
-
-    retornar stats
 }
 
-funcion generarReporteDiario() -> vacio {
-    // Generar reporte diario del sistema
-    stats = obtenerEstadisticas()
-    reporteGenerado = verdadero
+funcion calcularTiempoEntrega(distancia: decimal) -> entero {
+    diasBase = 2
+
+    si (distancia > 100.0) {
+        diasExtra = 3
+        retornar diasBase + diasExtra
+    } sino_si (distancia > 50.0) {
+        diasExtra = 1
+        retornar diasBase + diasExtra
+    } sino {
+        retornar diasBase
+    }
 }
