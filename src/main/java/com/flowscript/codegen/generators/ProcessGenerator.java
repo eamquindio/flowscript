@@ -59,6 +59,12 @@ public class ProcessGenerator {
         // Open method body
         emitter.openBlock();
 
+        // Log entrada
+        String entryLog = String.format("System.out.println(\"[ENTRADA] Proceso: %s\");",
+                                       process.getName());
+        emitter.emit(entryLog);
+        emitter.newLine();
+
         // Generate comment
         emitter.emitComment("=== INICIO ===");
         emitter.newLine();
@@ -73,6 +79,12 @@ public class ProcessGenerator {
 
         // End comment
         emitter.emitComment("=== FIN ===");
+        emitter.newLine();
+
+        // Log salida
+        String exitLog = String.format("System.out.println(\"[SALIDA] Proceso: %s\");",
+                                      process.getName());
+        emitter.emit(exitLog);
 
         // Close method body
         emitter.closeBlock();
@@ -229,6 +241,12 @@ public class ProcessGenerator {
         // Open method body
         emitter.openBlock();
 
+        // Log entrada
+        String entryLog = String.format("System.out.println(\"[ENTRADA] Proceso: %s\");",
+                                       process.getName());
+        emitter.emit(entryLog);
+        emitter.newLine();
+
         // Context map for variables
         emitter.emit("Map<String, Object> ctx = new HashMap<>();");
         emitter.emit("String estado = \"inicio\";");
@@ -263,6 +281,12 @@ public class ProcessGenerator {
         emitter.closeBlock(); // while
 
         emitter.emitComment("=== FIN ===");
+        emitter.newLine();
+
+        // Log salida
+        String exitLog = String.format("System.out.println(\"[SALIDA] Proceso: %s\");",
+                                      process.getName());
+        emitter.emit(exitLog);
 
         // Close method body
         emitter.closeBlock();

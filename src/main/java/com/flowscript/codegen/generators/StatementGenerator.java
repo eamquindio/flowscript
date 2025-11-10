@@ -25,6 +25,9 @@ public class StatementGenerator {
     // Track variables declared in current scope to avoid duplicate var declarations
     private final Set<String> declaredVariables;
 
+    // Current function/process name for logging
+    private String currentFunctionName;
+
     public StatementGenerator(ExpressionGenerator expressionGenerator,
                               TypeMapper typeMapper,
                               JavaEmitter emitter) {
@@ -32,6 +35,14 @@ public class StatementGenerator {
         this.typeMapper = typeMapper;
         this.emitter = emitter;
         this.declaredVariables = new HashSet<>();
+        this.currentFunctionName = null;
+    }
+
+    /**
+     * Sets the current function/process name for logging.
+     */
+    public void setCurrentFunctionName(String name) {
+        this.currentFunctionName = name;
     }
 
     /**
@@ -273,6 +284,14 @@ public class StatementGenerator {
     // ========== Return Statement ==========
 
     private void generateReturnStatement(ReturnStatementNode node) {
+        // Log antes del return
+        if (currentFunctionName != null) {
+            String exitLog = String.format("System.out.println(\"[SALIDA] %s\");",
+                                          currentFunctionName);
+            emitter.emit(exitLog);
+        }
+
+        // Generate return statement
         if (node.getExpression() != null) {
             String expr = expressionGenerator.generate(node.getExpression());
             emitter.emit("return " + expr + ";");
