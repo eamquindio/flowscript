@@ -140,6 +140,7 @@ public class ProcessGenerator {
 
     private void generateExclusiveGateway(ExclusiveGatewayNode gateway) {
         emitter.emitComment("=== GATEWAY: " + gateway.getGatewayName() + " ===");
+        emitter.emit("System.out.println(\"[GATEWAY ENTRADA] " + gateway.getGatewayName() + "\");");
 
         List<WhenClauseNode> whenClauses = gateway.getWhenClauses();
 
@@ -175,6 +176,7 @@ public class ProcessGenerator {
             emitter.closeBlock();
         }
 
+        emitter.emit("System.out.println(\"[GATEWAY SALIDA] " + gateway.getGatewayName() + "\");");
         emitter.newLine();
     }
 
@@ -182,6 +184,7 @@ public class ProcessGenerator {
 
     private void generateParallelGateway(ParallelGatewayNode gateway) {
         emitter.emitComment("=== PARALLEL GATEWAY: " + gateway.getGatewayName() + " ===");
+        emitter.emit("System.out.println(\"[PARALLEL GATEWAY ENTRADA] " + gateway.getGatewayName() + " - Iniciando ramas paralelas\");");
 
         List<ParallelBranchNode> branches = gateway.getBranches();
 
@@ -223,6 +226,7 @@ public class ProcessGenerator {
         allOf.append(").join();");
 
         emitter.emit(allOf.toString());
+        emitter.emit("System.out.println(\"[PARALLEL GATEWAY SALIDA] " + gateway.getGatewayName() + " - Todas las ramas completadas\");");
         emitter.newLine();
 
         // Continue to join target
