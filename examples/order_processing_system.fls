@@ -265,20 +265,20 @@ proceso FlujoPedidoSecuencial {
 
     tarea RechazarPedido {
         accion:
-            mensajeError = "Datos invalidos"
+            errorDatosInvalidos = "Datos invalidos"
             ir_a FinError
     }
 
     tarea SinStock {
         accion:
-            mensajeError = "Sin stock disponible"
+            errorSinStock = "Sin stock disponible"
             ir_a FinError
     }
 
     tarea PagoRechazado {
         accion:
-            mensajeError = "Pago rechazado"
-            actualizado = actualizarEstadoOrdenBD(1001, "PAGO_FALLIDO")
+            errorPago = "Pago rechazado"
+            estadoActualizado = actualizarEstadoOrdenBD(1001, "PAGO_FALLIDO")
             ir_a FinError
     }
 
@@ -381,13 +381,13 @@ proceso FlujoPedidoConParalelo {
 
     tarea ErrorValidacion {
         accion:
-            mensajeError = "Error en validacion"
+            errorValidacion = "Error en validacion"
             ir_a ProcesoFallido
     }
 
     tarea ErrorProceso {
         accion:
-            mensajeError = "Error en procesamiento"
+            errorProcesamiento = "Error en procesamiento"
             ir_a ProcesoFallido
     }
 
