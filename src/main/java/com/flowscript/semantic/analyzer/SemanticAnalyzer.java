@@ -1252,4 +1252,146 @@ public class SemanticAnalyzer implements ASTVisitor<Void> {
     public Void visit(TaskElementNode node) {
         return null;
     }
+
+    // ========== SPECIAL OPERATIONS ==========
+
+    @Override
+    public Void visit(DbExecuteNode node) {
+        // Validate db.ejecutar(query: string, params: list) -> int
+        Type queryType = node.getQuery().accept(typeInference);
+        Type paramsType = node.getParameters().accept(typeInference);
+
+        if (!typeChecker.isCompatible(queryType, Type.TEXT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "db.ejecutar expects first argument to be 'texto', but got '" + queryType + "'",
+                node.getQuery()
+            ));
+        }
+
+        if (!typeChecker.isCompatible(paramsType, Type.LIST)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "db.ejecutar expects second argument to be 'lista', but got '" + paramsType + "'",
+                node.getParameters()
+            ));
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(DbQueryNode node) {
+        // Validate db.consultar(query: string, params: list) -> list
+        Type queryType = node.getQuery().accept(typeInference);
+        Type paramsType = node.getParameters().accept(typeInference);
+
+        if (!typeChecker.isCompatible(queryType, Type.TEXT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "db.consultar expects first argument to be 'texto', but got '" + queryType + "'",
+                node.getQuery()
+            ));
+        }
+
+        if (!typeChecker.isCompatible(paramsType, Type.LIST)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "db.consultar expects second argument to be 'lista', but got '" + paramsType + "'",
+                node.getParameters()
+            ));
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(HttpGetNode node) {
+        // Validate http.get(url: string) or http.get(url: string, headers: object) -> object
+        Type urlType = node.getUrl().accept(typeInference);
+
+        if (!typeChecker.isCompatible(urlType, Type.TEXT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "http.get expects first argument to be 'texto', but got '" + urlType + "'",
+                node.getUrl()
+            ));
+        }
+
+        if (node.hasHeaders()) {
+            Type headersType = node.getHeaders().accept(typeInference);
+            if (!typeChecker.isCompatible(headersType, Type.OBJECT)) {
+                errors.add(new SemanticError(
+                    ErrorCodes.TYPE_MISMATCH,
+                    "http.get expects second argument to be 'objeto', but got '" + headersType + "'",
+                    node.getHeaders()
+                ));
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(HttpPostNode node) {
+        // Validate http.post(url: string, body: object) or http.post(url: string, body: object, headers: object) -> object
+        Type urlType = node.getUrl().accept(typeInference);
+        Type bodyType = node.getBody().accept(typeInference);
+
+        if (!typeChecker.isCompatible(urlType, Type.TEXT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "http.post expects first argument to be 'texto', but got '" + urlType + "'",
+                node.getUrl()
+            ));
+        }
+
+        if (!typeChecker.isCompatible(bodyType, Type.OBJECT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "http.post expects second argument to be 'objeto', but got '" + bodyType + "'",
+                node.getBody()
+            ));
+        }
+
+        if (node.hasHeaders()) {
+            Type headersType = node.getHeaders().accept(typeInference);
+            if (!typeChecker.isCompatible(headersType, Type.OBJECT)) {
+                errors.add(new SemanticError(
+                    ErrorCodes.TYPE_MISMATCH,
+                    "http.post expects third argument to be 'objeto', but got '" + headersType + "'",
+                    node.getHeaders()
+                ));
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(HttpDeleteNode node) {
+        // Validate http.delete(url: string) or http.delete(url: string, headers: object) -> object
+        Type urlType = node.getUrl().accept(typeInference);
+
+        if (!typeChecker.isCompatible(urlType, Type.TEXT)) {
+            errors.add(new SemanticError(
+                ErrorCodes.TYPE_MISMATCH,
+                "http.delete expects first argument to be 'texto', but got '" + urlType + "'",
+                node.getUrl()
+            ));
+        }
+
+        if (node.hasHeaders()) {
+            Type headersType = node.getHeaders().accept(typeInference);
+            if (!typeChecker.isCompatible(headersType, Type.OBJECT)) {
+                errors.add(new SemanticError(
+                    ErrorCodes.TYPE_MISMATCH,
+                    "http.delete expects second argument to be 'objeto', but got '" + headersType + "'",
+                    node.getHeaders()
+                ));
+            }
+        }
+
+        return null;
+    }
 }

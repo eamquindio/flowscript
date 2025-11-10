@@ -1,0 +1,190 @@
+// =============================================================================
+// FlowScript: Demostración de Operaciones Especiales
+// Prueba de db.ejecutar, db.consultar, http.get, http.post, http.delete
+// =============================================================================
+
+// === FUNCIONES DE INICIALIZACIÓN ===
+
+funcion inicializarBaseDatos() -> nulo {
+    // Simula la inicialización de la base de datos
+    retornar nulo
+}
+
+// === OPERACIONES DE BASE DE DATOS ===
+
+funcion crearUsuario(nombre: texto, email: texto, edad: entero) -> entero {
+    // Insertar un nuevo usuario usando db.ejecutar
+    filasAfectadas = db.ejecutar(
+        "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
+        [nombre, email, edad]
+    )
+
+    retornar filasAfectadas
+}
+
+funcion actualizarEmail(userId: entero, nuevoEmail: texto) -> booleano {
+    // Actualizar el email de un usuario
+    filas = db.ejecutar(
+        "UPDATE usuarios SET email = ? WHERE id = ?",
+        [nuevoEmail, userId]
+    )
+
+    retornar filas > 0
+}
+
+funcion buscarUsuariosMayores(edadMinima: entero) -> lista {
+    // Consultar usuarios mayores a cierta edad
+    usuarios = db.consultar(
+        "SELECT id, nombre, email, edad FROM usuarios WHERE edad > ?",
+        [edadMinima]
+    )
+
+    retornar usuarios
+}
+
+funcion obtenerUsuarioPorId(userId: entero) -> objeto {
+    // Consultar un usuario específico por ID
+    resultados = db.consultar(
+        "SELECT * FROM usuarios WHERE id = ?",
+        [userId]
+    )
+
+    // Retornar el primer resultado o nulo
+    si (resultados == nulo) {
+        retornar nulo
+    }
+
+    retornar resultados
+}
+
+// === OPERACIONES HTTP ===
+
+funcion obtenerDatosAPI(endpoint: texto) -> objeto {
+    // GET simple sin headers
+    respuesta = http.get("https://api.ejemplo.com" + endpoint)
+    retornar respuesta
+}
+
+funcion obtenerDatosConAuth(endpoint: texto, token: texto) -> objeto {
+    // GET con headers de autenticación
+    respuesta = http.get(
+        "https://api.ejemplo.com" + endpoint,
+        {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
+    )
+
+    retornar respuesta
+}
+
+funcion enviarDatosAPI(datos: objeto) -> objeto {
+    // POST simple
+    respuesta = http.post(
+        "https://api.ejemplo.com/usuarios",
+        datos
+    )
+
+    retornar respuesta
+}
+
+funcion enviarDatosConAuth(datos: objeto, token: texto) -> objeto {
+    // POST con headers
+    respuesta = http.post(
+        "https://api.ejemplo.com/usuarios",
+        datos,
+        {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
+    )
+
+    retornar respuesta
+}
+
+funcion eliminarRecurso(resourceId: entero, token: texto) -> objeto {
+    // DELETE con autenticación
+    respuesta = http.delete(
+        "https://api.ejemplo.com/recursos/" + resourceId,
+        {
+            "Authorization": "Bearer " + token
+        }
+    )
+
+    retornar respuesta
+}
+
+// === FUNCIÓN COMPLEJA: SINCRONIZACIÓN BD <-> API ===
+
+funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
+    // 1. Obtener usuario de la base de datos local
+    usuariosLocal = db.consultar(
+        "SELECT * FROM usuarios WHERE id = ?",
+        [userId]
+    )
+
+    // 2. Enviar datos a la API externa
+    respuestaAPI = http.post(
+        "https://api.ejemplo.com/sync/usuarios",
+        usuariosLocal,
+        {
+            "Authorization": "Bearer " + apiToken,
+            "Content-Type": "application/json"
+        }
+    )
+
+    // 3. Si la API responde OK, actualizar estado local
+    si (respuestaAPI == 200) {
+        db.ejecutar(
+            "UPDATE usuarios SET sincronizado = true, ultima_sync = NOW() WHERE id = ?",
+            [userId]
+        )
+    }
+
+    retornar respuestaAPI
+}
+
+// === FUNCIÓN DE DEMOSTRACIÓN COMPLETA ===
+
+funcion demostracionCompleta() -> objeto {
+    // DATABASE OPERATIONS
+    filas1 = db.ejecutar(
+        "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
+        ["Juan Pérez", "juan@example.com", 25]
+    )
+
+    filas2 = db.ejecutar(
+        "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
+        ["María García", "maria@example.com", 30]
+    )
+
+    usuarios = db.consultar(
+        "SELECT * FROM usuarios WHERE edad >= ?",
+        [25]
+    )
+
+    // HTTP OPERATIONS
+    respuestaGet = http.get("https://jsonplaceholder.typicode.com/users/1")
+
+    respuestaPost = http.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+            "title": "Test desde FlowScript",
+            "body": "Cuerpo del post",
+            "userId": 1
+        }
+    )
+
+    respuestaDelete = http.delete("https://jsonplaceholder.typicode.com/posts/1")
+
+    // Retornar resumen
+    resumen = {
+        "usuariosInsertados": filas1 + filas2,
+        "usuariosEncontrados": usuarios,
+        "apiGetStatus": respuestaGet,
+        "apiPostStatus": respuestaPost,
+        "apiDeleteStatus": respuestaDelete
+    }
+
+    retornar resumen
+}

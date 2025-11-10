@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/FlowScriptIDE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/FlowScriptIDE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/FunctionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/FunctionGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ProcessGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ProcessGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/StatementGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/StatementGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -537,4 +537,36 @@ public class TypeInferenceVisitor implements ASTVisitor<Type> {
     public Type visit(GotoStatementNode node) {
         return Type.VOID;
     }
+
+    // ========== SPECIAL OPERATIONS ==========
+
+    @Override
+    public Type visit(DbExecuteNode node) {
+        // db.ejecutar returns integer (number of affected rows)
+        return Type.INTEGER;
+    }
+
+    @Override
+    public Type visit(DbQueryNode node) {
+        // db.consultar returns list of objects
+        return Type.LIST;
+    }
+
+    @Override
+    public Type visit(HttpGetNode node) {
+        // http.get returns object (response map)
+        return Type.OBJECT;
+    }
+
+    @Override
+    public Type visit(HttpPostNode node) {
+        // http.post returns object (response map)
+        return Type.OBJECT;
+    }
+
+    @Override
+    public Type visit(HttpDeleteNode node) {
+        // http.delete returns object (response map)
+        return Type.OBJECT;
+    }
 }

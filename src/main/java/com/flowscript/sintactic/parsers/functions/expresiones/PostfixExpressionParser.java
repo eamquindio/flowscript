@@ -29,16 +29,34 @@ public class PostfixExpressionParser implements IParser<com.flowscript.sintactic
 
     private final PrimaryExpressionParser primaryParser;
     private final PostfixOperatorParser operatorParser;
+    private final SpecialOperationParser specialOperationParser;
 
     public PostfixExpressionParser() {
         this.primaryParser = new PrimaryExpressionParser();
         this.operatorParser = new PostfixOperatorParser();
+        this.specialOperationParser = new SpecialOperationParser();
     }
 
     @Override
     public com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode parse(ParserContext context) throws Parser.ParseException {
         // Parse primary expression
         com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode primary = primaryParser.parse(context);
+
+        // Check for special operations (db.ejecutar, http.get, etc.)
+        if (primary instanceof com.flowscript.sintactic.ast.functions.expresiones.IdentifierNode) {
+            com.flowscript.sintactic.ast.functions.expresiones.IdentifierNode identifier =
+                (com.flowscript.sintactic.ast.functions.expresiones.IdentifierNode) primary;
+
+            // Try to parse as special operation
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode specialOp =
+                specialOperationParser.tryParse(context, identifier);
+
+            if (specialOp != null) {
+                // Successfully parsed as special operation
+                return specialOp;
+            }
+            // If not a special operation, continue with normal postfix parsing
+        }
 
         // Check if there are postfix operators
         if (context.getCurrentToken() == null || !isPostfixOperator(context.getCurrentToken())) {

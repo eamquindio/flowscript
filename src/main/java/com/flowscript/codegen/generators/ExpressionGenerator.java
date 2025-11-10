@@ -118,6 +118,23 @@ public class ExpressionGenerator {
             return generate(paren.getInnerExpression());
         }
 
+        // Special operations
+        if (node instanceof DbExecuteNode) {
+            return generateDbExecute((DbExecuteNode) node);
+        }
+        if (node instanceof DbQueryNode) {
+            return generateDbQuery((DbQueryNode) node);
+        }
+        if (node instanceof HttpGetNode) {
+            return generateHttpGet((HttpGetNode) node);
+        }
+        if (node instanceof HttpPostNode) {
+            return generateHttpPost((HttpPostNode) node);
+        }
+        if (node instanceof HttpDeleteNode) {
+            return generateHttpDelete((HttpDeleteNode) node);
+        }
+
         throw new IllegalArgumentException("Unsupported expression type: " + node.getClass().getSimpleName());
     }
 
@@ -500,5 +517,73 @@ public class ExpressionGenerator {
         }
 
         return result.toString();
+    }
+
+    // ========== Special Operations ==========
+
+    /**
+     * Generates code for db.ejecutar(query, params)
+     * Returns: DbHelper.execute(query, params)
+     */
+    private String generateDbExecute(DbExecuteNode node) {
+        String query = generate(node.getQuery());
+        String params = generate(node.getParameters());
+        return "DbHelper.execute(" + query + ", " + params + ")";
+    }
+
+    /**
+     * Generates code for db.consultar(query, params)
+     * Returns: DbHelper.query(query, params)
+     */
+    private String generateDbQuery(DbQueryNode node) {
+        String query = generate(node.getQuery());
+        String params = generate(node.getParameters());
+        return "DbHelper.query(" + query + ", " + params + ")";
+    }
+
+    /**
+     * Generates code for http.get(url) or http.get(url, headers)
+     * Returns: HttpHelper.get(url) or HttpHelper.get(url, headers)
+     */
+    private String generateHttpGet(HttpGetNode node) {
+        String url = generate(node.getUrl());
+
+        if (node.hasHeaders()) {
+            String headers = generate(node.getHeaders());
+            return "HttpHelper.get(" + url + ", " + headers + ")";
+        } else {
+            return "HttpHelper.get(" + url + ")";
+        }
+    }
+
+    /**
+     * Generates code for http.post(url, body) or http.post(url, body, headers)
+     * Returns: HttpHelper.post(url, body) or HttpHelper.post(url, body, headers)
+     */
+    private String generateHttpPost(HttpPostNode node) {
+        String url = generate(node.getUrl());
+        String body = generate(node.getBody());
+
+        if (node.hasHeaders()) {
+            String headers = generate(node.getHeaders());
+            return "HttpHelper.post(" + url + ", " + body + ", " + headers + ")";
+        } else {
+            return "HttpHelper.post(" + url + ", " + body + ")";
+        }
+    }
+
+    /**
+     * Generates code for http.delete(url) or http.delete(url, headers)
+     * Returns: HttpHelper.delete(url) or HttpHelper.delete(url, headers)
+     */
+    private String generateHttpDelete(HttpDeleteNode node) {
+        String url = generate(node.getUrl());
+
+        if (node.hasHeaders()) {
+            String headers = generate(node.getHeaders());
+            return "HttpHelper.delete(" + url + ", " + headers + ")";
+        } else {
+            return "HttpHelper.delete(" + url + ")";
+        }
     }
 }

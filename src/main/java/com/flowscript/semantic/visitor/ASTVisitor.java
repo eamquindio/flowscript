@@ -58,6 +58,13 @@ public interface ASTVisitor<T> {
     T visit(TernaryExpressionNode node);
     T visit(UnaryExpressionNode node);
 
+    // Special operations
+    T visit(DbExecuteNode node);
+    T visit(DbQueryNode node);
+    T visit(HttpGetNode node);
+    T visit(HttpPostNode node);
+    T visit(HttpDeleteNode node);
+
     // List arguments
     T visit(ExpressionListNode node);
     T visit(ObjectMemberListNode node);
