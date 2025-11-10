@@ -523,67 +523,181 @@ public class ExpressionGenerator {
 
     /**
      * Generates code for db.ejecutar(query, params)
-     * Returns: DbHelper.execute(query, params)
+     * Returns inline JDBC code for executing SQL
      */
     private String generateDbExecute(DbExecuteNode node) {
         String query = generate(node.getQuery());
         String params = generate(node.getParameters());
-        return "DbHelper.execute(" + query + ", " + params + ")";
+
+        return "((java.util.function.Supplier<Integer>)(() -> {\n" +
+               "        try (java.sql.Connection __conn = java.sql.DriverManager.getConnection(\"jdbc:h2:mem:flowscript;DB_CLOSE_DELAY=-1\", \"sa\", \"\");\n" +
+               "             java.sql.PreparedStatement __stmt = __conn.prepareStatement(" + query + ")) {\n" +
+               "            java.util.List<?> __params = " + params + ";\n" +
+               "            for (int i = 0; i < __params.size(); i++) {\n" +
+               "                __stmt.setObject(i + 1, __params.get(i));\n" +
+               "            }\n" +
+               "            int __result = __stmt.executeUpdate();\n" +
+               "            System.out.println(\"[DB EXECUTE] \" + " + query + " + \" | Affected rows: \" + __result);\n" +
+               "            return __result;\n" +
+               "        } catch (java.sql.SQLException __e) {\n" +
+               "            throw new RuntimeException(\"Database execution error: \" + __e.getMessage(), __e);\n" +
+               "        }\n" +
+               "    })).get()";
     }
 
     /**
      * Generates code for db.consultar(query, params)
-     * Returns: DbHelper.query(query, params)
+     * Returns inline JDBC code for querying SQL
      */
     private String generateDbQuery(DbQueryNode node) {
         String query = generate(node.getQuery());
         String params = generate(node.getParameters());
-        return "DbHelper.query(" + query + ", " + params + ")";
+
+        return "((java.util.function.Supplier<java.util.List<java.util.Map<String, Object>>>)(() -> {\n" +
+               "        java.util.List<java.util.Map<String, Object>> __results = new java.util.ArrayList<>();\n" +
+               "        try (java.sql.Connection __conn = java.sql.DriverManager.getConnection(\"jdbc:h2:mem:flowscript;DB_CLOSE_DELAY=-1\", \"sa\", \"\");\n" +
+               "             java.sql.PreparedStatement __stmt = __conn.prepareStatement(" + query + ")) {\n" +
+               "            java.util.List<?> __params = " + params + ";\n" +
+               "            for (int i = 0; i < __params.size(); i++) {\n" +
+               "                __stmt.setObject(i + 1, __params.get(i));\n" +
+               "            }\n" +
+               "            try (java.sql.ResultSet __rs = __stmt.executeQuery()) {\n" +
+               "                java.sql.ResultSetMetaData __meta = __rs.getMetaData();\n" +
+               "                int __colCount = __meta.getColumnCount();\n" +
+               "                while (__rs.next()) {\n" +
+               "                    java.util.Map<String, Object> __row = new java.util.LinkedHashMap<>();\n" +
+               "                    for (int i = 1; i <= __colCount; i++) {\n" +
+               "                        __row.put(__meta.getColumnLabel(i), __rs.getObject(i));\n" +
+               "                    }\n" +
+               "                    __results.add(__row);\n" +
+               "                }\n" +
+               "            }\n" +
+               "            System.out.println(\"[DB QUERY] \" + " + query + " + \" | Results: \" + __results.size() + \" rows\");\n" +
+               "            return __results;\n" +
+               "        } catch (java.sql.SQLException __e) {\n" +
+               "            throw new RuntimeException(\"Database query error: \" + __e.getMessage(), __e);\n" +
+               "        }\n" +
+               "    })).get()";
     }
 
     /**
      * Generates code for http.get(url) or http.get(url, headers)
-     * Returns: HttpHelper.get(url) or HttpHelper.get(url, headers)
+     * Returns inline HTTP code for GET request
      */
     private String generateHttpGet(HttpGetNode node) {
         String url = generate(node.getUrl());
+        String headers = node.hasHeaders() ? generate(node.getHeaders()) : "null";
 
-        if (node.hasHeaders()) {
-            String headers = generate(node.getHeaders());
-            return "HttpHelper.get(" + url + ", " + headers + ")";
-        } else {
-            return "HttpHelper.get(" + url + ")";
-        }
+        return "((java.util.function.Supplier<java.util.Map<String, Object>>)(() -> {\n" +
+               "        try {\n" +
+               "            java.net.http.HttpClient __client = java.net.http.HttpClient.newBuilder()\n" +
+               "                .connectTimeout(java.time.Duration.ofSeconds(30))\n" +
+               "                .build();\n" +
+               "            java.net.http.HttpRequest.Builder __builder = java.net.http.HttpRequest.newBuilder()\n" +
+               "                .uri(java.net.URI.create(" + url + "))\n" +
+               "                .GET()\n" +
+               "                .timeout(java.time.Duration.ofSeconds(30));\n" +
+               "            java.util.Map<String, Object> __headers = " + headers + ";\n" +
+               "            if (__headers != null) {\n" +
+               "                for (java.util.Map.Entry<String, Object> __h : __headers.entrySet()) {\n" +
+               "                    __builder.header(__h.getKey(), String.valueOf(__h.getValue()));\n" +
+               "                }\n" +
+               "            }\n" +
+               "            java.net.http.HttpRequest __request = __builder.build();\n" +
+               "            java.net.http.HttpResponse<String> __response = __client.send(__request, java.net.http.HttpResponse.BodyHandlers.ofString());\n" +
+               "            java.util.Map<String, Object> __result = new java.util.LinkedHashMap<>();\n" +
+               "            __result.put(\"status\", __response.statusCode());\n" +
+               "            __result.put(\"body\", __response.body());\n" +
+               "            System.out.println(\"[HTTP GET] \" + " + url + " + \" | Status: \" + __response.statusCode());\n" +
+               "            return __result;\n" +
+               "        } catch (Exception __e) {\n" +
+               "            java.util.Map<String, Object> __error = new java.util.LinkedHashMap<>();\n" +
+               "            __error.put(\"status\", 0);\n" +
+               "            __error.put(\"error\", __e.getMessage());\n" +
+               "            return __error;\n" +
+               "        }\n" +
+               "    })).get()";
     }
 
     /**
      * Generates code for http.post(url, body) or http.post(url, body, headers)
-     * Returns: HttpHelper.post(url, body) or HttpHelper.post(url, body, headers)
+     * Returns inline HTTP code for POST request
      */
     private String generateHttpPost(HttpPostNode node) {
         String url = generate(node.getUrl());
         String body = generate(node.getBody());
+        String headers = node.hasHeaders() ? generate(node.getHeaders()) : "null";
 
-        if (node.hasHeaders()) {
-            String headers = generate(node.getHeaders());
-            return "HttpHelper.post(" + url + ", " + body + ", " + headers + ")";
-        } else {
-            return "HttpHelper.post(" + url + ", " + body + ")";
-        }
+        return "((java.util.function.Supplier<java.util.Map<String, Object>>)(() -> {\n" +
+               "        try {\n" +
+               "            com.google.gson.Gson __gson = new com.google.gson.Gson();\n" +
+               "            String __jsonBody = __gson.toJson(" + body + ");\n" +
+               "            java.net.http.HttpClient __client = java.net.http.HttpClient.newBuilder()\n" +
+               "                .connectTimeout(java.time.Duration.ofSeconds(30))\n" +
+               "                .build();\n" +
+               "            java.net.http.HttpRequest.Builder __builder = java.net.http.HttpRequest.newBuilder()\n" +
+               "                .uri(java.net.URI.create(" + url + "))\n" +
+               "                .POST(java.net.http.HttpRequest.BodyPublishers.ofString(__jsonBody))\n" +
+               "                .header(\"Content-Type\", \"application/json\")\n" +
+               "                .timeout(java.time.Duration.ofSeconds(30));\n" +
+               "            java.util.Map<String, Object> __headers = " + headers + ";\n" +
+               "            if (__headers != null) {\n" +
+               "                for (java.util.Map.Entry<String, Object> __h : __headers.entrySet()) {\n" +
+               "                    __builder.header(__h.getKey(), String.valueOf(__h.getValue()));\n" +
+               "                }\n" +
+               "            }\n" +
+               "            java.net.http.HttpRequest __request = __builder.build();\n" +
+               "            java.net.http.HttpResponse<String> __response = __client.send(__request, java.net.http.HttpResponse.BodyHandlers.ofString());\n" +
+               "            java.util.Map<String, Object> __result = new java.util.LinkedHashMap<>();\n" +
+               "            __result.put(\"status\", __response.statusCode());\n" +
+               "            __result.put(\"body\", __response.body());\n" +
+               "            System.out.println(\"[HTTP POST] \" + " + url + " + \" | Status: \" + __response.statusCode());\n" +
+               "            return __result;\n" +
+               "        } catch (Exception __e) {\n" +
+               "            java.util.Map<String, Object> __error = new java.util.LinkedHashMap<>();\n" +
+               "            __error.put(\"status\", 0);\n" +
+               "            __error.put(\"error\", __e.getMessage());\n" +
+               "            return __error;\n" +
+               "        }\n" +
+               "    })).get()";
     }
 
     /**
      * Generates code for http.delete(url) or http.delete(url, headers)
-     * Returns: HttpHelper.delete(url) or HttpHelper.delete(url, headers)
+     * Returns inline HTTP code for DELETE request
      */
     private String generateHttpDelete(HttpDeleteNode node) {
         String url = generate(node.getUrl());
+        String headers = node.hasHeaders() ? generate(node.getHeaders()) : "null";
 
-        if (node.hasHeaders()) {
-            String headers = generate(node.getHeaders());
-            return "HttpHelper.delete(" + url + ", " + headers + ")";
-        } else {
-            return "HttpHelper.delete(" + url + ")";
-        }
+        return "((java.util.function.Supplier<java.util.Map<String, Object>>)(() -> {\n" +
+               "        try {\n" +
+               "            java.net.http.HttpClient __client = java.net.http.HttpClient.newBuilder()\n" +
+               "                .connectTimeout(java.time.Duration.ofSeconds(30))\n" +
+               "                .build();\n" +
+               "            java.net.http.HttpRequest.Builder __builder = java.net.http.HttpRequest.newBuilder()\n" +
+               "                .uri(java.net.URI.create(" + url + "))\n" +
+               "                .DELETE()\n" +
+               "                .timeout(java.time.Duration.ofSeconds(30));\n" +
+               "            java.util.Map<String, Object> __headers = " + headers + ";\n" +
+               "            if (__headers != null) {\n" +
+               "                for (java.util.Map.Entry<String, Object> __h : __headers.entrySet()) {\n" +
+               "                    __builder.header(__h.getKey(), String.valueOf(__h.getValue()));\n" +
+               "                }\n" +
+               "            }\n" +
+               "            java.net.http.HttpRequest __request = __builder.build();\n" +
+               "            java.net.http.HttpResponse<String> __response = __client.send(__request, java.net.http.HttpResponse.BodyHandlers.ofString());\n" +
+               "            java.util.Map<String, Object> __result = new java.util.LinkedHashMap<>();\n" +
+               "            __result.put(\"status\", __response.statusCode());\n" +
+               "            __result.put(\"body\", __response.body());\n" +
+               "            System.out.println(\"[HTTP DELETE] \" + " + url + " + \" | Status: \" + __response.statusCode());\n" +
+               "            return __result;\n" +
+               "        } catch (Exception __e) {\n" +
+               "            java.util.Map<String, Object> __error = new java.util.LinkedHashMap<>();\n" +
+               "            __error.put(\"status\", 0);\n" +
+               "            __error.put(\"error\", __e.getMessage());\n" +
+               "            return __error;\n" +
+               "        }\n" +
+               "    })).get()";
     }
 }
