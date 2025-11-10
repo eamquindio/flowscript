@@ -35,6 +35,7 @@ public class FlowScriptIDE extends Application {
     private TokenTablePane tokenTablePane;
     private ASTTreePane astTreePane;
     private TranspilationResultPane transpilationResultPane;
+    private JavaCodePane javaCodePane;
     private StatusBar statusBar;
     private ProjectService projectService;
     private ThemeService themeService;
@@ -113,17 +114,19 @@ public class FlowScriptIDE extends Application {
         tokenTablePane = new TokenTablePane();
         astTreePane = new ASTTreePane();
         transpilationResultPane = new TranspilationResultPane();
+        javaCodePane = new JavaCodePane();
         statusBar = new StatusBar();
 
-        // Create tabbed pane for analysis views (Tokens, AST, and Transpilation Results)
+        // Create tabbed pane for analysis views (Tokens, AST, Java Code, and Transpilation Results)
         TabPane analysisTabPane = new TabPane();
         analysisTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Tab tokenTab = new Tab("Token Analysis", tokenTablePane);
         Tab astTab = new Tab("AST Tree", astTreePane);
+        Tab javaCodeTab = new Tab("Código Java", javaCodePane);
         Tab transpilationTab = new Tab("Transpilation Results", transpilationResultPane);
 
-        analysisTabPane.getTabs().addAll(tokenTab, astTab, transpilationTab);
+        analysisTabPane.getTabs().addAll(tokenTab, astTab, javaCodeTab, transpilationTab);
 
         // Create horizontal split between project explorer and editor area
         SplitPane leftRightSplit = new SplitPane();
@@ -528,8 +531,16 @@ public class FlowScriptIDE extends Application {
                         // Show results in transpilation pane
                         transpilationResultPane.displayResult(result);
 
+                        // Show Java code in dedicated tab
+                        if (result.generatedCode != null) {
+                            javaCodePane.displayCode(result.generatedCode);
+                        } else {
+                            javaCodePane.clear();
+                        }
+
                         if (result.success) {
                             consolePane.println("\n✅ Transpilación exitosa!");
+                            consolePane.println("📄 Ver código Java en el tab 'Código Java'");
                             statusBar.setMessage("✓ Transpilación completada en " + result.totalTime + "ms");
                         } else {
                             consolePane.println("\n❌ Transpilación fallida: " + result.error);
@@ -541,6 +552,7 @@ public class FlowScriptIDE extends Application {
                     javafx.application.Platform.runLater(() -> {
                         consolePane.println("\n❌ Error inesperado: " + e.getMessage());
                         transpilationResultPane.displayError(e.getMessage());
+                        javaCodePane.displayError(e.getMessage());
                         statusBar.setMessage("✗ Error: " + e.getMessage());
                         logger.error("Transpilation error", e);
                     });
@@ -575,6 +587,11 @@ public class FlowScriptIDE extends Application {
                         }
 
                         transpilationResultPane.displayResult(result);
+
+                        // Show Java code if generated
+                        if (result.generatedCode != null) {
+                            javaCodePane.displayCode(result.generatedCode);
+                        }
 
                         if (result.success && result.semanticErrors.isEmpty()) {
                             consolePane.println("\n✅ Código válido!");
@@ -623,9 +640,16 @@ public class FlowScriptIDE extends Application {
 
                         transpilationResultPane.displayResult(result);
 
+                        // Show Java code in dedicated tab
+                        if (result.generatedCode != null) {
+                            javaCodePane.displayCode(result.generatedCode);
+                        } else {
+                            javaCodePane.clear();
+                        }
+
                         if (result.success) {
                             consolePane.println("\n✅ Compilación exitosa!");
-                            consolePane.println("📦 Código Java generado disponible en la pestaña 'Transpilation Results'");
+                            consolePane.println("📦 Código Java disponible en el tab 'Código Java'");
                             statusBar.setMessage("✓ Compilado en " + result.totalTime + "ms");
                         } else {
                             consolePane.println("\n❌ Compilación fallida");
