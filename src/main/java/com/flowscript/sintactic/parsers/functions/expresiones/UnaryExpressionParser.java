@@ -24,11 +24,36 @@ import com.flowscript.sintactic.ast.functions.expresiones.UnaryExpressionNode;
  *
  * @see UnaryExpressionNode
  */
-public class UnaryExpressionParser implements IParser<UnaryExpressionNode> {
+public class UnaryExpressionParser implements IParser<com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode> {
+
+    private final PostfixExpressionParser postfixParser;
+
+    public UnaryExpressionParser() {
+        this.postfixParser = new PostfixExpressionParser();
+    }
 
     @Override
-    public UnaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("UnaryExpressionParser no implementado - Tarea del estudiante");
+    public com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        com.flowscript.lexer.Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Expected unary expression but reached end of input");
+        }
+
+        // Check for unary operator
+        if (isUnaryOperator(current)) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode operand = postfixParser.parse(context);
+            return new UnaryExpressionNode(operator, operand);
+        }
+
+        // No unary operator, just parse postfix expression
+        return postfixParser.parse(context);
+    }
+
+    private boolean isUnaryOperator(com.flowscript.lexer.Token token) {
+        com.flowscript.lexer.TokenType type = token.getType();
+        return type == com.flowscript.lexer.TokenType.NOT ||
+               type == com.flowscript.lexer.TokenType.MINUS;
     }
 }

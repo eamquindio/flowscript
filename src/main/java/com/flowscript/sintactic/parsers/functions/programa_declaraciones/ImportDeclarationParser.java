@@ -51,7 +51,39 @@ public class ImportDeclarationParser implements IParser<ImportDeclarationNode> {
 
     @Override
     public ImportDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ImportDeclarationParser no implementado - Tarea del estudiante");
+        // 1. Consume import token and determine if it's JAR import
+        Token importToken = context.getCurrentToken();
+        boolean isJarImport = false;
+
+        if (importToken.getType() == TokenType.IMPORT) {
+            context.consume();
+            isJarImport = false;
+        } else if (importToken.getType() == TokenType.IMPORT_JAR) {
+            context.consume();
+            isJarImport = true;
+        } else {
+            throw new Parser.ParseException("Expected 'import' or 'import_jar' but found " +
+                                          importToken.getValue() + " at line " + importToken.getLine());
+        }
+
+        // 2. Consume STRING_LITERAL (module path)
+        Token pathToken = context.consume(TokenType.STRING_LITERAL);
+        String modulePath = pathToken.getValue();
+        // Remove quotes from string literal
+        if (modulePath.startsWith("\"") && modulePath.endsWith("\"")) {
+            modulePath = modulePath.substring(1, modulePath.length() - 1);
+        }
+
+        // 3. Check for optional 'as' clause
+        String alias = null;
+        if (context.getCurrentToken() != null &&
+            context.getCurrentToken().getType() == TokenType.AS) {
+            context.consume(); // consume 'as'
+            Token aliasToken = context.consume(TokenType.IDENTIFIER);
+            alias = aliasToken.getValue();
+        }
+
+        // 4. Create and return ImportDeclarationNode
+        return new ImportDeclarationNode(importToken, isJarImport, modulePath, alias);
     }
 }

@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents primary expressions: the basic building blocks
@@ -42,6 +43,11 @@ public abstract class PrimaryExpressionNode extends ExpressionNode {
         @Override
         public String getExpressionType() {
             return innerExpression.getExpressionType();
+        }
+
+        @Override
+        public <T> T accept(ASTVisitor<T> visitor) {
+            return visitor.visit(this);
         }
 
         @Override

@@ -3,6 +3,7 @@ package com.flowscript.sintactic.ast.functions.control_flujo;
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents return statements in functions.
@@ -31,6 +32,11 @@ public class ReturnStatementNode extends StatementNode {
     @Override
     public String getNodeType() {
         return "ReturnStatement";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

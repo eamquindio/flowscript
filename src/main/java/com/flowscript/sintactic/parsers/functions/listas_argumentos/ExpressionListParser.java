@@ -27,15 +27,32 @@ import java.util.List;
  */
 public class ExpressionListParser {
 
+    private final com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser expressionParser;
+
+    public ExpressionListParser() {
+        this.expressionParser = new com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser();
+    }
+
     /**
      * Parsea una lista de expresiones.
      *
      * @param context El contexto del parser
-     * @return Lista de nodos ExpressionListNode
+     * @return UN SOLO ExpressionListNode que contiene todas las expresiones
      * @throws Parser.ParseException Si hay un error de sintaxis
      */
-    public List<ExpressionListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ExpressionListParser no implementado - Tarea del estudiante");
+    public ExpressionListNode parse(ParserContext context) throws Parser.ParseException {
+        // Parse first expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstExpr = expressionParser.parse(context);
+        ExpressionListNode exprList = new ExpressionListNode(firstExpr);
+
+        // Parse remaining expressions separated by comma
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.COMMA) {
+            context.consume(); // consume comma
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode expr = expressionParser.parse(context);
+            exprList.addExpression(expr);
+        }
+
+        return exprList;
     }
 }

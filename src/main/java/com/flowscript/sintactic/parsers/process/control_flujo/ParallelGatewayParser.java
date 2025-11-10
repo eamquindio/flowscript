@@ -50,7 +50,32 @@ public class ParallelGatewayParser implements IParser<ParallelGatewayNode> {
 
     @Override
     public ParallelGatewayNode parse(ParserContext context) throws Parser.ParseException {
-        Token gatewayToken = context.getCurrentToken();
-        return null;
+        // Consume 'gateway'
+        Token gatewayToken = context.consume(TokenType.GATEWAY);
+
+        // Consume gateway name (IDENTIFIER)
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String gatewayName = nameToken.getValue();
+
+        // Consume 'parallel'
+        context.consume(TokenType.PARALLEL);
+
+        // Consume '{'
+        context.consume(TokenType.LEFT_BRACE);
+
+        // Parse branch clauses
+        List<ParallelBranchNode> branches = new ArrayList<>();
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() == TokenType.BRANCH) {
+            branches.add(branchParser.parse(context));
+        }
+
+        // Parse join clause (required)
+        JoinClauseNode joinClause = joinParser.parse(context);
+
+        // Consume '}'
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new ParallelGatewayNode(gatewayToken, gatewayName, branches, joinClause);
     }
 }

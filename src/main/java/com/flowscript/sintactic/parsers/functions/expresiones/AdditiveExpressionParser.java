@@ -26,9 +26,40 @@ import com.flowscript.sintactic.ast.functions.expresiones.AdditiveExpressionNode
  */
 public class AdditiveExpressionParser implements IParser<AdditiveExpressionNode> {
 
+    private final MultiplicativeExpressionParser multiplicativeParser;
+
+    public AdditiveExpressionParser() {
+        this.multiplicativeParser = new MultiplicativeExpressionParser();
+    }
+
     @Override
     public AdditiveExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("AdditiveExpressionParser no implementado - Tarea del estudiante");
+        // Parse first operand
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstOperand = multiplicativeParser.parse(context);
+
+        // Check if there are additive operators
+        if (context.getCurrentToken() == null || !isAdditiveOperator(context.getCurrentToken())) {
+            // No operators, just wrap the first operand and return as-is (no simplification)
+            return new AdditiveExpressionNode(firstOperand.getToken(), firstOperand);
+        }
+
+        // Create node with first operand
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        AdditiveExpressionNode node = new AdditiveExpressionNode(firstToken, firstOperand);
+
+        // Parse operator and right operands (left-associative)
+        while (context.getCurrentToken() != null && isAdditiveOperator(context.getCurrentToken())) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right = multiplicativeParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
+    }
+
+    private boolean isAdditiveOperator(com.flowscript.lexer.Token token) {
+        com.flowscript.lexer.TokenType type = token.getType();
+        return type == com.flowscript.lexer.TokenType.PLUS ||
+               type == com.flowscript.lexer.TokenType.MINUS;
     }
 }

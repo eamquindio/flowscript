@@ -95,8 +95,29 @@ public class TryStatementParser implements IParser<TryStatementNode> {
 
     @Override
     public TryStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("TryStatementParser no implementado - Tarea del estudiante");
+        // 1. Consume 'try'
+        Token tryToken = context.consume(TokenType.TRY);
+
+        // 2. Parse try block
+        com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode tryBlock = blockParser.parse(context);
+
+        // 3. Consume 'catch'
+        context.consume(TokenType.CATCH);
+
+        // 4. Consume '('
+        context.consume(TokenType.LEFT_PAREN);
+
+        // 5. Consume IDENTIFIER (exception variable)
+        Token catchVarToken = context.consume(TokenType.IDENTIFIER);
+        String catchVariable = catchVarToken.getValue();
+
+        // 6. Consume ')'
+        context.consume(TokenType.RIGHT_PAREN);
+
+        // 7. Parse catch block
+        com.flowscript.sintactic.ast.functions.control_ejecucion.BlockNode catchBlock = blockParser.parse(context);
+
+        // 8. Create and return TryStatementNode
+        return new TryStatementNode(tryToken, tryBlock, catchVariable, catchBlock);
     }
 }

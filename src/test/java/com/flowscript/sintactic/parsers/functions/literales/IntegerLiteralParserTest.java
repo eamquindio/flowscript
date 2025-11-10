@@ -7,6 +7,7 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.literales.IntegerLiteralNode;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("42", result.getValue());
+        assertEquals(new BigInteger("42"), result.getValue());
     }
 
     @Test
@@ -44,7 +45,7 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("0", result.getValue());
+        assertEquals(new BigInteger("0"), result.getValue());
     }
 
     @Test
@@ -57,7 +58,7 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1_000_000", result.getValue());
+        assertEquals(new BigInteger("1000000"), result.getValue());
     }
 
     @Test
@@ -70,7 +71,7 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("9876543210", result.getValue());
+        assertEquals(new BigInteger("9876543210"), result.getValue());
     }
 
     @Test
@@ -83,7 +84,7 @@ public class IntegerLiteralParserTest {
         IntegerLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("1_2_3_4_5", result.getValue());
+        assertEquals(new BigInteger("12345"), result.getValue());
     }
 
     @Test

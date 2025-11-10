@@ -1,12 +1,12 @@
-// ============================================================================
-// SISTEMA DE PROCESAMIENTO DE PEDIDOS - FlowScript
-// ============================================================================
-// Ejemplo completo que demuestra todas las capacidades del lenguaje
-// ============================================================================
+# ============================================================================
+# SISTEMA DE PROCESAMIENTO DE PEDIDOS - FlowScript
+# ============================================================================
+# Ejemplo funcional que demuestra las capacidades del lenguaje
+# ============================================================================
 
-// ============================================================================
-// FUNCIONES DE VALIDACIÓN
-// ============================================================================
+# ============================================================================
+# FUNCIONES BASICAS
+# ============================================================================
 
 funcion validarEmail(email: texto) -> booleano {
     si (email == nulo) {
@@ -22,9 +22,9 @@ funcion validarTarjeta(numero: texto) -> booleano {
     retornar verdadero
 }
 
-// ============================================================================
-// FUNCIONES DE CÁLCULO
-// ============================================================================
+# ============================================================================
+# FUNCIONES DE CALCULO
+# ============================================================================
 
 funcion calcularSubtotal(cantidad: entero, precio: decimal) -> decimal {
     total = cantidad * precio
@@ -37,252 +37,145 @@ funcion calcularImpuesto(subtotal: decimal, tasa: decimal) -> decimal {
 }
 
 funcion calcularEnvio(peso: decimal) -> decimal {
-    costoBase = 5.0
-
     si (peso > 10.0) {
-        costoExtra = (peso - 10.0) * 0.5
-        retornar costoBase + costoExtra
+        retornar 10.0
     } sino {
-        retornar costoBase
+        retornar 5.0
+    }
+}
+
+funcion calcularTotal(subtotal: decimal, impuesto: decimal, envio: decimal) -> decimal {
+    total = subtotal + impuesto + envio
+    retornar total
+}
+
+# ============================================================================
+# FUNCIONES CON IF/ELSE ANIDADOS
+# ============================================================================
+
+funcion obtenerDescuento(codigo: texto) -> decimal {
+    si (codigo == "DESC10") {
+        retornar 0.10
+    } sino_si (codigo == "DESC20") {
+        retornar 0.20
+    } sino_si (codigo == "VIP") {
+        retornar 0.25
+    } sino {
+        retornar 0.0
     }
 }
 
 funcion aplicarDescuento(total: decimal, codigo: texto) -> decimal {
-    descuento = 0.0
-
-    si (codigo == "DESC10") {
-        descuento = total * 0.10
-    } sino_si (codigo == "DESC20") {
-        descuento = total * 0.20
-    } sino_si (codigo == "VIP") {
-        descuento = total * 0.25
-    }
-
-    retornar total - descuento
+    tasaDescuento = obtenerDescuento(codigo)
+    montoDescuento = total * tasaDescuento
+    totalConDescuento = total - montoDescuento
+    retornar totalConDescuento
 }
 
-// ============================================================================
-// FUNCIONES DE INVENTARIO
-// ============================================================================
+# ============================================================================
+# FUNCIONES CON MANEJO DE ERRORES
+# ============================================================================
 
-funcion verificarStock(productoId: entero, cantidadSolicitada: entero) -> booleano {
-    stockDisponible = 100
-
-    si (cantidadSolicitada <= stockDisponible) {
-        retornar verdadero
-    } sino {
+funcion procesarPagoConReintentos(monto: decimal, tarjeta: texto) -> booleano {
+    intentar {
+        pagoExitoso = verdadero
+        retornar pagoExitoso
+    } capturar (error) {
         retornar falso
     }
 }
 
 funcion reservarInventario(productoId: entero, cantidad: entero) -> booleano {
     intentar {
-        stockReservado = verdadero
-        retornar stockReservado
+        reservaExitosa = verdadero
+        retornar reservaExitosa
     } capturar (error) {
         retornar falso
     }
 }
 
-// ============================================================================
-// FUNCIONES DE PAGO CON MANEJO DE ERRORES
-// ============================================================================
-
-funcion procesarPago(monto: decimal, tarjeta: texto) -> booleano {
-    intentos = 0
-    maxIntentos = 3
-
-    mientras (intentos < maxIntentos) {
-        intentar {
-            pagoExitoso = verdadero
-            retornar pagoExitoso
-        } capturar (error) {
-            intentos = intentos + 1
-        }
-    }
-
-    retornar falso
-}
-
-funcion generarTransaccionId() -> entero {
-    timestamp = 1234567890
-    random = 42
-    transaccionId = timestamp + random
-    retornar transaccionId
-}
-
-// ============================================================================
-// FUNCIONES DE NOTIFICACIÓN
-// ============================================================================
-
-funcion enviarEmailConfirmacion(email: texto, ordenId: entero) -> booleano {
-    intentar {
-        emailEnviado = verdadero
-        retornar emailEnviado
-    } capturar (error) {
-        retornar falso
-    }
-}
-
-funcion enviarSMS(telefono: texto, mensaje: texto) -> booleano {
-    si (telefono == nulo) {
-        retornar falso
-    }
-    retornar verdadero
-}
-
-// ============================================================================
-// FUNCIÓN PRINCIPAL DE PROCESAMIENTO
-// ============================================================================
-
-funcion procesarOrden(clienteEmail: texto, tarjeta: texto, cantidad: entero, precio: decimal) -> texto {
-    // Validar datos del cliente
-    emailValido = validarEmail(clienteEmail)
-    tarjetaValida = validarTarjeta(tarjeta)
-
-    si (no emailValido o no tarjetaValida) {
-        retornar "ERROR_VALIDACION"
-    }
-
-    // Verificar inventario
-    stockDisponible = verificarStock(101, cantidad)
-
-    si (no stockDisponible) {
-        retornar "ERROR_STOCK"
-    }
-
-    // Calcular montos
-    subtotal = calcularSubtotal(cantidad, precio)
-    impuesto = calcularImpuesto(subtotal, 0.16)
-    envio = calcularEnvio(5.0)
-    total = subtotal + impuesto + envio
-
-    // Aplicar descuento si existe
-    totalFinal = aplicarDescuento(total, "DESC10")
-
-    // Procesar pago
-    pagoExitoso = procesarPago(totalFinal, tarjeta)
-
-    si (no pagoExitoso) {
-        retornar "ERROR_PAGO"
-    }
-
-    // Reservar inventario
-    reservado = reservarInventario(101, cantidad)
-
-    // Enviar confirmación
-    emailEnviado = enviarEmailConfirmacion(clienteEmail, 12345)
-
-    si (emailEnviado) {
-        retornar "ORDEN_COMPLETADA"
-    } sino {
-        retornar "COMPLETADA_SIN_EMAIL"
-    }
-}
-
-// ============================================================================
-// FUNCIONES CON BUCLES FOR
-// ============================================================================
+# ============================================================================
+# FUNCIONES CON BUCLES FOR
+# ============================================================================
 
 funcion calcularFactorial(n: entero) -> entero {
     resultado = 1
-
     para i desde 1 hasta n {
         resultado = resultado * i
     }
-
     retornar resultado
 }
 
-funcion sumarRango(inicio: entero, fin: entero) -> entero {
-    suma = 0
-
-    para i desde inicio hasta fin {
-        suma = suma + i
-    }
-
-    retornar suma
+funcion sumar(a: entero, b: entero) -> entero {
+    resultado = a + b
+    retornar resultado
 }
 
-// ============================================================================
-// FUNCIONES CON OPERACIONES COMPLEJAS
-// ============================================================================
+# ============================================================================
+# FUNCION PRINCIPAL QUE INTEGRA TODO
+# ============================================================================
 
-funcion calcularPromedio(valores: lista) -> decimal {
-    suma = 0.0
-    cantidad = 5
+funcion procesarOrden(clienteEmail: texto, tarjeta: texto, cantidad: entero, precio: decimal) -> texto {
+    # Validar datos
+    emailValido = validarEmail(clienteEmail)
+    tarjetaValida = validarTarjeta(tarjeta)
 
-    para i desde 0 hasta cantidad {
-        suma = suma + 10.0
+    si (no emailValido) {
+        retornar "ERROR_EMAIL"
     }
 
-    promedio = suma / cantidad
-    retornar promedio
-}
-
-funcion buscarMaximo(valores: lista) -> entero {
-    maximo = 0
-    cantidad = 5
-    valorActual = 10
-
-    para i desde 0 hasta cantidad {
-        si (valorActual > maximo) {
-            maximo = valorActual
-        }
-        valorActual = valorActual + 5
+    si (no tarjetaValida) {
+        retornar "ERROR_TARJETA"
     }
 
-    retornar maximo
+    # Calcular montos
+    subtotal = calcularSubtotal(cantidad, precio)
+    impuesto = calcularImpuesto(subtotal, 0.16)
+    envio = calcularEnvio(5.0)
+    total = calcularTotal(subtotal, impuesto, envio)
+    totalFinal = aplicarDescuento(total, "DESC10")
+
+    # Procesar pago
+    pagoOk = procesarPagoConReintentos(totalFinal, tarjeta)
+
+    si (no pagoOk) {
+        retornar "ERROR_PAGO"
+    }
+
+    # Reservar inventario
+    reservaOk = reservarInventario(101, cantidad)
+
+    si (reservaOk) {
+        retornar "ORDEN_COMPLETADA"
+    } sino {
+        retornar "ERROR_RESERVA"
+    }
 }
 
-// ============================================================================
-// PROCESO BPMN - FLUJO DE PEDIDO
-// ============================================================================
+# ============================================================================
+# PROCESO BPMN - FLUJO DE PEDIDO
+# ============================================================================
 
 proceso FlujoPedido {
     inicio -> ValidarCliente
 
     tarea ValidarCliente {
         accion:
-            emailOk = validarEmail("cliente@ejemplo.com")
-            tarjetaOk = validarTarjeta("1234567890123456")
+            emailCliente = validarEmail("cliente@ejemplo.com")
+            tarjetaCliente = validarTarjeta("1234567890123456")
 
-            si (emailOk y tarjetaOk) {
-                ir_a VerificarStock
+            si (emailCliente y tarjetaCliente) {
+                ir_a ProcesarPago
             } sino {
                 ir_a RechazarPedido
             }
     }
 
-    tarea VerificarStock {
-        accion:
-            hayStock = verificarStock(101, 2)
-
-            si (hayStock) {
-                ir_a CalcularTotal
-            } sino {
-                ir_a StockInsuficiente
-            }
-    }
-
-    tarea CalcularTotal {
-        accion:
-            subtotal = calcularSubtotal(2, 29.99)
-            impuesto = calcularImpuesto(subtotal, 0.16)
-            envio = calcularEnvio(3.5)
-            total = subtotal + impuesto + envio
-            totalFinal = aplicarDescuento(total, "DESC10")
-
-            ir_a ProcesarPago
-    }
-
     tarea ProcesarPago {
         accion:
             intentar {
-                pagoOk = procesarPago(59.99, "1234567890123456")
-                transId = generarTransaccionId()
-
-                si (pagoOk) {
+                pago = procesarPagoConReintentos(59.99, "1234567890123456")
+                si (pago) {
                     ir_a ConfirmarPedido
                 } sino {
                     ir_a PagoRechazado
@@ -294,34 +187,25 @@ proceso FlujoPedido {
 
     tarea ConfirmarPedido {
         accion:
-            reservado = reservarInventario(101, 2)
-            emailOk = enviarEmailConfirmacion("cliente@ejemplo.com", 12345)
-            smsOk = enviarSMS("+1234567890", "Pedido confirmado")
-
+            reserva = reservarInventario(101, 2)
             ir_a PedidoCompletado
     }
 
     tarea PedidoCompletado {
         accion:
-            estado = "COMPLETADO"
+            estadoFinal = "COMPLETADO"
             ir_a FinExito
     }
 
     tarea RechazarPedido {
         accion:
-            motivo = "Datos invalidos"
-            ir_a FinError
-    }
-
-    tarea StockInsuficiente {
-        accion:
-            motivo = "Sin stock"
+            razonRechazo = "Datos invalidos"
             ir_a FinError
     }
 
     tarea PagoRechazado {
         accion:
-            motivo = "Pago rechazado"
+            razonPago = "Pago rechazado"
             ir_a FinError
     }
 
@@ -329,66 +213,9 @@ proceso FlujoPedido {
     fin FinError
 }
 
-// ============================================================================
-// PROCESO BPMN - GESTIÓN DE DEVOLUCIONES
-// ============================================================================
-
-proceso GestionDevolucion {
-    inicio -> ValidarDevolucion
-
-    tarea ValidarDevolucion {
-        accion:
-            ordenId = 12345
-            fechaCompra = "2025-01-01"
-            diasTranscurridos = 5
-
-            si (diasTranscurridos <= 30) {
-                ir_a AprobarDevolucion
-            } sino {
-                ir_a RechazarDevolucion
-            }
-    }
-
-    tarea AprobarDevolucion {
-        accion:
-            aprobado = verdadero
-            etiquetaGenerada = verdadero
-
-            ir_a ProcesarReembolso
-    }
-
-    tarea ProcesarReembolso {
-        accion:
-            montoReembolso = 59.99
-            reembolsoOk = verdadero
-
-            ir_a DevolucionCompletada
-    }
-
-    tarea RechazarDevolucion {
-        accion:
-            motivo = "Fuera de plazo"
-            ir_a DevolucionRechazada
-    }
-
-    tarea DevolucionCompletada {
-        accion:
-            estado = "REEMBOLSADO"
-            ir_a FinDevolucion
-    }
-
-    tarea DevolucionRechazada {
-        accion:
-            estado = "RECHAZADO"
-            ir_a FinDevolucion
-    }
-
-    fin FinDevolucion
-}
-
-// ============================================================================
-// FUNCIONES AUXILIARES
-// ============================================================================
+# ============================================================================
+# FUNCIONES AUXILIARES
+# ============================================================================
 
 funcion obtenerEstadoPedido(ordenId: entero) -> texto {
     si (ordenId > 0) {
@@ -398,16 +225,12 @@ funcion obtenerEstadoPedido(ordenId: entero) -> texto {
     }
 }
 
-funcion calcularTiempoEntrega(distancia: decimal) -> entero {
-    diasBase = 2
-
+funcion calcularDiasEntrega(distancia: decimal) -> entero {
     si (distancia > 100.0) {
-        diasExtra = 3
-        retornar diasBase + diasExtra
+        retornar 5
     } sino_si (distancia > 50.0) {
-        diasExtra = 1
-        retornar diasBase + diasExtra
+        retornar 3
     } sino {
-        retornar diasBase
+        retornar 2
     }
 }

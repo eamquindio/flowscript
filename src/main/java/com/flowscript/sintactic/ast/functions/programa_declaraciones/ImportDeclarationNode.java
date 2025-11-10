@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.programa_declaraciones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.DeclarationNode;
 import com.flowscript.lexer.Token;
@@ -53,5 +54,10 @@ public class ImportDeclarationNode extends DeclarationNode {
     public String toString() {
         return getNodeType() + "(" + modulePath +
                (alias != null ? " as " + alias : "") + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

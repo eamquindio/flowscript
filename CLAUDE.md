@@ -1,407 +1,271 @@
-# FlowScript - Especificación del Lenguaje
+# CLAUDE.md
 
-## Descripción General
-FlowScript es un lenguaje de programación orientado a procesos que unifica la modelación y ejecución de flujos de trabajo. Está inspirado en BPMN (Business Process Model and Notation) y proporciona una sintaxis textual isomórfica a los diagramas BPMN.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Filosofía y Principios de Diseño
+## Project Overview
 
-### Principios Clave
-- **Legibilidad unificada**: Un único archivo `.flow` guarda estructura y lógica
-- **Separación de incumbencias**: La orquestación reside en procesos; la lógica en funciones
-- **Seguridad y previsibilidad**: No hay `goto` arbitrarios; `go_to` solo enlaza nodos definidos
+FlowScript is a process-oriented programming language inspired by BPMN (Business Process Model and Notation). The project consists of:
+- **Language Implementation**: Custom lexer and parser for FlowScript syntax
+- **IDE**: JavaFX-based editor with syntax highlighting and project management
+- **Dual Grammar**: Two ANTLR grammars (FlowScriptFunctions.g4 and FlowScriptProcesses.g4)
 
-## Estructura Léxica y Sintaxis
+## Build Commands
 
-### Comentarios
-```flowscript
-# Comentario de una línea
-/* Comentario
-   multilínea */
+### Essential Commands
+
+```bash
+# Generate ANTLR parsers from grammars (REQUIRED before first compile)
+mvn antlr4:antlr4
+
+# Clean and compile (includes ANTLR generation)
+mvn clean compile
+
+# Run all tests
+mvn test
+
+# Run specific test class
+mvn test -Dtest=FlowScriptFunctionsTest
+mvn test -Dtest=FlowScriptProcessesTest
+
+# Run the IDE
+mvn javafx:run
+
+# Create executable JAR with all dependencies
+mvn clean package
 ```
 
-### Identificadores
-- Regla: `[a-zA-Z_][a-zA-Z0-9_]*`
-- Sensibles a mayúsculas/minúsculas
-- Válidos: `cliente_id`, `_temp`, `Paso_3_Validacion`
-- Inválidos: `3pasos`, `total-ventas`, `mi variable`
+### Running Single Tests
 
-### Palabras Reservadas
+```bash
+# Run a specific test method
+mvn test -Dtest=LexerTest#testKeywordRecognition
 
-| Categoría | Palabras |
-|-----------|----------|
-| Estructura | `proceso`, `funcion`, `importar`, `importar_jar`, `como`, `retornar` |
-| Flujo | `inicio`, `fin`, `tarea`, `gateway`, `go_to`, `cuando`, `rama`, `unir`, `sino` |
-| Control | `si`, `sino_si`, `intentar`, `capturar`, `lanzar` |
-| Tipos/Valores | `entero`, `decimal`, `booleano`, `texto`, `lista`, `objeto`, `nulo`, `verdadero`, `falso` |
-| Operadores | `y`, `o`, `no` |
-| Futuras | `asinc`, `esperar`, `evento`, `clase` |
-
-### Tipos de Datos Fundamentales
-
-| Tipo | Descripción | Ejemplo |
-|------|-------------|---------|
-| `entero` | 64 bits sin fracción | `42`, `1_000_000` |
-| `decimal` | Doble precisión | `3.14`, `1.23e-5` |
-| `booleano` | verdadero/falso | `verdadero`, `falso` |
-| `texto` | Cadena Unicode | `"Hola\n"` |
-| `lista` | Colección ordenada | `[1, "manzana"]` |
-| `objeto` | Pares clave-valor | `{ nombre: "Ana" }` |
-| `nulo` | Ausencia intencional | `nulo` |
-
-### Operadores (por precedencia)
-
-| Precedencia | Operador | Significado | Asociatividad |
-|-------------|----------|-------------|---------------|
-| 15 | `. []` | Acceso/indexación | Izq. |
-| 14 | `()` | Llamada a función | Izq. |
-| 13 | `no` | Negación lógica | Der. |
-| 12 | `* / %` | Aritmética | Izq. |
-| 11 | `+ -` | Aritmética | Izq. |
-| 10 | `< > <= >=` | Comparación | Izq. |
-| 9 | `== !=` | Igualdad | Izq. |
-| 8 | `y` | AND lógico | Izq. |
-| 7 | `o` | OR lógico | Izq. |
-| 1 | `=` | Asignación | Der. |
-
-## Funciones
-
-### Definición y Llamada
-```flowscript
-funcion calcular_impuesto(monto: decimal, tasa: decimal) -> decimal {
-    si monto <= 0 { retornar 0.0 }
-    retornar monto * tasa
-}
-
-total = calcular_impuesto(500.0, 0.19)
+# Run tests matching a pattern
+mvn test -Dtest=*ParserTest
 ```
 
-- `funcion` define, `retornar` devuelve
-- `-> tipo` se omite o usa `-> vacio` si no retorna
+## Architecture
 
-### Recursión
-```flowscript
-funcion factorial(n: entero) -> entero {
-    si n <= 1 { retornar 1 }
-    retornar n * factorial(n - 1)
-}
+### Three-Layer Analysis Pipeline
+
+The project implements a **custom compiler frontend** without using ANTLR for parsing (ANTLR grammars exist but for reference/testing):
+
+1. **Lexical Analysis** (`com.flowscript.lexer`)
+   - **AFD-based tokenization** using finite automata recognizers
+   - Each token type has a dedicated recognizer (KeywordRecognizer, OperatorRecognizer, etc.)
+   - Recognizers are prioritized to handle overlapping patterns correctly
+   - Entry point: `Lexer.java` coordinates all recognizers
+
+2. **Syntactic Analysis** (`com.flowscript.sintactic`)
+   - **Recursive descent parser** with specialized parsers for each grammar rule
+   - **Parser-per-rule pattern**: Each grammar production has its own parser class
+   - Produces an **Abstract Syntax Tree (AST)** with typed nodes
+   - Entry point: `Parser.java` → `ProgramParser.java`
+   - Parser hierarchy follows grammar structure:
+     - `programa_declaraciones`: Top-level declarations (imports, functions, processes)
+     - `control_ejecucion`: Control flow (if, try/catch, blocks)
+     - `expresiones`: Expression parsing (binary ops, unary ops, etc.)
+     - `literales`: Literal values (strings, numbers, objects, lists)
+     - `tipos_parametros`: Type annotations and parameters
+     - `control_flujo`: Process flow control (tasks, gateways)
+
+3. **IDE Layer** (`com.flowscript.ide`)
+   - JavaFX-based visual editor
+   - Components: CodeEditorPane, ProjectExplorer, ConsolePane, StatusBar
+   - Syntax highlighting via `FlowScriptSyntaxHighlighter.java`
+   - Multi-theme support (Dark/Light/Monokai)
+
+### Key Architecture Patterns
+
+- **ParserContext**: Shared state container for token stream and current position
+- **IParser<T>**: Common interface for all parsers, returns AST nodes of type T
+- **TokenRecognizer hierarchy**: Strategy pattern for different token types
+- **AST nodes**: Strongly-typed tree structure mirroring grammar
+
+### Directory Structure
+
+```
+src/main/
+├── java/com/flowscript/
+│   ├── lexer/              # Lexical analysis
+│   │   ├── Lexer.java      # Main tokenizer
+│   │   ├── Token.java      # Token representation
+│   │   └── afd/            # AFD recognizers for each token type
+│   ├── sintactic/          # Syntactic analysis
+│   │   ├── Parser.java     # Main parser entry point
+│   │   ├── ParserContext.java
+│   │   ├── IParser.java
+│   │   ├── ast/            # AST node classes (mirrors parser structure)
+│   │   └── parsers/functions/  # Parser implementations
+│   │       ├── programa_declaraciones/
+│   │       ├── control_ejecucion/
+│   │       ├── expresiones/
+│   │       ├── literales/
+│   │       └── control_flujo/
+│   └── ide/                # JavaFX IDE
+│       ├── FlowScriptIDE.java  # Main application
+│       ├── components/     # UI components
+│       ├── services/       # Business logic (theme, project mgmt)
+│       └── syntax/         # Syntax highlighting
+├── tlf/                    # ANTLR grammars (reference/testing only)
+│   ├── FlowScriptFunctions.g4
+│   └── FlowScriptProcesses.g4
+└── resources/
+    └── css/                # IDE themes
+
+src/test/
+├── java/
+│   ├── edu/eam/ingesoft/tlf/tester/  # ANTLR-based grammar tests
+│   └── com/flowscript/               # Unit tests for custom parser/lexer
+└── resources/
+    ├── flowscript-functions.yaml     # YAML test cases for functions
+    └── flowscript-processes.yaml     # YAML test cases for processes
 ```
 
-## Procesos: Orquestación del Flujo
+## Testing Strategy
 
-### Estructura de un Proceso
+### Two Testing Approaches
 
-#### Elementos Principales
-- **`proceso <NombreProceso>`**: Define el contenedor principal
-- **`entrada`**: Objeto con los datos iniciales del proceso
-- **`inicio`**: Punto de entrada único, debe apuntar a un primer nodo
-- **`tarea <NombreTarea>`**: Unidad de trabajo atómica con `accion:`
-- **`fin <NombreFin>`**: Punto de terminación (puede haber múltiples)
-- **`go_to <NodoDestino>`**: Transferir control a otro nodo
+1. **ANTLR Grammar Tests** (`edu.eam.ingesoft.tlf.tester`)
+   - Uses ANTLR-generated parsers for validation
+   - Test cases defined in YAML files
+   - Tests `FlowScriptFunctionsTest` and `FlowScriptProcessesTest`
+   - Validates grammar correctness against specification
 
-### Estructura Básica
-```flowscript
-proceso GestionCliente {
-    inicio -> CargarCliente
-    
-    tarea CargarCliente {
-        accion: cliente = db_get("clientes", entrada.id)
-        go_to ValidarActivo
-    }
-    
-    tarea ValidarActivo {
-        accion:
-            si cliente.activo {
-                go_to EnviarCorreo
-            } sino {
-                go_to FinInactivo
-            }
-    }
-    
-    tarea EnviarCorreo { /* ... */ }
-    
-    fin FinInactivo
-}
+2. **Custom Parser Tests** (`com.flowscript.sintactic.parsers`)
+   - Unit tests for each parser component
+   - Tests the actual implementation used by the IDE
+   - More granular, test individual parser rules
+
+### YAML Test Format
+
+Tests are defined in `src/test/resources/*.yaml`:
+
+```yaml
+ejemplos:
+  - nombre: "Function with parameters"
+    valido: true
+    texto: |
+      function add(a: integer, b: integer) -> integer {
+          return a + b
+      }
 ```
 
-### Objeto Contexto
-Cada instancia de proceso tiene un contexto implícito que almacena el estado. Las variables declaradas en `accion` de una tarea se guardan en este contexto y están disponibles para tareas posteriores.
+### Running Tests
 
-## Gateways: Decisión y Paralelismo
+Always compile before testing to ensure ANTLR parsers are generated:
 
-### Gateway Exclusivo (XOR)
-Solo un camino de salida es elegido. Las condiciones se evalúan en orden:
-
-```flowscript
-proceso AprobacionFactura {
-    inicio -> ClasificarMonto
-    
-    tarea ClasificarMonto {
-        accion: gateway DecisionMonto {
-            cuando entrada.monto > 10000 -> RequiereAprobacionGerente
-            cuando entrada.monto > 1000 -> RequiereAprobacionSupervisor
-            sino -> AprobacionAutomatica  # camino por defecto
-        }
-    }
-    
-    tarea AprobacionAutomatica { 
-        accion: imprimir("Aprobada automáticamente")
-        go_to FinOK 
-    }
-    
-    fin FinOK
-}
+```bash
+mvn clean compile test
 ```
 
-### Gateway Paralelo (AND)
-Divide el flujo en múltiples ramas concurrentes. Requiere `unir` para sincronizar:
+## FlowScript Language Syntax
 
-```flowscript
-proceso VerificacionAntecedentes {
-    inicio -> Iniciar
-    
-    gateway Iniciar paralelo {
-        rama -> VerificarCredito
-        rama -> VerificarPenal
-        unir -> Consolidar
-    }
-    
-    tarea VerificarCredito {
-        accion: reporte_credito = http.get("api/credito/" + entrada.cedula)
-        go_to FinCredito
-    }
-    
-    fin FinCredito
-    
-    tarea VerificarPenal {
-        accion: reporte_penal = http.get("api/penal/" + entrada.cedula)
-        go_to FinPenal
-    }
-    
-    fin FinPenal
-    
-    tarea Consolidar {
-        accion:
-            si reporte_credito.aprobado y reporte_penal.limpio {
-                imprimir("Todo en orden")
-                go_to Exito
-            } sino { 
-                go_to Falla 
-            }
-    }
-    
-    fin Exito
-    fin Falla
-}
+### Key Language Constructs
+
+FlowScript has TWO main syntactic domains:
+
+1. **Functions** (traditional imperative code):
+   - `funcion nombre(params) -> tipo { ... }`
+   - Standard control flow: `si`, `sino`, `mientras`, `para`
+   - Try/catch: `intentar { ... } capturar (e) { ... }`
+
+2. **Processes** (BPMN-style workflows):
+   - `proceso NombreProceso { ... }`
+   - Elements: `inicio`, `tarea`, `gateway`, `fin`
+   - Flow control: `go_to`, `cuando`, `rama`, `unir`
+
+### Keywords by Category
+
+- **Structure**: `proceso`, `funcion`, `importar`, `importar_jar`, `como`, `retornar`
+- **Flow**: `inicio`, `fin`, `tarea`, `gateway`, `go_to`, `cuando`, `rama`, `unir`
+- **Control**: `si`, `sino_si`, `sino`, `intentar`, `capturar`, `lanzar`
+- **Types**: `entero`, `decimal`, `booleano`, `texto`, `lista`, `objeto`, `nulo`
+- **Literals**: `verdadero`, `falso`
+- **Operators**: `y`, `o`, `no`
+
+### Language Specification
+
+The complete FlowScript language specification is documented in the README.md. When implementing language features:
+- All keywords are in Spanish
+- Identifiers follow `[a-zA-Z_][a-zA-Z0-9_]*`
+- The language is statically typed with type inference
+- Processes maintain implicit context between tasks
+
+## Common Development Workflows
+
+### Adding a New Language Feature
+
+1. Update the appropriate ANTLR grammar in `src/main/tlf/`
+2. Regenerate ANTLR parsers: `mvn antlr4:antlr4`
+3. Create/update parser class in `com.flowscript.sintactic.parsers.functions/`
+4. Create/update corresponding AST node in `com.flowscript.sintactic.ast/`
+5. Add test cases to YAML file in `src/test/resources/`
+6. Add unit tests in `src/test/java/com/flowscript/sintactic/parsers/`
+7. Update syntax highlighter if adding new keywords: `FlowScriptSyntaxHighlighter.java`
+8. Run tests: `mvn test`
+
+### Modifying the Lexer
+
+The lexer uses custom AFD recognizers:
+- Each token type has a recognizer in `com.flowscript.lexer.afd/`
+- Recognizers implement `TokenRecognizer` interface
+- Priority determines matching order (lower = higher priority)
+- Main coordination in `Lexer.java`
+
+### Working with the IDE
+
+The IDE is a JavaFX application:
+- Entry point: `com.flowscript.ide.FlowScriptIDE`
+- Run with: `mvn javafx:run`
+- Uses RichTextFX for code editor with syntax highlighting
+- Theme switching via `ThemeService.java`
+- Project management via `ProjectService.java`
+
+### Debugging ANTLR Grammars
+
+ANTLR grammars are in `src/main/tlf/`:
+- Generate parsers to `target/generated-sources/antlr4`
+- Check generated files for errors
+- Use test cases in YAML to validate grammar changes
+
+## Important Notes
+
+### ANTLR vs Custom Parser
+
+This project has **both** ANTLR grammars and a custom hand-written parser:
+- **ANTLR grammars** (`src/main/tlf/*.g4`): Used for **validation and testing**
+- **Custom parser** (`com.flowscript.sintactic`): Used by the **actual IDE**
+
+When modifying language syntax:
+1. Update BOTH the ANTLR grammar AND the custom parser
+2. Keep them in sync
+3. Use ANTLR tests to validate grammar correctness
+4. Use custom parser tests to validate implementation
+
+### JavaFX Dependencies
+
+The IDE requires JavaFX modules:
+- Automatically handled by Maven when running `mvn javafx:run`
+- When running from IDE, may need VM options: `--add-modules javafx.controls,javafx.fxml`
+- See `RUN_IDE.md` for detailed configuration
+
+### Test Resources
+
+Test cases are data-driven from YAML files:
+- Easy to add new test cases without writing Java code
+- Both positive (valid) and negative (invalid) tests
+- Comprehensive coverage of language features
+
+## Language vs IDE Development
+
+When working on this codebase:
+
+- **Language changes** affect: lexer, parser, AST, grammars, tests
+- **IDE changes** affect: JavaFX components, services, themes, UI
+- **Cross-cutting concerns**: syntax highlighting (needs both language and IDE updates)
+
+Always run full test suite after language changes:
+```bash
+mvn clean compile test
 ```
-
-## Manejo de Errores
-
-### Bloques intentar...capturar
-```flowscript
-funcion dividir_seguro(a, b) -> decimal {
-    intentar {
-        si b == 0 {
-            lanzar { tipo: "ErrorMatematico", mensaje: "División por cero" }
-        }
-        retornar a / b
-    }
-    capturar (e) {
-        imprimir("Error: " + e.mensaje)
-        retornar 0.0
-    }
-}
-
-tarea ProcesarPago {
-    accion: intento = http.post("api/pagos", entrada.pago)
-    
-    intentar {
-        confirmacion = http.post("api/confirmar", { id: intento.id })
-        go_to FinOK
-    }
-    capturar (ex) {
-        imprimir("Falló confirmación: " + ex.mensaje)
-        go_to ReversarPago
-    }
-}
-```
-
-## Modularidad e Interoperabilidad
-
-### Módulos .flow
-**utilidades.flow:**
-```flowscript
-funcion es_par(n: entero) -> booleano { retornar n % 2 == 0 }
-PI = 3.14159
-```
-
-**proceso_principal.flow:**
-```flowscript
-importar "utilidades"
-importar "std/json" como Json
-
-proceso Principal {
-    inicio -> Tarea
-    
-    tarea Tarea {
-        accion:
-            numero = 6
-            si utilidades.es_par(numero) { imprimir("Es par") }
-            texto = Json.stringify({ valor: utilidades.PI })
-            imprimir(texto)
-            go_to Fin
-    }
-    
-    fin Fin
-}
-```
-
-### Integración con JAR (Java)
-```flowscript
-importar_jar "libs/bouncycastle.jar" as crypto
-importar_jar "libs/com.google.guava.jar" as guava
-
-funcion generar_hash(data: texto) -> texto {
-    hasher = crypto.MessageDigest.getInstance("SHA-256")
-    bytes = hasher.digest(data.getBytes("UTF-8"))
-    retornar guava.io.BaseEncoding.base64().encode(bytes)
-}
-```
-
-## Biblioteca Estándar (std)
-
-### Módulos Disponibles
-
-| Módulo | Funciones principales |
-|--------|----------------------|
-| `std/io` | `imprimir(...)`, `leer_linea(prompt)` |
-| `std/http` | `get(url, headers)`, `post(url, body, headers)`, `put`, `delete` |
-| `std/json` | `parse(texto) -> objeto`, `stringify(valor, indentacion) -> texto` |
-| `std/db` | `query(sql, params)`, `execute(sql, params)`, `get(tabla, id)`, `insert(tabla, registro)` |
-| `std/fechas` | `ahora() -> entero`, `formatear(timestamp, formato) -> texto` |
-
-## Ejemplo Completo: Proceso E-commerce
-
-```flowscript
-# --- Importaciones ---
-importar "std/http" as http
-importar "std/db" as db
-importar "std/json" as json
-importar_jar "libs/notificaciones.jar" as email
-
-# --- Funciones de negocio ---
-funcion validar_stock(items: lista) -> booleano {
-    para cada item en items {
-        prod = db.get("inventario", item.id_producto)
-        si prod.stock < item.cantidad {
-            lanzar { tipo: "ErrorStock", mensaje: "Sin stock de " + prod.nombre }
-        }
-    }
-    retornar verdadero
-}
-
-# --- Proceso principal ---
-proceso ProcesarOrden {
-    inicio -> Validar
-    
-    tarea Validar {
-        accion:
-            intentar {
-                validar_stock(entrada.items)
-                go_to ProcesarPago
-            }
-            capturar (err) {
-                imprimir("Stock insuficiente: " + err.mensaje)
-                go_to FinRechazado
-            }
-    }
-    
-    tarea ProcesarPago {
-        accion:
-            resp = http.post("https://api.stripe.com/v1/charges", {
-                monto: entrada.total,
-                fuente: entrada.token_pago
-            })
-            
-            si resp.status == "succeeded" {
-                id_pago_confirmado = resp.id
-                go_to PrepararEnvioYNotificar
-            } sino {
-                go_to FinPagoFallido
-            }
-    }
-    
-    # Gateway paralelo
-    gateway PrepararEnvioYNotificar paralelo {
-        rama -> ActualizarInventarioYLogistica
-        rama -> NotificarCliente
-        unir -> CompletarOrden
-    }
-    
-    tarea ActualizarInventarioYLogistica {
-        accion:
-            db.execute("START TRANSACTION")
-            para cada item en entrada.items {
-                db.execute(
-                    "UPDATE inventario SET stock = stock - ? WHERE id = ?",
-                    [item.cantidad, item.id_producto]
-                )
-            }
-            http.post("https://api.logistica.com/envios", { orden_id: entrada.id })
-            db.execute("COMMIT")
-            go_to FinLogistica
-    }
-    
-    fin FinLogistica
-    
-    tarea NotificarCliente {
-        accion:
-            email.ClienteEmail.enviar(
-                entrada.cliente.email,
-                "Confirmación de tu orden #" + entrada.id,
-                "Tu pago fue exitoso. Estamos preparando tu envío."
-            )
-            go_to FinNotificacion
-    }
-    
-    fin FinNotificacion
-    
-    tarea CompletarOrden {
-        accion:
-            db.execute(
-                "UPDATE ordenes SET estado = 'COMPLETADO' WHERE id = ?",
-                [entrada.id]
-            )
-            imprimir("Orden " + entrada.id + " completada.")
-            go_to FinExitoso
-    }
-    
-    fin FinExitoso
-    fin FinRechazado
-    fin FinPagoFallido
-}
-```
-
-## Consideraciones de Implementación
-
-### Ejecución
-- Los procesos se ejecutan de forma secuencial siguiendo el flujo definido
-- Las tareas dentro de un gateway paralelo se ejecutan concurrentemente
-- El contexto del proceso mantiene el estado entre tareas
-
-### Mejores Prácticas
-1. Usar nombres descriptivos para tareas y procesos
-2. Manejar errores con `intentar...capturar`
-3. Modularizar la lógica en funciones reutilizables
-4. Documentar con comentarios los flujos complejos
-5. Validar datos de entrada al inicio del proceso
-
-### Limitaciones Actuales
-- Las palabras reservadas marcadas como "Futuras" aún no están implementadas
-- La integración con JAR requiere configuración específica del entorno
-- El paralelismo real depende de la implementación del runtime
-
-## Referencias
-- Videos de BPMN de referencia:
-  - https://www.youtube.com/watch?v=E4yHqTh7NMA
-  - https://www.youtube.com/watch?v=BbT0IN3y2V4
-  - https://www.youtube.com/watch?v=RtxViAl1VPE&t=30s

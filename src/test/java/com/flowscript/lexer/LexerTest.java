@@ -186,7 +186,7 @@ public class LexerTest {
                        "    start -> ValidateInput\n" +
                        "    task ValidateInput {\n" +
                        "        action:\n" +
-                       "            goto CheckInventory\n" +
+                       "            go_to CheckInventory\n" +
                        "    }\n" +
                        "    end Success\n" +
                        "}";

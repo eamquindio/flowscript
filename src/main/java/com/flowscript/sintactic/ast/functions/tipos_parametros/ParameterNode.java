@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.tipos_parametros;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
@@ -38,5 +39,10 @@ public class ParameterNode extends ASTNode {
     @Override
     public String toString() {
         return name + ": " + type.getTypeName();
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

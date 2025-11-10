@@ -1,6 +1,7 @@
 package com.flowscript.sintactic.ast;
 
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Base class for all Abstract Syntax Tree nodes in FlowScript.
@@ -18,7 +19,9 @@ public abstract class ASTNode {
     }
 
     public ASTNode(Token token) {
-        this(token.getLine(), token.getColumn(), token.getPosition());
+        this(token != null ? token.getLine() : 0,
+             token != null ? token.getColumn() : 0,
+             token != null ? token.getPosition() : 0);
     }
 
     public int getLine() {
@@ -37,6 +40,16 @@ public abstract class ASTNode {
      * Returns a string representation of this AST node type.
      */
     public abstract String getNodeType();
+
+    /**
+     * Accepts a visitor for traversing the AST.
+     * Implements the Visitor design pattern.
+     *
+     * @param visitor the visitor to accept
+     * @param <T> the return type of the visitor
+     * @return the result of the visitor's visit method
+     */
+    public abstract <T> T accept(ASTVisitor<T> visitor);
 
     /**
      * Returns a detailed string representation for debugging.

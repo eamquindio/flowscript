@@ -39,7 +39,17 @@ public class ElseClauseParser implements IParser<ElseClauseNode> {
 
     @Override
     public ElseClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ElseClauseParser no implementado - Tarea del estudiante");
+        // 1. Consume 'else'
+        Token elseToken = context.consume(TokenType.ELSE);
+
+        // 2. Consume '->'
+        context.consume(TokenType.ARROW);
+
+        // 3. Consume target node (IDENTIFIER)
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetTask = targetToken.getValue();
+
+        // 4. Create and return ElseClauseNode
+        return new ElseClauseNode(elseToken, targetTask);
     }
 }

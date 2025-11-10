@@ -26,9 +26,38 @@ import com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNo
  */
 public class LogicalAndExpressionParser implements IParser<LogicalAndExpressionNode> {
 
+    private final EqualityExpressionParser equalityParser;
+
+    public LogicalAndExpressionParser() {
+        this.equalityParser = new EqualityExpressionParser();
+    }
+
     @Override
     public LogicalAndExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalAndExpressionParser no implementado - Tarea del estudiante");
+        // Parse first operand
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstOperand = equalityParser.parse(context);
+
+        // Check if there are AND operators
+        if (context.getCurrentToken() == null || !isAndOperator(context.getCurrentToken())) {
+            // No operators, just wrap the first operand and return as-is (no simplification)
+            return new LogicalAndExpressionNode(firstOperand.getToken(), firstOperand);
+        }
+
+        // Create node with first operand
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        LogicalAndExpressionNode node = new LogicalAndExpressionNode(firstToken, firstOperand);
+
+        // Parse operator and right operands (left-associative)
+        while (context.getCurrentToken() != null && isAndOperator(context.getCurrentToken())) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right = equalityParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
+    }
+
+    private boolean isAndOperator(com.flowscript.lexer.Token token) {
+        return token.getType() == com.flowscript.lexer.TokenType.AND;
     }
 }

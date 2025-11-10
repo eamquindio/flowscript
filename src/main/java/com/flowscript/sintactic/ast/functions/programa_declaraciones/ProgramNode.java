@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.programa_declaraciones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -38,5 +39,10 @@ public class ProgramNode extends ASTNode {
     @Override
     public String toString() {
         return "Program with " + declarations.size() + " declarations";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

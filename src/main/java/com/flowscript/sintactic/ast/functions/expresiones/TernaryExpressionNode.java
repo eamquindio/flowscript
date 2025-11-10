@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents ternary conditional expressions.
@@ -42,6 +43,11 @@ public class TernaryExpressionNode extends ExpressionNode {
         // The type is determined by the true/false branches
         // In a proper type system, these should be compatible
         return trueExpression.getExpressionType();
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

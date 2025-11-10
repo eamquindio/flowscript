@@ -17,7 +17,7 @@ public enum TokenType {
     END("end"),
     TASK("task"),
     GATEWAY("gateway"),
-    GOTO("goto"),
+    GOTO("go_to"),
     WHEN("when"),
     BRANCH("branch"),
     JOIN("join"),

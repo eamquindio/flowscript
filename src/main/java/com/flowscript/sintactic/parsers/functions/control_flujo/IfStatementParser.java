@@ -72,15 +72,51 @@ import com.flowscript.sintactic.parsers.functions.control_ejecucion.StatementPar
 public class IfStatementParser implements IParser<IfStatementNode> {
 
     private final ExpressionParser expressionParser;
-    private final StatementParser statementParser;
+    private StatementParser statementParser;
 
     public IfStatementParser() {
         this.expressionParser = new ExpressionParser();
-        this.statementParser = new StatementParser();
+        // Lazy initialization to avoid circular dependency
+    }
+
+    private StatementParser getStatementParser() {
+        if (statementParser == null) {
+            statementParser = new StatementParser();
+        }
+        return statementParser;
     }
 
     @Override
     public IfStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        // 1. Consume 'if'
+        Token ifToken = context.consume(com.flowscript.lexer.TokenType.IF);
+
+        // 2. Parse condition
+        ExpressionNode condition = expressionParser.parse(context);
+
+        // 3. Parse then statement
+        StatementNode thenStatement = getStatementParser().parse(context);
+
+        // 4. Create IfStatementNode
+        IfStatementNode ifNode = new IfStatementNode(ifToken, condition, thenStatement);
+
+        // 5. Parse else_if clauses
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.ELSE_IF) {
+            context.consume(); // consume 'else_if'
+            ExpressionNode elseIfCondition = expressionParser.parse(context);
+            StatementNode elseIfStatement = getStatementParser().parse(context);
+            ifNode.addElseIfClause(elseIfCondition, elseIfStatement);
+        }
+
+        // 6. Parse optional else clause
+        if (context.getCurrentToken() != null &&
+            context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.ELSE) {
+            context.consume(); // consume 'else'
+            StatementNode elseStatement = getStatementParser().parse(context);
+            ifNode.setElseStatement(elseStatement);
+        }
+
+        return ifNode;
     }
 }

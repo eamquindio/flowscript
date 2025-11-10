@@ -23,7 +23,7 @@ public class BooleanLiteralParserTest {
 
     @Test
     public void testTrueLiteral() throws Exception {
-        String input = "true";
+        String input = "verdadero";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -36,7 +36,7 @@ public class BooleanLiteralParserTest {
 
     @Test
     public void testFalseLiteral() throws Exception {
-        String input = "false";
+        String input = "falso";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);

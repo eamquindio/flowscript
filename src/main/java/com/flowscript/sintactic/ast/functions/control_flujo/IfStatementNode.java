@@ -4,6 +4,7 @@ import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.statements_basicos.ElseIfClauseNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -51,6 +52,11 @@ public class IfStatementNode extends StatementNode {
     @Override
     public String getNodeType() {
         return "IfStatement";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

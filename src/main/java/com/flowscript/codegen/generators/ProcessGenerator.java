@@ -35,6 +35,9 @@ public class ProcessGenerator {
      * Generates a complete process as a Java static method.
      */
     public void generate(ProcessDeclarationNode process) {
+        // Clear variable scope for new process
+        statementGenerator.clearScope();
+
         // Check if process has goto statements (requires state machine)
         boolean hasGoto = hasGotoStatements(process);
 

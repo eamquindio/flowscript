@@ -63,8 +63,17 @@ public class VariableDeclarationStatementParser implements IParser<VariableDecla
 
     @Override
     public VariableDeclarationStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("VariableDeclarationStatementParser no implementado - Tarea del estudiante");
+        // 1. Consume IDENTIFIER
+        Token identifierToken = context.consume(TokenType.IDENTIFIER);
+        String variableName = identifierToken.getValue();
+
+        // 2. Consume '='
+        context.consume(TokenType.ASSIGN);
+
+        // 3. Parse expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode initializer = expressionParser.parse(context);
+
+        // 4. Create and return VariableDeclarationStatementNode
+        return new VariableDeclarationStatementNode(identifierToken, variableName, initializer);
     }
 }

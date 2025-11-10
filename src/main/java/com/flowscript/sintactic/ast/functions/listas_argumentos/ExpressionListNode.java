@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.listas_argumentos;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -53,5 +54,10 @@ public class ExpressionListNode extends ASTNode {
     @Override
     public String toString() {
         return "ExpressionList with " + expressions.size() + " expressions";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -84,22 +84,28 @@ import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
 public class StatementParser implements IParser<StatementNode> {
 
     private final IfStatementParser ifParser;
+    private final WhileStatementParser whileParser;
     private final TryStatementParser tryParser;
     private final ThrowStatementParser throwParser;
     private final ReturnStatementParser returnParser;
     private final GotoStatementParser gotoParser;
     private final ForStatementParser forParser;
+    private final BreakStatementParser breakParser;
+    private final ContinueStatementParser continueParser;
     private final VariableDeclarationStatementParser varParser;
     private final BlockParser blockParser;
     private final ExpressionStatementParser exprParser;
 
     public StatementParser() {
         this.ifParser = new IfStatementParser();
+        this.whileParser = new WhileStatementParser();
         this.tryParser = new TryStatementParser();
         this.throwParser = new ThrowStatementParser();
         this.returnParser = new ReturnStatementParser();
         this.gotoParser = new GotoStatementParser();
         this.forParser = new ForStatementParser();
+        this.breakParser = new BreakStatementParser();
+        this.continueParser = new ContinueStatementParser();
         this.varParser = new VariableDeclarationStatementParser();
         this.blockParser = new BlockParser();
         this.exprParser = new ExpressionStatementParser();
@@ -109,6 +115,61 @@ public class StatementParser implements IParser<StatementNode> {
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
         Token current = context.getCurrentToken();
 
-        return null;
+        if (current == null) {
+            throw new Parser.ParseException("Expected statement but reached end of input");
+        }
+
+        TokenType type = current.getType();
+
+        // Check for each statement type based on leading keyword/token
+        switch (type) {
+            // Control flow statements
+            case IF:
+                return ifParser.parse(context);
+
+            case WHILE:
+                return whileParser.parse(context);
+
+            case TRY:
+                return tryParser.parse(context);
+
+            case THROW:
+                return throwParser.parse(context);
+
+            case RETURN:
+                return returnParser.parse(context);
+
+            case GOTO:
+                return gotoParser.parse(context);
+
+            case FOR:
+                return forParser.parse(context);
+
+            case BREAK:
+                return breakParser.parse(context);
+
+            case CONTINUE:
+                return continueParser.parse(context);
+
+            // Block statement
+            case LEFT_BRACE:
+                return blockParser.parse(context);
+
+            // Variable declaration (IDENTIFIER '=')
+            case IDENTIFIER:
+                // Need to look ahead to distinguish between:
+                // - VariableDeclaration: IDENTIFIER '=' Expression
+                // - ExpressionStatement: Expression (which starts with IDENTIFIER)
+                Token next = context.peek(1);
+                if (next != null && next.getType() == TokenType.ASSIGN) {
+                    return varParser.parse(context);
+                }
+                // Otherwise, it's an expression statement
+                return exprParser.parse(context);
+
+            // Expression statement (fallback for any expression)
+            default:
+                return exprParser.parse(context);
+        }
     }
 }

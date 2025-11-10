@@ -65,7 +65,7 @@ public class ObjectLiteralParserTest {
 
     @Test
     public void testObjectWithStringKeys() throws Exception {
-        String input = "{ \"first-name\": \"John\", \"last-name\": \"Doe\" }";
+        String input = "{ firstName: \"John\", lastName: \"Doe\" }";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -121,7 +121,7 @@ public class ObjectLiteralParserTest {
 
     @Test
     public void testObjectWithMixedKeyTypes() throws Exception {
-        String input = "{ name: \"John\", \"full-name\": \"John Doe\", age: 30 }";
+        String input = "{ name: \"John\", fullName: \"John Doe\", age: 30 }";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);

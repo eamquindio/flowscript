@@ -26,9 +26,38 @@ import com.flowscript.sintactic.ast.functions.expresiones.LogicalOrExpressionNod
  */
 public class LogicalOrExpressionParser implements IParser<LogicalOrExpressionNode> {
 
+    private final LogicalAndExpressionParser andParser;
+
+    public LogicalOrExpressionParser() {
+        this.andParser = new LogicalAndExpressionParser();
+    }
+
     @Override
     public LogicalOrExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalOrExpressionParser no implementado - Tarea del estudiante");
+        // Parse first operand
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstOperand = andParser.parse(context);
+
+        // Check if there are OR operators
+        if (context.getCurrentToken() == null || !isOrOperator(context.getCurrentToken())) {
+            // No operators, just wrap the first operand and return as-is (no simplification)
+            return new LogicalOrExpressionNode(firstOperand.getToken(), firstOperand);
+        }
+
+        // Create node with first operand
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        LogicalOrExpressionNode node = new LogicalOrExpressionNode(firstToken, firstOperand);
+
+        // Parse operator and right operands (left-associative)
+        while (context.getCurrentToken() != null && isOrOperator(context.getCurrentToken())) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right = andParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
+    }
+
+    private boolean isOrOperator(com.flowscript.lexer.Token token) {
+        return token.getType() == com.flowscript.lexer.TokenType.OR;
     }
 }

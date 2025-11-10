@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.clausulas_control;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.lexer.Token;
@@ -28,5 +29,10 @@ public class ElseClauseNode extends ASTNode {
     @Override
     public String toString() {
         return "else -> " + targetTask;
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

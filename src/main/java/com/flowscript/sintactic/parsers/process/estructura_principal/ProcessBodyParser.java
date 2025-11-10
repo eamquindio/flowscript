@@ -50,10 +50,50 @@ public class ProcessBodyParser {
     }
 
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<ASTNode> elements = new ArrayList<>();
+
+        // Parse process elements until we hit closing brace
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE) {
+            ASTNode element = parseProcessElement(context);
+            elements.add(element);
+        }
+
+        return elements;
     }
 
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Expected process element but reached end of input");
+        }
+
+        TokenType type = current.getType();
+
+        // Determine element type based on token
+        switch (type) {
+            case START:
+                return startParser.parse(context);
+
+            case END:
+                return endParser.parse(context);
+
+            case TASK:
+                return taskParser.parse(context);
+
+            case GATEWAY:
+                // Look ahead to determine if it's exclusive or parallel
+                Token next = context.peek(2); // gateway NAME <here>
+                if (next != null && next.getType() == TokenType.PARALLEL) {
+                    return parallelGatewayParser.parse(context);
+                } else {
+                    return exclusiveGatewayParser.parse(context);
+                }
+
+            default:
+                throw new Parser.ParseException("Unexpected token in process body: " + type +
+                                              " at line " + current.getLine());
+        }
     }
 }

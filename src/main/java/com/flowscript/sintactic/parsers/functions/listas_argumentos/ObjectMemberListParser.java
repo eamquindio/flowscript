@@ -28,15 +28,32 @@ import java.util.List;
  */
 public class ObjectMemberListParser {
 
+    private final ObjectMemberParser memberParser;
+
+    public ObjectMemberListParser() {
+        this.memberParser = new ObjectMemberParser();
+    }
+
     /**
      * Parsea una lista de miembros de objeto.
      *
      * @param context El contexto del parser
-     * @return Lista de nodos ObjectMemberListNode
+     * @return ObjectMemberListNode con todos los miembros
      * @throws Parser.ParseException Si hay un error de sintaxis
      */
-    public List<ObjectMemberListNode> parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ObjectMemberListParser no implementado - Tarea del estudiante");
+    public ObjectMemberListNode parse(ParserContext context) throws Parser.ParseException {
+        // Parse first member
+        ObjectMemberListNode.ObjectMemberNode firstMember = memberParser.parse(context);
+        ObjectMemberListNode memberList = new ObjectMemberListNode(firstMember);
+
+        // Parse remaining members separated by comma
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.COMMA) {
+            context.consume(); // consume comma
+            ObjectMemberListNode.ObjectMemberNode member = memberParser.parse(context);
+            memberList.addMember(member);
+        }
+
+        return memberList;
     }
 }

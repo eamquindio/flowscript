@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.statements_basicos;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -35,5 +36,10 @@ public class ElseIfClauseNode extends ASTNode {
     @Override
     public String toString() {
         return "ElseIfClause(" + condition.getNodeType() + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

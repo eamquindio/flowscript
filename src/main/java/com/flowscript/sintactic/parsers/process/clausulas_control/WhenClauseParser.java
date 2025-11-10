@@ -48,7 +48,20 @@ public class WhenClauseParser implements IParser<WhenClauseNode> {
 
     @Override
     public WhenClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("WhenClauseParser no implementado - Tarea del estudiante");
+        // 1. Consume 'when'
+        context.consume(TokenType.WHEN);
+
+        // 2. Parse condition expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode condition = expressionParser.parse(context);
+
+        // 3. Consume '->'
+        context.consume(TokenType.ARROW);
+
+        // 4. Consume target node (IDENTIFIER)
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetTask = targetToken.getValue();
+
+        // 5. Create and return WhenClauseNode
+        return new WhenClauseNode(condition, targetTask);
     }
 }

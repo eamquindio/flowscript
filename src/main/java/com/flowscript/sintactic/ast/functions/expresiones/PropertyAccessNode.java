@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents property access expressions.
@@ -34,6 +35,11 @@ public class PropertyAccessNode extends ExpressionNode {
     public String getExpressionType() {
         // Type would be determined by symbol table lookup during semantic analysis
         return "property";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

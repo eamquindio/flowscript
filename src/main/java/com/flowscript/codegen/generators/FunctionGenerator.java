@@ -30,6 +30,9 @@ public class FunctionGenerator {
      * Generates a complete function as a Java static method.
      */
     public void generate(FunctionDeclarationNode function) {
+        // Clear variable scope for new function
+        statementGenerator.clearScope();
+
         // Generate method signature
         String returnType = function.getReturnType() != null ?
             typeMapper.mapType(function.getReturnType()) : "void";

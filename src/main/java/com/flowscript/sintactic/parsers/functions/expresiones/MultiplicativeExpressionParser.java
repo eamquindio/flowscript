@@ -26,9 +26,42 @@ import com.flowscript.sintactic.ast.functions.expresiones.MultiplicativeExpressi
  */
 public class MultiplicativeExpressionParser implements IParser<MultiplicativeExpressionNode> {
 
+    private final UnaryExpressionParser unaryParser;
+
+    public MultiplicativeExpressionParser() {
+        this.unaryParser = new UnaryExpressionParser();
+    }
+
     @Override
     public MultiplicativeExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("MultiplicativeExpressionParser no implementado - Tarea del estudiante");
+        // Parse first operand
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstOperand = unaryParser.parse(context);
+
+        // Check if there are multiplicative operators
+        if (context.getCurrentToken() == null || !isMultiplicativeOperator(context.getCurrentToken())) {
+            // No operators, just wrap the first operand and return as-is (no simplification)
+            // We need to return a MultiplicativeExpressionNode, even with single operand
+            return new MultiplicativeExpressionNode(firstOperand.getToken(), firstOperand);
+        }
+
+        // Create node with first operand
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        MultiplicativeExpressionNode node = new MultiplicativeExpressionNode(firstToken, firstOperand);
+
+        // Parse operator and right operands (left-associative)
+        while (context.getCurrentToken() != null && isMultiplicativeOperator(context.getCurrentToken())) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right = unaryParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
+    }
+
+    private boolean isMultiplicativeOperator(com.flowscript.lexer.Token token) {
+        com.flowscript.lexer.TokenType type = token.getType();
+        return type == com.flowscript.lexer.TokenType.MULTIPLY ||
+               type == com.flowscript.lexer.TokenType.DIVIDE ||
+               type == com.flowscript.lexer.TokenType.MODULO;
     }
 }

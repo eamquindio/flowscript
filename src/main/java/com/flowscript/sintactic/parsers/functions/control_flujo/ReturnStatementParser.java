@@ -98,9 +98,25 @@ public class ReturnStatementParser implements IParser<ReturnStatementNode> {
 
     @Override
     public ReturnStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        // HINT: El return puede no tener expresión (return void)
-        throw new UnsupportedOperationException("ReturnStatementParser no implementado - Tarea del estudiante");
+        // 1. Save return token
+        Token returnToken = context.getCurrentToken();
+
+        // 2. Consume 'return'
+        context.consume(com.flowscript.lexer.TokenType.RETURN);
+
+        // 3. Check if there's an expression after return
+        Token current = context.getCurrentToken();
+        if (current == null ||
+            current.getType() == com.flowscript.lexer.TokenType.RIGHT_BRACE ||
+            current.getType() == com.flowscript.lexer.TokenType.EOF) {
+            // No expression, void return
+            return new ReturnStatementNode(returnToken);
+        }
+
+        // 4. Parse expression
+        ExpressionNode expression = expressionParser.parse(context);
+
+        // 5. Create and return ReturnStatementNode
+        return new ReturnStatementNode(returnToken, expression);
     }
 }

@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -55,6 +56,11 @@ public class PostfixExpressionNode extends ExpressionNode {
     public String getExpressionType() {
         // Type depends on the postfix operators applied
         return "postfix_result";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

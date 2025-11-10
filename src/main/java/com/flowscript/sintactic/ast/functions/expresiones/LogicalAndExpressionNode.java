@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -67,6 +68,11 @@ public class LogicalAndExpressionNode extends ExpressionNode {
     @Override
     public String getExpressionType() {
         return "boolean";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

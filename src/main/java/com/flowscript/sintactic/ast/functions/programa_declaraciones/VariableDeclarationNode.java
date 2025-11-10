@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.programa_declaraciones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -41,5 +42,10 @@ public class VariableDeclarationNode extends DeclarationNode {
     @Override
     public String toString() {
         return "VariableDeclaration(" + variableName + " = " + initializer.getNodeType() + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

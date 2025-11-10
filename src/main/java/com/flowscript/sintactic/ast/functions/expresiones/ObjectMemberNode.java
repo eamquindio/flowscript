@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents a single key-value pair in an object literal.
@@ -35,6 +36,11 @@ public class ObjectMemberNode extends ASTNode {
     @Override
     public String getNodeType() {
         return "ObjectMember";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

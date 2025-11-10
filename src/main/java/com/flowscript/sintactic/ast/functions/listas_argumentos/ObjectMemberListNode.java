@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.listas_argumentos;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -92,8 +93,19 @@ public class ObjectMemberListNode extends ASTNode {
         }
 
         @Override
+        public <T> T accept(ASTVisitor<T> visitor) {
+            // This inner class isn't directly visited - it's part of ObjectMemberListNode
+            throw new UnsupportedOperationException("ObjectMemberNode is not directly visitable");
+        }
+
+        @Override
         public String toString() {
             return key + ": " + value.getNodeType();
         }
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

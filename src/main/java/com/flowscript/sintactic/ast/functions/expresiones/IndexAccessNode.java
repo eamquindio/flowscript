@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents array/object index access expressions.
@@ -35,6 +36,11 @@ public class IndexAccessNode extends ExpressionNode {
         // Type would be determined by symbol table lookup during semantic analysis
         // Typically the element type of the array/list
         return "element";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

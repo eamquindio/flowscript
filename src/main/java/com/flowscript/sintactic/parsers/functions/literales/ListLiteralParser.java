@@ -27,9 +27,31 @@ import com.flowscript.sintactic.ast.functions.literales.ListLiteralNode;
  */
 public class ListLiteralParser implements IParser<ListLiteralNode> {
 
+    private final com.flowscript.sintactic.parsers.functions.listas_argumentos.ExpressionListParser expressionListParser;
+
+    public ListLiteralParser() {
+        this.expressionListParser = new com.flowscript.sintactic.parsers.functions.listas_argumentos.ExpressionListParser();
+    }
+
     @Override
     public ListLiteralNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ListLiteralParser no implementado - Tarea del estudiante");
+        // Consume '['
+        com.flowscript.lexer.Token leftBracket = context.consume(com.flowscript.lexer.TokenType.LEFT_BRACKET);
+
+        // Check if empty list
+        com.flowscript.lexer.Token next = context.getCurrentToken();
+        if (next != null && next.getType() == com.flowscript.lexer.TokenType.RIGHT_BRACKET) {
+            context.consume(); // consume ']'
+            return new ListLiteralNode(leftBracket); // Empty list
+        }
+
+        // Parse expression list
+        com.flowscript.sintactic.ast.functions.listas_argumentos.ExpressionListNode exprList =
+            expressionListParser.parse(context);
+
+        // Consume ']'
+        context.consume(com.flowscript.lexer.TokenType.RIGHT_BRACKET);
+
+        return new ListLiteralNode(leftBracket, exprList);
     }
 }

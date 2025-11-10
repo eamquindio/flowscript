@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.literales;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
@@ -48,5 +49,10 @@ public class DecimalLiteralNode extends ExpressionNode {
     @Override
     public String toString() {
         return "DecimalLiteral(" + rawValue + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

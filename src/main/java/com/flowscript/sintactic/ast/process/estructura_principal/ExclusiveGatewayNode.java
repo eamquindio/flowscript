@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.estructura_principal;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.ast.ASTNode;
@@ -54,5 +55,10 @@ public class ExclusiveGatewayNode extends ASTNode {
     public String toString() {
         return "ExclusiveGateway(" + gatewayName + " with " + whenClauses.size() +
                " when clauses" + (elseClause != null ? " and else clause" : "") + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
@@ -7,7 +8,7 @@ import com.flowscript.lexer.Token;
  * Represents binary expressions like addition, comparison, logical operations.
  * Examples: a + b, x == y, condition and other_condition
  */
-public class BinaryExpressionNode extends ExpressionNode {
+public abstract class BinaryExpressionNode extends ExpressionNode {
     private final ExpressionNode left;
     private final String operator;
     private final ExpressionNode right;

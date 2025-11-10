@@ -49,19 +49,54 @@ import java.util.List;
  */
 public class TaskElementParser implements IParser<TaskElementNode> {
 
-    private final StatementParser statementParser;
+    private StatementParser statementParser;
 
     public TaskElementParser() {
-        this.statementParser = new StatementParser();
+        // Lazy initialization to avoid circular dependency
+    }
+
+    private StatementParser getStatementParser() {
+        if (statementParser == null) {
+            statementParser = new StatementParser();
+        }
+        return statementParser;
     }
 
     @Override
     public TaskElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token taskToken = context.getCurrentToken();
-       return null;
+        // Consume 'task'
+        Token taskToken = context.consume(TokenType.TASK);
+
+        // Consume task name (IDENTIFIER)
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String taskName = nameToken.getValue();
+
+        // Consume '{'
+        context.consume(TokenType.LEFT_BRACE);
+
+        // Consume 'action:'
+        context.consume(TokenType.ACTION);
+        context.consume(TokenType.COLON);
+
+        // Parse statement list
+        List<StatementNode> actionStatements = parseStatementList(context);
+
+        // Consume '}'
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new TaskElementNode(taskToken, taskName, actionStatements);
     }
 
     private List<StatementNode> parseStatementList(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+
+        // Parse statements until we hit closing brace
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE) {
+            StatementNode statement = getStatementParser().parse(context);
+            statements.add(statement);
+        }
+
+        return statements;
     }
 }

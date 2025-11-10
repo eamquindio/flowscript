@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.clausulas_control;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -34,5 +35,10 @@ public class WhenClauseNode extends ASTNode {
     @Override
     public String toString() {
         return "when " + condition.getNodeType() + " -> " + targetTask;
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

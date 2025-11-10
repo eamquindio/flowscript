@@ -28,9 +28,11 @@ public class ForStatementParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ForStatementNode result = parser.parse(context);
+        com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode stmt = parser.parse(context);
 
-        assertNotNull(result);
+        assertNotNull(stmt);
+        assertTrue(stmt instanceof ForStatementNode);
+        ForStatementNode result = (ForStatementNode) stmt;
         assertEquals("item", result.getIteratorVariable());
         assertNotNull(result.getIterable());
         assertNotNull(result.getBody());
@@ -43,9 +45,11 @@ public class ForStatementParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ForStatementNode result = parser.parse(context);
+        com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode stmt = parser.parse(context);
 
-        assertNotNull(result);
+        assertNotNull(stmt);
+        assertTrue(stmt instanceof ForStatementNode);
+        ForStatementNode result = (ForStatementNode) stmt;
         assertEquals("x", result.getIteratorVariable());
     }
 
@@ -56,9 +60,10 @@ public class ForStatementParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ForStatementNode result = parser.parse(context);
+        com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode stmt = parser.parse(context);
 
-        assertNotNull(result);
+        assertNotNull(stmt);
+        assertTrue(stmt instanceof ForStatementNode);
     }
 
     @Test
@@ -68,8 +73,9 @@ public class ForStatementParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ForStatementNode result = parser.parse(context);
+        com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode stmt = parser.parse(context);
 
-        assertNotNull(result);
+        assertNotNull(stmt);
+        assertTrue(stmt instanceof ForStatementNode);
     }
 }

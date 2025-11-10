@@ -32,7 +32,7 @@ public class ImportDeclarationParserTest {
         ImportDeclarationNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"std/http\"", result.getModulePath());
+        assertEquals("std/http", result.getModulePath());
         assertNull(result.getAlias());
     }
 
@@ -46,7 +46,7 @@ public class ImportDeclarationParserTest {
         ImportDeclarationNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"std/http\"", result.getModulePath());
+        assertEquals("std/http", result.getModulePath());
         assertEquals("http", result.getAlias());
     }
 
@@ -60,7 +60,7 @@ public class ImportDeclarationParserTest {
         ImportDeclarationNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"libs/guava.jar\"", result.getModulePath());
+        assertEquals("libs/guava.jar", result.getModulePath());
         assertEquals("guava", result.getAlias());
         assertTrue(result.isJarImport());
     }

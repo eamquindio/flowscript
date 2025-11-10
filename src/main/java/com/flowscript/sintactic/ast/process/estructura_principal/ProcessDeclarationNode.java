@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.estructura_principal;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.DeclarationNode;
 import com.flowscript.sintactic.ast.ASTNode;
@@ -48,5 +49,10 @@ public class ProcessDeclarationNode extends DeclarationNode {
     @Override
     public String toString() {
         return "ProcessDeclaration(" + name + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

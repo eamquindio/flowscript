@@ -37,7 +37,7 @@ public class ProcessBodyParserTest {
 
     @Test
     public void testProcessBodyWithStartAndEnd() throws Exception {
-        String input = "start -> Task1\n end Task1";
+        String input = "start -> Task1\n end Task1\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -50,7 +50,7 @@ public class ProcessBodyParserTest {
 
     @Test
     public void testProcessBodyWithStartTaskEnd() throws Exception {
-        String input = "start -> Init\n task Init { action: go_to Finish }\n end Finish";
+        String input = "start -> Init\n task Init { action: go_to Finish }\n end Finish\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -63,7 +63,7 @@ public class ProcessBodyParserTest {
 
     @Test
     public void testProcessBodyWithMultipleTasks() throws Exception {
-        String input = "start -> T1\n task T1 { action: go_to T2 }\n task T2 { action: go_to End }\n end End";
+        String input = "start -> T1\n task T1 { action: go_to T2 }\n task T2 { action: go_to End }\n end End\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -77,9 +77,9 @@ public class ProcessBodyParserTest {
     @Test
     public void testProcessBodyWithGateway() throws Exception {
         String input = "start -> Check\n" +
-                      "task Check { action: gateway G { when x > 0 -> Pos\n else -> Neg } }\n" +
+                      "task Check { action: x = 10\n si x > 0 { go_to Pos } sino { go_to Neg } }\n" +
                       "end Pos\n" +
-                      "end Neg";
+                      "end Neg\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -97,7 +97,7 @@ public class ProcessBodyParserTest {
                       "end T1\n" +
                       "end T2\n" +
                       "task Merge { action: go_to End }\n" +
-                      "end End";
+                      "end End\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
@@ -110,7 +110,7 @@ public class ProcessBodyParserTest {
 
     @Test
     public void testProcessBodyWithSpanishKeywords() throws Exception {
-        String input = "inicio -> Tarea1\n tarea Tarea1 { accion: go_to Fin }\n fin Fin";
+        String input = "inicio -> Tarea1\n tarea Tarea1 { accion: go_to Fin }\n fin Fin\n}";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);

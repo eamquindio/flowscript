@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.programa_declaraciones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.programa_declaraciones.DeclarationNode;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.TypeNode;
@@ -64,5 +65,10 @@ public class FunctionDeclarationNode extends DeclarationNode {
         return "FunctionDeclaration(" + name + ")" +
                " with " + parameters.size() + " parameters" +
                (returnType != null ? " -> " + returnType.getTypeName() : "");
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

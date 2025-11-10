@@ -39,7 +39,17 @@ public class JoinClauseParser implements IParser<JoinClauseNode> {
 
     @Override
     public JoinClauseNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("JoinClauseParser no implementado - Tarea del estudiante");
+        // 1. Consume 'join'
+        Token joinToken = context.consume(TokenType.JOIN);
+
+        // 2. Consume '->'
+        context.consume(TokenType.ARROW);
+
+        // 3. Consume target node (IDENTIFIER)
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        String targetTask = targetToken.getValue();
+
+        // 4. Create and return JoinClauseNode
+        return new JoinClauseNode(joinToken, targetTask);
     }
 }

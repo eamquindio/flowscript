@@ -57,7 +57,7 @@ public class ProcessDeclarationParserTest {
     public void testProcessWithGateway() throws Exception {
         String input = "process Decision {\n" +
                       "    start -> Check\n" +
-                      "    task Check { action: gateway G { when x > 0 -> Positive\n else -> Negative } }\n" +
+                      "    task Check { action: x = 10\n si x > 0 { go_to Positive } sino { go_to Negative } }\n" +
                       "    end Positive\n" +
                       "    end Negative\n" +
                       "}";

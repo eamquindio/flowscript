@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.estructura_principal;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.ast.ASTNode;
@@ -45,5 +46,10 @@ public class TaskElementNode extends ASTNode {
     @Override
     public String toString() {
         return "TaskElement(" + taskName + " with " + actionStatements.size() + " statements)";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

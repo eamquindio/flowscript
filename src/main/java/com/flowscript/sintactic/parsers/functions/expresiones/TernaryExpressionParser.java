@@ -23,11 +23,39 @@ import com.flowscript.sintactic.ast.functions.expresiones.TernaryExpressionNode;
  *
  * @see TernaryExpressionNode
  */
-public class TernaryExpressionParser implements IParser<TernaryExpressionNode> {
+public class TernaryExpressionParser implements IParser<com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode> {
+
+    private final LogicalOrExpressionParser orParser;
+    private final ExpressionParser expressionParser;
+
+    public TernaryExpressionParser() {
+        this.orParser = new LogicalOrExpressionParser();
+        this.expressionParser = new ExpressionParser();
+    }
 
     @Override
-    public TernaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("TernaryExpressionParser no implementado - Tarea del estudiante");
+    public com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode parse(ParserContext context) throws Parser.ParseException {
+        // Parse condition
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode condition = orParser.parse(context);
+
+        // Check for ternary operator '?'
+        if (context.getCurrentToken() != null &&
+            context.getCurrentToken().getType() == com.flowscript.lexer.TokenType.QUESTION) {
+            com.flowscript.lexer.Token questionToken = context.consume(); // consume '?'
+
+            // Parse true branch
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode trueBranch = expressionParser.parse(context);
+
+            // Consume ':'
+            context.consume(com.flowscript.lexer.TokenType.COLON);
+
+            // Parse false branch
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode falseBranch = expressionParser.parse(context);
+
+            return new TernaryExpressionNode(condition, questionToken, trueBranch, falseBranch);
+        }
+
+        // No ternary operator, just return the condition
+        return condition;
     }
 }

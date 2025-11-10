@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
@@ -8,7 +9,7 @@ import com.flowscript.lexer.TokenType;
  * Represents literal values (numbers, strings, booleans, null).
  * Examples: 42, 3.14, "hello", true, false, null
  */
-public class LiteralNode extends ExpressionNode {
+public abstract class LiteralNode extends ExpressionNode {
     private final Object value;
     private final TokenType literalType;
 

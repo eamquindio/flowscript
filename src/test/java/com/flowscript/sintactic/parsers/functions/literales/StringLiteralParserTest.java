@@ -31,7 +31,7 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Hello World\"", result.getValue());
+        assertEquals("Hello World", result.getValue());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"\"", result.getValue());
+        assertEquals("", result.getValue());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Line 1\\nLine 2\"", result.getValue());
+        assertEquals("Line 1\nLine 2", result.getValue());
     }
 
     @Test
@@ -70,7 +70,7 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Quote: \\\"Hello\\\"\"", result.getValue());
+        assertEquals("Quote: \"Hello\"", result.getValue());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Tab:\\tNewline:\\nBackslash:\\\\\"", result.getValue());
+        assertEquals("Tab:\tNewline:\nBackslash:\\", result.getValue());
     }
 
     @Test
@@ -96,7 +96,8 @@ public class StringLiteralParserTest {
         StringLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"Unicode: \\u0041\"", result.getValue());
+        // Unicode escapes are not processed by StringLiteralNode, only basic escapes
+        assertEquals("Unicode: \\u0041", result.getValue());
     }
 
     @Test

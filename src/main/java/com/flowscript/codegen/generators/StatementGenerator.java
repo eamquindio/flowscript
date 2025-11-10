@@ -8,7 +8,9 @@ import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.control_flujo.*;
 import com.flowscript.sintactic.ast.functions.statements_basicos.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Generates Java code for FlowScript statements.
@@ -20,12 +22,24 @@ public class StatementGenerator {
     private final TypeMapper typeMapper;
     private final JavaEmitter emitter;
 
+    // Track variables declared in current scope to avoid duplicate var declarations
+    private final Set<String> declaredVariables;
+
     public StatementGenerator(ExpressionGenerator expressionGenerator,
                               TypeMapper typeMapper,
                               JavaEmitter emitter) {
         this.expressionGenerator = expressionGenerator;
         this.typeMapper = typeMapper;
         this.emitter = emitter;
+        this.declaredVariables = new HashSet<>();
+    }
+
+    /**
+     * Clears the set of declared variables.
+     * Should be called when entering a new function scope.
+     */
+    public void clearScope() {
+        declaredVariables.clear();
     }
 
     /**
@@ -114,13 +128,27 @@ public class StatementGenerator {
     private void generateVariableDeclarationStatement(VariableDeclarationStatementNode node) {
         String varName = node.getVariableName();
 
+        // Check if variable has already been declared in this scope
+        boolean alreadyDeclared = declaredVariables.contains(varName);
+
         // Generate declaration with initializer
         if (node.getInitializer() != null) {
             String initializer = expressionGenerator.generate(node.getInitializer());
-            emitter.emit("var " + varName + " = " + initializer + ";");
+
+            if (alreadyDeclared) {
+                // Reassignment - no 'var' keyword
+                emitter.emit(varName + " = " + initializer + ";");
+            } else {
+                // First declaration - use 'var' keyword
+                emitter.emit("var " + varName + " = " + initializer + ";");
+                declaredVariables.add(varName);
+            }
         } else {
-            // No initializer
-            emitter.emit("var " + varName + ";");
+            if (!alreadyDeclared) {
+                // No initializer
+                emitter.emit("var " + varName + ";");
+                declaredVariables.add(varName);
+            }
         }
     }
 

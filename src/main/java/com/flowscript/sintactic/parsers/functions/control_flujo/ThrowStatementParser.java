@@ -79,8 +79,13 @@ public class ThrowStatementParser implements IParser<ThrowStatementNode> {
 
     @Override
     public ThrowStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ThrowStatementParser no implementado - Tarea del estudiante");
+        // 1. Consume 'throw'
+        com.flowscript.lexer.Token throwToken = context.consume(com.flowscript.lexer.TokenType.THROW);
+
+        // 2. Parse expression
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode expression = expressionParser.parse(context);
+
+        // 3. Create and return ThrowStatementNode
+        return new ThrowStatementNode(throwToken, expression);
     }
 }

@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.process.navegacion;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.lexer.Token;
@@ -27,5 +28,10 @@ public class GotoStatementNode extends StatementNode {
     @Override
     public String toString() {
         return "GotoStatement -> " + targetLabel;
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

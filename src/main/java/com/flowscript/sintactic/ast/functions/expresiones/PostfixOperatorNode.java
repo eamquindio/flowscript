@@ -3,6 +3,7 @@ package com.flowscript.sintactic.ast.functions.expresiones;
 import com.flowscript.sintactic.ast.ASTNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -38,6 +39,11 @@ public abstract class PostfixOperatorNode extends ASTNode {
         }
 
         @Override
+        public <T> T accept(ASTVisitor<T> visitor) {
+            return visitor.visit(this);
+        }
+
+        @Override
         public String toString() {
             return "." + propertyName;
         }
@@ -64,6 +70,11 @@ public abstract class PostfixOperatorNode extends ASTNode {
         }
 
         @Override
+        public <T> T accept(ASTVisitor<T> visitor) {
+            return visitor.visit(this);
+        }
+
+        @Override
         public String toString() {
             return "[" + index.getNodeType() + "]";
         }
@@ -87,6 +98,11 @@ public abstract class PostfixOperatorNode extends ASTNode {
         @Override
         public String getNodeType() {
             return "FunctionCallOperator";
+        }
+
+        @Override
+        public <T> T accept(ASTVisitor<T> visitor) {
+            return visitor.visit(this);
         }
 
         @Override

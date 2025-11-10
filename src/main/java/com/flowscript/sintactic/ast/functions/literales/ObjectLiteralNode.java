@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.literales;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
@@ -53,5 +54,10 @@ public class ObjectLiteralNode extends ExpressionNode {
     public String toString() {
         int count = memberList == null ? 0 : memberList.size();
         return "ObjectLiteral with " + count + " members";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

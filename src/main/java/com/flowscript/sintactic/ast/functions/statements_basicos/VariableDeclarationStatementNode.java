@@ -1,4 +1,5 @@
 package com.flowscript.sintactic.ast.functions.statements_basicos;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
@@ -34,5 +35,10 @@ public class VariableDeclarationStatementNode extends StatementNode {
     @Override
     public String toString() {
         return "VariableDeclarationStatement(" + variableName + " = " + initializer.getNodeType() + ")";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

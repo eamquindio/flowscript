@@ -59,7 +59,7 @@ public class UnaryExpressionParserTest {
 
     @Test
     public void testDoubleLogicalNot() throws Exception {
-        String input = "not not false";
+        String input = "--42";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);

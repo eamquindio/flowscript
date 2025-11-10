@@ -26,9 +26,42 @@ import com.flowscript.sintactic.ast.functions.expresiones.RelationalExpressionNo
  */
 public class RelationalExpressionParser implements IParser<RelationalExpressionNode> {
 
+    private final AdditiveExpressionParser additiveParser;
+
+    public RelationalExpressionParser() {
+        this.additiveParser = new AdditiveExpressionParser();
+    }
+
     @Override
     public RelationalExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("RelationalExpressionParser no implementado - Tarea del estudiante");
+        // Parse first operand
+        com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode firstOperand = additiveParser.parse(context);
+
+        // Check if there are relational operators
+        if (context.getCurrentToken() == null || !isRelationalOperator(context.getCurrentToken())) {
+            // No operators, just wrap the first operand and return as-is (no simplification)
+            return new RelationalExpressionNode(firstOperand.getToken(), firstOperand);
+        }
+
+        // Create node with first operand
+        com.flowscript.lexer.Token firstToken = context.getCurrentToken();
+        RelationalExpressionNode node = new RelationalExpressionNode(firstToken, firstOperand);
+
+        // Parse operator and right operands (left-associative)
+        while (context.getCurrentToken() != null && isRelationalOperator(context.getCurrentToken())) {
+            com.flowscript.lexer.Token operator = context.consume();
+            com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode right = additiveParser.parse(context);
+            node.addOperand(operator, right);
+        }
+
+        return node;
+    }
+
+    private boolean isRelationalOperator(com.flowscript.lexer.Token token) {
+        com.flowscript.lexer.TokenType type = token.getType();
+        return type == com.flowscript.lexer.TokenType.LESS_THAN ||
+               type == com.flowscript.lexer.TokenType.GREATER_THAN ||
+               type == com.flowscript.lexer.TokenType.LESS_EQUAL ||
+               type == com.flowscript.lexer.TokenType.GREATER_EQUAL;
     }
 }

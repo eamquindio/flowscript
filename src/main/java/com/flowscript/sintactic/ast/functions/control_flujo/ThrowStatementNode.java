@@ -3,6 +3,7 @@ package com.flowscript.sintactic.ast.functions.control_flujo;
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 
 /**
  * Represents throw statements for error throwing.
@@ -23,6 +24,11 @@ public class ThrowStatementNode extends StatementNode {
     @Override
     public String getNodeType() {
         return "ThrowStatement";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

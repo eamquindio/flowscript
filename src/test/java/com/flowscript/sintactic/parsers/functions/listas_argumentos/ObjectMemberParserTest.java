@@ -4,7 +4,7 @@ import com.flowscript.lexer.Lexer;
 import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
-import com.flowscript.sintactic.ast.functions.expresiones.ObjectMemberNode;
+import com.flowscript.sintactic.ast.functions.listas_argumentos.ObjectMemberListNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ObjectMemberParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
         assertEquals("name", result.getKey());
@@ -36,15 +36,15 @@ public class ObjectMemberParserTest {
 
     @Test
     public void testStringKey() throws Exception {
-        String input = "\"first-name\": \"John\"";
+        String input = "firstName: \"John\"";
         Lexer lexer = new Lexer(input);
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertEquals("\"first-name\"", result.getKey());
+        assertEquals("firstName", result.getKey());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ObjectMemberParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
         assertNotNull(result.getValue());
@@ -67,7 +67,7 @@ public class ObjectMemberParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
         assertNotNull(result.getValue());
@@ -80,7 +80,7 @@ public class ObjectMemberParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
         assertNotNull(result.getValue());
@@ -93,7 +93,7 @@ public class ObjectMemberParserTest {
         List<Token> tokens = lexer.tokenize();
         ParserContext context = new ParserContext(tokens);
 
-        ObjectMemberNode result = parser.parse(context);
+        ObjectMemberListNode.ObjectMemberNode result = parser.parse(context);
 
         assertNotNull(result);
         assertNotNull(result.getValue());

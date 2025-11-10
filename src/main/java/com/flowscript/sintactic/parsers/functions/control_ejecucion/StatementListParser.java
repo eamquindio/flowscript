@@ -63,13 +63,41 @@ import java.util.List;
  */
 public class StatementListParser {
 
-    private final StatementParser statementParser;
+    private StatementParser statementParser;
 
     public StatementListParser() {
-        this.statementParser = new StatementParser();
+        // Lazy initialization to avoid circular dependency
+    }
+
+    private StatementParser getStatementParser() {
+        if (statementParser == null) {
+            statementParser = new StatementParser();
+        }
+        return statementParser;
     }
 
     public List<StatementNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+
+        // Parse statements until we hit a closing brace or EOF
+        while (context.getCurrentToken() != null) {
+            TokenType currentType = context.getCurrentToken().getType();
+
+            // Stop if we encounter closing brace (end of block)
+            if (currentType == TokenType.RIGHT_BRACE) {
+                break;
+            }
+
+            // Stop if we encounter end of file
+            if (currentType == TokenType.EOF) {
+                break;
+            }
+
+            // Parse the statement
+            StatementNode statement = getStatementParser().parse(context);
+            statements.add(statement);
+        }
+
+        return statements;
     }
 }

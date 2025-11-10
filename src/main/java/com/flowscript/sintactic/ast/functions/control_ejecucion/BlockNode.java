@@ -2,6 +2,7 @@ package com.flowscript.sintactic.ast.functions.control_ejecucion;
 
 import com.flowscript.sintactic.ast.functions.control_ejecucion.StatementNode;
 import com.flowscript.lexer.Token;
+import com.flowscript.semantic.visitor.ASTVisitor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,6 +29,11 @@ public class BlockNode extends StatementNode {
     @Override
     public String getNodeType() {
         return "Block";
+    }
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
