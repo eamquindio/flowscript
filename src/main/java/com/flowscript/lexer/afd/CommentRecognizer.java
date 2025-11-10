@@ -4,9 +4,10 @@ import com.flowscript.lexer.Token;
 import com.flowscript.lexer.TokenType;
 
 /**
- * AFD for recognizing single-line (#) and multi-line comments.
- * Single-line comments start with #
+ * AFD for recognizing single-line (#, //) and multi-line comments.
+ * Single-line comments start with # or //
  * Multi-line comments are enclosed between slash-star and star-slash
+ * All comments support UTF-8 characters in their content
  */
 public class CommentRecognizer implements TokenRecognizer {
 
@@ -28,20 +29,30 @@ public class CommentRecognizer implements TokenRecognizer {
 
         char firstChar = input.charAt(startPos);
 
-        // Check for single-line comment
+        // Check for single-line comment with #
         if (firstChar == '#') {
-            return recognizeSingleLineComment(input, startPos, line, column);
+            return recognizeSingleLineComment(input, startPos, line, column, '#');
         }
 
-        // Check for multi-line comment
-        if (firstChar == '/' && startPos + 1 < input.length() && input.charAt(startPos + 1) == '*') {
-            return recognizeMultiLineComment(input, startPos, line, column);
+        // Check for // or /* comments
+        if (firstChar == '/' && startPos + 1 < input.length()) {
+            char secondChar = input.charAt(startPos + 1);
+
+            // Check for single-line comment with //
+            if (secondChar == '/') {
+                return recognizeSingleLineComment(input, startPos, line, column, '/');
+            }
+
+            // Check for multi-line comment /*
+            if (secondChar == '*') {
+                return recognizeMultiLineComment(input, startPos, line, column);
+            }
         }
 
         return null;
     }
 
-    private Token recognizeSingleLineComment(String input, int startPos, int line, int column) {
+    private Token recognizeSingleLineComment(String input, int startPos, int line, int column, char startChar) {
         State currentState = State.START;
         StringBuilder lexeme = new StringBuilder();
         int currentPos = startPos;
@@ -51,10 +62,17 @@ public class CommentRecognizer implements TokenRecognizer {
 
             switch (currentState) {
                 case START:
-                    if (c == '#') {
+                    if (startChar == '#' && c == '#') {
+                        // Single # comment
                         currentState = State.SINGLE_LINE_COMMENT;
                         lexeme.append(c);
                         currentPos++;
+                    } else if (startChar == '/' && c == '/' && currentPos + 1 < input.length() &&
+                               input.charAt(currentPos + 1) == '/') {
+                        // Double // comment
+                        currentState = State.SINGLE_LINE_COMMENT;
+                        lexeme.append("//");
+                        currentPos += 2;
                     } else {
                         return null;
                     }
@@ -64,6 +82,7 @@ public class CommentRecognizer implements TokenRecognizer {
                     if (c == '\n' || c == '\r') {
                         currentState = State.ACCEPT;
                     } else {
+                        // Accept any character including UTF-8 characters
                         lexeme.append(c);
                         currentPos++;
                     }
@@ -124,6 +143,7 @@ public class CommentRecognizer implements TokenRecognizer {
                         currentLine++;
                         currentColumn = 1;
                     } else {
+                        // Accept any character including UTF-8 characters
                         lexeme.append(c);
                         currentPos++;
                         currentColumn++;

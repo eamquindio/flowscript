@@ -1,13 +1,13 @@
 // =============================================================================
-// FlowScript: Demostracion de Operaciones Especiales
+// FlowScript: Demostración de Operaciones Especiales
 // Prueba de db.ejecutar, db.consultar, http.get, http.post, http.delete
 // =============================================================================
 
-// === FUNCIONES DE INICIALIZACION ===
+// === FUNCIONES DE INICIALIZACIÓN ===
 
-funcion inicializarBaseDatos() -> nulo {
-    // Simula la inicializacion de la base de datos
-    retornar nulo
+funcion inicializarBaseDatos() -> vacio {
+    // Simula la inicialización de la base de datos
+    // No retorna nada (función void)
 }
 
 // === OPERACIONES DE BASE DE DATOS ===
@@ -43,7 +43,7 @@ funcion buscarUsuariosMayores(edadMinima: entero) -> lista {
 }
 
 funcion obtenerUsuarioPorId(userId: entero) -> objeto {
-    // Consultar un usuario especifico por ID
+    // Consultar un usuario específico por ID
     resultados = db.consultar(
         "SELECT * FROM usuarios WHERE id = ?",
         [userId]
@@ -66,7 +66,7 @@ funcion obtenerDatosAPI(endpoint: texto) -> objeto {
 }
 
 funcion obtenerDatosConAuth(endpoint: texto, token: texto) -> objeto {
-    // GET con headers de autenticacion
+    // GET con headers de autenticación
     respuesta = http.get(
         "https://api.ejemplo.com" + endpoint,
         {
@@ -103,7 +103,7 @@ funcion enviarDatosConAuth(datos: objeto, token: texto) -> objeto {
 }
 
 funcion eliminarRecurso(resourceId: entero, token: texto) -> objeto {
-    // DELETE con autenticacion
+    // DELETE con autenticación
     respuesta = http.delete(
         "https://api.ejemplo.com/recursos/" + resourceId,
         {
@@ -114,7 +114,7 @@ funcion eliminarRecurso(resourceId: entero, token: texto) -> objeto {
     retornar respuesta
 }
 
-// === FUNCION COMPLEJA: SINCRONIZACION BD <-> API ===
+// === FUNCIÓN COMPLEJA: SINCRONIZACIÓN BD <-> API ===
 
 funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
     // 1. Obtener usuario de la base de datos local
@@ -144,18 +144,18 @@ funcion sincronizarUsuarioConAPI(userId: entero, apiToken: texto) -> objeto {
     retornar respuestaAPI
 }
 
-// === FUNCION DE DEMOSTRACION COMPLETA ===
+// === FUNCIÓN DE DEMOSTRACIÓN COMPLETA ===
 
 funcion demostracionCompleta() -> objeto {
     // DATABASE OPERATIONS
     filas1 = db.ejecutar(
         "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
-        ["Juan Perez", "juan@example.com", 25]
+        ["Juan Pérez", "juan@example.com", 25]
     )
 
     filas2 = db.ejecutar(
         "INSERT INTO usuarios (nombre, email, edad) VALUES (?, ?, ?)",
-        ["Maria Garcia", "maria@example.com", 30]
+        ["María García", "maria@example.com", 30]
     )
 
     usuarios = db.consultar(
