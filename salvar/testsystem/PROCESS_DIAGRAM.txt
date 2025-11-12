@@ -1,0 +1,176 @@
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║                   DIAGRAMA DEL PROCESO: ProcesarOrden                             ║
+║                   Sistema de Procesamiento de Órdenes                             ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝
+
+                                    ┌─────────┐
+                                    │ INICIO  │
+                                    └────┬────┘
+                                         │
+                                         ▼
+                        ╔════════════════════════════════╗
+                        ║ TAREA 1: validar_entrada       ║
+                        ║                                ║
+                        ║ - Validar campos requeridos    ║
+                        ║ - Verificar datos no vacíos    ║
+                        ║ - Validar monto > 0            ║
+                        ╚════════════════┬═══════════════╝
+                                         │
+                                         ▼
+                        ╔════════════════════════════════╗
+                        ║ GATEWAY: gateway_validacion    ║
+                        ╚════════════════┬═══════════════╝
+                                         │
+                     ┌───────────────────┼───────────────────┐
+                     │                   │                   │
+              [estado_validacion    [estado_validacion      │
+               == "invalido"]        == "valido"]           │
+                     │                   │                   │
+                     ▼                   ▼                   │
+           ┌──────────────────┐  ╔════════════════════════════════╗
+           │ fin_error_       │  ║ TAREA 2: verificar_capacidad   ║
+           │ validacion       │  ║                                ║
+           │                  │  ║ HTTP POST: /check-capacity     ║
+           │ Código salida: 1 │  ║ - Consultar crédito disponible ║
+           └────────┬─────────┘  ║ - Comparar con monto solicitado║
+                    │            ╚════════════════┬═══════════════╝
+                    │                             │
+                    │                             ▼
+                    │            ╔════════════════════════════════╗
+                    │            ║ GATEWAY: gateway_capacidad     ║
+                    │            ╚════════════════┬═══════════════╝
+                    │                             │
+                    │         ┌───────────────────┼───────────────────┐
+                    │         │                   │                   │
+                    │  [tiene_capacidad    [tiene_capacidad          │
+                    │   == falso]           == verdadero]            │
+                    │         │                   │                   │
+                    │         ▼                   ▼                   │
+                    │  ┌──────────────────┐  ╔════════════════════════════════╗
+                    │  │ fin_sin_         │  ║ TAREA 3: registrar_pago_tarea  ║
+                    │  │ capacidad        │  ║                                ║
+                    │  │                  │  ║ HTTP POST: /register           ║
+                    │  │ Código salida: 2 │  ║ - 3 reintentos automáticos     ║
+                    │  └────────┬─────────┘  ║ - Maneja 10% de fallos         ║
+                    │           │            ╚════════════════┬═══════════════╝
+                    │           │                             │
+                    │           │                             ▼
+                    │           │            ╔════════════════════════════════╗
+                    │           │            ║ GATEWAY: gateway_pago          ║
+                    │           │            ╚════════════════┬═══════════════╝
+                    │           │                             │
+                    │           │         ┌───────────────────┼───────────────────┐
+                    │           │         │                   │                   │
+                    │           │  [pago_exitoso      [pago_exitoso              │
+                    │           │   == falso]          == verdadero]             │
+                    │           │         │                   │                   │
+                    │           │         ▼                   ▼                   │
+                    │           │  ┌──────────────────┐  ╔════════════════════════════════╗
+                    │           │  │ fin_pago_        │  ║ TAREA 4: calcular_envio        ║
+                    │           │  │ fallido          │  ║                                ║
+                    │           │  │                  │  ║ HTTP POST: /calculate-cost     ║
+                    │           │  │ Código salida: 3 │  ║ - Calcular por tamaño + ciudad ║
+                    │           │  └────────┬─────────┘  ║ - Aplicar recargo por peso     ║
+                    │           │           │            ╚════════════════┬═══════════════╝
+                    │           │           │                             │
+                    │           │           │                             ▼
+                    │           │           │            ╔════════════════════════════════╗
+                    │           │           │            ║ GATEWAY: gateway_calculo       ║
+                    │           │           │            ╚════════════════┬═══════════════╝
+                    │           │           │                             │
+                    │           │           │         ┌───────────────────┼───────────────┐
+                    │           │           │         │                   │               │
+                    │           │           │  [calculo_exitoso   [calculo_exitoso       │
+                    │           │           │   == falso]          == verdadero]         │
+                    │           │           │         │                   │               │
+                    │           │           │         ▼                   ▼               │
+                    │           │           │  ┌──────────────────┐  ╔══════════════════════════╗
+                    │           │           │  │ fin_error_       │  ║ TAREA 5: crear_envio     ║
+                    │           │           │  │ envio            │  ║                          ║
+                    │           │           │  │                  │  ║ HTTP POST: /send-package ║
+                    │           │           │  │ Código salida: 4 │  ║ - Crear envío            ║
+                    │           │           │  └────────┬─────────┘  ║ - Generar tracking       ║
+                    │           │           │           │            ╚═════════════┬════════════╝
+                    │           │           │           │                          │
+                    │           │           │           │                          ▼
+                    │           │           │           │            ╔═════════════════════════╗
+                    │           │           │           │            ║ GATEWAY: gateway_envio  ║
+                    │           │           │           │            ╚═════════════┬═══════════╝
+                    │           │           │           │                          │
+                    │           │           │           │      ┌───────────────────┼──────────┐
+                    │           │           │           │      │                   │          │
+                    │           │           │           │ [envio_exitoso    [envio_exitoso   │
+                    │           │           │           │  == falso]         == verdadero]   │
+                    │           │           │           │      │                   │          │
+                    │           │           │           │      ▼                   ▼          │
+                    │           │           │           │   (mismo fin_error_   ╔══════════════════════════╗
+                    │           │           │           │    envio de arriba)   ║ TAREA 6: guardar_orden   ║
+                    │           │           │           │                       ║                          ║
+                    │           │           │           │                       ║ SQL INSERT               ║
+                    │           │           │           │                       ║ - Guardar en orders_db   ║
+                    │           │           │           │                       ║ - Crear registro completo║
+                    │           │           │           │                       ╚═════════════┬════════════╝
+                    │           │           │           │                                     │
+                    │           │           │           │                                     ▼
+                    │           │           │           │                       ╔═════════════════════════╗
+                    │           │           │           │                       ║ GATEWAY: gateway_guardado║
+                    │           │           │           │                       ╚═════════════┬═══════════╝
+                    │           │           │           │                                     │
+                    │           │           │           │               ┌─────────────────────┼──────────┐
+                    │           │           │           │               │                     │          │
+                    │           │           │           │        [guardado_exitoso    [guardado_exitoso  │
+                    │           │           │           │         == falso]            == verdadero]     │
+                    │           │           │           │               │                     │          │
+                    │           │           │           │               ▼                     ▼          │
+                    │           │           │           │        ┌──────────────────┐  ┌──────────────┐ │
+                    │           │           │           │        │ fin_error_bd     │  │ fin_exitoso  │ │
+                    │           │           │           │        │                  │  │              │ │
+                    │           │           │           │        │ Código salida: 5 │  │ Código: 0    │ │
+                    │           │           │           │        └────────┬─────────┘  └──────┬───────┘ │
+                    │           │           │           │                 │                   │         │
+                    │           │           │           │                 │                   │         │
+                    └───────────┴───────────┴───────────┴─────────────────┴───────────────────┴─────────┘
+                                                         │
+                                                         ▼
+                                                   ┌─────────┐
+                                                   │   FIN   │
+                                                   └─────────┘
+
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║                          CÓDIGOS DE SALIDA                                        ║
+╠═══════════════════════════════════════════════════════════════════════════════════╣
+║  0  │  Éxito completo - Orden procesada                                           ║
+║  1  │  Error de validación - Datos de entrada inválidos                           ║
+║  2  │  Sin capacidad - Tarjeta no tiene crédito suficiente                        ║
+║  3  │  Pago fallido - No se pudo procesar el pago (después de 3 reintentos)       ║
+║  4  │  Error de envío - Problema con el servicio de envío                         ║
+║  5  │  Error de BD - No se pudo guardar la orden en la base de datos              ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝
+
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║                          INTEGRACIONES HTTP                                       ║
+╠═══════════════════════════════════════════════════════════════════════════════════╣
+║  Payment Service (http://localhost:3001)                                          ║
+║    • POST /api/payments/check-capacity   - Verificar capacidad                   ║
+║    • POST /api/payments/register         - Registrar pago (10% fallo)            ║
+║                                                                                   ║
+║  Shipping Service (http://localhost:3002)                                         ║
+║    • POST /api/shipping/calculate-cost   - Calcular costo envío                  ║
+║    • POST /api/shipping/send-package     - Crear envío y tracking                ║
+║                                                                                   ║
+║  Database (PostgreSQL)                                                            ║
+║    • orders_db                           - Guardar orden completa                ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝
+
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║                          CARACTERÍSTICAS ESPECIALES                               ║
+╠═══════════════════════════════════════════════════════════════════════════════════╣
+║  ✓  Reintentos automáticos en pago (hasta 3 intentos)                            ║
+║  ✓  Validación exhaustiva de datos en cada etapa                                 ║
+║  ✓  Manejo robusto de errores con códigos específicos                            ║
+║  ✓  Logging detallado de cada paso del proceso                                   ║
+║  ✓  Enmascaramiento de números de tarjeta                                        ║
+║  ✓  Cálculo dinámico de costos de envío                                          ║
+║  ✓  Persistencia completa en base de datos                                       ║
+║  ✓  Generación automática de número de tracking                                  ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝

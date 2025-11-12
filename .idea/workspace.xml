@@ -5,10 +5,324 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab16d8e0-54a1-4e8c-b58c-d620b696ee4d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/salvar/FLOWSCRIPT_SIMPLIFIED_SPEC.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/PROCESS_DIAGRAM.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/db-init/01-init-payments-db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/db-init/02-init-shipping-db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/db-init/03-init-orders-db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/order_processing_system.fls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/payment-service/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/payment-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/payment-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/payment-service/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/payment-service/server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/shipping-service/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/shipping-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/shipping-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/shipping-service/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salvar/testsystem/shipping-service/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/FunctionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/FunctionGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ProcessGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ProcessGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/StatementGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/StatementGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BUG_FIXES_REPORT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CODEGEN_IMPLEMENTATION_PROGRESS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CODEGEN_SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CODE_GENERATOR_DESIGN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CODE_GENERATOR_SIMPLE_DESIGN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COMPILATION_REPORT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EJEMPLO_MEJORADO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GENERADOR_CODIGO_ESTADO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GENERADOR_CODIGO_FINAL.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_STATUS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JAVA_CODE_EXECUTOR.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JAVA_CODE_TAB_FEATURE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PARSER_IMPLEMENTATION_GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README-TokenAnalysis.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_TRANSPILADOR.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPORTE_TESTS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RESULTADOS_FINALES.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RUN_IDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SEMANTIC_ANALYSIS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SEMANTIC_ANALYZER_SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SEMANTIC_IMPLEMENTATION_REPORT.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SESION_BUG_FIX.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SESION_COMPLETADA.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISTEMA_COMPLETO_DOCUMENTACION.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TRABAJO_COMPLETADO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UTF8_SUPPORT_IMPLEMENTATION.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example-flowscript.flow" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/order_processing_system.fls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/order_processing_system_simple.fls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/special_operations_demo.fls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flowscript (1).pdf" beforeDir="false" afterPath="$PROJECT_DIR$/salvar/flowscript (1).pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/FlowScriptTranspiler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/CodeGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/JavaCodeExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/JavaEmitter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/TypeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ExpressionGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/FunctionGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/ProcessGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/generators/StatementGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/helpers/DbHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/codegen/helpers/HttpHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/examples/JavaCodeExecutorExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/FlowScriptIDE.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/ASTTreePane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/CodeEditorPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/ConsolePane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/IconFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/JavaCodePane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/ProjectExplorer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/StatusBar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/TokenTablePane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/components/TranspilationResultPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/services/ProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/services/ThemeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/ide/syntax/FlowScriptSyntaxHighlighter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/ComprehensiveDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/Lexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/LexerDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/TokenType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/CommentRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/DecimalLiteralRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/IdentifierRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/IntegerLiteralRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/KeywordRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/OperatorRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/StringLiteralRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/lexer/afd/TokenRecognizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/runtime/FlowScriptBuiltins.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/runtime/FlowScriptRuntime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/analyzer/AnalysisContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/analyzer/SemanticAnalyzer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/checker/Operator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/checker/TypeChecker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/checker/TypeInferenceVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/errors/ErrorCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/errors/SemanticAnalysisResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/errors/SemanticError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/errors/SemanticIssue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/errors/SemanticWarning.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/functions/FunctionSymbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/functions/FunctionTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/functions/ModuleSymbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/functions/Parameter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/processes/ProcessSymbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/processes/ProcessTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/symbols/Scope.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/symbols/ScopeType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/symbols/Symbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/symbols/SymbolTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/symbols/VariableSymbol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/types/Type.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/semantic/visitor/ASTVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/IParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/Parser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ParserContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ParserExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/ASTNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_ejecucion/BlockNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_ejecucion/StatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/BreakStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/ContinueStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/ForRangeStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/ForStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/IfStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/ReturnStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/ThrowStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/TryStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/control_flujo/WhileStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/AdditiveExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/ArgumentListNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/BinaryExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/DbExecuteNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/DbQueryNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/EqualityExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/ExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/FunctionCallNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/HttpDeleteNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/HttpGetNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/HttpPostNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/IdentifierNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/IndexAccessNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalAndExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/LogicalOrExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/MultiplicativeExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/ObjectMemberNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PostfixExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PostfixOperatorNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PrimaryExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/PropertyAccessNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/RelationalExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/TernaryExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/expresiones/UnaryExpressionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/listas_argumentos/ExpressionListNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/listas_argumentos/ObjectMemberListNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/BooleanLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/DecimalLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/IntegerLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/ListLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/NullLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/ObjectLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/literales/StringLiteralNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/programa_declaraciones/DeclarationNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/programa_declaraciones/FunctionDeclarationNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/programa_declaraciones/ImportDeclarationNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/programa_declaraciones/ProgramNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/programa_declaraciones/VariableDeclarationNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/statements_basicos/ElseIfClauseNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/statements_basicos/ExpressionStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/statements_basicos/VariableDeclarationStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/tipos_parametros/ParameterNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/tipos_parametros/TypeNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/ElseClauseNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/JoinClauseNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/ParallelBranchNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/clausulas_control/WhenClauseNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/EndElementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ExclusiveGatewayNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ParallelGatewayNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ProcessDeclarationNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/ProcessElementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/StartElementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/estructura_principal/TaskElementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/process/navegacion/GotoStatementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/diagram.md" beforeDir="false" afterPath="$PROJECT_DIR$/salvar/diagram.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/BreakStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ContinueStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ForStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ReturnStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/ThrowStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/TryStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/control_flujo/WhileStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/AdditiveExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/EqualityExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/MultiplicativeExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/PostfixExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/PostfixOperatorParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/PrimaryExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/RelationalExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/SpecialOperationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/TernaryExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/expresiones/UnaryExpressionParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ArgumentListParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ExpressionListParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberListParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/BooleanLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/DecimalLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/IntegerLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/ListLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/LiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/NullLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/ObjectLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/literales/StringLiteralParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/DeclarationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ImportDeclarationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ProgramParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterListParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/TypeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/FlowScriptTranspilerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/codegen/CodeGeneratorIntegrationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/codegen/JavaCodeExecutorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/codegen/JavaEmitterTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/codegen/TypeMapperTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/codegen/generators/ExpressionGeneratorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/ide/components/TokenTablePaneTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/lexer/LexerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/semantic/SemanticAnalyzerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/semantic/SymbolTableTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/semantic/TypeCheckerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/FlowScriptComprehensiveIntegrationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/FlowScriptIntegrationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/FlowScriptSemanticIntegrationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/FlowScriptUltraIntegrationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/BlockParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementListParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_ejecucion/StatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/BreakStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/ContinueStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/ForRangeStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/ForStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/IfStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/ReturnStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/ThrowStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/TryStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/control_flujo/WhileStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/AdditiveExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/EqualityExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/ExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalAndExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/LogicalOrExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/MultiplicativeExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/PostfixExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/PostfixOperatorParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/PrimaryExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/RelationalExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/TernaryExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/expresiones/UnaryExpressionParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ArgumentListParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ExpressionListParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberListParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/listas_argumentos/ObjectMemberParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/BooleanLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/DecimalLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/IntegerLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/ListLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/LiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/NullLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/ObjectLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/literales/StringLiteralParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/DeclarationParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/FunctionDeclarationParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ImportDeclarationParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/programa_declaraciones/ProgramParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/statements_basicos/ExpressionStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/statements_basicos/VariableDeclarationStatementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterListParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/ParameterParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/functions/tipos_parametros/TypeParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/clausulas_control/ElseClauseParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/clausulas_control/JoinClauseParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/clausulas_control/ParallelBranchParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/clausulas_control/WhenClauseParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/control_flujo/ExclusiveGatewayParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/control_flujo/ParallelGatewayParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_core/EndElementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_core/StartElementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/elementos_trabajo/TaskElementParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessBodyParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/estructura_principal/ProcessDeclarationParserTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/flowscript/sintactic/parsers/process/navegacion/GotoStatementParserTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,10 +371,13 @@
     "JUnit.com.flowscript.sintactic.parsers in flowscript.executor": "Run",
     "JUnit.com.flowscript.sintactic.parsers.functions in flowscript.executor": "Run",
     "JUnit.edu.eam.ingesoft.tlf.tester in flowscript.executor": "Run",
+    "JUnit.flowscript in flowscript.executor": "Run",
+    "JUnit.java in flowscript.executor": "Run",
     "Maven. [test].executor": "Run",
     "Maven.flowscript [clean].executor": "Run",
     "Maven.flowscript [compile].executor": "Run",
     "Maven.flowscript [install].executor": "Run",
+    "Maven.flowscript [javafx:run].executor": "Debug",
     "Maven.flowscript [org.apache.maven.plugins:maven-assembly-plugin:3.6.0:single].executor": "Run",
     "Maven.flowscript [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
     "Maven.flowscript [test].executor": "Run",
@@ -69,8 +386,8 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/src/main/java/com/flowscript/sintactic"
+    "git-widget-placeholder": "simplificado",
+    "last_opened_file_path": "/Users/caferrerb/IdeaProjects/flowscript/salvar"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -78,7 +395,7 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/flowscript/sintactic" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FlowScriptIDE">
+  <component name="RunManager" selected="Maven.flowscript [javafx:run]">
     <configuration name="FlowScriptIDE" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.flowscript.ide.FlowScriptIDE" />
       <module name="flowscript" />
@@ -88,37 +405,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FlowScriptUltraIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.flowscript.sintactic.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.flowscript.sintactic" />
-      <option name="MAIN_CLASS_NAME" value="com.flowscript.sintactic.FlowScriptUltraIntegrationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="codegen in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="flowscript" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/com/flowscript/codegen" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -137,13 +423,59 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="flowscript in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/com/flowscript" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="java in flowscript" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="flowscript" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="flowscript [javafx:run]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="javafx:run" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.FlowScriptIDE" />
-        <item itemvalue="JUnit.codegen in flowscript" />
-        <item itemvalue="JUnit.FlowScriptUltraIntegrationTest" />
+        <item itemvalue="Maven.flowscript [javafx:run]" />
+        <item itemvalue="JUnit.java in flowscript" />
+        <item itemvalue="JUnit.flowscript in flowscript" />
         <item itemvalue="JUnit.com.flowscript in flowscript" />
-        <item itemvalue="JUnit.All in flowscript" />
+        <item itemvalue="Application.FlowScriptIDE" />
       </list>
     </recent_temporary>
   </component>
@@ -156,5 +488,26 @@
       <updated>1757220056610</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/listas_argumentos/ObjectMemberListNode.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/flowscript/sintactic/ast/functions/listas_argumentos/ObjectMemberListNode.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/flowscript/codegen/JavaCodeExecutor.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
