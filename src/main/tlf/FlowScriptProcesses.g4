@@ -1,246 +1,254 @@
-grammar FlowScriptProcesses;
+    grammar FlowScriptProcesses;
 
-// Package declaration for generated code
-@header {
-    package edu.eam.ingesoft.tlf;
-}
+    // Package declaration for generated code
+    @header {
+        package edu.eam.ingesoft.tlf;
+    }
 
-/*
- * GRAMÁTICA DE PROCESOS PARA FLOWSCRIPT
- * 
- * Este archivo define la gramática completa para el sistema de procesos
- * y estructura del programa principal de FlowScript, incluyendo:
- * - Estructura del programa (imports, declaraciones)
- * - Declaración de procesos
- * - Nodos del proceso (start, task, end, gateway)
- * - Gateways exclusivos y paralelos
- * - Control de flujo con goto
- * - Variables globales y contexto del proceso
- */
+    /*
+     * GRAMÁTICA DE PROCESOS PARA FLOWSCRIPT
+     *
+     * Este archivo define la gramática completa para el sistema de procesos
+     * y estructura del programa principal de FlowScript, incluyendo:
+     * - Estructura del programa (imports, declaraciones)
+     * - Declaración de procesos
+     * - Nodos del proceso (start, task, end, gateway)
+     * - Gateways exclusivos y paralelos
+     * - Control de flujo con goto
+     * - Variables globales y contexto del proceso
+     */
 
-// ============================
-// LEXER RULES (TOKENS)
-// ============================
-
-// Palabras clave de estructura
+    // ============================
+    // LEXER RULES (TOKENS)
+    // ============================
 
 
-// ============================
-// PARSER RULES
-// ============================
+    PROCESO       : 'process';
+    FUNCION  : 'function';
+    IMPORTAR : 'import';
+    IMPORTAR_JAR: 'import_jar';
+    COMO: 'as';
+    RETORNAR: 'return';
 
-// ============================
-// ESTRUCTURA DEL PROGRAMA
-// ============================
+    INICIO : 'start';
+    FIN    : 'end';
+    TAREA: 'task';
+    PASARELA : 'gateway';
+    IR_A   : 'go_to';
+    CUANDO : 'when';
+    RAMA : 'branch';
+    UNIR  : 'join';
+    SINO   : 'else';
+    PARALELO: 'parallel';
+    ACCION  : 'action';
 
-program
-    : EOF
-    ;
+    SI : 'if';
+    SINO_SI    : 'else_if';
+    INTENTAR   : 'try';
+    CAPTURAR : 'catch';
+    LANSAR   : 'throw';
+    MIENTRAS  : 'while';
+    PARA     : 'for';
+    CADA       : 'each';
+    EN     : 'in';
+    DESDE    : 'from';
+    HASTA     : 'to';
+    PASO      : 'step';
+    ROMPER    : 'break';
+    CONTINUAR   : 'continue';
+
+    ENTERO: 'integer';
+    DECIMAL    : 'decimal';
+    BOOLEANO  : 'boolean';
+    TEXTO   : 'text';
+    LISTA    : 'list';
+    OBJETO  : 'object';
+    VACIO  : 'void';
+
+    NULO  : 'null';
+    VERDADERO : 'true';
+    FALSO  : 'false';
+
+    Y   : 'and';
+    O  : 'or';
+    NO  : 'not';
+
+    MAS  : '+';
+    MENOS : '-';
+    MULTIPLICAR: '*';
+    DIVIDIR : '/';
+    MODULO : '%';
+
+    MENOR_IGUA: '<=';
+    MAYOR_IGUAL : '>=';
+    IGUAL   : '==';
+    DISTINTO : '!=';
+    MENOR   : '<';
+    MAYOR : '>';
+
+    ASIGNAR : '=';
+    PREGUNTA : '?';
+    PUNTO      : '.';
+
+    PARENTESIS_IZQ : '(';
+    PARENTESIS_DER : ')';
+    LLAVE_IZQ : '{';
+    LLAVE_DER  : '}';
+    CORCHETE_IZQ  : '[';
+    CORCHETE_DER   : ']';
+    COMA  : ',';
+    PUNTO_Y_COMA   : ';';
+    DOS_PUNTOS : ':';
+    FLECHA  : '->';
+
+    ENTERO_LITERAL: [0-9]+;
+    DECIMAL_LITERAL: [0-9]+ '.' [0-9]+;
+    CADENA_LITERAL: '"' ( '\\' . | ~["\\] )* '"';
 
 
-// ============================
-// EJEMPLOS DE USO
-// ============================
+    IDENTIFICADOR : [a-zA-ZáéíóúÁÉÍÓÚñÑ_][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_]*;
+    ENTRADA : 'input';
 
-/*
- * PROGRAMA COMPLETO CON PROCESOS:
- * 
- * import "std/http" as http
- * import "std/db" as db
- * import_jar "libs/utils.jar" as utils
- * 
- * # Variable global
- * MAX_RETRIES = 3
- * 
- * # Función auxiliar
- * function validate_email(email: text) -> boolean {
- *     return email.contains("@") and email.length() > 5
- * }
- * 
- * # Proceso principal
- * process OrderValidation {
- *     start -> CheckInput
- *     
- *     task CheckInput {
- *         action:
- *             if input.customer_id == null {
- *                 error_message = "Customer ID required"
- *                 goto ValidationError
- *             }
- *             
- *             if not validate_email(input.email) {
- *                 error_message = "Invalid email"
- *                 goto ValidationError
- *             }
- *             
- *             goto CheckInventory
- *     }
- *     
- *     task CheckInventory {
- *         action:
- *             items_available = true
- *             
- *             for each item in input.items {
- *                 stock = db.get("inventory", item.id)
- *                 if stock.quantity < item.quantity {
- *                     items_available = false
- *                 }
- *             }
- *             
- *             gateway InventoryDecision {
- *                 when items_available -> ProcessPayment
- *                 else -> InsufficientStock
- *             }
- *     }
- *     
- *     task ProcessPayment {
- *         action:
- *             try {
- *                 payment_result = http.post("https://api.payment.com/charge", {
- *                     amount: input.total,
- *                     card: input.payment_info
- *                 })
- *                 
- *                 if payment_result.success {
- *                     order_id = db.insert("orders", {
- *                         customer_id: input.customer_id,
- *                         items: input.items,
- *                         total: input.total,
- *                         status: "paid"
- *                     })
- *                     goto PrepareShipping
- *                 } else {
- *                     goto PaymentFailed
- *                 }
- *             } catch (error) {
- *                 log_error(error)
- *                 goto PaymentFailed
- *             }
- *     }
- *     
- *     # Gateway paralelo para preparar envío y notificar
- *     gateway PrepareShipping parallel {
- *         branch -> UpdateInventory
- *         branch -> NotifyCustomer
- *         branch -> CreateShipment
- *         join -> FinalizeOrder
- *     }
- *     
- *     task UpdateInventory {
- *         action:
- *             for each item in input.items {
- *                 db.execute(
- *                     "UPDATE inventory SET quantity = quantity - ? WHERE id = ?",
- *                     [item.quantity, item.id]
- *                 )
- *             }
- *             goto InventoryUpdated
- *     }
- *     
- *     task NotifyCustomer {
- *         action:
- *             utils.EmailService.send(
- *                 input.email,
- *                 "Order Confirmation",
- *                 "Your order has been confirmed and is being prepared."
- *             )
- *             goto CustomerNotified
- *     }
- *     
- *     task CreateShipment {
- *         action:
- *             shipment = http.post("https://api.shipping.com/create", {
- *                 address: input.shipping_address,
- *                 items: input.items
- *             })
- *             tracking_number = shipment.tracking_number
- *             goto ShipmentCreated
- *     }
- *     
- *     task FinalizeOrder {
- *         action:
- *             db.execute(
- *                 "UPDATE orders SET tracking_number = ?, status = ? WHERE id = ?",
- *                 [tracking_number, "shipped", order_id]
- *             )
- *             goto Success
- *     }
- *     
- *     task ValidationError {
- *         action:
- *             response = { success: false, message: error_message }
- *             goto Error
- *     }
- *     
- *     task InsufficientStock {
- *         action:
- *             response = { success: false, message: "Insufficient stock" }
- *             goto Error
- *     }
- *     
- *     task PaymentFailed {
- *         action:
- *             response = { success: false, message: "Payment failed" }
- *             goto Error
- *     }
- *     
- *     end InventoryUpdated
- *     end CustomerNotified
- *     end ShipmentCreated
- *     end Success
- *     end Error
- * }
- * 
- * # Proceso con gateway exclusivo
- * process ApprovalWorkflow {
- *     start -> EvaluateAmount
- *     
- *     task EvaluateAmount {
- *         action:
- *             gateway ApprovalLevel {
- *                 when input.amount > 10000 -> RequireCEOApproval
- *                 when input.amount > 5000 -> RequireManagerApproval
- *                 when input.amount > 1000 -> RequireSupervisorApproval
- *                 else -> AutoApprove
- *             }
- *     }
- *     
- *     task RequireCEOApproval {
- *         action:
- *             send_approval_request("ceo@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireManagerApproval {
- *         action:
- *             send_approval_request("manager@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task RequireSupervisorApproval {
- *         action:
- *             send_approval_request("supervisor@company.com", input)
- *             goto WaitingApproval
- *     }
- *     
- *     task AutoApprove {
- *         action:
- *             update_status(input.id, "approved")
- *             goto Approved
- *     }
- *     
- *     task WaitingApproval {
- *         action:
- *             # En un caso real, esto esperaría una respuesta asíncrona
- *             approval_result = wait_for_approval(input.id)
- *             if approval_result.approved {
- *                 goto Approved
- *             } else {
- *                 goto Rejected
- *             }
- *     }
- *     
- *     end Approved
- *     end Rejected
- * }
- */
+    LINEA_COMENTARIO : '//' ~[\r\n]*  -> skip ;
+    BLOQUE_COMENTARIO : '/*' .*? '*/' -> skip ;
+    HASH_COMENTARIO : '#'  ~[\r\n]*  -> skip ;
+    ESPACIO  : [ \t\r\n]+     -> skip ;
+
+    // ============================
+    // PARSER RULES
+    // ============================
+
+    program
+        : ( declaracionImportar| declaracionImportarJar|variableGlobal| declaracionFuncion| declaracionProceso
+          )* EOF
+        ;
+
+    declaracionImportar
+        : IMPORTAR CADENA_LITERAL (COMO IDENTIFICADOR)? PUNTO_Y_COMA?;
+
+    declaracionImportarJar
+       : IMPORTAR_JAR CADENA_LITERAL COMO IDENTIFICADOR PUNTO_Y_COMA?;
+
+    variableGlobal
+       : IDENTIFICADOR ASIGNAR valorGlobal PUNTO_Y_COMA?;
+
+    valorGlobal
+        : ENTERO_LITERAL | DECIMAL_LITERAL| CADENA_LITERAL| VERDADERO| FALSO | NULO
+        | IDENTIFICADOR;
+
+    declaracionFuncion
+        : FUNCION IDENTIFICADOR PARENTESIS_IZQ listaParametros? PARENTESIS_DER FLECHA tipo
+      LLAVE_IZQ cuerpoFuncion LLAVE_DER;
+
+    listaParametros
+        : parametro (COMA parametro)*;
+
+    parametro
+       :IDENTIFICADOR DOS_PUNTOS tipo;
+
+    tipo
+        : ENTERO| DECIMAL| BOOLEANO| TEXTO| LISTA
+        | OBJETO| VACIO;
+
+    cuerpoFuncion
+        : ( ~LLAVE_DER )*;
+
+    declaracionProceso
+        : PROCESO IDENTIFICADOR LLAVE_IZQ cuerpoProceso LLAVE_DER;
+
+    cuerpoProceso
+        : elementoInicio (elementoTarea | pasarelaExclusiva |pasarelaParalela)* elementoFin+;
+
+    elementoProceso
+        : elementoInicio| elementoTarea| pasarelaExclusiva| pasarelaParalela| elementoFin ;
+
+    elementoInicio
+        : INICIO FLECHA IDENTIFICADOR PUNTO_Y_COMA?       ;
+
+    elementoFin
+        : FIN IDENTIFICADOR PUNTO_Y_COMA? ;
+
+    elementoTarea
+        : TAREA IDENTIFICADOR LLAVE_IZQ ACCION DOS_PUNTOS itemsAccion LLAVE_DER;
+
+    itemsAccion
+        : sentencia*;
+
+    sentencia
+        : irA| siSino
+    | intentarCapturar| paraCada| pasarelaExclusiva| pasarelaParalela| asignacion| expresionStmt;
+
+    irA
+        : IR_A IDENTIFICADOR PUNTO_Y_COMA?;
+
+    asignacion
+        : lvalue ASIGNAR expresion PUNTO_Y_COMA?;
+
+    lvalue
+        : IDENTIFICADOR (PUNTO IDENTIFICADOR | CORCHETE_IZQ expresion CORCHETE_DER)*;
+
+    expresionStmt
+        : expresion PUNTO_Y_COMA?;
+
+    siSino
+       : SI expresion bloque (SINO_SI expresion bloque)* (SINO bloque)?;
+
+    intentarCapturar
+        : INTENTAR bloque
+          CAPTURAR PARENTESIS_IZQ IDENTIFICADOR PARENTESIS_DER bloque;
+
+    paraCada
+        : PARA CADA IDENTIFICADOR EN expresion bloque;
+
+    bloque
+        : LLAVE_IZQ sentencia* LLAVE_DER;
+
+    pasarelaExclusiva
+        : PASARELA IDENTIFICADOR LLAVE_IZQ cuando+ sino? LLAVE_DER;
+
+    cuando
+        : CUANDO expresion FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
+
+    sino
+        : SINO FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
+
+    pasarelaParalela
+    : PASARELA IDENTIFICADOR PARALELO LLAVE_IZQ ramaParalela+ unirRama LLAVE_DER;
+
+    ramaParalela
+        : RAMA FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
+
+    unirRama
+      : UNIR FLECHA IDENTIFICADOR PUNTO_Y_COMA?;
+
+    expresion
+        : expresion PREGUNTA expresion DOS_PUNTOS expresion| expresion O expresion| expresion Y expresion
+        | expresion (IGUAL | DISTINTO) expresion| expresion (MENOR | MENOR_IGUA | MAYOR | MAYOR_IGUAL) expresion
+        | expresion (MAS | MENOS) expresion| expresion (MULTIPLICAR | DIVIDIR | MODULO) expresion
+        | NO expresion| MENOS expresion
+        | postfixExpr;
+
+    postfixExpr
+        : primario ( PUNTO IDENTIFICADOR| CORCHETE_IZQ expresion CORCHETE_DER
+    | PARENTESIS_IZQ listaArgumentos? PARENTESIS_DER)*;
+
+    primario
+        : literal
+        | ENTRADA| IDENTIFICADOR| PARENTESIS_IZQ expresion PARENTESIS_DER| objetoLiteral
+    |listaLiteral;
+
+    listaArgumentos
+        : expresion (COMA expresion)*;
+
+    literal
+        : ENTERO_LITERAL
+    | DECIMAL_LITERAL| CADENA_LITERAL| VERDADERO| FALSO| NULO;
+
+    objetoLiteral
+        : LLAVE_IZQ (campoObjeto (COMA campoObjeto)*)? LLAVE_DER;
+
+    campoObjeto
+        : (IDENTIFICADOR | CADENA_LITERAL) DOS_PUNTOS expresion;
+
+    listaLiteral
+        : CORCHETE_IZQ (expresion (COMA expresion)*)? CORCHETE_DER;

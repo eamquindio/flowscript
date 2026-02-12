@@ -126,7 +126,41 @@ public class ProcessDeclarationParser implements IParser<ProcessDeclarationNode>
 
     @Override
     public ProcessDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        // Consume 'process' o 'proceso'
-       return null;
+        // --- 1️⃣ Verificar palabra clave ---
+        Token processToken = context.getCurrentToken();
+        if (processToken == null) {
+            throw new Parser.ParseException("Unexpected end of file while expecting 'process' or 'proceso'.");
+        }
+
+        String keyword = processToken.getValue();
+        if (!keyword.equalsIgnoreCase("process") && !keyword.equalsIgnoreCase("proceso")) {
+            throw new Parser.ParseException(
+                    "Expected 'process' or 'proceso' but found '" + keyword +
+                            "' at line " + processToken.getLine()
+            );
+        }
+        context.consume();
+
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String processName = nameToken.getValue();
+
+
+        context.consume(TokenType.LEFT_BRACE);
+
+
+        List<ASTNode> processElements = bodyParser.parse(context);
+        if (processElements == null) {
+            throw new Parser.ParseException(
+                    "Process body could not be parsed for process '" + processName +
+                            "' at line " + nameToken.getLine()
+            );
+        }
+
+
+        context.consume(TokenType.RIGHT_BRACE);
+
+
+        return new ProcessDeclarationNode(processToken, processName, processElements);
     }
 }

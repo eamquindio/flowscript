@@ -28,7 +28,6 @@ import java.util.List;
  *
  * <h3>Ejemplos:</h3>
  * <pre>
- * // Gateway exclusivo básico
  * gateway DecisionMonto {
  *     when entrada.monto > 10000 -> RequiereAprobacionGerente
  *     when entrada.monto > 1000 -> RequiereAprobacionSupervisor
@@ -50,7 +49,36 @@ public class ExclusiveGatewayParser implements IParser<ExclusiveGatewayNode> {
 
     @Override
     public ExclusiveGatewayNode parse(ParserContext context) throws Parser.ParseException {
+
         Token gatewayToken = context.getCurrentToken();
-         return null;
+        if (!gatewayToken.getValue().equals("gateway")) {
+            throw new Parser.ParseException(
+                    "Se esperaba 'gateway' pero se encontró '" + gatewayToken.getValue() +
+                            "' en la línea " + gatewayToken.getLine()
+            );
+        }
+        context.consume();
+
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String gatewayName = nameToken.getValue();
+
+
+        context.consume(TokenType.LEFT_BRACE);
+
+
+        List<WhenClauseNode> whenClauses = new ArrayList<>();
+        while (context.checkValue("when") || context.checkValue("cuando")) {
+            WhenClauseNode whenClause = whenParser.parse(context);
+            whenClauses.add(whenClause);
+        }
+        ElseClauseNode elseClause = null;
+        if (context.checkValue("else") || context.checkValue("sino")) {
+            elseClause = elseParser.parse(context);
+        }
+
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new ExclusiveGatewayNode(gatewayToken, gatewayName, whenClauses, elseClause);
     }
 }

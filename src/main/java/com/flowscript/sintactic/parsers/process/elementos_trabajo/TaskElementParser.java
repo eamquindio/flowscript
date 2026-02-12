@@ -58,10 +58,49 @@ public class TaskElementParser implements IParser<TaskElementNode> {
     @Override
     public TaskElementNode parse(ParserContext context) throws Parser.ParseException {
         Token taskToken = context.getCurrentToken();
-       return null;
+        String keyword = taskToken.getValue();
+
+        if (!keyword.equals("tarea") && !keyword.equals("task")) {
+            throw new Parser.ParseException(
+                "Expected 'task' or 'tarea' but found '" + keyword +
+                "' at line " + taskToken.getLine()
+            );
+        }
+        context.consume();
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String taskName = nameToken.getValue();
+
+        context.consume(TokenType.LEFT_BRACE);
+
+        Token actionKeyword = context.getCurrentToken();
+        if (actionKeyword == null ||
+            (!actionKeyword.getValue().equals("accion:") && !actionKeyword.getValue().equals("action:"))) {
+            throw new Parser.ParseException(
+                "Expected 'action:' or 'accion:' in task body at line " +
+                (actionKeyword != null ? actionKeyword.getLine() : taskToken.getLine())
+            );
+        }
+        context.consume();
+
+        List<StatementNode> statements = parseStatementList(context);
+
+        context.consume(TokenType.RIGHT_BRACE);
+
+        return new TaskElementNode(taskToken, taskName, statements);
     }
 
     private List<StatementNode> parseStatementList(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<StatementNode> statements = new ArrayList<>();
+
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE &&
+               context.getCurrentToken().getType() != TokenType.EOF) {
+
+            StatementNode stmt = statementParser.parse(context);
+            statements.add(stmt);
+        }
+
+        return statements;
     }
 }

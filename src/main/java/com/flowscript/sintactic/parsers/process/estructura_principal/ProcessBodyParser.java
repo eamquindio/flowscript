@@ -50,10 +50,58 @@ public class ProcessBodyParser {
     }
 
     public List<ASTNode> parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        List<ASTNode> elements = new ArrayList<>();
+
+        while (context.getCurrentToken() != null &&
+               context.getCurrentToken().getType() != TokenType.RIGHT_BRACE &&
+               context.getCurrentToken().getType() != TokenType.EOF) {
+
+            ASTNode element = parseProcessElement(context);
+            if (element != null) {
+                elements.add(element);
+            }
+        }
+
+        return elements;
     }
 
     private ASTNode parseProcessElement(ParserContext context) throws Parser.ParseException {
-        return null;
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            return null;
+        }
+
+        String value = current.getValue();
+
+        // StartElement
+        if (value.equals("inicio") || value.equals("start")) {
+            return startParser.parse(context);
+        }
+
+        // TaskElement
+        if (value.equals("tarea") || value.equals("task")) {
+            return taskParser.parse(context);
+        }
+
+        // EndElement
+        if (value.equals("fin") || value.equals("end")) {
+            return endParser.parse(context);
+        }
+
+        // GatewayElement
+        if (value.equals("gateway")) {
+            Token next = context.peek(2);
+            if (next != null && (next.getValue().equals("parallel") || next.getValue().equals("paralelo"))) {
+                return parallelGatewayParser.parse(context);
+            } else {
+                return exclusiveGatewayParser.parse(context);
+            }
+        }
+
+        throw new Parser.ParseException(
+            "Unexpected token '" + value + "' in process body at line " + current.getLine() +
+            ". Expected start, task, gateway, or end."
+        );
     }
 }

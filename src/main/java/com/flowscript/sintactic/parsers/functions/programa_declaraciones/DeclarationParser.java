@@ -66,6 +66,40 @@ public class DeclarationParser implements IParser<DeclarationNode> {
 
     @Override
     public DeclarationNode parse(ParserContext context) throws Parser.ParseException {
-        return  null;
+        Token current = context.getCurrentToken();
+
+        if (current == null) {
+            throw new Parser.ParseException("Unexpected end of input while parsing declaration");
+        }
+
+        String value = current.getValue();
+        TokenType type = current.getType();
+
+        // ImportDeclaration
+        if (value.equals("importar") || value.equals("import") ||
+            value.equals("importar_jar") || value.equals("import_jar")) {
+            return importParser.parse(context);
+        }
+
+        // FunctionDeclaration
+        if (value.equals("funcion") || value.equals("function") || type == TokenType.FUNCTION) {
+            return functionParser.parse(context);
+        }
+
+        // ProcessDeclaration
+        if (value.equals("proceso") || value.equals("process") || type == TokenType.PROCESS) {
+            return processParser.parse(context);
+        }
+
+        // VariableDeclaration (top-level)
+        if (type == TokenType.IDENTIFIER && context.peek(1) != null &&
+            context.peek(1).getValue().equals("=")) {
+            return variableParser.parse(context);
+        }
+
+        throw new Parser.ParseException(
+            "Unexpected token '" + value + "' at line " + current.getLine() +
+            ". Expected import, function, process, or variable declaration."
+        );
     }
 }

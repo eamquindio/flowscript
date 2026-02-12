@@ -1,0 +1,368 @@
+/* Monokai Theme for FlowScript IDE */
+
+.root {
+    -fx-background: #272822;
+    -fx-control-inner-background: #2E2F2A;
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 2.5%);
+    -fx-outer-border: #49483E;
+    -fx-inner-border: #5A594E;
+    -fx-body-color: #272822;
+    -fx-text-fill: #F8F8F2;
+    -fx-text-background-color: #272822;
+    -fx-selection-bar: #49483E;
+    -fx-selection-bar-non-focused: #3E3D32;
+    -fx-selection-bar-pressed: #66D9EF;
+    -fx-focus-color: #66D9EF;
+    -fx-accent: #66D9EF;
+}
+
+/* Monokai Color Palette Override for Syntax Highlighting */
+.flow-structure-keyword {
+    -fx-fill: #F92672 !important; /* Pink - for proceso, funcion, importar, etc. */
+    -fx-font-weight: bold;
+}
+
+.flow-flow-keyword {
+    -fx-fill: #AE81FF !important; /* Purple - for inicio, fin, tarea, gateway, etc. */
+    -fx-font-weight: bold;
+}
+
+.flow-control-keyword {
+    -fx-fill: #F92672 !important; /* Pink - for si, sino_si, intentar, etc. */
+    -fx-font-weight: bold;
+}
+
+.flow-type-keyword {
+    -fx-fill: #66D9EF !important; /* Cyan - for entero, decimal, booleano, etc. */
+    -fx-font-weight: bold;
+}
+
+.flow-value-keyword {
+    -fx-fill: #AE81FF !important; /* Purple - for verdadero, falso */
+    -fx-font-weight: bold;
+}
+
+.flow-operator-keyword {
+    -fx-fill: #F92672 !important; /* Pink - for y, o, no */
+    -fx-font-weight: bold;
+}
+
+.flow-future-keyword {
+    -fx-fill: #75715E !important; /* Gray - for asinc, esperar, evento, etc. */
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+}
+
+.flow-function-name {
+    -fx-fill: #A6E22E !important; /* Green */
+    -fx-font-weight: bold;
+}
+
+.flow-process-name {
+    -fx-fill: #66D9EF !important; /* Cyan */
+    -fx-font-weight: bold;
+}
+
+.flow-task-name {
+    -fx-fill: #FD971F !important; /* Orange */
+    -fx-font-weight: bold;
+}
+
+.flow-gateway-name {
+    -fx-fill: #F92672 !important; /* Pink */
+    -fx-font-weight: bold;
+}
+
+.flow-number {
+    -fx-fill: #AE81FF !important; /* Purple */
+}
+
+.flow-string {
+    -fx-fill: #E6DB74 !important; /* Yellow */
+}
+
+.flow-comment {
+    -fx-fill: #75715E !important; /* Gray */
+    -fx-font-style: italic;
+}
+
+.flow-operator {
+    -fx-fill: #F92672 !important; /* Pink */
+}
+
+.flow-punctuation {
+    -fx-fill: #F8F8F2 !important; /* White */
+}
+
+.flow-brace {
+    -fx-fill: #F8F8F2 !important; /* White */
+    -fx-font-weight: bold;
+}
+
+.flow-paren {
+    -fx-fill: #F8F8F2 !important; /* White */
+    -fx-font-weight: bold;
+}
+
+.flow-bracket {
+    -fx-fill: #F8F8F2 !important; /* White */
+    -fx-font-weight: bold;
+}
+
+.flow-identifier {
+    -fx-fill: #F8F8F2 !important; /* White */
+}
+
+/* Menu Bar */
+.menu-bar {
+    -fx-background-color: #3C3B37;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #F8F8F2;
+}
+
+.menu-bar .menu:hover {
+    -fx-background-color: #49483E;
+}
+
+.menu-bar .menu:showing {
+    -fx-background-color: #49483E;
+}
+
+/* Context Menu */
+.context-menu {
+    -fx-background-color: #3C3B37;
+    -fx-border-color: #5A594E;
+}
+
+.menu-item .label {
+    -fx-text-fill: #F8F8F2;
+}
+
+.menu-item:hover {
+    -fx-background-color: #49483E;
+}
+
+.menu-item:focused {
+    -fx-background-color: #49483E;
+}
+
+/* Tool Bar */
+.tool-bar {
+    -fx-background-color: #3C3B37;
+    -fx-border-color: #49483E;
+}
+
+.tool-bar .button {
+    -fx-text-fill: #F8F8F2;
+}
+
+.tool-bar .button:hover {
+    -fx-background-color: #49483E;
+}
+
+.tool-bar .button:pressed {
+    -fx-background-color: #66D9EF;
+}
+
+/* Tab Pane */
+.tab-pane {
+    -fx-background-color: #3C3B37;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #3C3B37;
+    -fx-border-color: #49483E;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #3C3B37;
+    -fx-border-color: #49483E;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #F8F8F2;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #272822;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #49483E;
+}
+
+.tab-pane .tab .tab-close-button {
+    -fx-stroke: #F8F8F2;
+}
+
+.tab-pane .tab .tab-close-button:hover {
+    -fx-background-color: #F92672;
+    -fx-stroke: #FFFFFF;
+}
+
+/* Tree View */
+.tree-view {
+    -fx-background-color: #2E2F2A;
+    -fx-border-color: #49483E;
+}
+
+.tree-view .tree-cell {
+    -fx-text-fill: #F8F8F2;
+    -fx-background-color: transparent;
+}
+
+.tree-view .tree-cell:selected {
+    -fx-background-color: #49483E;
+    -fx-text-fill: #FFFFFF;
+}
+
+.tree-view .tree-cell:hover {
+    -fx-background-color: #3E3D32;
+}
+
+.tree-view .tree-cell .tree-disclosure-node .arrow {
+    -fx-background-color: #F8F8F2;
+}
+
+/* Text Field */
+.text-field {
+    -fx-background-color: #272822;
+    -fx-text-fill: #F8F8F2;
+    -fx-border-color: #49483E;
+    -fx-prompt-text-fill: #75715E;
+}
+
+.text-field:focused {
+    -fx-border-color: #66D9EF;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #66D9EF;
+    -fx-text-fill: #272822;
+    -fx-border-color: #66D9EF;
+}
+
+.button:hover {
+    -fx-background-color: #A6E22E;
+}
+
+.button:pressed {
+    -fx-background-color: #F92672;
+    -fx-text-fill: #FFFFFF;
+}
+
+.button:focused {
+    -fx-border-color: #66D9EF;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #F8F8F2;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    -fx-progress-color: #A6E22E;
+}
+
+.progress-indicator .track {
+    -fx-background-color: #49483E;
+}
+
+/* Scroll Bars */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #5A594E;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #75715E;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #8B8A7E;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Tooltips */
+.tooltip {
+    -fx-background-color: #272822;
+    -fx-text-fill: #F8F8F2;
+    -fx-border-color: #5A594E;
+}
+
+/* Status Bar specific */
+.status-bar {
+    -fx-background-color: #66D9EF;
+    -fx-border-color: #49BFCD;
+}
+
+.status-bar .label {
+    -fx-text-fill: #272822;
+}
+
+/* Console specific */
+.styled-text-area {
+    -fx-background-color: #272822;
+}
+
+.styled-text-area .text {
+    -fx-fill: #F8F8F2;
+}
+
+/* Console colors for Monokai */
+.console-command {
+    -fx-fill: #66D9EF; /* Cyan */
+    -fx-font-weight: bold;
+}
+
+.console-error {
+    -fx-fill: #F92672; /* Pink */
+    -fx-font-weight: bold;
+}
+
+.console-warning {
+    -fx-fill: #FD971F; /* Orange */
+    -fx-font-weight: bold;
+}
+
+.console-success {
+    -fx-fill: #A6E22E; /* Green */
+    -fx-font-weight: bold;
+}
+
+.console-info {
+    -fx-fill: #AE81FF; /* Purple */
+}
+
+.console-header {
+    -fx-fill: #E6DB74; /* Yellow */
+    -fx-font-weight: bold;
+}
+
+/* Code area line numbers */
+.lineno {
+    -fx-background-color: #272822;
+    -fx-text-fill: #75715E;
+    -fx-border-color: #49483E;
+}
+
+/* Separator */
+.separator .line {
+    -fx-background-color: #49483E;
+}

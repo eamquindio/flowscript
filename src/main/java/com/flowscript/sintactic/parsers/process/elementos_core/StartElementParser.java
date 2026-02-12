@@ -43,7 +43,42 @@ public class StartElementParser implements IParser<StartElementNode> {
 
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token startToken = context.getCurrentToken();
-       return null;
+        Token current = context.getCurrentToken();
+        TokenType type = current.getType();
+
+        boolean isStart = type == TokenType.START;
+        boolean isInicio = type == TokenType.IDENTIFIER && "inicio".equalsIgnoreCase(current.getValue());
+
+        if (!isStart && !isInicio) {
+            throw error("Se esperaba 'start' o 'inicio'", current);
+        }
+
+
+        context.consume();
+
+
+        Token arrowToken = context.getCurrentToken();
+        if (arrowToken == null || arrowToken.getType() != TokenType.ARROW) {
+            throw error("Se esperaba '->' después de 'start'/'inicio'",
+                    arrowToken != null ? arrowToken : current);
+        }
+        context.consume(); // Consumir el token '->'
+
+
+        Token targetToken = context.consume(TokenType.IDENTIFIER);
+        if (targetToken == null) {
+            throw error("Se esperaba un identificador después de '->'", current);
+        }
+
+        return new StartElementNode(current, targetToken.getValue());
+    }
+
+    /**
+     * Crea una excepción de parseo
+     */
+    private Parser.ParseException error(String message, Token token) {
+        return new Parser.ParseException(
+                message + " en la línea " + token.getLine() + ", columna " + token.getColumn()
+        );
     }
 }

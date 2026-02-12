@@ -1,0 +1,585 @@
+# Tests para la gramática de FlowScript Functions
+# Este archivo define casos de prueba para validar la gramática de funciones de FlowScript
+
+ejemplos:
+  # ===============================
+  # CASOS VÁLIDOS - FUNCIONES BÁSICAS
+  # ===============================
+  
+  - nombre: "Función void sin parámetros"
+    valido: true
+    texto: |
+      function greet() -> void {
+          print("Hello World")
+      }
+
+  - nombre: "Función void sin tipo de retorno explícito"
+    valido: true
+    texto: |
+      function greet() {
+          print("Hello World")
+      }
+
+  - nombre: "Función con parámetro y retorno"
+    valido: true
+    texto: |
+      function double(x: integer) -> integer {
+          return x * 2
+      }
+
+  - nombre: "Función con múltiples parámetros"
+    valido: true
+    texto: |
+      function add(a: integer, b: integer, c: decimal) -> decimal {
+          return a + b + c
+      }
+
+  - nombre: "Función con todos los tipos primitivos"
+    valido: true
+    texto: |
+      function process_data(id: integer, price: decimal, active: boolean, name: text) -> text {
+          if active {
+              return "Product " + name + " costs " + price
+          }
+          return "Inactive product"
+      }
+
+  - nombre: "Función con tipos compuestos"
+    valido: true
+    texto: |
+      function process_list(items: list, config: object) -> list {
+          result = []
+          for each item in items {
+              if item.active {
+                  result[result.length()] = transform(item, config)
+              }
+          }
+          return result
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - CONTROL DE FLUJO
+  # ===============================
+
+  - nombre: "Función con if-else completo"
+    valido: true
+    texto: |
+      function categorize(score: integer) -> text {
+          if score >= 90 {
+              return "Excellent"
+          } else_if score >= 80 {
+              return "Good"
+          } else_if score >= 70 {
+              return "Average"
+          } else {
+              return "Poor"
+          }
+      }
+
+  - nombre: "Función con bucle while"
+    valido: true
+    texto: |
+      function count_down(n: integer) -> void {
+          while n > 0 {
+              print(n)
+              n = n - 1
+          }
+          print("Done!")
+      }
+
+  - nombre: "Función con for-each"
+    valido: true
+    texto: |
+      function sum_list(numbers: list) -> decimal {
+          total = 0.0
+          for each num in numbers {
+              total = total + num
+          }
+          return total
+      }
+
+  - nombre: "Función con for-range"
+    valido: true
+    texto: |
+      function fill_array(size: integer) -> list {
+          result = []
+          for i from 0 to size - 1 {
+              result[i] = i * i
+          }
+          return result
+      }
+
+  - nombre: "Función con for-range y step"
+    valido: true
+    texto: |
+      function even_numbers(max: integer) -> list {
+          result = []
+          index = 0
+          for i from 0 to max step 2 {
+              result[index] = i
+              index = index + 1
+          }
+          return result
+      }
+
+  - nombre: "Función con break y continue"
+    valido: true
+    texto: |
+      function find_first_even(numbers: list) -> integer {
+          for each num in numbers {
+              if num < 0 {
+                  continue
+              }
+              if num % 2 == 0 {
+                  return num
+              }
+              if num > 1000 {
+                  break
+              }
+          }
+          return -1
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - MANEJO DE ERRORES
+  # ===============================
+
+  - nombre: "Función con try-catch"
+    valido: true
+    texto: |
+      function safe_divide(a: decimal, b: decimal) -> decimal {
+          try {
+              if b == 0 {
+                  throw { type: "DivisionError", message: "Division by zero" }
+              }
+              return a / b
+          } catch (error) {
+              print("Error: " + error.message)
+              return 0.0
+          }
+      }
+
+  - nombre: "Función con múltiples catch"
+    valido: true
+    texto: |
+      function complex_operation(data: object) -> boolean {
+          try {
+              validate(data)
+              process(data)
+              save(data)
+              return true
+          } catch (validation_error) {
+              log_error("Validation failed: " + validation_error.message)
+              return false
+          } catch (processing_error) {
+              log_error("Processing failed: " + processing_error.message)
+              return false
+          }
+      }
+
+  - nombre: "Función con throw"
+    valido: true
+    texto: |
+      function validate_age(age: integer) -> void {
+          if age < 0 {
+              throw { type: "ValidationError", message: "Age cannot be negative" }
+          }
+          if age > 150 {
+              throw { type: "ValidationError", message: "Age cannot exceed 150" }
+          }
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - EXPRESIONES COMPLEJAS
+  # ===============================
+
+  - nombre: "Función con operaciones aritméticas complejas"
+    valido: true
+    texto: |
+      function calculate_compound_interest(principal: decimal, rate: decimal, time: integer) -> decimal {
+          result = principal * (1 + rate / 100)
+          for i from 1 to time - 1 {
+              result = result * (1 + rate / 100)
+          }
+          return result - principal
+      }
+
+  - nombre: "Función con operaciones lógicas complejas"
+    valido: true
+    texto: |
+      function is_valid_user(user: object) -> boolean {
+          age_valid = user.age >= 18 and user.age <= 100
+          email_valid = user.email != null and user.email.contains("@")
+          status_valid = user.status == "active" or user.status == "pending"
+          
+          return age_valid and email_valid and status_valid and not user.banned
+      }
+
+  - nombre: "Función con acceso a objetos anidados"
+    valido: true
+    texto: |
+      function extract_user_info(response: object) -> object {
+          return {
+              id: response.data.user.id,
+              name: response.data.user.profile.fullName,
+              email: response.data.user.contacts[0].email,
+              score: response.data.metrics.score.average,
+              active: response.data.user.status == "active"
+          }
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - ESTRUCTURAS DE DATOS
+  # ===============================
+
+  - nombre: "Función que retorna lista"
+    valido: true
+    texto: |
+      function create_range(start: integer, end: integer) -> list {
+          result = []
+          for i from start to end {
+              result[result.length()] = i
+          }
+          return result
+      }
+
+  - nombre: "Función que retorna objeto complejo"
+    valido: true
+    texto: |
+      function create_user(name: text, age: integer, emails: list) -> object {
+          return {
+              profile: {
+                  name: name,
+                  age: age,
+                  created: now()
+              },
+              contacts: {
+                  emails: emails,
+                  phone: null
+              },
+              settings: {
+                  notifications: true,
+                  theme: "light"
+              },
+              metadata: {
+                  version: 1,
+                  tags: ["user", "active"]
+              }
+          }
+      }
+
+  - nombre: "Función con listas y objetos anidados"
+    valido: true
+    texto: |
+      function process_orders(orders: list) -> object {
+          summary = {
+              total_orders: orders.length(),
+              total_amount: 0.0,
+              by_status: {},
+              items: []
+          }
+          
+          for each order in orders {
+              summary.total_amount = summary.total_amount + order.amount
+              
+              status_count = summary.by_status[order.status]
+              if status_count == null {
+                  summary.by_status[order.status] = 1
+              } else {
+                  summary.by_status[order.status] = status_count + 1
+              }
+              
+              for each item in order.items {
+                  summary.items[summary.items.length()] = {
+                      name: item.name,
+                      quantity: item.quantity,
+                      order_id: order.id
+                  }
+              }
+          }
+          
+          return summary
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - RECURSIÓN
+  # ===============================
+
+  - nombre: "Función recursiva simple"
+    valido: true
+    texto: |
+      function factorial(n: integer) -> integer {
+          if n <= 1 {
+              return 1
+          }
+          return n * factorial(n - 1)
+      }
+
+  - nombre: "Función recursiva con múltiples casos base"
+    valido: true
+    texto: |
+      function fibonacci(n: integer) -> integer {
+          if n <= 0 {
+              return 0
+          }
+          if n == 1 {
+              return 1
+          }
+          return fibonacci(n - 1) + fibonacci(n - 2)
+      }
+
+  - nombre: "Función recursiva con listas"
+    valido: true
+    texto: |
+      function sum_nested(data: list) -> integer {
+          total = 0
+          for each item in data {
+              if item.type == "number" {
+                  total = total + item.value
+              } else_if item.type == "list" {
+                  total = total + sum_nested(item.children)
+              }
+          }
+          return total
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - MÚLTIPLES FUNCIONES
+  # ===============================
+
+  - nombre: "Múltiples funciones independientes"
+    valido: true
+    texto: |
+      function add(a: integer, b: integer) -> integer {
+          return a + b
+      }
+      
+      function multiply(a: integer, b: integer) -> integer {
+          return a * b
+      }
+      
+      function calculate(x: integer, y: integer) -> integer {
+          sum = add(x, y)
+          product = multiply(x, y)
+          return sum + product
+      }
+
+  - nombre: "Funciones con llamadas entre ellas"
+    valido: true
+    texto: |
+      function is_even(n: integer) -> boolean {
+          if n == 0 {
+              return true
+          }
+          return is_odd(n - 1)
+      }
+      
+      function is_odd(n: integer) -> boolean {
+          if n == 0 {
+              return false
+          }
+          return is_even(n - 1)
+      }
+
+  # ===============================
+  # CASOS INVÁLIDOS - ERRORES SINTÁCTICOS
+  # ===============================
+
+  - nombre: "Función sin nombre"
+    valido: false
+    texto: |
+      function (x: integer) -> integer {
+          return x * 2
+      }
+
+  - nombre: "Función sin paréntesis en parámetros"
+    valido: false
+    texto: |
+      function test x: integer -> integer {
+          return x
+      }
+
+  - nombre: "Parámetro sin tipo"
+    valido: false
+    texto: |
+      function test(x) -> integer {
+          return x
+      }
+
+  - nombre: "Función sin cuerpo"
+    valido: false
+    texto: |
+      function test(x: integer) -> integer
+
+  - nombre: "Return sin valor en función con retorno"
+    valido: true
+    texto: |
+      function get_value() -> integer {
+          return
+      }
+
+  - nombre: "Tipo de retorno inválido"
+    valido: false
+    texto: |
+      function test() -> invalid_type {
+          return null
+      }
+
+  - nombre: "Tipo de parámetro inválido"
+    valido: false
+    texto: |
+      function test(x: invalid_type) -> void {
+          print(x)
+      }
+
+  - nombre: "Sintaxis de flecha incorrecta"
+    valido: false
+    texto: |
+      function test() => integer {
+          return 42
+      }
+
+  - nombre: "Parámetros malformados"
+    valido: false
+    texto: |
+      function test(x: integer, y:) -> integer {
+          return x + y
+      }
+
+  - nombre: "If sin condición"
+    valido: false
+    texto: |
+      function test() -> void {
+          if {
+              print("hello")
+          }
+      }
+
+  - nombre: "While sin condición"
+    valido: false
+    texto: |
+      function test() -> void {
+          while {
+              break
+          }
+      }
+
+  - nombre: "For-each malformado"
+    valido: false
+    texto: |
+      function test(items: list) -> void {
+          for each in items {
+              print("item")
+          }
+      }
+
+  - nombre: "For-range sin FROM"
+    valido: false
+    texto: |
+      function test() -> void {
+          for i 0 to 10 {
+              print(i)
+          }
+      }
+
+  - nombre: "Try sin catch"
+    valido: false
+    texto: |
+      function test() -> void {
+          try {
+              risky_operation()
+          }
+      }
+
+  - nombre: "Catch sin paréntesis"
+    valido: false
+    texto: |
+      function test() -> void {
+          try {
+              risky_operation()
+          } catch error {
+              print("error")
+          }
+      }
+
+  - nombre: "Expresión aritmética malformada"
+    valido: false
+    texto: |
+      function test() -> integer {
+          return 5 + * 3
+      }
+
+  - nombre: "Lista malformada"
+    valido: false
+    texto: |
+      function test() -> list {
+          return [1, 2, 3,]
+      }
+
+  - nombre: "Objeto malformado"
+    valido: false
+    texto: |
+      function test() -> object {
+          return { name: "test": age: 25 }
+      }
+
+  # ===============================
+  # CASOS INVÁLIDOS - ERRORES LÓGICOS
+  # ===============================
+
+
+
+  - nombre: "Return con valor en función void"
+    valido: true  # Esto podría ser válido sintácticamente, error semántico
+    texto: |
+      function test() -> void {
+          return 42
+      }
+
+  # ===============================
+  # CASOS LÍMITE
+  # ===============================
+
+  - nombre: "Función con nombre muy largo"
+    valido: true
+    texto: |
+      function very_long_function_name_that_should_still_be_valid_according_to_grammar() -> void {
+          print("Long name function")
+      }
+
+  - nombre: "Función con muchos parámetros"
+    valido: true
+    texto: |
+      function many_params(a: integer, b: integer, c: integer, d: integer, e: integer, f: text, g: boolean, h: decimal, i: list, j: object) -> object {
+          return { sum: a + b + c + d + e }
+      }
+
+  - nombre: "Función con anidamiento profundo"
+    valido: true
+    texto: |
+      function deep_nesting(data: object) -> boolean {
+          if data != null {
+              if data.level1 != null {
+                  if data.level1.level2 != null {
+                      if data.level1.level2.level3 != null {
+                          if data.level1.level2.level3.value > 0 {
+                              return true
+                          }
+                      }
+                  }
+              }
+          }
+          return false
+      }
+
+  - nombre: "Función con comentarios"
+    valido: true
+    texto: |
+      # Función con comentarios
+      function commented_function(x: integer) -> integer {
+          /* Este es un comentario
+             multilínea */
+          result = x * 2  # Comentario al final
+          # Otro comentario
+          return result
+      }

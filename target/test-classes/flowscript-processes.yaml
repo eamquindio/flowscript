@@ -1,0 +1,551 @@
+# Tests para la gramática de FlowScript Processes
+# Este archivo define casos de prueba para validar la gramática de procesos de FlowScript
+
+ejemplos:
+  # ===============================
+  # CASOS VÁLIDOS - ESTRUCTURA BÁSICA
+  # ===============================
+  
+  - nombre: "Programa mínimo vacío"
+    valido: true
+    texto: ""
+
+  - nombre: "Variable global simple"
+    valido: true
+    texto: |
+      MAX_RETRIES = 3
+
+  - nombre: "Import simple"
+    valido: true
+    texto: |
+      import "std/http"
+
+  - nombre: "Import con alias"
+    valido: true
+    texto: |
+      import "std/http" as http
+
+  - nombre: "Import JAR"
+    valido: true
+    texto: |
+      import_jar "libs/utils.jar" as utils
+
+  # ===============================
+  # CASOS VÁLIDOS - PROCESOS BÁSICOS
+  # ===============================
+
+  - nombre: "Proceso mínimo"
+    valido: true
+    texto: |
+      process SimpleProcess {
+          start -> Task1
+          
+          task Task1 {
+              action:
+                  go_to End1
+          }
+          
+          end End1
+      }
+
+  - nombre: "Proceso con tarea simple"
+    valido: true
+    texto: |
+      process BasicProcess {
+          start -> ValidateInput
+          
+          task ValidateInput {
+              action:
+                  value = input.data
+                  if value > 0 {
+                      go_to Success
+                  } else {
+                      go_to Error
+                  }
+          }
+          
+          end Success
+          end Error
+      }
+
+  - nombre: "Proceso con gateway exclusivo"
+    valido: true
+    texto: |
+      process DecisionProcess {
+          start -> CheckAmount
+          
+          task CheckAmount {
+              action:
+                  gateway AmountDecision {
+                      when input.amount > 1000 -> HighValue
+                      when input.amount > 100 -> MediumValue
+                      else -> LowValue
+                  }
+          }
+          
+          task HighValue {
+              action:
+                  result = "high"
+                  go_to End1
+          }
+          
+          task MediumValue {
+              action:
+                  result = "medium"
+                  go_to End1
+          }
+          
+          task LowValue {
+              action:
+                  result = "low"
+                  go_to End1
+          }
+          
+          end End1
+      }
+
+  - nombre: "Proceso con gateway paralelo"
+    valido: true
+    texto: |
+      process ParallelProcess {
+          start -> SplitTasks
+          
+          gateway SplitTasks parallel {
+              branch -> TaskA
+              branch -> TaskB
+              join -> MergeTasks
+          }
+          
+          task TaskA {
+              action:
+                  resultA = process_a()
+                  go_to EndA
+          }
+          
+          task TaskB {
+              action:
+                  resultB = process_b()
+                  go_to EndB
+          }
+          
+          task MergeTasks {
+              action:
+                  final_result = combine(resultA, resultB)
+                  go_to Success
+          }
+          
+          end EndA
+          end EndB
+          end Success
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - FUNCIONES
+  # ===============================
+
+  - nombre: "Función simple"
+    valido: true
+    texto: |
+      function greet() -> void {
+          print("Hello")
+      }
+
+  - nombre: "Función con parámetros y retorno"
+    valido: true
+    texto: |
+      function add(a: integer, b: integer) -> integer {
+          return a + b
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - PROGRAMA COMPLETO
+  # ===============================
+
+  - nombre: "Programa completo con imports, funciones y proceso"
+    valido: true
+    texto: |
+      import "std/http" as http
+      import_jar "libs/utils.jar" as utils
+      
+      MAX_ATTEMPTS = 5
+      
+      function validate(data: object) -> boolean {
+          return data != null and data.id > 0
+      }
+      
+      process OrderValidation {
+          start -> Validate
+          
+          task Validate {
+              action:
+                  if validate(input) {
+                      go_to ProcessOrder
+                  } else {
+                      error_msg = "Invalid input"
+                      go_to ValidationError
+                  }
+          }
+          
+          task ProcessOrder {
+              action:
+                  try {
+                      order = http.post("/api/orders", input)
+                      order_id = order.id
+                      go_to Success
+                  } catch (error) {
+                      go_to ProcessingError
+                  }
+          }
+          
+          task ValidationError {
+              action:
+                  utils.Logger.error(error_msg)
+                  go_to Failed
+          }
+          
+          task ProcessingError {
+              action:
+                  utils.Logger.error("Processing failed")
+                  go_to Failed
+          }
+          
+          end Success
+          end Failed
+      }
+
+  - nombre: "Proceso con bucles y estructuras de datos"
+    valido: true
+    texto: |
+      process DataProcessor {
+          start -> ProcessItems
+          
+          task ProcessItems {
+              action:
+                  results = []
+                  total = 0
+                  
+                  for each item in input.items {
+                      if item.active {
+                          processed = transform(item)
+                          results[results.length()] = processed
+                          total = total + processed.value
+                      }
+                  }
+                  
+                  summary = {
+                      count: results.length(),
+                      total: total,
+                      average: total / results.length()
+                  }
+                  
+                  go_to Complete
+          }
+          
+          end Complete
+      }
+
+  # ===============================
+  # CASOS VÁLIDOS - EXPRESIONES COMPLEJAS
+  # ===============================
+
+  - nombre: "Expresiones aritméticas y lógicas"
+    valido: true
+    texto: |
+      process Calculator {
+          start -> Calculate
+          
+          task Calculate {
+              action:
+                  result = (input.a + input.b) * input.c - input.d / 2
+                  valid = result > 0 and result < 1000 or input.override
+                  
+                  if valid and not input.test_mode {
+                      go_to Success
+                  } else {
+                      go_to Invalid
+                  }
+          }
+          
+          end Success
+          end Invalid
+      }
+
+  - nombre: "Acceso a objetos anidados"
+    valido: true
+    texto: |
+      process ObjectAccess {
+          start -> AccessData
+          
+          task AccessData {
+              action:
+                  name = input.customer.profile.name
+                  email = input.customer.contacts[0].email
+                  score = input.customer.ratings.average()
+                  
+                  customer_data = {
+                      name: name,
+                      email: email,
+                      score: score,
+                      active: input.customer.status == "active"
+                  }
+                  
+                  go_to Done
+          }
+          
+          end Done
+      }
+
+  # ===============================
+  # CASOS INVÁLIDOS - ERRORES SINTÁCTICOS
+  # ===============================
+
+  - nombre: "Proceso sin start"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          task SomeTask {
+              action:
+                  go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Start sin flecha"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start Task1
+          task Task1 {
+              action: go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Task sin action"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Gateway sin branches"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  gateway Decision {
+                  }
+          }
+          end End1
+      }
+
+  - nombre: "Goto sin destino"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  go_to
+          }
+          end End1
+      }
+
+  - nombre: "When sin condición"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  gateway Decision {
+                      when -> Task2
+                  }
+          }
+          task Task2 {
+              action: go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Branch en gateway no paralelo"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  gateway Decision {
+                      branch -> Task2
+                      join -> Task3
+                  }
+          }
+          task Task2 { action: go_to End1 }
+          task Task3 { action: go_to End1 }
+          end End1
+      }
+
+  - nombre: "Join sin branch"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Gate1
+          gateway Gate1 parallel {
+              join -> Task1
+          }
+          task Task1 { action: go_to End1 }
+          end End1
+      }
+
+  - nombre: "Expresión malformada"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  result = 5 + + 3
+                  go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Lista malformada"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  data = [1, 2, 3,]
+                  go_to End1
+          }
+          end End1
+      }
+
+  - nombre: "Objeto malformado"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  config = { name: "test": value: 123 }
+                  go_to End1
+          }
+          end End1
+      }
+
+  # ===============================
+  # CASOS INVÁLIDOS - ERRORES SEMÁNTICOS
+  # ===============================
+
+  - nombre: "Múltiples start"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          start -> Task2
+          
+          task Task1 { action: go_to End1 }
+          task Task2 { action: go_to End1 }
+          end End1
+      }
+
+  - nombre: "Proceso sin end"
+    valido: false
+    texto: |
+      process InvalidProcess {
+          start -> Task1
+          task Task1 {
+              action:
+                  value = 42
+          }
+      }
+
+  - nombre: "Función con tipo inválido"
+    valido: false
+    texto: |
+      function invalid_function(x: invalid_type) -> void {
+          print(x)
+      }
+
+  - nombre: "Import sin comillas"
+    valido: false
+    texto: |
+      import std/http as http
+
+  - nombre: "Variable global sin asignación"
+    valido: false
+    texto: |
+      MAX_VALUE
+
+  # ===============================
+  # CASOS LÍMITE
+  # ===============================
+
+  - nombre: "Proceso con nombres largos"
+    valido: true
+    texto: |
+      process VeryLongProcessNameThatShouldStillBeValidAccordingToTheGrammar {
+          start -> VeryLongTaskNameThatShouldAlsoBeValid
+          
+          task VeryLongTaskNameThatShouldAlsoBeValid {
+              action:
+                  very_long_variable_name_that_should_work = 42
+                  go_to VeryLongEndNodeName
+          }
+          
+          end VeryLongEndNodeName
+      }
+
+  - nombre: "Comentarios en proceso"
+    valido: true
+    texto: |
+      # Comentario de una línea
+      process CommentedProcess {
+          /* Comentario 
+             multilínea */
+          start -> Task1
+          
+          task Task1 {
+              action:
+                  # Comentario en acción
+                  value = 42 # Comentario al final
+                  go_to End1
+          }
+          
+          end End1
+      }
+
+  - nombre: "Gateway con muchas condiciones"
+    valido: true
+    texto: |
+      process ManyConditions {
+          start -> Evaluate
+          
+          task Evaluate {
+              action:
+                  gateway ComplexDecision {
+                      when input.type == "A" and input.value > 100 -> ProcessA
+                      when input.type == "B" and input.value > 50 -> ProcessB
+                      when input.type == "C" or input.urgent -> ProcessC
+                      when input.fallback != null -> ProcessFallback
+                      else -> ProcessDefault
+                  }
+          }
+          
+          task ProcessA { action: go_to End1 }
+          task ProcessB { action: go_to End1 }
+          task ProcessC { action: go_to End1 }
+          task ProcessFallback { action: go_to End1 }
+          task ProcessDefault { action: go_to End1 }
+          
+          end End1
+      }
