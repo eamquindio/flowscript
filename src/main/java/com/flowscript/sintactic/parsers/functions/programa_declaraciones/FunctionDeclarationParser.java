@@ -13,6 +13,7 @@ import com.flowscript.sintactic.parsers.functions.tipos_parametros.ParameterList
 import com.flowscript.sintactic.parsers.functions.tipos_parametros.TypeParser;
 import com.flowscript.sintactic.parsers.functions.control_ejecucion.BlockParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,6 +85,28 @@ public class FunctionDeclarationParser implements IParser<FunctionDeclarationNod
 
     @Override
     public FunctionDeclarationNode parse(ParserContext context) throws Parser.ParseException {
-      return null;
+        Token functionToken = context.consume(TokenType.FUNCTION);
+
+        Token nameToken = context.consume(TokenType.IDENTIFIER);
+        String functionName = nameToken.getValue();
+
+        context.consume(TokenType.LEFT_PAREN);
+        
+        List<ParameterNode> parameters = null;
+        if (!context.check(TokenType.RIGHT_PAREN)) {
+            parameters = parameterListParser.parse(context);
+        }
+        
+        context.consume(TokenType.RIGHT_PAREN);
+
+        TypeNode returnType = null;
+        if (context.check(TokenType.ARROW)) {
+            context.consume(TokenType.ARROW);
+            returnType = typeParser.parse(context);
+        }
+
+        BlockNode body = blockParser.parse(context);
+
+        return new FunctionDeclarationNode(functionToken, functionName, parameters, returnType, body);
     }
 }

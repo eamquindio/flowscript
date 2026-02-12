@@ -1,9 +1,12 @@
 package com.flowscript.sintactic.parsers.functions.control_flujo;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.control_flujo.ThrowStatementNode;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.parsers.functions.expresiones.ExpressionParser;
 
 /**
@@ -79,8 +82,14 @@ public class ThrowStatementParser implements IParser<ThrowStatementNode> {
 
     @Override
     public ThrowStatementNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        // HINT: Seguir los pasos documentados arriba
-        throw new UnsupportedOperationException("ThrowStatementParser no implementado - Tarea del estudiante");
+        Token throwToken = context.consume(TokenType.THROW);
+
+        if (!context.hasMoreTokens()) {
+            throw new Parser.ParseException("se esperaba una expresion despues de 'throw'");
+        }
+
+        ExpressionNode expr = expressionParser.parse(context);
+
+        return new ThrowStatementNode(throwToken, expr);
     }
 }

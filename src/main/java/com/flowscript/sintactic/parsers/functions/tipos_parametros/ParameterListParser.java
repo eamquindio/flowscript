@@ -1,5 +1,7 @@
 package com.flowscript.sintactic.parsers.functions.tipos_parametros;
 
+import com.flowscript.lexer.Token;
+import com.flowscript.lexer.TokenType;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.functions.tipos_parametros.ParameterNode;
@@ -80,15 +82,23 @@ public class ParameterListParser {
     public List<ParameterNode> parse(ParserContext context) throws Parser.ParseException {
         List<ParameterNode> parameters = new ArrayList<>();
 
-        // Parse primer parámetro
-        ParameterNode firstParam = parameterParser.parse(context);
-        parameters.add(firstParam);
+        if (!context.hasMoreTokens()) return parameters;
 
-        // Parse parámetros adicionales (separados por coma)
-        while (context.checkValue(",")) {
-            context.consume(); // consume ','
-            ParameterNode param = parameterParser.parse(context);
-            parameters.add(param);
+        parameters.add(parameterParser.parse(context));
+
+        while (context.hasMoreTokens()) {
+            if (context.checkValue(",")) {
+                context.consume(); 
+                parameters.add(parameterParser.parse(context));
+            } else if (context.check(TokenType.IDENTIFIER)) {
+                Token t = context.getCurrentToken();
+                throw new Parser.ParseException(
+                    "Se esperaba ',' entre parametros en linea " +
+                    t.getLine() + ", columna " + t.getColumn()
+                );
+            } else {
+                break;
+            }
         }
 
         return parameters;

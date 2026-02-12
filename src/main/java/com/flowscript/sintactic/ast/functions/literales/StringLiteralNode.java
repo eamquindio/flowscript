@@ -1,6 +1,6 @@
 package com.flowscript.sintactic.ast.functions.literales;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
+import com.flowscript.sintactic.ast.functions.expresiones.LiteralNode;
 import com.flowscript.lexer.Token;
 
 /**
@@ -8,26 +8,21 @@ import com.flowscript.lexer.Token;
  * Grammar: StringLiteral ::= STRING_TOKEN
  * Examples: "Hello", "World\n", "Multi\nLine"
  */
-public class StringLiteralNode extends ExpressionNode {
+public class StringLiteralNode extends LiteralNode  {
     private final String rawValue;
     private final String value;
 
     public StringLiteralNode(Token literalToken) {
         super(literalToken);
-        this.rawValue = literalToken.getValue();
+        this.rawValue = "\"" + literalToken.getValue() + "\"";
         this.value = parseStringLiteral(rawValue);
     }
 
     private String parseStringLiteral(String raw) {
-        if (raw.length() < 2) return raw;
-
-        String content = raw.substring(1, raw.length() - 1);
-
-        return content.replace("\\n", "\n")
-                     .replace("\\t", "\t")
-                     .replace("\\r", "\r")
-                     .replace("\\\\", "\\")
-                     .replace("\\\"", "\"");
+        if (raw.length() >= 2 && raw.startsWith("\"") && raw.endsWith("\"")) {
+            return raw.substring(1, raw.length() - 1);
+        }
+        return raw;
     }
 
     public String getRawValue() {
@@ -54,6 +49,6 @@ public class StringLiteralNode extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "StringLiteral(" + rawValue + ")";
+        return rawValue;
     }
 }

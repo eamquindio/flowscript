@@ -1,8 +1,10 @@
 package com.flowscript.sintactic.parsers.functions.expresiones;
 
+import com.flowscript.lexer.Token;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.TernaryExpressionNode;
 
 /**
@@ -25,9 +27,30 @@ import com.flowscript.sintactic.ast.functions.expresiones.TernaryExpressionNode;
  */
 public class TernaryExpressionParser implements IParser<TernaryExpressionNode> {
 
+    private final LogicalOrExpressionParser logicalOrParser;
+
+    public TernaryExpressionParser() {
+        this.logicalOrParser = new LogicalOrExpressionParser(); 
+    }
+
     @Override
     public TernaryExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("TernaryExpressionParser no implementado - Tarea del estudiante");
+        ExpressionNode condition = logicalOrParser.parse(context);
+
+        Token current = context.getCurrentToken();
+                if (current == null || !current.getValue().equals("?")) {
+            return new TernaryExpressionNode(condition, condition.getToken(), null, null);
+        }
+
+        Token questionToken = context.consumeValue("?");
+
+        ExpressionParser expressionParser = new ExpressionParser();
+        ExpressionNode trueExpr = expressionParser.parse(context);
+
+        context.consumeValue(":");
+
+        ExpressionNode falseExpr = expressionParser.parse(context);
+
+        return new TernaryExpressionNode(condition, questionToken, trueExpr, falseExpr);
     }
 }

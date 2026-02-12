@@ -3,6 +3,7 @@ package com.flowscript.sintactic.parsers.functions.expresiones;
 import com.flowscript.sintactic.IParser;
 import com.flowscript.sintactic.Parser;
 import com.flowscript.sintactic.ParserContext;
+import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.sintactic.ast.functions.expresiones.LogicalAndExpressionNode;
 
 /**
@@ -28,7 +29,21 @@ public class LogicalAndExpressionParser implements IParser<LogicalAndExpressionN
 
     @Override
     public LogicalAndExpressionNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("LogicalAndExpressionParser no implementado - Tarea del estudiante");
+        EqualityExpressionParser equalityParser = new EqualityExpressionParser();
+
+        ExpressionNode left = equalityParser.parse(context);
+        LogicalAndExpressionNode node = new LogicalAndExpressionNode(left.getToken(), left);
+
+        while (context.checkValue("and") || context.checkValue("y")) {
+            var andToken = context.consume();
+            ExpressionNode right = equalityParser.parse(context);
+            node.addOperand(andToken, right);
+        }
+
+        if (node.isSingleOperand()) {
+            return node;
+        }
+
+        return node;
     }
 }

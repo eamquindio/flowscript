@@ -1,22 +1,24 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents function call expressions.
- * Examples: calculate_tax(amount, rate), Http.get(url), validate_email(email)
+ * Examples: calculate_tax(amount, rate), http.get(url), obj.method(a,b)
  */
 public class FunctionCallNode extends ExpressionNode {
     private final ExpressionNode function;
     private final List<ExpressionNode> arguments;
 
+    /**
+     * Canonical constructor. Use the '(' token for source location.
+     */
     public FunctionCallNode(ExpressionNode function, Token leftParenToken, List<ExpressionNode> arguments) {
         super(leftParenToken);
         this.function = function;
-        this.arguments = new ArrayList<>(arguments);
+        this.arguments = new ArrayList<>(arguments != null ? arguments : List.of());
     }
 
     public ExpressionNode getFunction() {
@@ -38,12 +40,6 @@ public class FunctionCallNode extends ExpressionNode {
 
     @Override
     public String getExpressionType() {
-        // Type would be determined by function signature lookup during semantic analysis
-        return "function_result";
-    }
-
-    @Override
-    public String toString() {
-        return "FunctionCall(" + function.getNodeType() + " with " + arguments.size() + " args)";
+        return "";
     }
 }

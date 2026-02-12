@@ -20,14 +20,14 @@ public class FunctionDeclarationNode extends DeclarationNode {
     private final BlockNode body;
 
     public FunctionDeclarationNode(Token functionToken, String name,
-                                  List<ParameterNode> parameters,
-                                  TypeNode returnType, BlockNode body) {
-        super(functionToken);
-        this.name = name;
-        this.parameters = new ArrayList<>(parameters);
-        this.returnType = returnType;
-        this.body = body;
-    }
+                               List<ParameterNode> parameters,
+                               TypeNode returnType, BlockNode body) {
+    super(functionToken);
+    this.name = name;
+    this.parameters = (parameters != null) ? new ArrayList<>(parameters) : new ArrayList<>();
+    this.returnType = returnType;
+    this.body = (body != null) ? body : new BlockNode(functionToken); 
+}
 
     public String getName() {
         return name;

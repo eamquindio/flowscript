@@ -38,6 +38,36 @@ public class GotoStatementParser implements IParser<GotoStatementNode> {
 
     @Override
     public GotoStatementNode parse(ParserContext context) throws Parser.ParseException {
-        return null;
+        // palabra clave: go_to (o goto)
+        Token kw = context.getCurrentToken();
+        if (kw == null) {
+            throw new Parser.ParseException("Se esperaba 'go_to' pero no hay más tokens.");
+        }
+        String v = kw.getValue();
+        boolean ok =
+                kw.getType() == TokenType.GOTO ||
+                        "go_to".equalsIgnoreCase(v) ||
+                        "goto".equalsIgnoreCase(v);
+        if (!ok) {
+            throw error(kw, "Se esperaba 'go_to'");
+        }
+        context.advance();
+
+        // identificador destino
+        Token id = context.getCurrentToken();
+        if (id == null || id.getType() != TokenType.IDENTIFIER) {
+            throw error(id, "Se esperaba un identificador después de 'go_to'");
+        }
+        String target = id.getValue();
+        context.advance();
+
+        return new GotoStatementNode(kw, target);
+    }
+
+    private static Parser.ParseException error(Token t, String msg) {
+        if (t == null) return new Parser.ParseException(msg + " y se encontró <fin de archivo>");
+        return new Parser.ParseException(
+                msg + " pero se encontró '" + t.getValue() + "' en línea " + t.getLine() + ", columna " + t.getColumn()
+        );
     }
 }

@@ -1,6 +1,5 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class AdditiveExpressionNode extends ExpressionNode {
     private final List<ExpressionNode> operands;
     private final List<Token> operators; // '+' or '-' tokens
 
-    public AdditiveExpressionNode(Token firstToken, ExpressionNode firstOperand) {
+    public AdditiveExpressionNode(ExpressionNode left, Token firstToken, ExpressionNode firstOperand) {
         super(firstToken);
         this.operands = new ArrayList<>();
         this.operators = new ArrayList<>();

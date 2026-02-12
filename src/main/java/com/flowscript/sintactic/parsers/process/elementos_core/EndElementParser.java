@@ -48,7 +48,47 @@ public class EndElementParser implements IParser<EndElementNode> {
 
     @Override
     public EndElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token endToken = context.getCurrentToken();
-       return null;
+        // 'end'
+        Token endTok = consumeKeyword(context, TokenType.END, "end");
+
+        // ID del fin
+        Token name = consumeIdentifier(context, "nombre del nodo end (ID)");
+        String endName = name.getValue();
+
+        // Construye el nodo AST (asumiendo ctor EndElementNode(Token, String))
+        return new EndElementNode(endTok, endName);
+    }
+
+    // ----------------------
+    // Utilidades locales
+    // ----------------------
+
+    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) {
+            throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
+        }
+        if (t.getType() != type && !lexeme.equals(t.getValue())) {
+            throw error(t, "Se esperaba '" + lexeme + "'");
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) {
+            throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
+        }
+        if (t.getType() != TokenType.IDENTIFIER) {
+            throw error(t, "Se esperaba un identificador para " + what);
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static Parser.ParseException error(Token t, String msg) {
+        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
+                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
     }
 }

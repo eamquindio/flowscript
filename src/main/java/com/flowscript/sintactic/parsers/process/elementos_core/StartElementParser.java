@@ -43,7 +43,61 @@ public class StartElementParser implements IParser<StartElementNode> {
 
     @Override
     public StartElementNode parse(ParserContext context) throws Parser.ParseException {
-        Token startToken = context.getCurrentToken();
-       return null;
+        // 'start'
+        Token startTok = consumeKeyword(context, TokenType.START, "start");
+
+        // '->'
+        consumeSymbol(context, TokenType.ARROW, "->");
+
+        // ID de destino
+        Token target = consumeIdentifier(context, "nombre del primer nodo (ID)");
+        String targetName = target.getValue();
+
+        // Construye el nodo AST (asumiendo ctor StartElementNode(Token, String))
+        return new StartElementNode(startTok, targetName);
+    }
+
+    // ----------------------
+    // Utilidades locales
+    // ----------------------
+
+    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) {
+            throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
+        }
+        if (t.getType() != type && !lexeme.equals(t.getValue())) {
+            throw error(t, "Se esperaba '" + lexeme + "'");
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static void consumeSymbol(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) {
+            throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
+        }
+        if (t.getType() != type && !lexeme.equals(t.getValue())) {
+            throw error(t, "Se esperaba '" + lexeme + "'");
+        }
+        ctx.advance();
+    }
+
+    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) {
+            throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
+        }
+        if (t.getType() != TokenType.IDENTIFIER) {
+            throw error(t, "Se esperaba un identificador para " + what);
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static Parser.ParseException error(Token t, String msg) {
+        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
+                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
     }
 }

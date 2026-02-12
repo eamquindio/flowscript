@@ -8,39 +8,58 @@ import com.flowscript.sintactic.ParserContext;
 import com.flowscript.sintactic.ast.process.clausulas_control.ParallelBranchNode;
 
 /**
- * Parser para ramas paralelas en gateways paralelos.
- *
- * <h3>Gramática BNF:</h3>
- * <pre>
  * ParallelBranch ::= 'branch' '->' IDENTIFIER
- * </pre>
- *
- * <h3>Categoría:</h3>
- * 🔄 GRAMÁTICAS DE ORQUESTACIÓN DE PROCESOS (BPMN-Style)
- * Nivel 5: Cláusulas de Control de Flujo
- *
- * <h3>Ejemplos:</h3>
- * <pre>
- * branch -> VerificarCredito
- * branch -> VerificarAntecedentes
- * branch -> NotificarSupervisor
- * </pre>
- *
- * <h3>Tarea del Estudiante:</h3>
- * <ol>
- *   <li>Consumir 'branch' o 'rama'</li>
- *   <li>Consumir '->'</li>
- *   <li>Consumir IDENTIFIER (nodo destino)</li>
- *   <li>Crear y retornar ParallelBranchNode</li>
- * </ol>
- *
- * @see ParallelBranchNode
  */
 public class ParallelBranchParser implements IParser<ParallelBranchNode> {
 
     @Override
     public ParallelBranchNode parse(ParserContext context) throws Parser.ParseException {
-        // TODO: Implementar este método
-        throw new UnsupportedOperationException("ParallelBranchParser no implementado - Tarea del estudiante");
+        // 'branch'
+        Token branchTok = consumeKeyword(context, TokenType.BRANCH, "branch");
+
+        // '->'
+        consumeSymbol(context, TokenType.ARROW, "->");
+
+        // target label
+        Token labelTok = consumeIdentifier(context, "destino del branch");
+        String target = labelTok.getValue();
+
+        return new ParallelBranchNode(branchTok, target);
+    }
+
+    // ---- utils ----
+    private static Token consumeKeyword(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
+        if (t.getType() != type && !lexeme.equals(t.getValue())) {
+            throw error(t, "Se esperaba '" + lexeme + "'");
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static void consumeSymbol(ParserContext ctx, TokenType type, String lexeme) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) throw new Parser.ParseException("Se esperaba '" + lexeme + "', pero no hay más tokens.");
+        if (t.getType() != type && !lexeme.equals(t.getValue())) {
+            throw error(t, "Se esperaba '" + lexeme + "'");
+        }
+        ctx.advance();
+    }
+
+    private static Token consumeIdentifier(ParserContext ctx, String what) throws Parser.ParseException {
+        Token t = ctx.getCurrentToken();
+        if (t == null) throw new Parser.ParseException("Se esperaba " + what + ", pero no hay más tokens.");
+        if (t.getType() != TokenType.IDENTIFIER) {
+            throw error(t, "Se esperaba un identificador para " + what);
+        }
+        ctx.advance();
+        return t;
+    }
+
+    private static Parser.ParseException error(Token t, String msg) {
+        if (t == null) return new Parser.ParseException(msg + ". Fin de entrada.");
+        return new Parser.ParseException(msg + " pero se encontró '" + t.getValue()
+                + "' en línea " + t.getLine() + ", columna " + t.getColumn());
     }
 }

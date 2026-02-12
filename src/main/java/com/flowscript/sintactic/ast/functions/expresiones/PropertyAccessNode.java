@@ -1,43 +1,49 @@
 package com.flowscript.sintactic.ast.functions.expresiones;
 
-import com.flowscript.sintactic.ast.functions.expresiones.ExpressionNode;
 import com.flowscript.lexer.Token;
+import java.util.Objects;
 
 /**
- * Represents property access expressions.
- * Example: customer.name, order.total_amount, Http.get
+ * Acceso a propiedad: target.property
  */
 public class PropertyAccessNode extends ExpressionNode {
-    private final ExpressionNode object;
+    private final ExpressionNode target;
+    private final Token propertyToken;   // IDENTIFIER de la propiedad
     private final String propertyName;
 
-    public PropertyAccessNode(ExpressionNode object, Token dotToken, String propertyName) {
-        super(dotToken);
-        this.object = object;
-        this.propertyName = propertyName;
+    /**
+     * Constructor canónico: recibe el token del IDENTIFIER (no el '.').
+     */
+    public PropertyAccessNode(ExpressionNode target, Token propertyToken) {
+        super(Objects.requireNonNull(propertyToken, "propertyToken"));
+        this.target = Objects.requireNonNull(target, "target");
+        this.propertyToken = propertyToken;
+        this.propertyName = String.valueOf(propertyToken.getValue()); // ← inicializa SIEMPRE
     }
 
-    public ExpressionNode getObject() {
-        return object;
+    /** Opcional: si ya traes el nombre calculado. */
+    public PropertyAccessNode(ExpressionNode target, String propertyName, Token propertyToken) {
+        super(Objects.requireNonNull(propertyToken, "propertyToken"));
+        this.target = Objects.requireNonNull(target, "target");
+        this.propertyToken = propertyToken;
+        this.propertyName = Objects.requireNonNull(propertyName, "propertyName");
     }
 
-    public String getPropertyName() {
-        return propertyName;
-    }
+    public ExpressionNode getObject() { return target; }        // compat con código existente
+    public ExpressionNode getTarget() { return target; }
+    public String getPropertyName() { return propertyName; }
+    public Token getPropertyToken() { return propertyToken; }
 
-    @Override
-    public String getNodeType() {
-        return "PropertyAccess";
-    }
+    @Override public String getNodeType() { return "PropertyAccess"; }
 
     @Override
     public String getExpressionType() {
-        // Type would be determined by symbol table lookup during semantic analysis
+        // Se define en análisis semántico
         return "property";
     }
 
     @Override
     public String toString() {
-        return "PropertyAccess(" + object.getNodeType() + "." + propertyName + ")";
+        return "PropertyAccess(" + target.getNodeType() + "." + propertyName + ")";
     }
 }

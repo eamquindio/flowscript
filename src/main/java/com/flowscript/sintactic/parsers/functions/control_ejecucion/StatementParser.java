@@ -83,32 +83,52 @@ import com.flowscript.sintactic.parsers.process.navegacion.GotoStatementParser;
  */
 public class StatementParser implements IParser<StatementNode> {
 
-    private final IfStatementParser ifParser;
-    private final TryStatementParser tryParser;
-    private final ThrowStatementParser throwParser;
-    private final ReturnStatementParser returnParser;
-    private final GotoStatementParser gotoParser;
-    private final ForStatementParser forParser;
-    private final VariableDeclarationStatementParser varParser;
-    private final BlockParser blockParser;
-    private final ExpressionStatementParser exprParser;
-
-    public StatementParser() {
-        this.ifParser = new IfStatementParser();
-        this.tryParser = new TryStatementParser();
-        this.throwParser = new ThrowStatementParser();
-        this.returnParser = new ReturnStatementParser();
-        this.gotoParser = new GotoStatementParser();
-        this.forParser = new ForStatementParser();
-        this.varParser = new VariableDeclarationStatementParser();
-        this.blockParser = new BlockParser();
-        this.exprParser = new ExpressionStatementParser();
-    }
-
     @Override
     public StatementNode parse(ParserContext context) throws Parser.ParseException {
-        Token current = context.getCurrentToken();
+        IfStatementParser ifParser = new IfStatementParser();
+        TryStatementParser tryParser = new TryStatementParser();
+        ThrowStatementParser throwParser = new ThrowStatementParser();
+        ReturnStatementParser returnParser = new ReturnStatementParser();
+        GotoStatementParser gotoParser = new GotoStatementParser();
+        ForStatementParser forParser = new ForStatementParser();
+        VariableDeclarationStatementParser varParser = new VariableDeclarationStatementParser();
+        BlockParser blockParser = new BlockParser();
+        ExpressionStatementParser exprParser = new ExpressionStatementParser();
 
-        return null;
+        if (!context.hasMoreTokens()) return null;
+
+        Token current = context.getCurrentToken();
+        if (current.getType() == TokenType.RIGHT_BRACE) return null;
+
+        switch (current.getType()) {
+            case IF:
+                return ifParser.parse(context);
+            case FOR:
+                return forParser.parse(context);
+            case TRY:
+                return tryParser.parse(context);
+            case RETURN:
+                return returnParser.parse(context);
+            case THROW:
+                return throwParser.parse(context);
+            case LEFT_BRACE:
+                return blockParser.parse(context);
+            default:
+                if (current.getType() == TokenType.IDENTIFIER ||
+                    current.getType().isLiteral() ||
+                    current.getType() == TokenType.LEFT_PAREN ||
+                    current.getType().isOperator()) {
+
+                    if (context.peek(1) != null && context.peek(1).getType() == TokenType.ASSIGN) {
+                        return varParser.parse(context);
+                    }
+
+                    return exprParser.parse(context);
+                }
+                
+                throw new Parser.ParseException(
+                    "token inesperado '" + current.getValue() + "' en la línea " + current.getLine()
+                );
+        }
     }
 }

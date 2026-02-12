@@ -31,7 +31,7 @@ public class BooleanLiteralParserTest {
         BooleanLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertTrue(result.getValue());
+        assertTrue(result.getBooleanValue());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class BooleanLiteralParserTest {
         BooleanLiteralNode result = parser.parse(context);
 
         assertNotNull(result);
-        assertFalse(result.getValue());
+        assertFalse(result.getBooleanValue());
     }
 
     @Test
